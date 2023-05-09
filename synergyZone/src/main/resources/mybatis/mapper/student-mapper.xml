@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+ <mapper namespace="student">
+
+ 	<select id="selectList" resultType="StudentDto">
+ 		select * from student
+ 	</select>
+ 	
+ 	<select id="selectOne" resultType="StudentDto" parameterType="int">
+ 		select * from student where no = #{no}
+ 	</select>
+ 
+ 	<insert id="submit" parameterType="StudentDto">
+	    insert into student(no, name, korean, english, math) 
+	    values(subject_seq.nextval, #{name}, #{korean}, #{english}, #{math})
+	</insert>
+	
+	<update id="update" parameterType = "StudentDto">
+		update student 
+		set name=#{name}, korean=#{korean}, english=#{english}, math=#{math}  
+		where no = #{no}
+	</update>
+	
+	<delete id="delete" parameterType = "StudentDto">
+		delete student where no=#{no}
+	</delete>
+	
+	<select id="search" resultType="StudentDto">
+		select * from student
+		<if test="column != null and keyword != null">
+		where instr(${column}, #{keyword}) > 0 
+		order by ${column} asc
+		</if>
+	</select>
+ </mapper>   

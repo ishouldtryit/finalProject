@@ -20,7 +20,7 @@ public class HomeController {
 				) {
 			 session.removeAttribute("memberId");
 			 session.removeAttribute("jobNo");
-			 session.setAttribute("memberId", "testuser1");
+			 session.setAttribute("memberId", "202399001");
 			 session.setAttribute("jobNo", "99");
 			return "redirect:/";
 		}
@@ -30,7 +30,7 @@ public class HomeController {
 				) {
 			session.removeAttribute("memberId");
 			session.removeAttribute("jobNo");
-			session.setAttribute("memberId", "testuser2");
+			session.setAttribute("memberId", "202399002");
 			session.setAttribute("jobNo", "99");
 			return "redirect:/";
 		}
@@ -40,7 +40,7 @@ public class HomeController {
 				) {
 			session.removeAttribute("memberId");
 			session.removeAttribute("jobNo");
-			session.setAttribute("memberId", "testuser3");
+			session.setAttribute("memberId", "202399003");
 			session.setAttribute("jobNo", "99");
 			return "redirect:/";
 		}

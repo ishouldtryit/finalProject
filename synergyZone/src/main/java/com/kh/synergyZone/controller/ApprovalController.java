@@ -1,5 +1,7 @@
 package com.kh.synergyZone.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,10 +28,12 @@ public class ApprovalController {
 	@PostMapping("/write")
 	public String write(
 			@ModelAttribute ApprovalDto approvalDto,
-			Model model
+			HttpSession session
 			) {
-		approvalRepoImpl.insert(null);
-		return "redirect:list";
+		String memberId = (String) session.getAttribute("memberId");
+		approvalDto.setDrafterId(memberId);
+		approvalRepoImpl.insert(approvalDto);
+		return "redirect:/";
 	}
 	
 	

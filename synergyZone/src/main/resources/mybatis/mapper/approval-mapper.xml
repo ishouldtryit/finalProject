@@ -9,7 +9,7 @@
     <mapper namespace="approval">
     
     	<select id="selectList" resultType="ApprovalDto">
-    		select * from approval
+    		select * from approval order by draft_no
     	</select>
     	<select id="selectOne" resultType="ApprovalDto">
     		select * from approval where draft_no=#{draftNo}

@@ -30,11 +30,19 @@ public class ApprovalController {
 			@ModelAttribute ApprovalDto approvalDto,
 			HttpSession session
 			) {
-		String memberId = (String) session.getAttribute("memberId");
+//		String memberId = (String) session.getAttribute("memberId");
+		String memberId = session.getAttribute("memberId") == null ? null : (String) session.getAttribute("memberId");
 		approvalDto.setDrafterId(memberId);
 		approvalRepoImpl.insert(approvalDto);
 		return "redirect:/";
 	}
 	
+	@GetMapping("/list")
+	public String list(Model model) {
+		
+		model.addAttribute("list", approvalRepoImpl.selectList());
+		return "/approval/list";
+		
+	}
 	
 }

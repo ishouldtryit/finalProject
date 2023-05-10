@@ -41,6 +41,7 @@
                 </div>
                 <div class="col">
                     <h1>파이널 프로젝트</h1>
+
                 </div>
             </div>
         </header>

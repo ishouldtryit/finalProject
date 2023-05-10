@@ -45,7 +45,8 @@ public class MessageDao {
 
   // C 메세지 생성
   public void insert(MessageDto messageDto) {
-    String sql = "insert into message (message_no, message_recipient, message_sender, message_title, message_content, message_send_time, message_sender_store, message_recipient_store) values (?, ?, ?, ?, ?, sysdate, 1, 1)";
+    String sql = "insert into message (message_no, message_recipient, message_sender, message_title, message_content, "
+    		+ "message_send_time, message_sender_store, message_recipient_store) values (?, ?, ?, ?, ?, sysdate, 1, 1)";
     Object[] param = {
         messageDto.getMessageNo(),
         messageDto.getMessageRecipient(),
@@ -65,7 +66,8 @@ public class MessageDao {
 
   // R 읽지 않은 메세지리스트 부르기
   public List<MessageDto> selectNewReceiveMessage(String messageRecipient) {
-    String sql = "select * from message where message_recipient = ? and message_recipient_store = 1 and message_read_time is null order by message_no desc";
+    String sql = "select * from message where message_recipient = ? and message_recipient_store = 1 and "
+    		+ "message_read_time is null order by message_no desc";
     Object[] param = { messageRecipient };
     return jdbcTemplate.query(sql, mapper, param);
   }

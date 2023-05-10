@@ -11,10 +11,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MessageDto {
 
+public class MessageDto {
   private int messageNo;
-  private String messageRecipient;
+  private String messageRecipient; 
   private String messageSender;
   private String messageTitle;
   private String messageContent;

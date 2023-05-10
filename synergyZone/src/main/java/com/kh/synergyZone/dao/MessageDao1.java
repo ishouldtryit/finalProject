@@ -134,10 +134,12 @@ public class MessageDao1 {
 	}
 	 
 	//메시지 발송 취소 삭제 D
-//	public boolean deleteSendMessage(int messageNo) {
-//		
-//	}
-//	
+	public boolean deleteSendCancle(int messageNo, String messageSender) {
+		String sql = "delete from message where message_no = ? and message_sender = ?";
+		Object[] param = { messageNo, messageSender };
+		return jdbcTemplate.update(sql, param) > 0;
+	}
+	
 	 
 	
 }

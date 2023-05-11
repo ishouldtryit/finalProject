@@ -1,5 +1,7 @@
 package com.kh.synergyZone.repo;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -20,6 +22,11 @@ public class EmployeeRepoImpl implements EmployeeRepo {
 	@Override
 	public EmployeeDto selectOne(String empNo) {
 		return sqlSession.selectOne("employee.find", empNo);
+	}
+
+	@Override
+	public List<EmployeeDto> list() {
+		return sqlSession.selectList("employee.list");
 	}
 
 }

@@ -6,7 +6,7 @@
   	</head>
   	<body>
 
-    <form action="join" method="post">
+    <form action="join" method="post" enctype="multipart/form-data">
         <div class="container-fluid mt-4">
     
             <div class="row">
@@ -67,6 +67,13 @@
                             <input class="form-control rounded" type="text" name="empPostcode" placeholder="우편번호">
                         </div>
                     </div>
+                    
+                     <div class="row mt-4">
+                        <div class="col">
+                            <label class="form-label">프로필사진</label>
+                            <input class="form-control rounded" type="file" name="attach" placeholder="프로필사진">
+                        </div>
+                    </div>
 
                     <div class="row mt-4">
                         <div class="col">
@@ -107,7 +114,7 @@
                     <div class="row mt-4">
                         <div class="col">
                             <label class="form-label">형태코드</label>
-                            <input class="form-control rounded" type="text" name="wtCode" placeholder="사업자 번호">
+                            <input class="form-control rounsded" type="text" name="wtCode" placeholder="사업자 번호">
                         </div>
                     </div>
                     

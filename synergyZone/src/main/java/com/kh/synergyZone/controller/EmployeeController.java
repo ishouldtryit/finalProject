@@ -1,5 +1,7 @@
 package com.kh.synergyZone.controller;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.synergyZone.dto.EmployeeDto;
 import com.kh.synergyZone.service.EmployeeService;
@@ -25,8 +29,9 @@ public class EmployeeController {
 	}
 	
 	@PostMapping("/join")
-	public String join(@ModelAttribute EmployeeDto employeeDto) {
-		employeeService.join(employeeDto);
+	public String join(@ModelAttribute EmployeeDto employeeDto,
+						@RequestParam MultipartFile attach) throws IllegalStateException, IOException {
+		employeeService.join(employeeDto, attach);
 		return "redirect:/";
 	}
 	
@@ -52,5 +57,7 @@ public class EmployeeController {
 		session.removeAttribute("jobNo");
 		return "redirect:/";
 	}
+	
+	
 	
 }

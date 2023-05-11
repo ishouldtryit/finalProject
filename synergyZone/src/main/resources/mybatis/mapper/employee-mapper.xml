@@ -10,21 +10,20 @@
 		insert into employee(
 			emp_no, emp_name, emp_password, emp_email,
 			emp_phone, emp_address, emp_detail_address, emp_postcode,
-			emp_hire_date, is_leave,
-			cp_number, job_no,
-			dept_no, wt_code
+			emp_hire_date, is_leave, cp_number, job_no, dept_no, wt_code
 		)
 		values(
 			#{empNo}, #{empName}, #{empPassword}, #{empEmail},
 			#{empPhone}, #{empAddress}, #{empDetailAddress}, #{empPostcode},
-			sysdate, 'N',
-			#{cpNumber}, #{jobNo},
-			#{deptNo}, #{wtCode}
-			
+			sysdate, 'N', #{cpNumber}, #{jobNo}, #{deptNo}, #{wtCode}
 		)
 	</insert>
 	
 	<select id="find" resultType="employeeDto">
 		select * from employee where emp_no = #{empNo}
+	</select>
+	
+	<select id="list" resultType="employeeDto">
+		select * from emp_no order by emp_no asc
 	</select>
 </mapper>

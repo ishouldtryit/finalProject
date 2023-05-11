@@ -1,0 +1,12 @@
+package com.kh.synergyZone.repo;
+
+import java.util.List;
+
+import com.kh.synergyZone.dto.EmployeeProfileDto;
+
+public interface EmployeeProfileRepo {
+	void insert(EmployeeProfileDto employeeProfileDto);
+	void delete(String empNo);
+	void update(String empNo);
+	List<EmployeeProfileDto> find(String empNo);
+}

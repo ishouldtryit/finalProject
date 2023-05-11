@@ -11,6 +11,7 @@
     	<select id="selectList" resultType="ApprovalDto">
     		select * from approval order by draft_no
     	</select>
+    	
     	<select id="selectOne" resultType="ApprovalDto">
     		select * from approval where draft_no=#{draftNo}
     	</select>
@@ -41,8 +42,12 @@
 					type=#{type},
 				</if>
 			</set>
-			where no=#{no}
+			where draft_no=#{draftNo}
 		</update>    	
+		
+		<delete id="remove">
+			delete approval where draft_no = #{draftNo}
+		</delete>
     	
     	
     </mapper>

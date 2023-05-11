@@ -5,7 +5,10 @@
 
 <c:forEach var="approvalDto" items="${list}">
 	<div>
-		번호:${approvalDto.draftNo}, 제목:${approvalDto.draftTitle}, 작성자:${approvalDto.drafterId} 
+		<a href="detail?draftNo=${approvalDto.draftNo}">
+		번호:${approvalDto.draftNo}, 제목:${approvalDto.draftTitle}, 작성자:${approvalDto.drafterId}
+		</a> 
+		<a href="delete?draftNo=${approvalDto.draftNo}">삭제</a>
 	</div>
 	<hr>
 </c:forEach>

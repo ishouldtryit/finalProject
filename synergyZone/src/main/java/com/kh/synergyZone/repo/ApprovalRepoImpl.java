@@ -25,4 +25,14 @@ public class ApprovalRepoImpl implements ApprovalRepo {
 		return sqlSession.selectList("approval.selectList");
 	}
 
+	@Override
+	public ApprovalDto selectOne(int draftNo) {
+		return sqlSession.selectOne("approval.selectOne", draftNo);
+	}
+
+	@Override
+	public void delete(int draftNo) {
+		sqlSession.delete("approval.remove", draftNo);
+	}
+
 }

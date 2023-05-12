@@ -1,14 +1,82 @@
 package com.kh.synergyZone.controller;
 
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.kh.synergyZone.dto.CommuteRecordDto;
+import com.kh.synergyZone.repo.CommuteRecordRepoImpl;
 
 @Controller
 public class HomeController {
 
+		@Autowired
+		private CommuteRecordRepoImpl commuteRecordRepoImpl;
+		
 		@GetMapping("/")
 		public String home() {
 			return "home";
+		}
+		
+		@PostMapping("/testuser1")
+		public String loginTestuser1(
+				HttpSession session
+				) {
+			 session.removeAttribute("memberId");
+			 session.removeAttribute("jobNo");
+			 session.setAttribute("memberId", "202399001");
+			 session.setAttribute("jobNo", "99");
+			return "redirect:/";
+		}
+		@PostMapping("/testuser2")
+		public String loginTestuser2(
+				HttpSession session
+				) {
+			session.removeAttribute("memberId");
+			session.removeAttribute("jobNo");
+			session.setAttribute("memberId", "202399002");
+			session.setAttribute("jobNo", "99");
+			return "redirect:/";
+		}
+		@PostMapping("/testuser3")
+		public String loginTestuser3(
+				HttpSession session
+				) {
+			session.removeAttribute("memberId");
+			session.removeAttribute("jobNo");
+			session.setAttribute("memberId", "202399003");
+			session.setAttribute("jobNo", "99");
+			return "redirect:/";
+		}
+		@PostMapping("/logout")
+		public String logout(
+				HttpSession session
+				) {
+			session.removeAttribute("memberId");
+			session.removeAttribute("jobNo");
+			return "redirect:/";
+		}
+		
+		@PostMapping("/start")
+		public String start(HttpSession session,@ModelAttribute CommuteRecordDto commuteRecordDto,
+				Model model) {
+			String empNo =(String)session.getAttribute("memberId");
+			commuteRecordDto.setEmpNo(empNo);
+			commuteRecordRepoImpl.insert(commuteRecordDto);
+			 return "redirect:/";
+		}
+		
+		@PostMapping("/end")
+		public String end(HttpSession session,@ModelAttribute CommuteRecordDto commuteRecordDto) {
+			String empNo =(String)session.getAttribute("memberId");
+			commuteRecordDto.setEmpNo(empNo);
+			commuteRecordRepoImpl.update(commuteRecordDto);
+			return "redirect:/";
 		}
 	
 } 

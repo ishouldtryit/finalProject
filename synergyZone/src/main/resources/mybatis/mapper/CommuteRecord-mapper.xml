@@ -7,16 +7,23 @@
 <mapper namespace="commuteRecord">
 	<!-- 출근시간 -->
 	<insert id="start">
-		insert into commute_record(emp_no,start_time) values(#{empNo},sysdate);
+		insert into commute_record(emp_no,start_time) values(#{empNo},sysdate)
 	</insert>
 	<!-- 퇴근시간 -->
 	<update id="end">
-		update commute_record set end_time = sysdate;
+		update commute_record set end_time = sysdate where emp_No= #{empNo}
 	</update>
 	
-	<!-- 출퇴근 조회 -->
-	<select id="">
-		select * from commute_record;
+	<!-- 출퇴근 전체 조회 -->
+	<select id="allList">
+		select * from commute_record
+	</select>
+	
+	<select id="one">
+		SELECT START_TIME 
+		FROM commute_record 
+		WHERE START_TIME >= TRUNC(SYSDATE) and emp_no= #{empNo} 
+		ORDER BY START_TIME
 	</select>
 
 </mapper>

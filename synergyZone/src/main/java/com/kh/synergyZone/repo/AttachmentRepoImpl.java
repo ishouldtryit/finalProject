@@ -1,5 +1,7 @@
 package com.kh.synergyZone.repo;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -30,6 +32,11 @@ public class AttachmentRepoImpl implements AttachmentRepo{
 	@Override
 	public void update(int attachmentNo) {
 		sqlSession.update("attach.updateAttach", attachmentNo);
+	}
+
+	@Override
+	public List<AttachmentDto> find(int attachmentNo) {
+		return sqlSession.selectList("attach.find", attachmentNo);
 	}
 	
 }

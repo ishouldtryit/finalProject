@@ -30,4 +30,5 @@
 	<delete id="deleteProfile">
 		delete from emp_profile where emp_no = #{empNo}
 	</delete>
+	
 </mapper>

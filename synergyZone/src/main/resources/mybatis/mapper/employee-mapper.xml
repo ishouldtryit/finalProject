@@ -24,6 +24,6 @@
 	</select>
 	
 	<select id="list" resultType="employeeDto">
-		select * from emp_no order by emp_no asc
+		select * from employee order by emp_no asc
 	</select>
 </mapper>

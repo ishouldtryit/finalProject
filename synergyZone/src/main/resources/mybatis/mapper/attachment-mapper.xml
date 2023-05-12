@@ -33,4 +33,8 @@
 		delete from attachment where attachment_no = #{attachmentNo}
 	</delete>
 	
+	<select id="find">
+		select * from attachment where attachment_no = #{attachmentNo}
+	</select>
+	
 </mapper>

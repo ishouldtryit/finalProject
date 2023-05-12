@@ -2,10 +2,18 @@ package com.kh.synergyZone.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -126,7 +134,52 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 
 
+	@Override
+	public List<EmployeeDto> getAllEmployees() {
+		return employeeRepo.list();
+	}
 
-
-	
+	@Override
+	public ResponseEntity<ByteArrayResource> getProfile(int attachmentNo) throws IOException {
+		AttachmentDto attachmentDto = (AttachmentDto) attachmentRepo.find(attachmentNo);
+		if(attachmentDto == null) {
+			return ResponseEntity.notFound().build();
+		}
+		
+		File target = new File(dir, String.valueOf(attachmentNo));
+		
+		byte[] data = FileUtils.readFileToByteArray(target);
+		ByteArrayResource resource = new ByteArrayResource(data);
+		
+		return ResponseEntity.ok()
+				.contentType(MediaType.APPLICATION_OCTET_STREAM)
+				.contentLength(attachmentDto.getAttachmentSize())
+				.header(HttpHeaders.CONTENT_ENCODING, 
+											StandardCharsets.UTF_8.name())
+				.header(HttpHeaders.CONTENT_DISPOSITION,
+					ContentDisposition.attachment()
+								.filename(
+										attachmentDto.getAttachmentName(), 
+										StandardCharsets.UTF_8
+								).build().toString()
+				)
+				.body(resource);
 }
+
+
+
+
+	@Override
+	public EmployeeProfileDto getEmployeeProfile(String empNo) {
+		return (EmployeeProfileDto) employeeProfileRepo.find(empNo);
+	}
+
+
+
+
+	@Override
+	public EmployeeDto detailEmployee(String empNo) {
+		return employeeRepo.selectOne(empNo);
+	}
+}
+

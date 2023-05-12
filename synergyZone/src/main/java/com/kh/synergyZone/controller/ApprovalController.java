@@ -31,7 +31,6 @@ public class ApprovalController {
 			@ModelAttribute ApprovalDto approvalDto,
 			HttpSession session
 			) {
-//		String memberId = (String) session.getAttribute("memberId");
 		String memberId = session.getAttribute("memberId") == null ? null : (String) session.getAttribute("memberId");
 		approvalDto.setDrafterId(memberId);
 		approvalRepoImpl.insert(approvalDto);
@@ -55,10 +54,11 @@ public class ApprovalController {
 		model.addAttribute("approvalDto", approvalRepoImpl.selectOne(draftNo));
 		return "/approval/edit";
 	}
+	
 	@PostMapping("/edit")
 	public String edit(@ModelAttribute ApprovalDto approvalDto) {
-		approvalRepoImpl.
-		return "redirect:/approval/detail";
+		approvalRepoImpl.edit(approvalDto);
+		return "redirect:/approval/detail?draftNo="+approvalDto.getDraftNo();
 	}
 	
 	

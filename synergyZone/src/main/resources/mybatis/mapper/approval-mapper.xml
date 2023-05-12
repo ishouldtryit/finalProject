@@ -35,11 +35,11 @@
 		<update id="editAllInOne">
 			update approval
 			<set>
-				<if test="name!=null">
-					name=#{name},
+				<if test="draftTitle!=null">
+					draft_title=#{draftTitle},
 				</if>
-				<if test="type!=null">
-					type=#{type},
+				<if test="draftContent!=null">
+					draft_content=#{draftContent},
 				</if>
 			</set>
 			where draft_no=#{draftNo}

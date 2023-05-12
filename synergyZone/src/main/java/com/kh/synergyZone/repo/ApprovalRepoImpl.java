@@ -35,4 +35,10 @@ public class ApprovalRepoImpl implements ApprovalRepo {
 		sqlSession.delete("approval.remove", draftNo);
 	}
 
+	@Override
+	public void edit(ApprovalDto approvalDto) {
+		sqlSession.update("approval.editAllInOne", approvalDto);
+		
+	}
+
 }

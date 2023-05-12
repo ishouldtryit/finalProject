@@ -10,4 +10,5 @@ public interface ApprovalRepo {
 	List<ApprovalDto> selectList();
 	ApprovalDto selectOne(int draftNo);
 	void delete(int draftNo);
+	void edit(ApprovalDto approvalDto);
 }

@@ -9,6 +9,7 @@
 		번호:${approvalDto.draftNo}, 제목:${approvalDto.draftTitle}, 작성자:${approvalDto.drafterId}
 		</a> 
 		<a href="delete?draftNo=${approvalDto.draftNo}">삭제</a>
+		<a href="edit?draftNo=${approvalDto.draftNo}">수정</a>
 	</div>
 	<hr>
 </c:forEach>

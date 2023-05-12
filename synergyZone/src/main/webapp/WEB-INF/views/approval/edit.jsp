@@ -8,6 +8,7 @@
 <form action="/approval/edit" method="post" >
 <div>
 	<span>제목</span>
+	<input type="hidden" name="draftNo" value="${approvalDto.draftNo}">
 	<input type="text" name="draftTitle" placeholder="제목" value="${approvalDto.draftTitle}">
 </div>
 <div>

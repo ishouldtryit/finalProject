@@ -8,5 +8,5 @@ public interface EmployeeProfileRepo {
 	void insert(EmployeeProfileDto employeeProfileDto);
 	void delete(String empNo);
 	void update(String empNo);
-	List<EmployeeProfileDto> find(String empNo);
+	EmployeeProfileDto find(String empNo);
 }

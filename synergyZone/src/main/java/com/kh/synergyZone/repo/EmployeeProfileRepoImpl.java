@@ -30,9 +30,14 @@ public class EmployeeProfileRepoImpl implements EmployeeProfileRepo{
 	}
 	
 	@Override
-	public List<EmployeeProfileDto> find(String empNo) {
-		return sqlSession.selectList("empProfile.find", empNo);
+	public EmployeeProfileDto find(String empNo) {
+	    List<EmployeeProfileDto> profiles = sqlSession.selectList("empProfile.find", empNo);
+	    if (profiles != null && !profiles.isEmpty()) {
+	        return profiles.get(0);
+	    }
+	    return null;
 	}
+
 
 
 }

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<mapper namespace="CalendarMapper">
+	<resultMap type="calendarScheduleDto" id="calendarScheduleDtoResultMap">
+		<id property="schNo" column="SCH_NO"/>
+		<result property="memNum" column="MEM_NUM"/>
+		<result property="calNo" column="CAL_NO"/>
+		<result property="schName" column="SCH_NAME"/>
+		<result property="schStartDate" column="SCH_START_DATE"/>
+		<result property="schStartTime" column="SCH_START_TIME"/>
+		<result property="schEndDate" column="SCH_END_DATE"/>
+		<result property="schEndTime" column="SCH_END_TIME"/>
+		<result property="schContent" column="SCH_CONTENT"/>
+		<result property="schCate" column="SCH_CATE"/>
+		<result property="schColor" column="SCH_COLOR"/>
+	</resultMap>
+	<resultMap type="CalendarDto" id="calendarResultMap">
+		<id property="calNo" column="CAL_NO"/>
+		<result property="schNo" column="SCH_NO"/>
+		<result property="memNum" column="MEM_NUM"/>
+		<result property="calName" column="CAL_NAME"/>
+		<result property="memName" column="MEM_NAME"/>
+		<result property="memDivision" column="MEM_DIVISION"/>
+		<result property="memRank" column="MEM_RANK"/>
+	</resultMap>
+	<insert id="insertMySchedule">
+		INSERT INTO CAL_SCH VALUES(SEQ_SCH_NO.NEXTVAL, #{memNum}, #{calNo}, #{schName}, #{schStartDate}, #{schStartTime}, #{schEndDate}, #{schEndTime}, #{schContent}, #{schCate}, #{schColor}) 
+	</insert>
+	<insert id="insertComSchedule">
+		INSERT INTO CAL_SCH VALUES(SEQ_SCH_NO.NEXTVAL, #{memNum}, #{calNo}, #{schName}, #{schStartDate}, #{schStartTime}, #{schEndDate}, #{schEndTime}, #{schContent}, '전사', #{schColor}) 
+	</insert>
+	<insert id="insertDeptSchedule">
+		INSERT INTO CAL_SCH VALUES(SEQ_SCH_NO.NEXTVAL, #{memNum}, #{calNo}, #{schName}, #{schStartDate}, #{schStartTime}, #{schEndDate}, #{schEndTime}, #{schContent}, '부서', #{schColor}) 
+	</insert>
+	<insert id="insertCalendar">
+		INSERT INTO CALENDAR (CAL_NO, CAL_NAME, MEM_NUM) VALUES(SEQ_CAL_NO.NEXTVAL, #{calName}, #{memNum} )	
+	</insert>
+	<update id="updateSchedule">
+	 	UPDATE CAL_SCH SET SCH_NAME = #{schName}, SCH_START_DATE = #{schStartDate}, SCH_START_TIME = #{schStartTime}, SCH_END_DATE = #{schEndDate}, SCH_END_TIME = #{schEndTime}, SCH_CONTENT = #{schContent}, 
+	 	SCH_COLOR = #{schColor}
+	 	<if test="calNo != null">
+	 		, CAL_NO = #{calNo}
+	 	</if>
+	 	WHERE MEM_NUM = #{memNum} AND SCH_NO = #{schNo}
+	</update>
+	<delete id="deleteSchedule">
+		DELETE FROM CAL_SCH WHERE SCH_NO = #{schNo} 
+	</delete>
+	<select id="selectAllSchedule" resultMap="calendarScheduleDtoResultMap">
+		SELECT SCH_NO, MEM_NUM, CAL_NO, SCH_NAME, SCH_CONTENT, SCH_START_DATE, TO_DATE(SCH_END_DATE, 'YYYY-MM-DD') + 1 AS SCH_END_DATE, SCH_START_TIME, SCH_END_TIME, SCH_COLOR, SCH_CATE FROM CAL_SCH WHERE MEM_NUM = #{memNum} OR SCH_CATE = '전사'
+	</select>
+	<select id="selectAllComSchedule" resultMap="calendarScheduleDtoResultMap">
+		SELECT SCH_NO, MEM_NUM, CAL_NO, SCH_NAME, SCH_CONTENT, SCH_START_DATE, TO_DATE(SCH_END_DATE, 'YYYY-MM-DD') + 1 AS SCH_END_DATE, SCH_START_TIME, SCH_END_TIME, SCH_COLOR, SCH_CATE FROM CAL_SCH
+		<if test="calNo != null">
+			WHERE MEM_NUM = #{memNum} AND CAL_NO = #{calNo}
+		</if>
+		<if test="calNo == null">
+			WHERE SCH_CATE = #{schCate}
+		</if>
+	</select>
+	<select id="selectOneSchedule" resultMap="calendarScheduleDtoResultMap">
+		SELECT * FROM CAL_SCH WHERE SCH_NO = #{schNo}
+	</select>
+	<select id="selectCalMyList" resultMap="calendarResultMap">
+		SELECT * FROM CALENDAR WHERE MEM_NUM = #{memNum} 
+	</select>
+	<delete id="deleteCalendar">
+		DELETE FROM CALENDAR WHERE CAL_NO = #{calNo} 
+	</delete>
+	
+	<!-- 홈 - 일정 -->
+	<select id="selectListHomeCal" resultMap="calendarScheduleDtoResultMap"><!-- 일정 목록 -->
+		SELECT * FROM CAL_SCH WHERE (MEM_NUM = #{memNum} OR SCH_CATE = '전사') AND SCH_START_DATE <![CDATA[<]]>= TO_DATE(#{schStartDate}, 'YYYY-MM-DD') AND SCH_END_DATE <![CDATA[>]]>= TO_DATE(#{schStartDate}, 'YYYY-MM-DD') ORDER BY SCH_START_DATE, SCH_START_TIME
+	</select>
+	<select id="selectOneHomeCal" resultMap="calendarScheduleDtoResultMap"><!-- 일정 상세 -->
+		SELECT CAL_SCH.SCH_NO AS SCH_NO, CAL_NAME AS CAL_NO, SCH_NAME, SCH_START_DATE, SCH_END_DATE, SCH_START_TIME, SCH_END_TIME, SCH_CONTENT, SCH_CATE FROM CAL_SCH LEFT JOIN CALENDAR USING(CAL_NO) WHERE CAL_SCH.SCH_NO = #{schNo}
+	</select>
+	<select id="selectAllHomeCal" resultMap="calendarScheduleDtoResultMap"><!-- 전체 일정 목록 -->
+		SELECT SCH_NO, MEM_NUM, CAL_NO, SCH_NAME, SCH_START_DATE, TO_DATE(SCH_END_DATE, 'YYYY-MM-DD') + 1 AS SCH_END_DATE, SCH_COLOR FROM CAL_SCH WHERE (MEM_NUM = #{memberNum} OR SCH_CATE = '전사')
+	</select>
+	
+	<!-- 알림 -->
+	<select id="selectLastcalendarScheduleDto" resultMap="calendarScheduleDtoResultMap">
+		SELECT * FROM CAL_SCH WHERE SCH_CATE = '전사' AND SCH_NO = (SELECT MAX(SCH_NO) FROM CAL_SCH WHERE SCH_CATE = '전사')
+	</select>
+	</mapper>

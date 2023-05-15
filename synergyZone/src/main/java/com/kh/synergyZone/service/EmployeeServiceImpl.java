@@ -19,9 +19,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.synergyZone.configuration.CustomFileUploadProperties;
 import com.kh.synergyZone.dto.AttachmentDto;
+import com.kh.synergyZone.dto.DepartmentDto;
 import com.kh.synergyZone.dto.EmployeeDto;
 import com.kh.synergyZone.dto.EmployeeProfileDto;
 import com.kh.synergyZone.repo.AttachmentRepo;
+import com.kh.synergyZone.repo.DepartmentRepo;
 import com.kh.synergyZone.repo.EmployeeProfileRepo;
 import com.kh.synergyZone.repo.EmployeeRepo;
 
@@ -42,6 +44,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Autowired
 	private CustomFileUploadProperties customFileUploadProperties;
 	
+	@Autowired
+	private DepartmentRepo departmentRepo;
+	
 	private File dir;
 	
 	@PostConstruct
@@ -50,9 +55,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 		dir.mkdirs();
 	}
 	
-
-
-
+	
+	//회원가입
 	@Override
 	public void join(EmployeeDto employeeDto, MultipartFile attach) throws IllegalStateException, IOException {
 		employeeRepo.insert(employeeDto);
@@ -77,7 +81,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 		}
 		
 	}
-
+	
+	//로그인
 	@Override
 	public EmployeeDto login(EmployeeDto employeeDto) {
 		String empNo = employeeDto.getEmpNo();
@@ -90,8 +95,23 @@ public class EmployeeServiceImpl implements EmployeeService {
 		}
 		return null;
 	}
-
-
+	
+	
+	//사원 목록
+	@Override
+	public List<EmployeeDto> getAllEmployees() {
+		return employeeRepo.list();
+	}
+	
+	
+	//사원 상세
+	@Override
+	public EmployeeDto detailEmployee(String empNo) {
+		return employeeRepo.selectOne(empNo);
+	}
+	
+	
+	//사원 이미지
 	@Override
 	public void updateProfile(String empNo, MultipartFile attach) throws IllegalStateException, IOException {
 		deleteProfile(empNo);
@@ -132,13 +152,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 
-
-
-	@Override
-	public List<EmployeeDto> getAllEmployees() {
-		return employeeRepo.list();
-	}
-
 	@Override
 	public ResponseEntity<ByteArrayResource> getProfile(int attachmentNo) throws IOException {
 		AttachmentDto attachmentDto = (AttachmentDto) attachmentRepo.find(attachmentNo);
@@ -175,11 +188,23 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 
+	//부서 등록
+	@Override
+	public void registerDepartment(DepartmentDto departmentDto) {
+		departmentRepo.insert(departmentDto);
+	}
+
+	//부서 목록
+	@Override
+	public List<DepartmentDto> getAllDepartments() {
+		return departmentRepo.list();
+	}
 
 
 	@Override
-	public EmployeeDto detailEmployee(String empNo) {
-		return employeeRepo.selectOne(empNo);
+	public void deleteDepartment(int deptNo) {
+		departmentRepo.delete(deptNo);
 	}
+
 }
 

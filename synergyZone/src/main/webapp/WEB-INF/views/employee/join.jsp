@@ -14,13 +14,6 @@
 
                     <div class="row mt-4">
                         <div class="col">
-                            <label class="form-label">사원번호</label>
-                            <input class="form-control rounded" type="text" name="empNo" placeholder="사원번호">
-                        </div>
-                    </div>
-
-                    <div class="row mt-4">
-                        <div class="col">
                             <label class="form-label">사원명</label>
                             <input class="form-control rounded" type="text" name="empName" placeholder="사원명">
                         </div>

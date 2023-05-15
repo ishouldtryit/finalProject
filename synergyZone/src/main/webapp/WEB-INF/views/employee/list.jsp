@@ -9,8 +9,14 @@
 				<th>번호</th>
 				<th>이름</th>
 				<th>이메일</th>
+				<th>비밀번호</th>
 				<th>전화번호</th>
-				<th>프로필 사진</th>
+				<th>입사일</th>
+				<th>퇴사여부</th>
+				<td>사업자번호</td>
+				<th>직위번호</th>
+				<th>부서번호</th>
+				<th>형태코드</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -19,13 +25,14 @@
 					<td>${employeeDto.empNo}</td>
 					<td>${employeeDto.empName}</td>
 					<td>${employeeDto.empEmail}</td>
+					<td>${employeeDto.empPassword}</td>
 					<td>${employeeDto.empPhone}</td>
-<!-- 					<td> -->
-<%-- 						<c:set var="attachmentNo" value="${employeeDto.attachmentNo}" /> --%>
-<%-- 						<c:if test="${profileMap.containsKey(attachmentNo)}"> --%>
-<%-- 							<img src="${profileMap[attachmentNo].body}" alt="Profile Image" width="100" height="100"> --%>
-<%-- 						</c:if> --%>
-<!-- 					</td> -->
+					<td>${employeeDto.empHireDate}</td>
+					<td>${employeeDto.isLeave}</td>
+					<td>${employeeDto.cpNumber}</td>
+					<td>${employeeDto.jobNo}</td>
+					<td>${employeeDto.deptNo}</td>
+					<td>${employeeDto.wtCode}</td>
 					<td>
 						<a href="detail?empNo=${employeeDto.empNo}">상세보기</a>
 					</td>

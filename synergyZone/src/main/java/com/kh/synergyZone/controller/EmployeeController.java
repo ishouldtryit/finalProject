@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kh.synergyZone.dto.DepartmentDto;
 import com.kh.synergyZone.dto.EmployeeDto;
-import com.kh.synergyZone.repo.EmployeeRepo;
 import com.kh.synergyZone.service.EmployeeService;
 
 @Controller
@@ -26,6 +26,7 @@ public class EmployeeController {
 	@Autowired
 	private EmployeeService employeeService;
 	
+	//회원가입
 	@GetMapping("/join")
 	public String join() {
 		return "employee/join";
@@ -38,6 +39,7 @@ public class EmployeeController {
 		return "redirect:/";
 	}
 	
+	//로그인
 	@GetMapping("/login")
 	public String login() {
 		return "employee/login";
@@ -54,6 +56,7 @@ public class EmployeeController {
 		return "redirect:/";
 	}
 	
+	//로그아웃
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		session.removeAttribute("empNo");
@@ -61,6 +64,7 @@ public class EmployeeController {
 		return "redirect:/";
 	}
 	
+	//사원 목록
 	@GetMapping("/list")
 	public String list(Model model) throws IOException {
 		List<EmployeeDto> employees = employeeService.getAllEmployees();
@@ -83,14 +87,42 @@ public class EmployeeController {
 		return "employee/list";
 	}
 	
+	//사원 상세
 	@GetMapping("/detail")
 	public String detail(@RequestParam String empNo,
 						Model model) {
 		model.addAttribute("employeeDto", employeeService.detailEmployee(empNo));
-		model.addAttribute("profile", employeeService.getEmployeeProfile(empNo));
 		return "employee/detail";
 	}
 	
+	
+	//부서 등록
+	@GetMapping("/department/register")
+	public String departmentRegister() {
+		return "department/register";
+	}
+	
+	
+	@PostMapping("/department/register")
+	public String departmentRegister(@ModelAttribute DepartmentDto departmentDto) {
+		employeeService.registerDepartment(departmentDto);
+		return "redirect:/";
+	}
+	
+	//부서 목록
+	@GetMapping("/department/list")
+	public String departmentList(Model model) {
+		List<DepartmentDto> departments = employeeService.getAllDepartments();
+		model.addAttribute("departments",departments);
+		return "department/list";
+	}
+	
+//	//부서 삭제
+//	@GetMapping("/department/delete")
+//	public String departmentDelete(@RequestParam int deptNo) {
+////		DepartmentDto departmentDto = employeeService
+//	}
+//	
 	
 	
 	

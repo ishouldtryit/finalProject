@@ -26,4 +26,5 @@
 	<select id="list" resultType="employeeDto">
 		select * from employee order by emp_no asc
 	</select>
+	
 </mapper>

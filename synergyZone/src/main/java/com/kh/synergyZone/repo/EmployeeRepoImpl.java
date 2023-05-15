@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.synergyZone.component.EmpNoGenerator;
 import com.kh.synergyZone.dto.EmployeeDto;
 
 @Repository
@@ -13,11 +14,17 @@ public class EmployeeRepoImpl implements EmployeeRepo {
 	
 	@Autowired
 	private SqlSession sqlSession;
+	
+	@Autowired
+	private EmpNoGenerator empNoGenerator;
 
 	@Override
-	public void insert(EmployeeDto employeeDto) {
-		sqlSession.insert("employee.save", employeeDto);
-	}
+    public void insert(EmployeeDto employeeDto) {
+        int deptNo = employeeDto.getDeptNo();
+        String empNo = empNoGenerator.generateEmpNo(String.valueOf(deptNo));
+        employeeDto.setEmpNo(empNo);
+        sqlSession.insert("employee.save", employeeDto);
+    }
 
 	@Override
 	public EmployeeDto selectOne(String empNo) {

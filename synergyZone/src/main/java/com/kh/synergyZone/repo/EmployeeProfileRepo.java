@@ -1,7 +1,5 @@
 package com.kh.synergyZone.repo;
 
-import java.util.List;
-
 import com.kh.synergyZone.dto.EmployeeProfileDto;
 
 public interface EmployeeProfileRepo {

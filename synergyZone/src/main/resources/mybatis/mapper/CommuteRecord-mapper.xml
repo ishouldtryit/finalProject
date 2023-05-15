@@ -11,19 +11,26 @@
 	</insert>
 	<!-- 퇴근시간 -->
 	<update id="end">
-		update commute_record set end_time = sysdate where emp_No= #{empNo}
+		UPDATE commute_record
+		SET end_time = sysdate
+		WHERE emp_no = #{empNo}
+  		AND start_time = (SELECT MAX(start_time) FROM commute_record WHERE emp_no = #{empNo})
 	</update>
 	
-	<!-- 출퇴근 전체 조회 -->
-	<select id="allList">
-		select * from commute_record
+	<!-- 사원 출퇴근 전체 조회 -->
+	<select id="allList" resultType="CommuteRecordDto">
+		select * from commute_record where emp_no= #{empNo}
 	</select>
 	
-	<select id="one">
-		SELECT START_TIME 
-		FROM commute_record 
-		WHERE START_TIME >= TRUNC(SYSDATE) and emp_no= #{empNo} 
-		ORDER BY START_TIME
+	<!-- 사원 오늘날짜 출퇴근 조회 -->
+	<select id="today" resultType="CommuteRecordDto">
+		SELECT TO_CHAR(start_Time, 'yy/MM/dd HH24:MI:SS') AS start_Time,
+        TO_CHAR(end_Time, 'yy/MM/dd HH24:MI:SS') AS end_Time
+		FROM COMMUTE_RECORD
+		WHERE EMP_NO = #{empNo} AND 
+        TO_CHAR(start_Time, 'yy/MM/dd') = TO_CHAR(CURRENT_DATE, 'yy/MM/dd')
 	</select>
 
+
+	
 </mapper>

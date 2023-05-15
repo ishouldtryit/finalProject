@@ -1,5 +1,8 @@
 package com.kh.synergyZone.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,17 +13,26 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.kh.synergyZone.dto.CommuteRecordDto;
-import com.kh.synergyZone.repo.CommuteRecordRepoImpl;
+import com.kh.synergyZone.repo.CommuteRecordRepo;
 
 @Controller
 public class HomeController {
 
 		@Autowired
-		private CommuteRecordRepoImpl commuteRecordRepoImpl;
+		private CommuteRecordRepo commuteRecordRepo;
 		
 		@GetMapping("/")
-		public String home() {
-			return "home";
+		public String home(Model model, HttpSession session, @ModelAttribute CommuteRecordDto commuteRecordDto) {
+		    String empNo = (String) session.getAttribute("memberId");
+		    if (empNo != null) {
+		        CommuteRecordDto today = commuteRecordRepo.today(empNo);
+		        if (today!=null) {
+		            CommuteRecordDto w = today;
+		            model.addAttribute("work", w);
+		        }
+		    }
+		    
+		    return "home";
 		}
 		
 		@PostMapping("/testuser1")
@@ -67,7 +79,7 @@ public class HomeController {
 				Model model) {
 			String empNo =(String)session.getAttribute("memberId");
 			commuteRecordDto.setEmpNo(empNo);
-			commuteRecordRepoImpl.insert(commuteRecordDto);
+			commuteRecordRepo.insert(commuteRecordDto);
 			 return "redirect:/";
 		}
 		
@@ -75,7 +87,7 @@ public class HomeController {
 		public String end(HttpSession session,@ModelAttribute CommuteRecordDto commuteRecordDto) {
 			String empNo =(String)session.getAttribute("memberId");
 			commuteRecordDto.setEmpNo(empNo);
-			commuteRecordRepoImpl.update(commuteRecordDto);
+			commuteRecordRepo.update(commuteRecordDto);
 			return "redirect:/";
 		}
 	

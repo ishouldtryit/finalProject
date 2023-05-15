@@ -7,6 +7,6 @@ import lombok.Data;
 @Data
 public class CommuteRecordDto {
 	private String empNo;
-	private Date startTime;
-	private Date endTime;
+	private String startTime;
+	private String endTime;
 }

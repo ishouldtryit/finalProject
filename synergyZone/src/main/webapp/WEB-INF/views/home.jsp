@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
-    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <script type="text/javascript">
         $(function () {
@@ -80,9 +79,8 @@
         </div>
         
         <div>
-	           	출근시간: <label id="start-time">미등록</label><br>
-        		
-	            퇴근시간: <label id="end-time">미등록</label> <br>
+	           	출근시간: <label id="start-time">${work.startTime}</label><br>
+	            퇴근시간: <label id="end-time">${work.endTime}</label> <br>
 	            주간 근무시간: <label id="">0h:0m:0s</label> 
         	
         </div>
@@ -96,7 +94,6 @@
         		<input class="endTime" type="hidden">
 	            <button type="submit" class="btn btn-primary btn-sm" id="end-btn">퇴근하기</button>
         	</form>
-        	
         </div>
     </div>
 

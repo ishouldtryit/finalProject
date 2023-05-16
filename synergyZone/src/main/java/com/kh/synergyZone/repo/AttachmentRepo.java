@@ -14,6 +14,5 @@ public interface AttachmentRepo {
 	void insert(AttachmentDto attachmentDto);
 	void update(int attachmentNo);
 	void delete(int attachmentNo);
-	List<AttachmentDto> find(int attachmentNo);
-	ResponseEntity<ByteArrayResource> getProfile(int attachmentNo, File dir) throws IOException;
+	AttachmentDto find(int attachmentNo);
 }

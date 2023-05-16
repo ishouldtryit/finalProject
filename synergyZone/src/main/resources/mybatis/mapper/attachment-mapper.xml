@@ -33,7 +33,7 @@
 		delete from attachment where attachment_no = #{attachmentNo}
 	</delete>
 	
-	<select id="find">
+	<select id="find" resultType="attachmentDto">
 		select * from attachment where attachment_no = #{attachmentNo}
 	</select>
 	

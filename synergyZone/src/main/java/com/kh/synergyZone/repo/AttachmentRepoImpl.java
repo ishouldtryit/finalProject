@@ -44,31 +44,8 @@ public class AttachmentRepoImpl implements AttachmentRepo{
 	}
 
 	@Override
-	public List<AttachmentDto> find(int attachmentNo) {
-		return sqlSession.selectList("attach.find", attachmentNo);
-	}
-
-	@Override
-	public ResponseEntity<ByteArrayResource> getProfile(int attachmentNo, File dir) throws IOException {
-		AttachmentDto attachmentDto = sqlSession.selectOne("attach.find", attachmentNo);
-		if(attachmentDto == null) {
-			return ResponseEntity.notFound().build();
-		}
-		
-		File target = new File(dir, String.valueOf(attachmentNo));
-		 byte[] data = FileUtils.readFileToByteArray(target);
-		    ByteArrayResource resource = new ByteArrayResource(data);
-		    
-		    return ResponseEntity.ok()
-		            .contentType(MediaType.APPLICATION_OCTET_STREAM)
-		            .contentLength(attachmentDto.getAttachmentSize())
-		            .header(HttpHeaders.CONTENT_ENCODING, StandardCharsets.UTF_8.name())
-		            .header(HttpHeaders.CONTENT_DISPOSITION,
-		                    ContentDisposition.attachment()
-		                            .filename(attachmentDto.getAttachmentName(), StandardCharsets.UTF_8)
-		                            .build()
-		                            .toString())
-		            .body(resource);
+	public AttachmentDto find(int attachmentNo) {
+		return sqlSession.selectOne("attach.find", attachmentNo);
 	}
 	
 }

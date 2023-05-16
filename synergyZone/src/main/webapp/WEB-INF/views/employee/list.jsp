@@ -17,6 +17,7 @@
 				<th>직위번호</th>
 				<th>부서번호</th>
 				<th>형태코드</th>
+				<th>관리</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -34,6 +35,7 @@
 					<td>${employeeDto.deptNo}</td>
 					<td>${employeeDto.wtCode}</td>
 					<td>
+						<a href="delete?empNo=${employeeDto.empNo}">퇴사처리</a>
 						<a href="detail?empNo=${employeeDto.empNo}">상세보기</a>
 					</td>
 				</tr>

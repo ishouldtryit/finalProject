@@ -27,4 +27,8 @@
 		select * from employee order by emp_no asc
 	</select>
 	
+	<delete id="delete">
+		delete from employee where emp_no = #{empNo}
+	</delete>
+	
 </mapper>

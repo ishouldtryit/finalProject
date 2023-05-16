@@ -13,16 +13,17 @@ import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.synergyZone.configuration.CustomFileUploadProperties;
 import com.kh.synergyZone.dto.AttachmentDto;
 import com.kh.synergyZone.repo.AttachmentRepo;
 
-@RestController
+@Controller
 @RequestMapping("/attachment")
 public class AttachmentController {
 	
@@ -42,9 +43,9 @@ public class AttachmentController {
 	}
 	
 	//다운로드
-		@GetMapping("/download/{empNo}")
+		@GetMapping("/download")
 		public ResponseEntity<ByteArrayResource> download(
-										@PathVariable int attachmentNo) throws IOException {
+										@RequestParam int attachmentNo) throws IOException {
 			//DB 조회
 			AttachmentDto attachmentDto = (AttachmentDto) attachmentRepo.find(attachmentNo);
 			if(attachmentDto == null) {//없으면 404

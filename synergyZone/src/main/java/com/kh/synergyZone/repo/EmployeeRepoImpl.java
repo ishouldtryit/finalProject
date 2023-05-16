@@ -36,4 +36,9 @@ public class EmployeeRepoImpl implements EmployeeRepo {
 		return sqlSession.selectList("employee.list");
 	}
 
+	@Override
+	public void delete(String empNo) {
+		sqlSession.delete("employee.delete", empNo);
+	}
+
 }

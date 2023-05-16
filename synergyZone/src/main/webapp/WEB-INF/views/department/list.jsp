@@ -8,6 +8,7 @@
 			<tr>
 				<th>부서번호</th>
 				<th>부서이름</th>
+				<th>관리</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -15,6 +16,7 @@
 				<tr>
 					<td>${departmentDto.deptNo}</td>
 					<td>${departmentDto.deptName}</td>
+					<td><a href="/employee/department/delete?deptNo=${departmentDto.deptNo}">삭제</a></td>
 				</tr>
 			</c:forEach>
 		</tbody>

@@ -1,0 +1,227 @@
+CREATE TABLE  employee  (
+	 emp_no 	varchar2(50)	NOT NULL	COMMENT  년도 4자리+부서번호 2자리+번호 3자리 ,
+	 emp_name 	varchar2(30)	NOT NULL,
+	 password 	varchar2(512)	NOT NULL	COMMENT  암호화 필요 ,
+	 email 	varchar2(200)	NOT NULL,
+	 phone 	varchar2(20)	NOT NULL,
+	 address 	varchar2(200)	NOT NULL,
+	 detail_address 	varchar2(200)	NOT NULL,
+	 emp_postcode 	varchar2(25)	NOT NULL,
+	 hire_date 	date	NOT NULL	DEFAULT sysdate,
+	 pic_path 	varchar2(500)	NULL,
+	 pic_name 	varchar2(500)	NULL,
+	 is_leave 	varchar2(3)	NOT NULL	DEFAULT  N 	COMMENT  default:N ,
+	 cp_number 	number	NOT NULL	COMMENT  사업자번호 000-00-00000 ,
+	 sign_path 	varchar2(500)	NULL,
+	 sign_file_name 	varchar2(100)	NULL,
+	 job_no2 	VARCHAR(255)	NOT NULL,
+	 dept_no2 	VARCHAR(255)	NOT NULL,
+	 Key 	VARCHAR(255)	NOT NULL
+);
+
+CREATE TABLE  Untitled3  (
+	 emp_no 	varchar2(50)	NOT NULL	COMMENT  년도 4자리+부서번호 2자리+번호 3자리 ,
+	 Field 	VARCHAR(255)	NULL,
+	 Field2 	VARCHAR(255)	NULL
+);
+
+CREATE TABLE  Untitled4  (
+	 Key 	VARCHAR(255)	NOT NULL,
+	 emp_no 	varchar2(50)	NOT NULL	COMMENT  년도 4자리+부서번호 2자리+번호 3자리 ,
+	 Field 	VARCHAR(255)	NULL
+);
+
+CREATE TABLE  Untitled5  (
+	 Key 	VARCHAR(255)	NOT NULL,
+	 emp_no 	varchar2(50)	NOT NULL	COMMENT  년도 4자리+부서번호 2자리+번호 3자리 ,
+	 Field 	VARCHAR(255)	NULL,
+	 Field2 	VARCHAR(255)	NULL,
+	 Field3 	VARCHAR(255)	NULL,
+	 Field4 	VARCHAR(255)	NULL
+);
+
+CREATE TABLE  room  (
+	 room_name 	VARCHAR(255)	NOT NULL,
+	 room_craete 	VARCHAR(255)	NULL
+);
+
+CREATE TABLE  user  (
+	 emp_id 	VARCHAR(255)	NOT NULL,
+	 room_name 	VARCHAR(255)	NOT NULL
+);
+
+CREATE TABLE  chat_msg  (
+	 msg_no 	VARCHAR(255)	NOT NULL,
+	 emp_id 	VARCHAR(255)	NOT NULL,
+	 room_name 	VARCHAR(255)	NOT NULL,
+	 Field 	VARCHAR(255)	NULL,
+	 Field2 	VARCHAR(255)	NULL
+);
+
+CREATE TABLE  Untitled  (
+	 dept_no 	VARCHAR(255)	NOT NULL
+);
+
+CREATE TABLE  Untitled2  (
+	 job_no 	VARCHAR(255)	NOT NULL
+);
+
+CREATE TABLE  message  (
+	 message_no 	number	NOT NULL,
+	 message_recipient 	varchar2(20)	NOT NULL,
+	 message_sender 	varchar2(20)	NOT NULL,
+	 message_title 	varchar2(300)	NOT NULL,
+	 message_content 	varchar2(3000)	NOT NULL,
+	 message_send_time 	date	NOT NULL	DEFAULT sysdate,
+	 message_receive_time 	date	NULL,
+	 message_sender_store 	number(1)	NOT NULL	DEFAULT 1,
+	 message_receiver_store 	number(1)	NOT NULL	DEFAULT 1
+);
+
+CREATE TABLE  Untitled6  (
+	 Key 	VARCHAR(255)	NOT NULL,
+	 emp_no 	varchar2(50)	NOT NULL	COMMENT  년도 4자리+부서번호 2자리+번호 3자리 ,
+	 Field 	VARCHAR(255)	NULL,
+	 Field2 	VARCHAR(255)	NULL,
+	 Field3 	VARCHAR(255)	NULL
+);
+
+CREATE TABLE  approval  (
+	 draft_no 	number	NOT NULL,
+	 draft_title 	varchar2(100)	NOT NULL,
+	 draft_content 	varchar2(3000)	NOT NULL,
+	 draft_date 	date	NOT NULL	DEFAULT sysdate,
+	 update_date 	date	NULL	DEFAULT sysdate	COMMENT  수정일 ,
+	 drafter_id 	varchar2(50)	NOT NULL	COMMENT  년도 4자리+부서번호 2자리+번호 3자리 ,
+	 first_approver 	varchar2(50)	NOT NULL	COMMENT  년도 4자리+부서번호 2자리+번호 3자리 ,
+	 second_approver 	varchar2(50)	NULL	COMMENT  년도 4자리+부서번호 2자리+번호 3자리 ,
+	 third_approver 	varchar2(50)	NULL	COMMENT  년도 4자리+부서번호 2자리+번호 3자리 ,
+	 final_approver 	varchar2(50)	NULL	COMMENT  년도 4자리+부서번호 2자리+번호 3자리 ,
+	 status_code 	number	NOT NULL,
+	 result_code 	number	NOT NULL	DEFAULT 0	COMMENT  0:접수,1:회수,2:진행,3:반려,4:완료 ,
+	 form_no 	number	NOT NULL,
+	 return_reson 	varchar2(300)	NULL,
+	 isemergency 	number	NULL	DEFAULT 0	COMMENT  0:일반,1: 긴급 
+);
+
+CREATE TABLE  draft_form  (
+	 form_no 	number	NOT NULL,
+	 form_code 	varchar2(20)	NOT NULL	COMMENT  BP:업무기안,SR:지출결의서, AR: 휴가신청서 ,
+	 form_title 	varchar2(500)	NOT NULL,
+	 form_content 	varchar2(3000)	NOT NULL
+);
+
+ALTER TABLE  employee  ADD CONSTRAINT  PK_EMPLOYEE  PRIMARY KEY (
+	 emp_no 
+);
+
+ALTER TABLE  Untitled3  ADD CONSTRAINT  PK_UNTITLED3  PRIMARY KEY (
+	 emp_no 
+);
+
+ALTER TABLE  Untitled4  ADD CONSTRAINT  PK_UNTITLED4  PRIMARY KEY (
+	 Key ,
+	 emp_no 
+);
+
+ALTER TABLE  Untitled5  ADD CONSTRAINT  PK_UNTITLED5  PRIMARY KEY (
+	 Key ,
+	 emp_no 
+);
+
+ALTER TABLE  room  ADD CONSTRAINT  PK_ROOM  PRIMARY KEY (
+	 room_name 
+);
+
+ALTER TABLE  user  ADD CONSTRAINT  PK_USER  PRIMARY KEY (
+	 emp_id ,
+	 room_name 
+);
+
+ALTER TABLE  chat_msg  ADD CONSTRAINT  PK_CHAT_MSG  PRIMARY KEY (
+	 msg_no ,
+	 emp_id ,
+	 room_name 
+);
+
+ALTER TABLE  Untitled  ADD CONSTRAINT  PK_UNTITLED  PRIMARY KEY (
+	 dept_no 
+);
+
+ALTER TABLE  Untitled2  ADD CONSTRAINT  PK_UNTITLED2  PRIMARY KEY (
+	 job_no 
+);
+
+ALTER TABLE  message  ADD CONSTRAINT  PK_MESSAGE  PRIMARY KEY (
+	 message_no 
+);
+
+ALTER TABLE  Untitled6  ADD CONSTRAINT  PK_UNTITLED6  PRIMARY KEY (
+	 Key ,
+	 emp_no 
+);
+
+ALTER TABLE  approval  ADD CONSTRAINT  PK_APPROVAL  PRIMARY KEY (
+	 draft_no 
+);
+
+ALTER TABLE  draft_form  ADD CONSTRAINT  PK_DRAFT_FORM  PRIMARY KEY (
+	 form_no 
+);
+
+ALTER TABLE  Untitled3  ADD CONSTRAINT  FK_employee_TO_Untitled3_1  FOREIGN KEY (
+	 emp_no 
+)
+REFERENCES  employee  (
+	 emp_no 
+);
+
+ALTER TABLE  Untitled4  ADD CONSTRAINT  FK_employee_TO_Untitled4_1  FOREIGN KEY (
+	 emp_no 
+)
+REFERENCES  employee  (
+	 emp_no 
+);
+
+ALTER TABLE  Untitled5  ADD CONSTRAINT  FK_employee_TO_Untitled5_1  FOREIGN KEY (
+	 emp_no 
+)
+REFERENCES  employee  (
+	 emp_no 
+);
+
+ALTER TABLE  user  ADD CONSTRAINT  FK_employee_TO_user_1  FOREIGN KEY (
+	 emp_id 
+)
+REFERENCES  employee  (
+	 emp_no 
+);
+
+ALTER TABLE  user  ADD CONSTRAINT  FK_room_TO_user_1  FOREIGN KEY (
+	 room_name 
+)
+REFERENCES  room  (
+	 room_name 
+);
+
+ALTER TABLE  chat_msg  ADD CONSTRAINT  FK_employee_TO_chat_msg_1  FOREIGN KEY (
+	 emp_id 
+)
+REFERENCES  employee  (
+	 emp_no 
+);
+
+ALTER TABLE  chat_msg  ADD CONSTRAINT  FK_room_TO_chat_msg_1  FOREIGN KEY (
+	 room_name 
+)
+REFERENCES  room  (
+	 room_name 
+);
+
+ALTER TABLE  Untitled6  ADD CONSTRAINT  FK_employee_TO_Untitled6_1  FOREIGN KEY (
+	 emp_no 
+)
+REFERENCES  employee  (
+	 emp_no 
+);
+

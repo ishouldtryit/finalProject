@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ↑ XML 헤더 반드시 첫번째 줄에 위치 -->
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+    <mapper namespace="message">
+
+    <select id="sequence" resultType="int">
+        select message_seq.nextval from dual
+    </select>
+
+    <insert id="insert">
+        insert into message (message_no, message_recipient, message_sender, message_title, message_content, message_send_time, 
+        message_sender_store, message_recipient_store)
+        values (#{messageNo}, #{messageRecipient}, #{messageSender}, #{messageTitle}, #{messageContent}, sysdate, 1, 1)
+    </insert>
+
+    <select id="selectReceiveMessage" resultType="MessageDto">
+        select * from message where message_recipient = #{messageRecipient} and message_recipient_store = 1 order by message_no desc
+    </select>
+
+    <select id="selectNewReceiveMessage" resultType="MessageDto">
+        select * from message where message_recipient = #{messageRecipient} and message_recipient_store = 1 and 
+        message_read_time is null order by message_no desc
+    </select>
+
+    <select id="selectSendMessage" resultType="MessageDto">
+        select * from message where message_sender = #{messageSender} and message_sender_store = 1 order by message_no desc
+    </select>
+
+    <select id="selectReceiveOne" resultType="MessageDto">
+        select * from message where message_no = #{messageNo} and message_recipient = #{empNo} and message_recipient_store = 1
+    </select>
+
+    <select id="selectSendOne" resultType="MessageDto">
+        select * from message where message_no = #{messageNo} and message_sender = #{empNo} and message_sender_store = 1
+    </select>
+
+    <select id="countNotRead" resultType="int">
+        select count(*) from message where message_recipient = #{empNo} and message_recipient_store = 1 and message_read_time is null
+    </select>
+
+    <update id="updateReceiveTime">
+        update message set message_read_time = sysdate where message_no = #{messageNo} and message_recipient = #{empNo} and 
+        message_read_time is null
+    </update>
+
+    <update id="deleteReceiveMessage">
+        update message set message_recipient_store = 0 where message_no = #{messageNo} and message_recipient = #{empNo}
+    </update>
+
+    <update id="deleteSendMessage">
+        update message set message_sender_store = 0 where message_no = #{messageNo} and message_sender = #{empNo}
+    </update>
+
+    <!-- D store 확인 후 메세지 삭제 -->
+    <update id="deleteMessage">
+        delete from message where message_no = #{messageNo} 
+        and message_sender_store = 0 and message_recipient_store = 0
+    </update>
+
+    <!-- D 메세지 발송취소 삭제 -->
+    <update id="deleteSendCancel">
+        delete from message where message_no = #{messageNo} and message_sender = #{messageSender}
+    </update>
+
+</mapper>

@@ -27,6 +27,14 @@
 		select * from employee order by emp_no asc
 	</select>
 	
+	<update id="edit">
+		update employee set
+		emp_name = #{empName}, emp_password = #{empPassword}, emp_email = #{empEmail},
+		emp_phone = #{empPhone}, emp_hire_date = #{empHireDate}, is_leave = #{isLeave},
+		cp_number = #{cpNumber}, job_no = #{jobNo}, dept_no = #{deptNo}, wt_code = #{wtCode}
+		where emp_no = #{empNo}
+	</update>
+	
 	<delete id="delete">
 		delete from employee where emp_no = #{empNo}
 	</delete>

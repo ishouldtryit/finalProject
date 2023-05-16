@@ -6,17 +6,17 @@
 	<table>
 		<thead>
 			<tr>
-				<th>부서번호</th>
-				<th>부서명</th>
+				<th>직위번호</th>
+				<th>직위명</th>
 				<th>관리</th>
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach var="departmentDto" items="${departments}">
+			<c:forEach var="jobDto" items="${jobs}">
 				<tr>
-					<td>${departmentDto.deptNo}</td>
-					<td>${departmentDto.deptName}</td>
-					<td><a href="/employee/department/delete?deptNo=${departmentDto.deptNo}">삭제</a></td>
+					<td>${jobDto.jobNo}</td>
+					<td>${jobDto.jobName}</td>
+					<td><a href="/employee/job/delete?jobNo=${jobDto.jobNo}">삭제</a></td>
 				</tr>
 			</c:forEach>
 		</tbody>

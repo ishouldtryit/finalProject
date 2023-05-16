@@ -139,7 +139,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 					.build());
 		}
 	}
-
+	
 	@Override
 	public void deleteProfile(String empNo) {
 		EmployeeProfileDto profile = (EmployeeProfileDto) employeeProfileRepo.find(empNo);
@@ -173,10 +173,23 @@ public class EmployeeServiceImpl implements EmployeeService {
 		departmentRepo.delete(deptNo);
 	}
 
+	
 	//직위 등록
 	@Override
 	public void registerJob(JobDto jobDto) {
 		jobRepo.insert(jobDto);
+	}
+
+	//직위 목록
+	@Override
+	public List<JobDto> getAllJobs() {
+		return jobRepo.list();
+	}
+
+
+	@Override
+	public void deleteJob(int jobNo) {
+		jobRepo.delete(jobNo);
 	}
 
 }

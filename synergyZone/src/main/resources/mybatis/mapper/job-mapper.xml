@@ -15,5 +15,12 @@
 		)
 	</insert>
 	
+	<select id="list" resultType="jobDto">
+		select * from job order by job_no asc
+	</select>
+	
+	<delete id="delete">
+		delete from job where job_no = #{jobNo}
+	</delete>
 	
 </mapper>

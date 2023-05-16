@@ -24,13 +24,14 @@ public class HomeController {
 		@GetMapping("/")
 		public String home(Model model, HttpSession session, @ModelAttribute CommuteRecordDto commuteRecordDto) {
 		    String empNo = (String) session.getAttribute("memberId");
-		    if (empNo != null) {
-		        CommuteRecordDto today = commuteRecordRepo.today(empNo);
-		        if (today!=null) {
-		            CommuteRecordDto w = today;
-		            model.addAttribute("work", w);
-		        }
-		    }
+//		    if (empNo != null) {
+//		        CommuteRecordDto today = commuteRecordRepo.today(empNo);
+//		        System.out.println(today);
+//		        if (today!=null) {
+//		            CommuteRecordDto w = today;
+//		            model.addAttribute("work", w);
+//		        }
+//		    }
 		    
 		    return "home";
 		}
@@ -77,9 +78,9 @@ public class HomeController {
 		@PostMapping("/start")
 		public String start(HttpSession session,@ModelAttribute CommuteRecordDto commuteRecordDto,
 				Model model) {
+			
 			String empNo =(String)session.getAttribute("memberId");
-			commuteRecordDto.setEmpNo(empNo);
-			commuteRecordRepo.insert(commuteRecordDto);
+			commuteRecordRepo.insert(empNo);
 			 return "redirect:/";
 		}
 		
@@ -87,7 +88,7 @@ public class HomeController {
 		public String end(HttpSession session,@ModelAttribute CommuteRecordDto commuteRecordDto) {
 			String empNo =(String)session.getAttribute("memberId");
 			commuteRecordDto.setEmpNo(empNo);
-			commuteRecordRepo.update(commuteRecordDto);
+			commuteRecordRepo.update(empNo);
 			return "redirect:/";
 		}
 	

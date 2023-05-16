@@ -16,13 +16,13 @@ public class CommuteRecordRepoImpl implements CommuteRecordRepo{
 	
 	//출퇴근
 	@Override
-	public void insert(CommuteRecordDto commuteRecordDto) {
-		sqlSession.insert("commuteRecord.start",commuteRecordDto);
+	public void insert(String empNo) {
+		sqlSession.insert("commuteRecord.start",empNo);
 		
 	}
 	@Override
-	public boolean update(CommuteRecordDto commuteRecordDto) {
-		return sqlSession.update("commuteRecord.end",commuteRecordDto)>0;
+	public boolean update(String empNo) {
+		return sqlSession.update("commuteRecord.end",empNo)>0;
 	}
 
 	//춭퇴근 단일 / 리스트 조회

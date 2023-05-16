@@ -34,8 +34,6 @@
             //출근버튼 클릭시
             $("#start-btn").click(function(){
                 const startTime = dpTime();  
-                
-                $("#start-time").text(startTime);
                 $('#end-btn').prop('disabled', false);
                 //폼에 데이터값 주기
     		    $(".startTime").attr("value", startTime);
@@ -44,7 +42,6 @@
             //퇴근버튼 클릭시
             $("#end-btn").click(function(){
                 const endTime = dpTime();  
-                $("#end-time").text(endTime);
                 $(".endTime").attr("value", endTime);
             });
 

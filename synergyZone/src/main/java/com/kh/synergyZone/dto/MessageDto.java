@@ -1,7 +1,6 @@
 package com.kh.synergyZone.dto;
 
 import java.sql.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,10 +10,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class MessageDto {
+
   private int messageNo;
-  private String messageRecipient; 
+  private String messageRecipient;
   private String messageSender;
   private String messageTitle;
   private String messageContent;

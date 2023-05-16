@@ -39,18 +39,19 @@ public class MessageController {
       @RequestParam(required = false, defaultValue = "") String recipient) {
     return "message/messageWrite";
   }
+  
   // 받은메세지 상세
   @GetMapping("/receive/detail")
   public String receiveDetail(
       @RequestParam int messageNo,
       HttpSession session,
       Model model) {
-    String memberId = session.getAttribute("memberId") == null ? null : (String) session.getAttribute("memberId");
+    String empName = session.getAttribute("empName") == null ? null : (String) session.getAttribute("empName");
     // 처음 읽었을 때 시간 기록
-    messageDao.updateReceiveTime(messageNo, memberId);
+    messageDao.updateReceiveTime(messageNo, empName);
 
     // 받은 메세지 1개 가져오기
-    MessageWithNickDto messageWithNickDto = messageWithNickDao.selectReceiveMessage(messageNo, memberId);
+    MessageWithNickDto messageWithNickDto = messageWithNickDao.selectReceiveMessage(messageNo, empName);
     model.addAttribute("messageWithNickDto", messageWithNickDto);
 
     return "message/messageReceiveDetail";
@@ -61,9 +62,9 @@ public class MessageController {
       @RequestParam int messageNo,
       HttpSession session,
       Model model) {
-        String memberId = session.getAttribute("memberId") == null ? null : (String) session.getAttribute("memberId");
+        String empName = session.getAttribute("empName") == null ? null : (String) session.getAttribute("empName");
 
-    MessageWithNickDto messageWithNickDto = messageWithNickDao.selectSendMessage(messageNo, memberId);
+    MessageWithNickDto messageWithNickDto = messageWithNickDao.selectSendMessage(messageNo, empName);
     model.addAttribute("messageWithNickDto", messageWithNickDto);
     return "message/messageSendDetail";
   }

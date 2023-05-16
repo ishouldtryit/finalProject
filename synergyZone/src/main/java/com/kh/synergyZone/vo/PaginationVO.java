@@ -58,7 +58,7 @@ public class PaginationVO {
       buffer.append(column);
       buffer.append("&keyword=");
       buffer.append(keyword);
-    } else {
+    } else {	
       buffer.append("&column=&keyword=");
     }
     return buffer.toString();

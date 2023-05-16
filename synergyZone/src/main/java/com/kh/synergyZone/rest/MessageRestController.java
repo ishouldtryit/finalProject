@@ -49,8 +49,8 @@ public class MessageRestController {
   @GetMapping("/receive")
   public Map<String, List<? extends Object>> selectReceiveMessageTest(PaginationVO pageVo,
       @RequestParam(required = false, defaultValue = "") String mode, HttpSession session) {
-    String memberId = session.getAttribute("memberId") == null ? null : (String) session.getAttribute("memberId");
-    if (memberId == null)
+    String empNo = session.getAttribute("empNo") == null ? null : (String) session.getAttribute("empNo");
+    if (empNo == null)
       return null;
 
     List<MessageWithNickDto> list = new ArrayList<>();
@@ -58,8 +58,8 @@ public class MessageRestController {
     List<Object> pageVoList = new ArrayList<>();
 
     if ("new".equals(mode)) {
-      pageVo.setCount(messageWithNickDao.getReceiveNRCount(pageVo, memberId));
-      list = messageWithNickDao.selectReceiveNRMessage(pageVo, memberId);
+      pageVo.setCount(messageWithNickDao.getReceiveNRCount(pageVo, empNo));
+      list = messageWithNickDao.selectReceiveNRMessage(pageVo, empNo);
       for (int i = 0; i < list.size(); i++) {
         SimpleDateFormat format = new SimpleDateFormat("YYYY.MM.dd. HH:mm");
         if (list.get(i).getMessageSendTime() == null) {
@@ -73,10 +73,10 @@ public class MessageRestController {
       }
     } else {
       // 페이지네이션 count 세팅
-      pageVo.setCount(messageWithNickDao.getReceiveCount(pageVo, memberId));
+      pageVo.setCount(messageWithNickDao.getReceiveCount(pageVo, empNo));
 
       // 보낸 시간 리스트
-      list = messageWithNickDao.selectReceiveMessage(pageVo, memberId);
+      list = messageWithNickDao.selectReceiveMessage(pageVo, empNo);
       for (int i = 0; i < list.size(); i++) {
         SimpleDateFormat format = new SimpleDateFormat("YYYY.MM.dd. HH:mm");
         if (list.get(i).getMessageSendTime() == null) {
@@ -98,11 +98,11 @@ public class MessageRestController {
   // S 보낸메세지 + 보낸, 받은시간List
   @GetMapping("/send")
   public Map<String, List<? extends Object>> selectSendMessage(PaginationVO pageVo, HttpSession session) {
-    String memberId = session.getAttribute("memberId") == null ? null : (String) session.getAttribute("memberId");
-    if (memberId == null)
+    String empNo = session.getAttribute("empNo") == null ? null : (String) session.getAttribute("empNo");
+    if (empNo == null)
       return null;
-    pageVo.setCount(messageWithNickDao.getSendCount(pageVo, memberId));
-    List<MessageWithNickDto> list = messageWithNickDao.selectSendMessage(pageVo, memberId);
+    pageVo.setCount(messageWithNickDao.getSendCount(pageVo, empNo));
+    List<MessageWithNickDto> list = messageWithNickDao.selectSendMessage(pageVo, empNo);
     List<String> sendTimeList = new ArrayList<>();
     List<String> readTimeList = new ArrayList<>();
     List<Object> pageVoList = new ArrayList<>();
@@ -134,32 +134,36 @@ public class MessageRestController {
   // [GET] 안 읽은 메세지 개수
   @GetMapping("/receive/notReadCount")
   public int selectNotReadReceiveCnt(PaginationVO pageVo, HttpSession session) {
-    String memberId = session.getAttribute("memberId") == null ? null : (String) session.getAttribute("memberId");
-    return messageWithNickDao.getReceiveNRCount(pageVo, memberId);
+    String empNo = session.getAttribute("empNo") == null ? null : (String) session.getAttribute("empNo");
+    return messageWithNickDao.getReceiveNRCount(pageVo, empNo);
   }
 
   // 받은 메세지 1개 삭제
   @PutMapping("/receive")
   public void deleteReceive(@RequestParam int messageNo, HttpSession session) {
-    String memberId = session.getAttribute("memberId") == null ? null : (String) session.getAttribute("memberId");
-    messageDao.deleteReceiveMessage(messageNo, memberId);
+    String empNo = session.getAttribute("empNo") == null ? null : (String) session.getAttribute("empNo");
+    messageDao.deleteReceiveMessage(messageNo, empNo);
     messageDao.deleteMessage(messageNo);
   }
 
   // 보낸 메세지 1개 삭제
   @PutMapping("/send")
   public void deleteSend(@RequestParam int messageNo, HttpSession session) {
-    String memberId = session.getAttribute("memberId") == null ? null : (String) session.getAttribute("memberId");
-    messageDao.deleteSendMessage(messageNo, memberId);
+    String empNo = session.getAttribute("empNo") == null ? null : (String) session.getAttribute("empNo");
+    messageDao.deleteSendMessage(messageNo, empNo);
     messageDao.deleteMessage(messageNo);
   }
 
   // [Delete] 메세지 삭제
   @DeleteMapping("/{messageNo}")
   public boolean deleteMessage(@PathVariable int messageNo, HttpSession session) {
-    String memberId = (String) session.getAttribute("memberId") == null ? null
-        : (String) session.getAttribute("memberId");
-    return messageDao.deleteSendCancle(messageNo, memberId);
+    String empNo = (String) session.getAttribute("empNo") == null ? null
+        : (String) session.getAttribute("empNo");
+    return messageDao.deleteSendCancle(messageNo, empNo);
   }
 
 }
+
+
+
+

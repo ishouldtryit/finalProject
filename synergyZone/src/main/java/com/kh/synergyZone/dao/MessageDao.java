@@ -78,46 +78,46 @@ public class MessageDao {
   }
 
   // R 받은 메세지 한개 선택
-  public MessageDto selectReceiveOne(int messageNo, String memberId) {
+  public MessageDto selectReceiveOne(int messageNo, String empName) {
     String sql = "select * from message where message_no = ? and message_recipient = ? and message_recipient_store = 1";
-    Object[] param = { messageNo, memberId };
+    Object[] param = { messageNo, empName };
     List<MessageDto> list = jdbcTemplate.query(sql, mapper, param);
     return list.isEmpty() ? null : list.get(0);
   }
 
   // R 보낸 메세지 한개 선택
-  public MessageDto selectSendOne(int messageNo, String memberId) {
+  public MessageDto selectSendOne(int messageNo, String empName) {
     String sql = "select * from message where message_no = ? and message_sender = ? and message_sender_store = 1";
-    Object[] param = { messageNo, memberId };
+    Object[] param = { messageNo, empName };
     List<MessageDto> list = jdbcTemplate.query(sql, mapper, param);
     return list.isEmpty() ? null : list.get(0);
   }
 
   // R 받은 메세지 중 안 읽은 메세지 카운트
-  public int countNotRead(String memberId) {
+  public int countNotRead(String empName) {
     String sql = "select count(*) from message where message_recipient = ? and message_recipient_store = 1 and message_read_time is null ";
-    Object[] param = { memberId };
+    Object[] param = { empName };
     return jdbcTemplate.queryForObject(sql, int.class, param);
   }
 
   // U 받은 메세지 읽은시간 기록
-  public boolean updateReceiveTime(int messageNo, String memberId) {
+  public boolean updateReceiveTime(int messageNo, String empName) {
     String sql = "update message set message_read_time = sysdate where message_no = ? and message_recipient = ? and message_read_time is null";
-    Object[] param = { messageNo, memberId };
+    Object[] param = { messageNo, empName };
     return jdbcTemplate.update(sql, param) > 0;
   }
 
   // U 받은 메세지 삭제
-  public boolean deleteReceiveMessage(int messageNo, String memberId) {
+  public boolean deleteReceiveMessage(int messageNo, String empName) {
     String sql = "update message set message_recipient_store = 0 where message_no = ? and message_recipient = ?";
-    Object[] param = { messageNo, memberId };
+    Object[] param = { messageNo, empName };
     return jdbcTemplate.update(sql, param) > 0;
   }
 
   // U 보낸 메세지 삭제
-  public boolean deleteSendMessage(int messageNo, String memberId) {
+  public boolean deleteSendMessage(int messageNo, String empName) {
     String sql = "update message set message_sender_store = 0 where message_no = ? and message_sender = ?";
-    Object[] param = { messageNo, memberId };
+    Object[] param = { messageNo, empName };
     return jdbcTemplate.update(sql, param) > 0;
   }
 

@@ -106,6 +106,20 @@ public class EmployeeController {
 		return "employee/list";
 	}
 	
+	//사원 정보 수정
+	@GetMapping("/edit")
+	public String edit(@RequestParam String empNo, Model model) {
+		EmployeeDto employeeDto = employeeService.detailEmployee(empNo);
+		model.addAttribute("employeeDto", employeeDto);
+		return "employee/edit";
+	}
+	
+	@PostMapping("/edit")
+	public String edit(@ModelAttribute EmployeeDto employeeDto) {
+		employeeService.updateEmployee(employeeDto);
+		return "redirect:/employee/detail?empNo=" + employeeDto.getEmpNo();
+	}
+	
 	//사원 상세
 	@GetMapping("/detail")
 	public String detail(@RequestParam String empNo,

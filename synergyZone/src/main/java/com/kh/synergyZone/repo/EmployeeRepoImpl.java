@@ -41,4 +41,9 @@ public class EmployeeRepoImpl implements EmployeeRepo {
 		sqlSession.delete("employee.delete", empNo);
 	}
 
+	@Override
+	public void update(EmployeeDto employeeDto) {
+		sqlSession.update("employee.edit", employeeDto);
+	}
+
 }

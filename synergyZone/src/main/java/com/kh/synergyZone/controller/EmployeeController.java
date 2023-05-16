@@ -29,6 +29,7 @@ public class EmployeeController {
 	
 	@Autowired
 	private EmployeeProfileRepo employeeProfileRepo;
+	
 	//회원가입
 	@GetMapping("/join")
 	public String join() {
@@ -72,7 +73,6 @@ public class EmployeeController {
 	public String list(Model model) throws IOException {
 		List<EmployeeDto> employees = employeeService.getAllEmployees();
 		model.addAttribute("employees" ,employees);
-	
 
 		return "employee/list";
 	}

@@ -65,7 +65,7 @@
                     <div class="row mt-4">
                         <div class="col">
                             <label class="form-label">부서번호</label>
-                            <select id="deptNo" name="deptNo" class="form-select rounded" value="${employeeDto.deptNo}">
+                            <select id="deptNo" name="deptNo" class="form-select rounded">
                             	<option value="">부서선택</option>
                             	<c:forEach var="department" items="${departments}">
                             		  <option value="${department.deptNo}">${department.deptName}</option>
@@ -77,7 +77,7 @@
                     <div class="row mt-4">
                         <div class="col">
                             <label class="form-label">직위번호</label>
-                            <select id="jobNo" name="jobNo" class="form-select rounded" value="${employeeDto.jobNo}">
+                            <select id="jobNo" name="jobNo" class="form-select rounded">
                             	<option value="">직위선택</option>
                             	<c:forEach var="job" items="${jobs}">
                             		<option value="${job.jobNo}">${job.jobName}</option>

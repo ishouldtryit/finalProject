@@ -108,6 +108,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return employeeRepo.selectOne(empNo);
 	}
 	
+	//사원 정보 수정
+	@Override
+	public void updateEmployee(EmployeeDto employeeDto) {
+		employeeRepo.update(employeeDto);
+	}
+	
 	//사원 퇴사
 	@Override
 	public void deleteEmployee(String empNo) {

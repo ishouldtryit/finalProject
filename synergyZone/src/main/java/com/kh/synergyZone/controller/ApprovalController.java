@@ -40,7 +40,7 @@ public class ApprovalController {
 	@GetMapping("/list")
 	public String list(Model model) {
 		model.addAttribute("list", approvalRepoImpl.selectList());
-		return "/approval/list";
+		return "/approval/list2";
 	}
 	
 	@GetMapping("/detail")

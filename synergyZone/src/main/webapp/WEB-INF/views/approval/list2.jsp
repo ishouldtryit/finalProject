@@ -3,23 +3,32 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
-<c:forEach var="approvalDto" items="${list}">
-	<div>
-		<a href="detail?draftNo=${approvalDto.draftNo}">
-		번호:${approvalDto.draftNo}, 제목:${approvalDto.draftTitle}, 작성자:${approvalDto.drafterId}
-		</a> 
-		<a href="delete?draftNo=${approvalDto.draftNo}">삭제</a>
-		<a href="edit?draftNo=${approvalDto.draftNo}">수정</a>
-	</div>
-	<hr>
-</c:forEach>
+<div id="app">
 
+    <div class="container">
+        <div class="row center">
+            <h1>기안서 목록</h1>
+        </div>
 
+        <div class="row" v-for="(draft, index) in draftList" :key="draftNo">
 
+            <div class="row">
+                <label>번호</label>
+                <div class="row ">{{draft.draftNo}}</div>
+            </div>
+            <div class="row">
+                <label>제목</label>
+                <div class="row">{{draft.draftTitle}}</div>    
+            </div>
+            <div class="row">
+                <label>작성자</label>
+                <div class="row">{{draft.draftId}}</div>   
+            </div>
 
-	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="https://unpkg.com/vue@3.2.36"></script>
-    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+        </div>
+    </div>
+</div>
+
 
     <script>
         Vue.createApp({
@@ -27,14 +36,20 @@
             data(){
                 return {
                     //화면에서 사용할 데이터를 선언
-
+                	draftList : [],
                 };
             },
             computed:{
 
             },
             methods:{
-
+                async loadData(){
+                    const resp = await axios.get("/rest/approval/");
+                    this.draftList.push(...resp.data);
+                }
+            },
+            created(){
+            	this.loadData();
             }
         }).mount("#app");
     </script>

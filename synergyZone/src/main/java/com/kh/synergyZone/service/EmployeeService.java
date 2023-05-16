@@ -23,4 +23,6 @@ public interface EmployeeService {
 	void deleteDepartment(int deptNo);
 	
 	void registerJob(JobDto jobDto);
+	List<JobDto> getAllJobs();
+	void deleteJob(int jobNo);
 }

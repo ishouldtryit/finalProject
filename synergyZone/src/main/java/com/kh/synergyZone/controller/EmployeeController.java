@@ -117,12 +117,13 @@ public class EmployeeController {
 		return "department/list";
 	}
 	
-//	//부서 삭제
-//	@GetMapping("/department/delete")
-//	public String departmentDelete(@RequestParam int deptNo) {
-////		DepartmentDto departmentDto = employeeService
-//	}
-//	
+	//부서 삭제
+	@GetMapping("/department/delete")
+	public String departmentDelete(@RequestParam int deptNo) {
+		employeeService.deleteDepartment(deptNo);
+		return "redirect:/";
+	}
+	
 	
 	
 	

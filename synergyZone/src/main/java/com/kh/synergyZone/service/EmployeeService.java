@@ -16,6 +16,7 @@ public interface EmployeeService {
 	void deleteProfile(String empNo);
 	List<EmployeeDto> getAllEmployees();
 	EmployeeDto detailEmployee(String empNo);
+	void updateEmployee(EmployeeDto employeeDto);
 	void deleteEmployee(String empNo);
 	
 	void registerDepartment(DepartmentDto departmentDto);
@@ -23,4 +24,7 @@ public interface EmployeeService {
 	void deleteDepartment(int deptNo);
 	
 	void registerJob(JobDto jobDto);
+	List<JobDto> getAllJobs();
+	void deleteJob(int jobNo);
+	List<EmployeeDto> searchEmployees(String column, String keyword);
 }

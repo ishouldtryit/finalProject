@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.synergyZone.dto.DepartmentDto;
 import com.kh.synergyZone.dto.EmployeeDto;
+import com.kh.synergyZone.dto.JobDto;
 import com.kh.synergyZone.repo.EmployeeProfileRepo;
 import com.kh.synergyZone.service.EmployeeService;
 
@@ -29,18 +30,31 @@ public class EmployeeController {
 	
 	@Autowired
 	private EmployeeProfileRepo employeeProfileRepo;
-	//회원가입
-	@GetMapping("/join")
-	public String join() {
-		return "employee/join";
-	}
 	
-	@PostMapping("/join")
-	public String join(@ModelAttribute EmployeeDto employeeDto,
-						@RequestParam MultipartFile attach) throws IllegalStateException, IOException {
-		employeeService.join(employeeDto, attach);
-		return "redirect:/";
-	}
+	//회원가입
+    @GetMapping("/join")
+    public String join(Model model) {
+        List<DepartmentDto> departments = employeeService.getAllDepartments();
+        List<JobDto> jobs = employeeService.getAllJobs();
+        
+        model.addAttribute("departments", departments);
+        model.addAttribute("jobs", jobs);
+        
+        return "employee/join";
+    }
+    
+    // 회원가입 처리
+    @PostMapping("/join")
+    public String join(@ModelAttribute EmployeeDto employeeDto,
+                       @RequestParam int deptNo,
+                       @RequestParam int jobNo,
+                       @RequestParam MultipartFile attach) throws IllegalStateException, IOException {
+        employeeDto.setDeptNo(deptNo);
+        employeeDto.setJobNo(jobNo);
+        
+        employeeService.join(employeeDto, attach);
+        return "redirect:/";
+    }
 	
 	//로그인
 	@GetMapping("/login")
@@ -59,6 +73,22 @@ public class EmployeeController {
 		return "redirect:/";
 	}
 	
+	//프로필 이미지 수정
+	@PostMapping("/profile/update")
+	public String updateProfile(@RequestParam String empNo,
+								@RequestParam MultipartFile attach) throws IllegalStateException, IOException {
+		employeeService.updateProfile(empNo, attach);
+		return "redirect:/employee/detail?empNo="+empNo;
+	}
+	
+	//프로필 이미지 삭제
+	@GetMapping("/profile/delete")
+	public String deleteProfile(@RequestParam String empNo) {
+		employeeService.deleteProfile(empNo);
+		return "redirect:/employee/detail?empNo=" + empNo;
+	}
+	
+	
 	//로그아웃
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
@@ -72,9 +102,22 @@ public class EmployeeController {
 	public String list(Model model) throws IOException {
 		List<EmployeeDto> employees = employeeService.getAllEmployees();
 		model.addAttribute("employees" ,employees);
-	
 
 		return "employee/list";
+	}
+	
+	//사원 정보 수정
+	@GetMapping("/edit")
+	public String edit(@RequestParam String empNo, Model model) {
+		EmployeeDto employeeDto = employeeService.detailEmployee(empNo);
+		model.addAttribute("employeeDto", employeeDto);
+		return "employee/edit";
+	}
+	
+	@PostMapping("/edit")
+	public String edit(@ModelAttribute EmployeeDto employeeDto) {
+		employeeService.updateEmployee(employeeDto);
+		return "redirect:/employee/detail?empNo=" + employeeDto.getEmpNo();
 	}
 	
 	//사원 상세
@@ -116,11 +159,38 @@ public class EmployeeController {
 	}
 	
 	//부서 삭제
-		@GetMapping("/department/delete")
-		public String deleteDepartment(@RequestParam int deptNo) {
-			employeeService.deleteDepartment(deptNo);
-			return "redirect:/";
-		}
+	@GetMapping("/department/delete")
+	public String deleteDepartment(@RequestParam int deptNo) {
+		employeeService.deleteDepartment(deptNo);
+		return "redirect:/";
+	}
+		
+	//직위 등록
+	@GetMapping("/job/register")
+	public String jobRegister() {
+		return "job/register";
+	}
+	
+	@PostMapping("/job/register")
+	public String jobRegister(@ModelAttribute JobDto jobDto) {
+		employeeService.registerJob(jobDto);
+		return "redirect:/";
+	}
+	
+	//직위 목록
+	@GetMapping("/job/list")
+	public String jobList(Model model) {
+		List<JobDto> jobs = employeeService.getAllJobs();
+		model.addAttribute("jobs", jobs);
+		return "job/list";
+	}
+	
+	//직위 삭제
+	@GetMapping("/job/delete")
+	public String deleteJob(@RequestParam int jobNo) {
+		employeeService.deleteJob(jobNo);
+		return "redirect:/";
+	}
 	
 	
 	

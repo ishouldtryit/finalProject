@@ -27,6 +27,12 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
+	
+	@Autowired
+	public EmployeeServiceImpl(EmployeeRepo employeeRepo) {
+	        this.employeeRepo = employeeRepo;
+	    }
+	
 	@Autowired
 	private EmployeeRepo employeeRepo;
 	
@@ -108,6 +114,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return employeeRepo.selectOne(empNo);
 	}
 	
+	//사원 정보 수정
+	@Override
+	public void updateEmployee(EmployeeDto employeeDto) {
+		employeeRepo.update(employeeDto);
+	}
+	
 	//사원 퇴사
 	@Override
 	public void deleteEmployee(String empNo) {
@@ -139,7 +151,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 					.build());
 		}
 	}
-
+	
 	@Override
 	public void deleteProfile(String empNo) {
 		EmployeeProfileDto profile = (EmployeeProfileDto) employeeProfileRepo.find(empNo);
@@ -173,10 +185,29 @@ public class EmployeeServiceImpl implements EmployeeService {
 		departmentRepo.delete(deptNo);
 	}
 
+	
 	//직위 등록
 	@Override
 	public void registerJob(JobDto jobDto) {
 		jobRepo.insert(jobDto);
+	}
+
+	//직위 목록
+	@Override
+	public List<JobDto> getAllJobs() {
+		return jobRepo.list();
+	}
+
+
+	@Override
+	public void deleteJob(int jobNo) {
+		jobRepo.delete(jobNo);
+	}
+
+	//사원 검색기능
+	@Override
+	public List<EmployeeDto> searchEmployees(String column, String keyword) {
+	    return employeeRepo.searchEmployees(column, keyword);
 	}
 
 }

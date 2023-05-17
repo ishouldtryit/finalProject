@@ -7,18 +7,25 @@ public class PaginationVO {
 
   private String column = "";
   private String keyword = "";
+  
   // 현재 페이지
   private int page = 1;
+  
   // 페이지 마다 보여줄 게시글 수
-  private int size = 15;
+  private int size = 10;
+  
   // 전체 게시글 개수
   private int count;
+  
   // 블럭마다 보여줄 숫자 개수
-  private int blockSize = 10;
+  private int blockSize = 5;
+  
   // 정렬 항목
   private String item = "allboard_no";
+  
   // 오름차순 내림차순
   private String order = "desc";
+  
   // 특수조건
   private String special = "";
 
@@ -58,7 +65,7 @@ public class PaginationVO {
       buffer.append(column);
       buffer.append("&keyword=");
       buffer.append(keyword);
-    } else {
+    } else {	
       buffer.append("&column=&keyword=");
     }
     return buffer.toString();

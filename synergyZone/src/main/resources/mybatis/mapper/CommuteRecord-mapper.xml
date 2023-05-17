@@ -7,29 +7,30 @@
 <mapper namespace="commuteRecord">
 	<!-- 출근시간 -->
 	<insert id="start">
-		insert into commute_record(emp_no,start_time) values(#{empNo},sysdate)
+			INSERT INTO COMMUTE_RECORD(emp_no, start_time, work_date) 
+			VALUES (#{empNo}, SYSDATE, CURRENT_DATE)
 	</insert>
-	<!-- 퇴근시간 -->
+	<!-- 퇴근시간 업데이트 -->
 	<update id="end">
-		UPDATE commute_record
-		SET end_time = sysdate
-		WHERE emp_no = #{empNo}
-  		AND start_time = (SELECT MAX(start_time) FROM commute_record WHERE emp_no = #{empNo})
+			UPDATE COMMUTE_RECORD
+			SET end_time = SYSDATE, work_time = (SYSDATE - start_time)
+			WHERE emp_no = #{empNo} AND end_time IS NULL AND start_time >= TRUNC(SYSDATE)
 	</update>
+
 	
-	<!-- 사원 출퇴근 전체 조회 -->
-	<select id="allList" resultType="CommuteRecordDto">
+	<!-- 특정 사원 오늘날짜 출퇴근 조회 -->
+	<select id="today" resultType="CommuteRecordDto">
+		SELECT * FROM COMMUTE_RECORD
+		WHERE TO_CHAR(work_date, 'YY/MM/DD') = TO_CHAR(CURRENT_DATE, 'YY/MM/DD')
+  		AND emp_no = #{empNo}
+	</select>
+	
+		<!-- 특정 사원 출퇴근 전체 조회 -->
+	<select id="empRecordList" resultType="CommuteRecordDto">
 		select * from commute_record where emp_no= #{empNo}
 	</select>
 	
-	<!-- 사원 오늘날짜 출퇴근 조회 -->
-	<select id="today" resultType="CommuteRecordDto">
-		SELECT TO_CHAR(start_Time, 'yy/MM/dd HH24:MI:SS') AS start_Time,
-        TO_CHAR(end_Time, 'yy/MM/dd HH24:MI:SS') AS end_Time
-		FROM COMMUTE_RECORD
-		WHERE EMP_NO = #{empNo} AND 
-        TO_CHAR(start_Time, 'yy/MM/dd') = TO_CHAR(CURRENT_DATE, 'yy/MM/dd')
-	</select>
+	<select id=""></select>
 
 
 	

@@ -1,5 +1,7 @@
 package com.kh.synergyZone.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -20,16 +22,16 @@ public class CommuteController {
 	@Autowired
 	private CommuteRecordRepo commuteRecordRepo;
 	//근태관리 메인
-	@GetMapping("/commute")
+	@GetMapping("/")
 	public String commute(Model model, HttpSession session, @ModelAttribute CommuteRecordDto commuteRecordDto) {
 		//사원번호
 		String empNo = (String) session.getAttribute("memberId");
+		System.out.println(commuteRecordRepo.today(empNo));
+		//오늘 근무정보
+		model.addAttribute("w",commuteRecordRepo.today(empNo));
 		
 		
-		//출근처리
-		
-		
-		return "commute";
+		return "/commute/commute";
 	}
 	
 	// 출/퇴근 변경
@@ -49,7 +51,15 @@ public class CommuteController {
 			commuteRecordRepo.update(empNo);
 		}
 		
-		return "redirect:/";
+		return "redirect:/commute/";
+	}
+	
+	@GetMapping("/record")
+	public String record(Model model,HttpSession session) {
+		String empNo = (String) session.getAttribute("memberId");
+		List<CommuteRecordDto> list=commuteRecordRepo.allList(empNo);
+		model.addAttribute("list",list);
+		return "/commute/record";
 	}
 	
 }

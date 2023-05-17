@@ -25,7 +25,7 @@ public class CommuteRecordRepoImpl implements CommuteRecordRepo{
 		return sqlSession.update("commuteRecord.end",empNo)>0;
 	}
 
-	//춭퇴근 단일 / 리스트 조회
+	//춭퇴근 단일
 	@Override
 	public CommuteRecordDto today(String empNo) {
 		return sqlSession.selectOne("commuteRecord.today",empNo);
@@ -33,7 +33,7 @@ public class CommuteRecordRepoImpl implements CommuteRecordRepo{
 
 	@Override
 	public List<CommuteRecordDto> allList(String empNo) {
-		return sqlSession.selectList("commuteRecord.allList",empNo);
+		return sqlSession.selectList("commuteRecord.empRecordList",empNo);
 	}
 	
 	

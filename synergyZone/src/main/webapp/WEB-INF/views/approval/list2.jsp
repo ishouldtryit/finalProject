@@ -2,32 +2,47 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
-
+<style>
+  .pointable {
+    cursor: pointer;
+  }
+</style>
 <div id="app">
 
     <div class="container">
-        <div class="row center">
-            <h1>기안서 목록</h1>
-        </div>
 
-        <div class="row" v-for="(draft, index) in draftList" :key="draftNo">
-
-            <div class="row">
-                <label>번호</label>
-                <div class="row ">{{draft.draftNo}}</div>
-            </div>
-            <div class="row">
-                <label>제목</label>
-                <div class="row">{{draft.draftTitle}}</div>    
-            </div>
-            <div class="row">
-                <label>작성자</label>
-                <div class="row">{{draft.draftId}}</div>   
-            </div>
-
+		<div class="row mt-4">
+                    <div class="col">
+                        <h2>기안서 목록</h2>
+                    </div>
+                 </div>
+                <div class="row mt-4">
+                    <div class="col">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>번호</th>
+                                    <th>제목</th>
+                                    <th>작성자</th>
+                                </tr>
+                            </thead>
+                            <tbody v-for="(draft, index) in draftList" :key="draft.draftNo">
+                                <tr>
+                                    <td>{{draft.draftNo}}</td>
+                                    	<td @click="goToDetail(draft.draftNo)"  class="pointable">
+                                    	
+                                    	{{draft.draftTitle}}
+                                    	
+                                    	</td>
+                                    <td>{{draft.drafterId}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
         </div>
     </div>
-</div>
+
 
 
     <script>
@@ -46,7 +61,10 @@
                 async loadData(){
                     const resp = await axios.get("/rest/approval/");
                     this.draftList.push(...resp.data);
-                }
+                },
+                goToDetail(draftNo) {
+                    window.location.href = 'detail?draftNo=' + draftNo;
+                },
             },
             created(){
             	this.loadData();

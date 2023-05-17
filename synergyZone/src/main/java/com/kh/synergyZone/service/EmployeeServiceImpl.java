@@ -27,6 +27,12 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
+	
+	@Autowired
+	public EmployeeServiceImpl(EmployeeRepo employeeRepo) {
+	        this.employeeRepo = employeeRepo;
+	    }
+	
 	@Autowired
 	private EmployeeRepo employeeRepo;
 	
@@ -196,6 +202,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public void deleteJob(int jobNo) {
 		jobRepo.delete(jobNo);
+	}
+
+	//사원 검색기능
+	@Override
+	public List<EmployeeDto> searchEmployees(String column, String keyword) {
+	    return employeeRepo.searchEmployees(column, keyword);
 	}
 
 }

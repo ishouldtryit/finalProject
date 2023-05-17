@@ -26,4 +26,5 @@ public interface EmployeeService {
 	void registerJob(JobDto jobDto);
 	List<JobDto> getAllJobs();
 	void deleteJob(int jobNo);
+	List<EmployeeDto> searchEmployees(String column, String keyword);
 }

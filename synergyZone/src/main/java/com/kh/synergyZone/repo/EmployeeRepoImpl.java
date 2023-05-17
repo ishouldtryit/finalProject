@@ -45,10 +45,10 @@ public class EmployeeRepoImpl implements EmployeeRepo {
 
 	@Override
 	public void update(EmployeeDto employeeDto) {
-		 int deptNo = employeeDto.getDeptNo();
-	     Date empHireDate = employeeDto.getEmpHireDate();
-	     String empNo = empNoGenerator.generateEmpNo(String.valueOf(deptNo), empHireDate);
-	     employeeDto.setEmpNo(empNo);
+//		 int deptNo = employeeDto.getDeptNo();
+//	     Date empHireDate = employeeDto.getEmpHireDate();
+//	     String empNo = empNoGenerator.generateEmpNo(String.valueOf(deptNo), empHireDate);
+//	     employeeDto.setEmpNo(empNo);
 		sqlSession.update("employee.edit", employeeDto);
 	}
 

@@ -4,7 +4,8 @@
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
   	<body>
 
-    <form action="edit" method="post" enctype="multipart/form-data">
+<form action="edit" method="post">
+
     <input type="hidden" name="empNo" value="${employeeDto.empNo}">
         <div class="container-fluid mt-4">
     
@@ -14,7 +15,7 @@
                     <div class="row mt-4">
                         <div class="col">
                             <label class="form-label">사원명</label>
-                            <input class="form-control rounded" type="text" name="empName" placeholder="사원명" value="${employeeDto.empName}">
+                          <input class="form-control rounded" type="text" name="empName" placeholder="사원명" value="${employeeDto.empName}">
                         </div>
                     </div>
 

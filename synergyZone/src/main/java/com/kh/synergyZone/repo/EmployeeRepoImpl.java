@@ -1,6 +1,8 @@
 package com.kh.synergyZone.repo;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.synergyZone.component.EmpNoGenerator;
 import com.kh.synergyZone.dto.EmployeeDto;
+import com.kh.synergyZone.vo.PaginationVO;
 
 @Repository
 public class EmployeeRepoImpl implements EmployeeRepo {
@@ -18,6 +21,10 @@ public class EmployeeRepoImpl implements EmployeeRepo {
 	@Autowired
 	private EmpNoGenerator empNoGenerator;
 
+	@Autowired
+    public EmployeeRepoImpl(SqlSession sqlSession) {
+        this.sqlSession = sqlSession;
+    }
 	@Override
     public void insert(EmployeeDto employeeDto) {
         int deptNo = employeeDto.getDeptNo();
@@ -40,5 +47,32 @@ public class EmployeeRepoImpl implements EmployeeRepo {
 	public void delete(String empNo) {
 		sqlSession.delete("employee.delete", empNo);
 	}
+
+	@Override
+	public int getCount() {
+        return sqlSession.selectOne("employee.count");
+	}
+
+	@Override
+	public List<EmployeeDto> getEmployeeList(PaginationVO vo) {
+
+        int begin = vo.getBegin();
+        int end = vo.getEnd();
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("begin", begin);
+        params.put("end", end);
+        
+        return sqlSession.selectList("employee.getEmployeeList", params); 
+	}
+
+	@Override
+	public List<EmployeeDto> searchEmployees(String column, String keyword) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("column", column);
+        params.put("keyword", keyword);
+        return sqlSession.selectList("searchEmployees", params);
+    }
+	
 
 }

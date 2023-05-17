@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -16,10 +17,11 @@ import com.kh.synergyZone.repo.AttachmentRepo;
 import com.kh.synergyZone.repo.EmployeeProfileRepo;
 import com.kh.synergyZone.repo.EmployeeRepo;
 import com.kh.synergyZone.service.EmployeeService;
+import com.kh.synergyZone.vo.PaginationVO;
 
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/address")
 public class AddressController {
    
    @Autowired private EmployeeRepo employeeRepo;
@@ -35,35 +37,42 @@ public class AddressController {
 	private EmployeeProfileRepo employeeProfileRepo;
 	
    // 관리자 홈
-   @GetMapping("/address")
+   @GetMapping("/")
    public String home() {
-      return "";
+      return "address";
    }
    
    //사원 목록
- 	@GetMapping("/list")
- 	public String list(Model model) throws IOException {
- 		List<EmployeeDto> employees = employeeService.getAllEmployees();
- 		model.addAttribute("employees" ,employees);
+   @GetMapping("/list")
+   public String list(Model model, @ModelAttribute("vo") PaginationVO vo,
+           @RequestParam(required = false, defaultValue = "member_regdate desc") String sort,
+           @RequestParam(required = false, defaultValue = "") String column,
+           @RequestParam(required = false, defaultValue = "") String keyword) throws IOException {
+       List<EmployeeDto> employees;
+       
+       if (!column.isEmpty() && !keyword.isEmpty()) {
+           employees = employeeService.searchEmployees(column, keyword);
+       } else {
+           employees = employeeService.getAllEmployees();
+       }
+       
+       model.addAttribute("employees", employees);
 
- 		return "";
- 	}
+       int totalMemberCnt = employeeRepo.getCount();
+       vo.setCount(totalMemberCnt);
+
+       return "address/list";
+   }
    
  	//사원 상세
- 		@GetMapping("/")
- 		public String detail(@RequestParam String empNo,
- 							Model model) {
+ 	@GetMapping("/list/detail")
+ 	public String detail(@RequestParam String empNo, Model model) 
+ 	{
  			model.addAttribute("employeeDto", employeeService.detailEmployee(empNo));
  			model.addAttribute("profile", employeeProfileRepo.find(empNo));
- 			return "";
+ 			return "address/detail";
  	}
    
-   
-   
- 
-   
-   
- 
-   
-   
+ 	
+ 	
 }

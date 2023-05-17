@@ -22,9 +22,9 @@ public interface CalendarService {
 	
 	public int deleteSchedule(int schNo);
 	
-	public int registerCalendar(CalendarDto calendar);
+	public int registerCalendar(CalendarDto calendarDto);
 	// 내 캘린더 메뉴바에서 조회
-	public List<CalendarDto> printAllMyCalendar(CalendarDto calendar);
+	public List<CalendarDto> printAllMyCalendar(CalendarDto calendarDto);
 	// 메뉴 캘린더 삭
 	public int deleteCalendar(int calNo);
 	

@@ -36,7 +36,7 @@ public interface CalendarRepo {
 
 		public CalendarScheduleDto selectOneHomeCal(SqlSession sqlSession, int schNo); // 일정 상세
 
-		public List<CalendarScheduleDto> selectAllHomeCal(SqlSession sqlSession, String empNum); // 전체 일정 목록
+		public List<CalendarScheduleDto> selectAllHomeCal(SqlSession sqlSession, String empNo); // 전체 일정 목록
 		
 		// 알림
 		public CalendarScheduleDto selectLastCalendarScheduleDto(SqlSession sqlSession); // 최근 전사 일정 조회

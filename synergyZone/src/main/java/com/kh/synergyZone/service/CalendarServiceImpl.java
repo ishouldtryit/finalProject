@@ -89,8 +89,8 @@ public class CalendarServiceImpl implements CalendarService{
 		return calendarScheduleDto;
 	}
 	@Override
-	public List<CalendarScheduleDto> printAllHomeCal(String memberNum) { // 전체 일정 목록
-		List<CalendarScheduleDto> sList = cRepo.selectAllHomeCal(sqlSession, memberNum);
+	public List<CalendarScheduleDto> printAllHomeCal(String empNo) { // 전체 일정 목록
+		List<CalendarScheduleDto> sList = cRepo.selectAllHomeCal(sqlSession, empNo);
 		return sList;
 	}
 	

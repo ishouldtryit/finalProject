@@ -39,13 +39,13 @@ public class CalendarRepoImpl implements CalendarRepo{
 	}
 	@Override
 	public CalendarScheduleDto selectOneSchedule(SqlSession sqlSession, int schNo) {
-		CalendarScheduleDto CalendarScheduleDto = sqlSession.selectOne("CalendarMapper.selectOneSchedule", schNo);
-		return CalendarScheduleDto;
+		CalendarScheduleDto calendarScheduleDto = sqlSession.selectOne("CalendarMapper.selectOneSchedule", schNo);
+		return calendarScheduleDto;
 	}
 	
 	@Override
-	public int updateSchedule(CalendarScheduleDto CalendarScheduleDto, SqlSession sqlSession) {
-		int result = sqlSession.update("CalendarMapper.updateSchedule", CalendarScheduleDto);
+	public int updateSchedule(CalendarScheduleDto calendarScheduleDto, SqlSession sqlSession) {
+		int result = sqlSession.update("CalendarMapper.updateSchedule", calendarScheduleDto);
 		return result;
 	}
 	@Override
@@ -85,8 +85,8 @@ public class CalendarRepoImpl implements CalendarRepo{
 	}
 
 	@Override
-	public List<CalendarScheduleDto> selectAllHomeCal(SqlSession sqlSession, String empNum) { // 전체 일정 목록
-		List<CalendarScheduleDto> sList = sqlSession.selectList("CalendarMapper.selectAllHomeCal", empNum);
+	public List<CalendarScheduleDto> selectAllHomeCal(SqlSession sqlSession, String empNo) { // 전체 일정 목록
+		List<CalendarScheduleDto> sList = sqlSession.selectList("CalendarMapper.selectAllHomeCal", empNo);
 		return sList;
 	}
 	

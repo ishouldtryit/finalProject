@@ -46,6 +46,7 @@
 				<span class="m-header-title" id="header2"></span>
 			</div>
 			<div class="m-body">
+
 				<div class="m-search">
 					<select class="s-select" id="s-condition" name="searchCondition">
 						<option value="all">전체</option>

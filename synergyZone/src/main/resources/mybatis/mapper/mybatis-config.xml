@@ -8,14 +8,14 @@
 		<setting name="jdbcTypeForNull" value="NULL"/> <!-- 만약에 null 데이터가 전달되었으면 빈칸이 아닌 NULL로 인식하도록 설정 -->
 	</settings>
     <typeAliases>
-        <typeAlias type="org.kh.shareware.calendar.domain.CalSch" alias="CalendarScheduleDto"/>
-		<typeAlias type="org.kh.shareware.calendar.domain.Calendar"	alias="CalendarDto"/>
-		<typeAlias type="org.kh.shareware.calendar.domain.CalBmk" alias="CalendalBookMarkDto"/>
-		<typeAlias type="org.kh.shareware.calendar.domain.CalMem" alias="CalendarMember"/>
+        <typeAlias type="com.kh.synergyZone.dto.CalendarScheduleDto" alias="CalendarScheduleDto"/>
+		<typeAlias type="com.kh.synergyZone.dto.CalendarDto"	alias="CalendarDto"/>
+		<typeAlias type="com.kh.synergyZone.dto.CalendalBookMarkDto" alias="CalendalBookMarkDto"/>
+		<typeAlias type="com.kh.synergyZone.dto.CalendalMemberDto" alias="CalendarMemberDto"/>
     </typeAliases>
 
     <!-- 매퍼 파일 설정 -->
     <mappers>
-        <mapper resource="mappers/calendar-mapper.xml"/>
+        <mapper resource="mybatis/mapper/calendar-mapper.xml"/>
     </mappers>
 </configuration>

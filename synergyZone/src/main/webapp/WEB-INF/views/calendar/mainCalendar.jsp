@@ -4,23 +4,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset='utf-8'>
-<meta http-equiv='X-UA-Compatible' content='IE=edge'>
+<%-- <jsp:include page="/WEB-INF/views/calendar/menuBar.jsp"></jsp:include> --%>
 
 <title>일정</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/jquery-latest.js"></script>
 <link href="/static/css/appModal-style.css" rel="stylesheet">
+<link href="/static/css/menubar-style.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/index.global.min.js"></script>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.0/main.min.css">
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <!-- <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css"> -->
-
-
-
-
 
 <style>
 #calendarBox {
@@ -136,6 +133,7 @@ strong {
 
 	<div class="s-menu">
 		<div class="s-menu-title">
+
 			<p>
 				일정관리 <i class="fa-solid fa-calendar-check"></i>
 		</div>
@@ -152,14 +150,14 @@ strong {
 		<c:forEach items="${cList }" var="cal">
 					<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<input type="hidden" name="calNo" value="${cal.calNo }">
-					<i class="fa-solid fa-circle-minus" style="color: grey;" onclick="deleteBookmark('${cal.calNo}');"></i>
-					&nbsp;&nbsp;<a href="/calendar/schListView.sw?calNo=${cal.calNo }&schCate=개인">${cal.calName }</a></div>
+					<i class="fa-solid fa-circle-minus" style="color: grey;" onclick="deleteBmk('${cal.calNo}');"></i>
+					&nbsp;&nbsp;<a href="/calendar/schListView?calNo=${cal.calNo }&schCate=개인">${cal.calName }</a></div>
 					</c:forEach> 
 		</div>
 				&nbsp;
-		<div class="s-list-item ${listCondition eq 'calendalBookmark' ? 'active' : ''}" >
+		<div class="s-list-item ${listCondition eq 'calBmk' ? 'active' : ''}" >
 					
-				<a href="/calendar/schListView.sw?schCate=전사"><strong>전사 일정</strong></a>&nbsp;&nbsp;<i
+				<a href="/calendar/schListView?schCate=전사"><strong>전사 일정</strong></a>&nbsp;&nbsp;<i
 					class="fa-solid fa-bookmark"></i>
 		</div>
 		&nbsp;
@@ -188,7 +186,7 @@ strong {
 						<input type="text" class="form-control" id="schName" name="schName">
 							<br>
 							<input type="hidden" name="schNo" >
-							<input type="hidden" name="memNum" >
+							<input type="hidden" name="empNo" >
 						<input type="hidden" name="schColor">
 							<strong>색 선택</strong>
 						<br>
@@ -300,17 +298,14 @@ strong {
 			</div>
 		</div>
 	</div>
-	<jsp:include page="../calendar/calRegisterModal.jsp"></jsp:include>
+	<jsp:include page="../calendar/calRegister.jsp"></jsp:include>
 	<jsp:include page="../calendar/bookMarkCalendarModal.jsp"></jsp:include>
 
 
 	
 	<script
 		src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/locales-all.min.js"></script>
-	<script type="text/javascript"
-		src="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.0/main.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/index.global.min.js"></script>
 	<!-- <script
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script> -->
 	<script
@@ -366,7 +361,7 @@ strong {
           $("#calendarModal").modal("show"); // modal 나타내기
 			$("#addCalendar").on("click",function(){  // modal의 추가 버튼 클릭 시
 			  var schNo = $("#schNo").val();
-			  var memNum = $("#memNum").val();
+			  var empNo = $("#empNo").val();
               var schName = $("#schName").val();
               var schContent = $("#schContent").val();
               var schStartDate = $("#schStartDate").val();
@@ -377,11 +372,11 @@ strong {
               var calNo = $("#selCalNo").val();
               var schColor = $(".selected").css("backgroundColor");
               $.ajax({
-        		  url: "/calendar/schRegister.sw",
+        		  url: "/calendar/schRegister",
         		  type: "post",
         		  data: { 
         			  "schNo" : schNo,
-        			  "memNum" : memNum,
+        			  "empNo" : empNo,
         			  "schName" : schName,
                     "schContent" : schContent,
                     "schStartDate" : schStartDate,
@@ -496,13 +491,12 @@ strong {
         			$("#selCalNo").val(arg.event.extendedProps.calNo);
         			$("#selSchCate").attr("disabled", true);
         		}
-                
-                if(arg.event.schNo != null && "${loginUser.memberNum}" != arg.event.extendedProps.memNum) {
+                if(arg.event.schNo != null && "${memberId.empNo}" != arg.event.extendedProps.empNo) {
                 	$(".modal-footer").hide();
                 }
                 $("#addCalendar").on("click",function(){  // modal의 추가 버튼 클릭 시
 				  var schNo = $('input[name="schNo"]').val();
-				  var memNum = $("memNum").val();
+				  var empNo = $("empNo").val();
                   var schName = $("#schName").val();
                   var schContent = $("#schContent").val();
                   var schStartDate = $("#schStartDate").val();
@@ -512,11 +506,11 @@ strong {
                   var schColor = $(".selected").css("backgroundColor");
                   var calNo = $("#selCalNo").val();
                   $.ajax({
-            		  url: "/calendar/schModifyView.sw",
+            		  url: "/calendar/schModifyView",
             		  type: "post",
             		  data: { 
             			"schNo" : schNo,
-            			"memNum" : memNum,
+            			"empNo" : empNo,
             			"schName" : schName,
                         "schContent" : schContent,
                         "schStartDate" : schStartDate,
@@ -576,7 +570,7 @@ strong {
 	        				'schEndTime' : '${mList.schEndTime}',
 	        				'calNo' : '${mList.calNo}',
 	        				'schCate' : '${mList.schCate}',
-	        				'memNum' : '${mList.memNum}'
+	        				'empNo' : '${mList.empNo}'
 	        			}
 	        		},
 	        		</c:forEach>
@@ -612,7 +606,7 @@ strong {
                   $("#addCalendar").on("click",function(){  // modal의 추가 버튼 클릭 시
                 	  
 						var schNo = $("schNo").val();
-						var memNum =  $("memNum").val();
+						var empNo =  $("empNo").val();
                       var schName = $("#schName").val();
                       var schContent = $("#schContent").val();
                       var schStartDate = $("#schStartDate").val();
@@ -625,11 +619,11 @@ strong {
                       console.log(calNo);
                       var schColor = $(".selected").css("backgroundColor");
                       $.ajax({
-                		  url: "/calendar/schRegister.sw",
+                		  url: "/calendar/schRegister",
                 		  type: "post",
                 		  data: { 
                 			  "schNo" : schNo,
-                			  "memNum" : memNum,
+                			  "empNo" : empNo,
                 			  "schName" : schName,
                             "schContent" : schContent,
                             "schStartDate" : schStartDate,
@@ -681,7 +675,7 @@ strong {
 	function deleteSch(obj){
 		var schNo = $('input[name="schNo"]').val();
      	$.ajax({
-     		 url: "/calendar/schDelete.sw",
+     		 url: "/calendar/schDelete",
     		  type: "get",
     		  data: { 
     			  "schNo" : schNo
@@ -719,9 +713,9 @@ strong {
 		location.reload();
 	}
 	
-    function deleteBookmark(calNo) {
+    function deleteBmk(calNo) {
     	$.ajax({
-    		url : "/calendar/deleteCal.sw",
+    		url : "/calendar/deleteCal",
     		type : "get",
     		data : {
     			"calNo" : calNo
@@ -738,5 +732,5 @@ strong {
    
     </script>
 </body>
-
+<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
 </html>

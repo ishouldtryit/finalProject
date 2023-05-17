@@ -67,7 +67,7 @@ function myCalendar() {
 $("#cal-confirm").click(function(){
 	 var calName = $("#calName").val(); 
 	 $.ajax({
-		url : "/calendar/calRegister.sw",
+		url : "/calendar/calRegister",
 		type : "post",
 		data : {
 			"calName" : calName

@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%--<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -11,7 +11,7 @@
 		height:80px;
 		display:flex;
 		justify-content:center;
-	}	
+	}
 	#m-appSel2 {
 		max-width: 400px;
 	}
@@ -165,4 +165,4 @@ function bookmarkMemSelect() {
 	});
 }
 </script>
-</html>
+</html>--%>

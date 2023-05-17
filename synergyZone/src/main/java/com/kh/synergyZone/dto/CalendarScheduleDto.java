@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class CalendarScheduleDto {
 	private int schNo;
-	private String empNum;
+	private String empNo;
 	private String calNo;
 	private String schName;
 	private String schStartDate;
@@ -18,7 +18,7 @@ public class CalendarScheduleDto {
 
 	@Override
 	public String toString() {
-		return "CalendarScheduleDto [schNo=" + schNo + ", empNum=" + empNum + ", calNo=" + calNo + ", schName=" + schName
+		return "CalendarScheduleDto [schNo=" + schNo + ", empNo=" + empNo + ", calNo=" + calNo + ", schName=" + schName
 				+ ", schStartDate=" + schStartDate + ", schStartTime=" + schStartTime + ", schEndDate=" + schEndDate
 				+ ", schEndTime=" + schEndTime + ", schContent=" + schContent + ", schCate=" + schCate + ", schColor="
 				+ schColor + "]";

@@ -15,7 +15,7 @@ public class CalendarBookMarkDto {
 
 	@Override
 	public String toString() {
-		return "CalendarBookMarkDto [calNo=" + calNo + ", schNo=" + schNo + ", mNum=" + empNo + ", calName=" + calName
+		return "CalendarBookMarkDto [calNo=" + calNo + ", schNo=" + schNo + ", empNo=" + empNo + ", calName=" + calName
 				+ ", empName=" + empName + ", empDivision=" + empDivision + ", empRank=" + empRank + ", cStatus="
 				+ cStatus + "]";
 	}

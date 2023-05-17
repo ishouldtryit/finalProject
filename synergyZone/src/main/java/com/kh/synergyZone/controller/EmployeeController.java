@@ -72,11 +72,14 @@ public class EmployeeController {
 		return "redirect:/";
 	}
 	
+	
 	//프로필 이미지 수정
 	@PostMapping("/profile/update")
 	public String updateProfile(@RequestParam String empNo,
 								@RequestParam MultipartFile attach) throws IllegalStateException, IOException {
-		employeeService.updateProfile(empNo, attach);
+		if (!attach.isEmpty()) {
+	        employeeService.updateProfile(empNo, attach);
+	    }
 		return "redirect:/employee/detail?empNo="+empNo;
 	}
 	
@@ -113,20 +116,28 @@ public class EmployeeController {
 		EmployeeDto employeeDto = employeeService.detailEmployee(empNo);
 		List<DepartmentDto> departments = employeeService.getAllDepartments();
 	    List<JobDto> jobs = employeeService.getAllJobs();
-	    
+	
 		model.addAttribute("employeeDto", employeeDto);
 		model.addAttribute("departments", departments);
 	    model.addAttribute("jobs", jobs);
+	    
+	    
 	    
 		return "employee/edit";
 	}
 	
 	@PostMapping("/edit")
 	public String edit(@ModelAttribute EmployeeDto employeeDto,
+						@RequestParam String empNo,
 						@RequestParam int deptNo,
-						@RequestParam int jobNo) {
+						@RequestParam int jobNo,
+						HttpSession session,
+						@RequestParam MultipartFile attach) throws IllegalStateException, IOException {
 		employeeDto.setDeptNo(deptNo);
         employeeDto.setJobNo(jobNo);
+        
+        employeeService.deleteProfile(empNo);
+	    employeeService.updateProfile(empNo, attach);
         
 		employeeService.updateEmployee(employeeDto);
 		return "redirect:/employee/list";

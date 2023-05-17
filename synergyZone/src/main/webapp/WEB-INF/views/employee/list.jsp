@@ -38,7 +38,6 @@
 					<td>
 						<a href="exit?empNo=${employeeDto.empNo}">퇴사처리</a>
 						<a href="detail?empNo=${employeeDto.empNo}">상세보기</a>
-						<a href="edit?empNo=${employeeDto.empNo}">수정하기</a>
 					</td>
 				</tr>
 			</c:forEach>

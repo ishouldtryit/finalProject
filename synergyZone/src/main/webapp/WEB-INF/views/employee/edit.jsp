@@ -4,7 +4,7 @@
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
   	<body>
 
-<form action="edit" method="post">
+<form action="edit" method="post" enctype="multipart/form-data">
 
     <input type="hidden" name="empNo" value="${employeeDto.empNo}">
         <div class="container-fluid mt-4">
@@ -39,6 +39,18 @@
                             <input class="form-control rounded" type="text" name="empPhone" placeholder="휴대폰번호" value="${employeeDto.empPhone}">
                         </div>
                     </div>
+                    
+                    <form action="/employee/profile/update" method="post" enctype="multipart/form-data">
+	                    <div class="row mt-4">
+	                        <div class="col">
+	                            <label class="form-label">프로필사진</label>
+	<%--                             <c:if test="${profile != null}"> --%>
+	<%-- 	                            <img width="200" height="200" src="/attachment/download?attachmentNo=${profile.attachmentNo}">                             --%>
+	<%--                             </c:if> --%>
+	                            <input class="form-control rounded" type="file" name="attach" placeholder="프로필사진">
+	                        </div>
+	                    </div>                    
+                    </form>
 
                     <div class="row mt-4">
                         <div class="col">

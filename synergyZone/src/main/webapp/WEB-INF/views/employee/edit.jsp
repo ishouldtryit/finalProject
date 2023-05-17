@@ -21,7 +21,7 @@
                     <div class="row mt-4">
                         <div class="col">
                             <label class="form-label">비밀번호</label>
-                            <input class="form-control rounded" type="password" name="empPassword" placeholder="비밀번호" value="${employeeDto.empPassword}">
+                            <input class="form-control rounded" type="text" name="empPassword" placeholder="비밀번호" value="${employeeDto.empPassword}">
                         </div>
                     </div>
 
@@ -47,12 +47,12 @@
                     </div>
      
 
-                    <div class="row mt-4">
-                        <div class="col">
-                            <label class="form-label">퇴사여부</label>
-                            <input class="form-control rounded" type="text" name="isLeave" placeholder="퇴사여부" value="${employeeDto.isLeave}">
-                        </div>
-                    </div>
+<!--                     <div class="row mt-4"> -->
+<!--                         <div class="col"> -->
+<!--                             <label class="form-label">퇴사여부</label> -->
+<%--                             <input class="form-control rounded" type="text" name="isLeave" placeholder="퇴사여부" value="${employeeDto.isLeave}"> --%>
+<!--                         </div> -->
+<!--                     </div> -->
 
                     <div class="row mt-4">
                         <div class="col">
@@ -68,7 +68,13 @@
                             <select id="deptNo" name="deptNo" class="form-select rounded">
                             	<option value="">부서선택</option>
                             	<c:forEach var="department" items="${departments}">
-                            		  <option value="${department.deptNo}">${department.deptName}</option>
+                            		  <option value="${department.deptNo}"
+                            		  	<c:if test="${department.deptNo == employeeDto.deptNo}">
+                            		  		selected
+                            		  	</c:if>
+                            		  	>
+                            		  	${department.deptName}
+                            		  </option>
                             	</c:forEach>
                             </select>
                         </div>
@@ -80,7 +86,13 @@
                             <select id="jobNo" name="jobNo" class="form-select rounded">
                             	<option value="">직위선택</option>
                             	<c:forEach var="job" items="${jobs}">
-                            		<option value="${job.jobNo}">${job.jobName}</option>
+                            		<option value="${job.jobNo}"
+                            			<c:if test="${job.jobNo == employeeDto.jobNo}">
+                            				selected
+                            			</c:if>
+                            			>
+                            			${job.jobName}
+                            		</option>
                             	</c:forEach>
                             </select>
                         </div>

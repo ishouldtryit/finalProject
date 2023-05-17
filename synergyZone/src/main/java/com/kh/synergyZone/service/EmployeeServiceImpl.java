@@ -121,6 +121,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 	
 	
+	
 	//사원 이미지
 	@Override
 	public void updateProfile(String empNo, MultipartFile attach) throws IllegalStateException, IOException {
@@ -197,6 +198,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public void deleteJob(int jobNo) {
 		jobRepo.delete(jobNo);
 	}
+
+
+	@Override
+	public void exitEmployee(String empNo) {
+		employeeRepo.exit(empNo);
+	}
+
 
 }
 

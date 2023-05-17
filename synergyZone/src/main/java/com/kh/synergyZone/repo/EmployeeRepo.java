@@ -9,5 +9,6 @@ public interface EmployeeRepo {
 	EmployeeDto selectOne(String empNo);
 	List<EmployeeDto> list();
 	void update(EmployeeDto employeeDto);
+	void exit(String empNo);
 	void delete(String empNo);
 }

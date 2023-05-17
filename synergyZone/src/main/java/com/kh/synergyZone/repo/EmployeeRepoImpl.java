@@ -1,5 +1,6 @@
 package com.kh.synergyZone.repo;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -21,7 +22,8 @@ public class EmployeeRepoImpl implements EmployeeRepo {
 	@Override
     public void insert(EmployeeDto employeeDto) {
         int deptNo = employeeDto.getDeptNo();
-        String empNo = empNoGenerator.generateEmpNo(String.valueOf(deptNo));
+        Date empHireDate = employeeDto.getEmpHireDate();
+        String empNo = empNoGenerator.generateEmpNo(String.valueOf(deptNo), empHireDate);
         employeeDto.setEmpNo(empNo);
         sqlSession.insert("employee.save", employeeDto);
     }
@@ -43,7 +45,19 @@ public class EmployeeRepoImpl implements EmployeeRepo {
 
 	@Override
 	public void update(EmployeeDto employeeDto) {
+		 int deptNo = employeeDto.getDeptNo();
+	     Date empHireDate = employeeDto.getEmpHireDate();
+	     String empNo = empNoGenerator.generateEmpNo(String.valueOf(deptNo), empHireDate);
+	     employeeDto.setEmpNo(empNo);
 		sqlSession.update("employee.edit", employeeDto);
+	}
+
+	@Override
+	public void exit(String empNo) {
+		EmployeeDto employeeDto = new EmployeeDto();
+		employeeDto.setEmpNo(empNo);
+		employeeDto.setIsLeave("Y");
+		sqlSession.update("employee.exit", employeeDto);
 	}
 
 }

@@ -74,12 +74,12 @@
                     </div>
      
 
-                    <div class="row mt-4">
-                        <div class="col">
-                            <label class="form-label">퇴사여부</label>
-                            <input class="form-control rounded" type="text" name="isLeave" placeholder="퇴사여부">
-                        </div>
-                    </div>
+<!--                     <div class="row mt-4"> -->
+<!--                         <div class="col"> -->
+<!--                             <label class="form-label">퇴사여부</label> -->
+<!--                             <input class="form-control rounded" type="text" name="isLeave" placeholder="퇴사여부"> -->
+<!--                         </div> -->
+<!--                     </div> -->
 
                     <div class="row mt-4">
                         <div class="col">

@@ -108,16 +108,28 @@ public class EmployeeController {
 	
 	//사원 정보 수정
 	@GetMapping("/edit")
-	public String edit(@RequestParam String empNo, Model model) {
+	public String edit(@RequestParam String empNo, 
+						Model model) {
 		EmployeeDto employeeDto = employeeService.detailEmployee(empNo);
+		List<DepartmentDto> departments = employeeService.getAllDepartments();
+	    List<JobDto> jobs = employeeService.getAllJobs();
+	    
 		model.addAttribute("employeeDto", employeeDto);
+		model.addAttribute("departments", departments);
+	    model.addAttribute("jobs", jobs);
+	    
 		return "employee/edit";
 	}
 	
 	@PostMapping("/edit")
-	public String edit(@ModelAttribute EmployeeDto employeeDto) {
+	public String edit(@ModelAttribute EmployeeDto employeeDto,
+						@RequestParam int deptNo,
+						@RequestParam int jobNo) {
+		employeeDto.setDeptNo(deptNo);
+        employeeDto.setJobNo(jobNo);
+        
 		employeeService.updateEmployee(employeeDto);
-		return "redirect:/employee/detail?empNo=" + employeeDto.getEmpNo();
+		return "redirect:/employee/list";
 	}
 	
 	//사원 상세
@@ -134,6 +146,12 @@ public class EmployeeController {
 	public String deleteEmployee(@RequestParam String empNo) {
 		employeeService.deleteEmployee(empNo);
 		return "redirect:/";
+	}
+	
+	@GetMapping("/exit")
+	public String exitEmployee(@RequestParam String empNo) {
+		employeeService.exitEmployee(empNo);
+		return "redirect:/employee/list";
 	}
 	
 	

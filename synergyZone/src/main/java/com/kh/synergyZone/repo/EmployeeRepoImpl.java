@@ -74,5 +74,8 @@ public class EmployeeRepoImpl implements EmployeeRepo {
         return sqlSession.selectList("searchEmployees", params);
     }
 	
+	public void update(EmployeeDto employeeDto) {
+		sqlSession.update("employee.edit", employeeDto);
+	}
 
 }

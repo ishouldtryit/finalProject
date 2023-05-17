@@ -16,6 +16,7 @@ public interface EmployeeService {
 	void deleteProfile(String empNo);
 	List<EmployeeDto> getAllEmployees();
 	EmployeeDto detailEmployee(String empNo);
+	void updateEmployee(EmployeeDto employeeDto);
 	void deleteEmployee(String empNo);
 	
 	void registerDepartment(DepartmentDto departmentDto);

@@ -11,6 +11,7 @@ public interface EmployeeRepo {
     int getCount();
 	List<EmployeeDto> list();
 	List<EmployeeDto> getEmployeeList(PaginationVO vo);
+	void update(EmployeeDto employeeDto);
 	void delete(String empNo);
     List<EmployeeDto> searchEmployees(String column, String keyword);
 }

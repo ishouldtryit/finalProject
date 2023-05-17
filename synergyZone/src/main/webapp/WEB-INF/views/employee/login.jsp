@@ -1,53 +1,43 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
- <!DOCTYPE html>
-<html>
-<head>
-    <title>Employee List</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-        
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: left;
-        }
-        
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
-</head>
-<body>
-    <h2>Employee List</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Employee No</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Address</th>
-                <th>Hire Date</th>
-                <!-- Add more columns if needed -->
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Iterate over the employees and populate the table rows -->
-            <tr th:each="employee : ${employees}">
-                <td th:text="${employee.empNo}"></td>
-                <td th:text="${employee.empName}"></td>
-                <td th:text="${employee.empEmail}"></td>
-                <td th:text="${employee.empPhone}"></td>
-                <td th:text="${employee.empAddress}"></td>
-                <td th:text="${employee.empHireDate}"></td>
-                <!-- Add more cells for additional employee properties -->
-            </tr>
-        </tbody>
-    </table>
-</body>
-</html>
- 
+<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+  <body>
+     <form action="login" method="post">
+
+        <div class="container-fluid mt-4">
+
+            <div class="row">
+                <div class="offset-md-2 col-md-8">
+
+                    <div class="row mt-4">
+                        <div class="col">
+                            <label class="form-label">사원번호</label>
+                            <input class="form-control rounded" type="text" name="empNo">
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col">
+                            <label class="form-label">비밀번호</label>
+                            <input class="form-control rounded" type="password" name="empPassword">
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col">
+                            <button class="btn btn-primary" type="submit">로그인</button>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+
+        </div>
+
+    </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

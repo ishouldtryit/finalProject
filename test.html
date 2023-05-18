@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <title>현재 달의 일별 날짜</title>
+        <script>
+            function generateMonthList(year, month) {
+                var startDate = new Date(year, month - 1, 1); // 주어진 년도와 월의 첫 번째 날짜
+                var endDate = new Date(year, month, 0); // 주어진 년도와 월의 마지막 날짜
+
+                var monthList = [];
+
+                // 날짜 목록 생성
+                for (var date = startDate; date <= endDate; date.setDate(date.getDate() + 1)) {
+                    var formattedDate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
+                    var formattedDay = getDayOfWeek(date.getDay());
+                    monthList.push(formattedDate + " (" + formattedDay + ")");
+                }
+
+                return monthList;
+                }
+
+                // 요일을 가져오는 함수
+                function getDayOfWeek(day) {
+                var daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
+                return daysOfWeek[day];
+            }
+
+            var year = 2023;
+            var month = 6;
+
+            var monthList = generateMonthList(year, month);
+
+
+        </script>
+    </head>
+    <body>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>일자</th>
+                    <th>구분</th>
+                    <th>근무계획</th>
+                    <th>출근시간</th>
+                    <th>퇴근시간</th>
+                </tr>
+            </thead>
+            <tbody>                
+                <tr>
+                    <td></td>
+                    <c:forEach var="list" items="${list}" varStatus="status">
+                    <td></td>
+                    <td></td>
+                    <td>${list.startTime}</td>
+                    <td>${list.endTime}</td>
+                    </c:forEach>
+                    </tr>
+            </tbody>
+        </table>
+    </body>
+    </html>

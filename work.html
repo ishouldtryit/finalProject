@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+</head>
+<body>
+            
+<div class="">
+	<h1 class="title"> 월표시</h1>
+	<input type="button" value="이전" class="prevNext" prev>
+	<input type="button" value="다음" class="prevNext">
+	<button class="close">모두 접기</button>
+    <div class="contentContainer">
+    </div>
+</div>
+
+
+<script type="text/template" id="template">
+<div class="weekContainer">
+	<div class="center listHeader">
+		<span id="week"></span>
+		<span>( 주간 누적 시간 : <span class="cumulative"></span> )</span>
+	</div>
+	<div class="tableContainer hide">
+		<table class="workingHourTable table table-border">
+			<thead>
+				<tr>
+					<td width="100px">일자</td>
+					<td>출근 시간</td>
+					<td>퇴근 시간</td>
+					<td>총 근무 시간</td>
+				</tr>
+			</thead>
+			<tbody class="workingHourTable"></tbody>
+		</table>
+	</div>
+	<hr>
+</div>
+</script>
+<script>
+   function removeAllChild(parent) {
+        $(parent).empty();
+    }
+
+    function getDateString(date) {
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, "0");
+        const day = date.getDate().toString().padStart(2, "0");
+        return `${year}-${month}-${day}`;
+    }
+
+    const today = new Date();
+    const temp_date = new Date("2023-05-01");
+    const dayArr = ["일", "월", "화", "수", "목", "금", "토", "일"];
+
+    function paintTemplate() {
+        const contentContainer = $(".contentContainer");
+        removeAllChild(contentContainer);
+
+        for (let i = 0; i < 6; i++) {
+            const template = $("#template").html();
+            contentContainer.append(template.replace("{week}", (i + 1) + "주차"));
+        }
+    }
+
+    function paintTable() {
+        paintTemplate();
+
+        $(".title").html(`${temp_date.getFullYear()}.${temp_date.getMonth() + 1}`);
+
+        const start = new Date(temp_date);
+        start.setDate(1 - start.getDay());
+        for (let i = 0; i < 6; i++) {
+            for (let j = 0; j < 7; j++) {
+                const newTr = $("<tr>").addClass("dayTr");
+                for (let k = 0; k < 4; k++) {
+                    const newTd = $("<td>");
+                    if (k === 0) {
+                        newTd.html(start.getDate() + " " + dayArr[j]);
+                        start.setDate(start.getDate() + 1);
+                    }
+                    newTr.append(newTd);
+                }
+                $(".workingHourTable>tbody").eq(i).append(newTr);
+            }
+            $(".listHeader").eq(i).on("click", function () {
+                $(this).next().toggleClass("hide");
+            });
+        }
+    }
+
+    paintTable();
+
+    //이전 버튼
+    $(".prevNext").on("click", function () {
+        const val = $(this).attr("prev") ? -1 : 1;
+        temp_date.setMonth(temp_date.getMonth() + val);
+        const link = "att_status.jsp?date={date}".replace("{date}", getDateString(temp_date));
+        location.href = link;
+    });
+
+    // 접기버튼
+    $(".close").on("click", function () {
+        $(".tableContainer").addClass("hide");
+    });
+
+    //dayTr 생성
+    $(".dayTr").each(function () {
+        $(this).children().eq(3).remove();
+        $(this).children().eq(2).remove();
+        $(this).children().eq(1).attr("colspan", 3).text("정보가 없습니다.");
+    });
+
+    $(".cumulative").eq(0).text("0h 00m 00s");
+
+    const indices = [7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41];
+    const cumulativeValues = ["0h 00m 00s", "0h 00m 37s", "0h 00m 00s", "0h 00m 00s", "0h 00m 00s"];
+
+    for (let i = 0; i < indices.length; i++) {
+        const dayTr = $(".dayTr").eq(indices[i]);
+        dayTr.children().eq(3).remove();
+        dayTr.children().eq(2).remove();
+        dayTr.children().eq(1).attr("colspan", 3).text("정보가 없습니다.");
+
+        if (i < cumulativeValues.length) {
+            $(".cumulative").eq(i + 1).text(cumulativeValues[i]);
+        }
+    }
+
+		
+</script>
+
+</body>
+</html>          

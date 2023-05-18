@@ -11,4 +11,7 @@ public interface EmployeeRepo {
 	void update(EmployeeDto employeeDto);
 	void exit(String empNo);
 	void delete(String empNo);
+	
+	String lastEmpNoOfYear(String year);
+	
 }

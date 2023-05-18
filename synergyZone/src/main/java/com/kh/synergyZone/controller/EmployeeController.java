@@ -1,6 +1,7 @@
 package com.kh.synergyZone.controller;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -47,7 +48,11 @@ public class EmployeeController {
     public String join(@ModelAttribute EmployeeDto employeeDto,
                        @RequestParam int deptNo,
                        @RequestParam int jobNo,
+                       @RequestParam Date empHireDate,
                        @RequestParam MultipartFile attach) throws IllegalStateException, IOException {
+    	
+    	String empNo = employeeService.generateEmpNo(empHireDate);
+    	employeeDto.setEmpNo(empNo);
         employeeDto.setDeptNo(deptNo);
         employeeDto.setJobNo(jobNo);
         

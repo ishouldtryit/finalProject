@@ -1,6 +1,8 @@
 package com.kh.synergyZone.service;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -19,6 +21,8 @@ public interface EmployeeService {
 	void updateEmployee(EmployeeDto employeeDto);
 	void exitEmployee(String empNo);
 	void deleteEmployee(String empNo);
+	
+	String generateEmpNo(Date empHireDate);
 	
 	void registerDepartment(DepartmentDto departmentDto);
 	List<DepartmentDto> getAllDepartments();

@@ -21,10 +21,10 @@ public class EmployeeRepoImpl implements EmployeeRepo {
 
 	@Override
     public void insert(EmployeeDto employeeDto) {
-        int deptNo = employeeDto.getDeptNo();
-        Date empHireDate = employeeDto.getEmpHireDate();
-        String empNo = empNoGenerator.generateEmpNo(String.valueOf(deptNo), empHireDate);
-        employeeDto.setEmpNo(empNo);
+//        int deptNo = employeeDto.getDeptNo();
+//        Date empHireDate = employeeDto.getEmpHireDate();
+//        String empNo = empNoGenerator.generateEmpNo(String.valueOf(deptNo), empHireDate);
+//        employeeDto.setEmpNo(empNo);
         sqlSession.insert("employee.save", employeeDto);
     }
 
@@ -58,6 +58,11 @@ public class EmployeeRepoImpl implements EmployeeRepo {
 		employeeDto.setEmpNo(empNo);
 		employeeDto.setIsLeave("Y");
 		sqlSession.update("employee.exit", employeeDto);
+	}
+
+	@Override
+	public String lastEmpNoOfYear(String year) {
+		return sqlSession.selectOne("employee.lastEmpNoOfYear",year);
 	}
 
 }

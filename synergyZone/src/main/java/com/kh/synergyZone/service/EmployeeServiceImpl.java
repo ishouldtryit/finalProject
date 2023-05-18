@@ -2,6 +2,8 @@ package com.kh.synergyZone.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -203,6 +205,22 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public void exitEmployee(String empNo) {
 		employeeRepo.exit(empNo);
+	}
+
+
+	@Override
+	public String generateEmpNo(Date empHireDate) {
+		LocalDate hireDate = empHireDate.toLocalDate();
+		int year = hireDate.getYear();
+		String lastEmpNoOfYear = employeeRepo.lastEmpNoOfYear(String.valueOf(year));
+		int number = 1;
+		
+		if(lastEmpNoOfYear != null) {
+			String lastNumber = lastEmpNoOfYear.substring(4);
+			number = Integer.parseInt(lastNumber) + 1;
+		}
+		
+		return year + String.format("%03d", number);
 	}
 
 

@@ -45,4 +45,10 @@
 		delete from employee where emp_no = #{empNo}
 	</delete>
 	
+	<select id="lastEmpNoOfYear" resultType="String">
+		select max(emp_no)
+		from employee
+		where emp_no like concat(#{year}, '%')
+	</select>
+	
 </mapper>

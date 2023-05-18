@@ -97,34 +97,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 	
 	
-	//사원 목록
-	@Override
-	public List<EmployeeDto> getAllEmployees() {
-		return employeeRepo.list();
-	}
-	
-	
-	//사원 상세
-	@Override
-	public EmployeeDto detailEmployee(String empNo) {
-		return employeeRepo.selectOne(empNo);
-	}
-	
-	//사원 정보 수정
-	@Override
-	public void updateEmployee(EmployeeDto employeeDto) {
-		employeeRepo.update(employeeDto);
-	}
-	
-	//사원 퇴사
-	@Override
-	public void deleteEmployee(String empNo) {
-		employeeRepo.delete(empNo);
-	}
-	
-	
-	
 	//사원 이미지
+	
+	//사원 이미지 수정
 	@Override
 	public void updateProfile(String empNo, MultipartFile attach) throws IllegalStateException, IOException {
 		deleteProfile(empNo);
@@ -149,6 +124,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		}
 	}
 	
+	//사원 이미지 삭제
 	@Override
 	public void deleteProfile(String empNo) {
 		EmployeeProfileDto profile = (EmployeeProfileDto) employeeProfileRepo.find(empNo);
@@ -163,51 +139,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 		}
 		
 	}
-
-	//부서 등록
-	@Override
-	public void registerDepartment(DepartmentDto departmentDto) {
-		departmentRepo.insert(departmentDto);
-	}
-
-	//부서 목록
-	@Override
-	public List<DepartmentDto> getAllDepartments() {
-		return departmentRepo.list();
-	}
-
-	//부서 삭제
-	@Override
-	public void deleteDepartment(int deptNo) {
-		departmentRepo.delete(deptNo);
-	}
-
 	
-	//직위 등록
-	@Override
-	public void registerJob(JobDto jobDto) {
-		jobRepo.insert(jobDto);
-	}
-
-	//직위 목록
-	@Override
-	public List<JobDto> getAllJobs() {
-		return jobRepo.list();
-	}
-
-
-	@Override
-	public void deleteJob(int jobNo) {
-		jobRepo.delete(jobNo);
-	}
-
-
-	@Override
-	public void exitEmployee(String empNo) {
-		employeeRepo.exit(empNo);
-	}
-
-
+	//사원번호 생성
 	@Override
 	public String generateEmpNo(Date empHireDate) {
 		LocalDate hireDate = empHireDate.toLocalDate();

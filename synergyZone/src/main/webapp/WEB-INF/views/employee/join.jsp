@@ -2,8 +2,39 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
-  	<body>
 
+    <!-- 다음 우편 API 사용을 위한 CDN -->
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/YURIMEEI/find-address@0.0.1/find-address.js"></script>
+	
+	<script type="text/javascript">
+	   //주소api
+    	$(function(){
+		
+        $(".address-btn").click(function(){
+                   
+            new daum.Postcode({ 
+                oncomplete: function(data) {
+                   
+                    var addr = ''; 
+                    var extraAddr = ''; 
+                   
+                    if (data.userSelectedType === 'R') { 
+                        addr = data.roadAddress;
+                    } else { 
+                        addr = data.jibunAddress;
+                    }
+                    
+                    document.querySelector("[name=empPostcode]").value = data.zonecode;
+                    document.querySelector("[name=empAddress]").value = addr;
+                    document.querySelector("[name=empDetailAddress]").focus();
+                }
+                }).open();
+        
+    		});
+    	});
+	</script>
+	
     <form action="join" method="post" enctype="multipart/form-data">
         <div class="container-fluid mt-4">
     
@@ -40,6 +71,14 @@
 
                     <div class="row mt-4">
                         <div class="col">
+                            <label class="form-label">우편번호</label>
+                            <input class="form-control rounded" type="text" name="empPostcode" placeholder="우편번호">
+                            <button class="btn btn-primary address-btn" type="button">우편번호 찾기</button>
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col">
                             <label class="form-label">기본주소</label>
                             <input class="form-control rounded" type="text" name="empAddress" placeholder="기본주소">
                         </div>
@@ -49,13 +88,6 @@
                         <div class="col">
                             <label class="form-label">상세주소</label>
                             <input class="form-control rounded" type="text" name="empDetailAddress" placeholder="상세주소">
-                        </div>
-                    </div>
-
-                    <div class="row mt-4">
-                        <div class="col">
-                            <label class="form-label">우편번호</label>
-                            <input class="form-control rounded" type="text" name="empPostcode" placeholder="우편번호">
                         </div>
                     </div>
                     

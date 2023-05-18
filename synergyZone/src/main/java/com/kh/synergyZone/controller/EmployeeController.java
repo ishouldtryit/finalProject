@@ -19,7 +19,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.kh.synergyZone.dto.DepartmentDto;
 import com.kh.synergyZone.dto.EmployeeDto;
 import com.kh.synergyZone.dto.JobDto;
+import com.kh.synergyZone.repo.DepartmentRepo;
 import com.kh.synergyZone.repo.EmployeeProfileRepo;
+import com.kh.synergyZone.repo.EmployeeRepo;
+import com.kh.synergyZone.repo.JobRepo;
 import com.kh.synergyZone.service.EmployeeService;
 
 @Controller
@@ -30,12 +33,21 @@ public class EmployeeController {
 	private EmployeeService employeeService;
 	
 	@Autowired
+	private EmployeeRepo employeeRepo;
+	
+	@Autowired
+	private DepartmentRepo departmentRepo;
+	
+	@Autowired
+	private JobRepo jobRepo;
+	
+	@Autowired
 	private EmployeeProfileRepo employeeProfileRepo;
 	//회원가입
     @GetMapping("/join")
     public String join(Model model) {
-        List<DepartmentDto> departments = employeeService.getAllDepartments();
-        List<JobDto> jobs = employeeService.getAllJobs();
+        List<DepartmentDto> departments = departmentRepo.list();
+        List<JobDto> jobs = jobRepo.list();
         
         model.addAttribute("departments", departments);
         model.addAttribute("jobs", jobs);
@@ -107,20 +119,24 @@ public class EmployeeController {
 	//사원 목록
 	@GetMapping("/list")
 	public String list(Model model) throws IOException {
-		List<EmployeeDto> employees = employeeService.getAllEmployees();
-		model.addAttribute("employees" ,employees);
-	
-
-		return "employee/list";
+		List<EmployeeDto> employees = employeeRepo.list();
+	    List<DepartmentDto> departments = departmentRepo.list();
+	    List<JobDto> jobs = jobRepo.list();
+	    
+	    model.addAttribute("employees", employees);
+	    model.addAttribute("departments", departments);
+	    model.addAttribute("jobs", jobs);
+	    
+	    return "employee/list";
 	}
 	
 	//사원 정보 수정
 	@GetMapping("/edit")
 	public String edit(@RequestParam String empNo, 
 						Model model) {
-		EmployeeDto employeeDto = employeeService.detailEmployee(empNo);
-		List<DepartmentDto> departments = employeeService.getAllDepartments();
-	    List<JobDto> jobs = employeeService.getAllJobs();
+		EmployeeDto employeeDto = employeeRepo.selectOne(empNo);
+		List<DepartmentDto> departments = departmentRepo.list();
+	    List<JobDto> jobs = jobRepo.list();
 	
 		model.addAttribute("employeeDto", employeeDto);
 		model.addAttribute("departments", departments);
@@ -144,7 +160,7 @@ public class EmployeeController {
         employeeService.deleteProfile(empNo);
 	    employeeService.updateProfile(empNo, attach);
         
-		employeeService.updateEmployee(employeeDto);
+		employeeRepo.update(employeeDto);
 		return "redirect:/employee/list";
 	}
 	
@@ -152,7 +168,7 @@ public class EmployeeController {
 	@GetMapping("/detail")
 	public String detail(@RequestParam String empNo,
 						Model model) {
-		model.addAttribute("employeeDto", employeeService.detailEmployee(empNo));
+		model.addAttribute("employeeDto", employeeRepo.selectOne(empNo));
 		model.addAttribute("profile", employeeProfileRepo.find(empNo));
 		return "employee/detail";
 	}
@@ -160,13 +176,13 @@ public class EmployeeController {
 	//사원 퇴사
 	@GetMapping("/delete")
 	public String deleteEmployee(@RequestParam String empNo) {
-		employeeService.deleteEmployee(empNo);
+		employeeRepo.delete(empNo);
 		return "redirect:/";
 	}
 	
 	@GetMapping("/exit")
 	public String exitEmployee(@RequestParam String empNo) {
-		employeeService.exitEmployee(empNo);
+		employeeRepo.exit(empNo);
 		return "redirect:/employee/list";
 	}
 	
@@ -180,14 +196,14 @@ public class EmployeeController {
 	
 	@PostMapping("/department/register")
 	public String departmentRegister(@ModelAttribute DepartmentDto departmentDto) {
-		employeeService.registerDepartment(departmentDto);
+		departmentRepo.insert(departmentDto);
 		return "redirect:/";
 	}
 	
 	//부서 목록
 	@GetMapping("/department/list")
 	public String departmentList(Model model) {
-		List<DepartmentDto> departments = employeeService.getAllDepartments();
+		List<DepartmentDto> departments = departmentRepo.list();
 		model.addAttribute("departments",departments);
 		return "department/list";
 	}
@@ -195,7 +211,7 @@ public class EmployeeController {
 	//부서 삭제
 	@GetMapping("/department/delete")
 	public String deleteDepartment(@RequestParam int deptNo) {
-		employeeService.deleteDepartment(deptNo);
+		departmentRepo.delete(deptNo);
 		return "redirect:/";
 	}
 		
@@ -207,14 +223,14 @@ public class EmployeeController {
 	
 	@PostMapping("/job/register")
 	public String jobRegister(@ModelAttribute JobDto jobDto) {
-		employeeService.registerJob(jobDto);
+		jobRepo.insert(jobDto);
 		return "redirect:/";
 	}
 	
 	//직위 목록
 	@GetMapping("/job/list")
 	public String jobList(Model model) {
-		List<JobDto> jobs = employeeService.getAllJobs();
+		List<JobDto> jobs = jobRepo.list();
 		model.addAttribute("jobs", jobs);
 		return "job/list";
 	}
@@ -222,7 +238,7 @@ public class EmployeeController {
 	//직위 삭제
 	@GetMapping("/job/delete")
 	public String deleteJob(@RequestParam int jobNo) {
-		employeeService.deleteJob(jobNo);
+		jobRepo.delete(jobNo);
 		return "redirect:/";
 	}
 	

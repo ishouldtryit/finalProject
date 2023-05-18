@@ -16,19 +16,6 @@ public interface EmployeeService {
 	void join(EmployeeDto employeeDto, MultipartFile attach) throws IllegalStateException, IOException;
 	void updateProfile(String empNo, MultipartFile attach) throws IllegalStateException, IOException;
 	void deleteProfile(String empNo);
-	List<EmployeeDto> getAllEmployees();
-	EmployeeDto detailEmployee(String empNo);
-	void updateEmployee(EmployeeDto employeeDto);
-	void exitEmployee(String empNo);
-	void deleteEmployee(String empNo);
 	
 	String generateEmpNo(Date empHireDate);
-	
-	void registerDepartment(DepartmentDto departmentDto);
-	List<DepartmentDto> getAllDepartments();
-	void deleteDepartment(int deptNo);
-	
-	void registerJob(JobDto jobDto);
-	List<JobDto> getAllJobs();
-	void deleteJob(int jobNo);
 }

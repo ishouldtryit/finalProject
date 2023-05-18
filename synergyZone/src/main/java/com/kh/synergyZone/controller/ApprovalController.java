@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.synergyZone.dto.ApprovalDto;
 import com.kh.synergyZone.repo.ApprovalRepoImpl;
+import com.kh.synergyZone.repo.EmployeeRepoImpl;
 
 @Controller
 @RequestMapping("/approval")
@@ -20,6 +21,8 @@ public class ApprovalController {
 	
 	@Autowired
 	private ApprovalRepoImpl approvalRepoImpl;
+	@Autowired
+	private EmployeeRepoImpl employeeRepoImpl;
 	
 	@GetMapping("/write")
 	public String write() {

@@ -60,4 +60,50 @@
 		delete from employee where emp_no = #{empNo}
 	</delete>
 	
+	
+	<resultMap type="paymentListVO" id="paymentListVO">
+			<association property="deptDto">
+				<result column="dept_no" property="deptNo"/>
+				<result column="dept_name" property="deptName"/>
+			</association>
+			<collection property="paymentDetailList"
+				javaType="java.util.List" ofType="employeeDto"
+				select="treeSelectSub"
+				column="dept_no">
+				<result column="emp_no" property="paymentDetailNo"/>
+				<result column="emp_name" property="paymentNo"/>
+				<result column="emp_password" property="paymentDetailNo"/>
+				<result column="emp_email" property="itemName"/>
+				<result column="emp_phone" property="itemPrice"/>
+				<result column="emp_address" property="itemQty"/>
+				<result column="emp_detail_address" property="paymentDetailStatus"/>
+				<result column="emp_postcode" property="paymentDetailStatus"/>
+				<result column="emp_hire_date" property="paymentDetailStatus"/>
+				<result column="is_leave" property="paymentDetailStatus"/>
+				<result column="cp_number" property="paymentDetailStatus"/>
+				<result column="job_no" property="paymentDetailStatus"/>
+				<result column="dept_no" property="paymentDetailStatus"/>
+				<result column="wt_code" property="paymentDetailStatus"/>
+				<result column="emp_hire_date" property="paymentDetailStatus"/>
+				<result column="emp_hire_date" property="paymentDetailStatus"/>
+				
+			</collection>
+		</resultMap>
+		
+		
+		<!-- 계층형 조회 메인 구문 -->
+		<select id="treeSelect" resultMap="paymentListVO">
+			select * from payment
+			<if test="memberId != null">
+				where member_id = #{memberId}
+			</if>
+			order by payment_no
+		</select>
+		
+		<!-- 계층형 조회 서브 구문 -->
+		<select id="treeSelectSub" resultType="paymentDetailDto">
+			select*from payment_detail where payment_no = #{paymentNo}
+		</select>
+	
+	
 </mapper>

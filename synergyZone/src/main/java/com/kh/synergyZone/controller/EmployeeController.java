@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +20,12 @@ import org.springframework.web.multipart.MultipartFile;
 import com.kh.synergyZone.dto.DepartmentDto;
 import com.kh.synergyZone.dto.EmployeeDto;
 import com.kh.synergyZone.dto.JobDto;
+import com.kh.synergyZone.dto.LoginRecordDto;
 import com.kh.synergyZone.repo.DepartmentRepo;
 import com.kh.synergyZone.repo.EmployeeProfileRepo;
 import com.kh.synergyZone.repo.EmployeeRepo;
 import com.kh.synergyZone.repo.JobRepo;
+import com.kh.synergyZone.repo.LoginRecordRepo;
 import com.kh.synergyZone.service.EmployeeService;
 
 @Controller
@@ -40,6 +43,12 @@ public class EmployeeController {
 	
 	@Autowired
 	private JobRepo jobRepo;
+	
+	@Autowired
+	private LoginRecordRepo loginRecordRepo;
+	
+	@Autowired
+	private AddressController addressController;
 	
 	@Autowired
 	private EmployeeProfileRepo employeeProfileRepo;
@@ -80,12 +89,24 @@ public class EmployeeController {
 	
 	@PostMapping("/login")
 	public String login(@ModelAttribute EmployeeDto employeeDto,
-						HttpSession session) {
+						HttpSession session,
+						HttpServletRequest request) {
 		EmployeeDto findDto = employeeService.login(employeeDto);
 		if(findDto != null){
+			//로그인 시 세션 저장
 			session.setAttribute("empNo", findDto.getEmpNo());
 			session.setAttribute("jobNo", findDto.getJobNo());
+			
+			String ipAddress = addressController.getLocation(request);
+			
+			//로그인 접속 시간
+			LoginRecordDto loginRecordDto = new LoginRecordDto();
+			loginRecordDto.setEmpNo(findDto.getEmpNo());
+			loginRecordDto.setLogIp(ipAddress);
+			
+			loginRecordRepo.insert(loginRecordDto);
 		}
+		
 		return "redirect:/";
 	}
 	

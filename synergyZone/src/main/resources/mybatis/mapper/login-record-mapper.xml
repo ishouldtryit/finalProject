@@ -10,7 +10,7 @@
 			emp_no, log_login, log_ip, log_browser
 		)
 		values(
-			#{empNo}, #{logLogin}, #{logIp}, #{logBrowser}
+			#{empNo}, #{logLogin}, #{logIp}, 'N'
 		)
 	</insert>
 </mapper>

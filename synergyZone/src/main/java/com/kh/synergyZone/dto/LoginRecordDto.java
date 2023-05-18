@@ -1,6 +1,6 @@
 package com.kh.synergyZone.dto;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
 public class LoginRecordDto {
 	private String empNo;
-	private Date logLogin;
+	private Timestamp logLogin;
 	private String logIp;
 	private String logBrowser;
 

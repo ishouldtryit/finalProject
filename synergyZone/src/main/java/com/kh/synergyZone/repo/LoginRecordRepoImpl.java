@@ -1,5 +1,7 @@
 package com.kh.synergyZone.repo;
 
+import java.sql.Timestamp;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -14,8 +16,8 @@ public class LoginRecordRepoImpl implements LoginRecordRepo {
 
 	@Override
 	public void insert(LoginRecordDto loginRecordDto) {
+		loginRecordDto.setLogLogin(new Timestamp(System.currentTimeMillis()));
+		
 		sqlSession.insert("loginRecord.save", loginRecordDto);
 	}
-	
-	
 }

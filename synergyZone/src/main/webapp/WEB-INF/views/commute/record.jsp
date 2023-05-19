@@ -4,74 +4,125 @@
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.2.3/journal/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-     <script>
-            function generateMonthList(year, month) {
-                var startDate = new Date(year, month - 1, 1); // 주어진 년도와 월의 첫 번째 날짜
-                var endDate = new Date(year, month, 0); // 주어진 년도와 월의 마지막 날짜
+    <title>근태기록 페이지</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>근태기록 페이지</h1>
 
-                var monthList = [];
+    <label for="year">년도:</label>
+    <input type="number" id="year" min="2000" max="2100" value="" required>
+    <label for="month">월:</label>
+    <input type="number" id="month" min="1" max="12" value="" required>
+    <button onclick="showAttendance()">조회</button>
 
-                // 날짜 목록 생성
-                for (var date = startDate; date <= endDate; date.setDate(date.getDate() + 1)) {
-                    var formattedDate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
-                    var formattedDay = getDayOfWeek(date.getDay());
-                    monthList.push(formattedDate + " (" + formattedDay + ")");
+    <div id="attendanceTable"></div>
+
+    <script>
+        function showAttendance() {
+            var year = document.getElementById("year").value;
+            var month = document.getElementById("month").value;
+
+            var startDate = new Date(year, month - 1, 1);
+            var endDate = new Date(year, month, 0);
+
+            var tableHTML = "<table>" +
+                "<tr>" +
+                "<th>일자</th>" +
+                "<th>출근시간</th>" +
+                "<th>퇴근시간</th>" +
+                "<th>근무시간</th>" +
+                "</tr>";
+
+            var weekCount = 1;
+            var weekStartDate = new Date(startDate);
+            weekStartDate.setDate(startDate.getDate() - startDate.getDay());  // Adjust to the previous Sunday
+
+            while (weekStartDate < endDate) {
+                var weekEndDate = new Date(weekStartDate);
+                weekEndDate.setDate(weekStartDate.getDate() + 6);  // Adjust to the next Saturday
+
+                tableHTML += "<tr><th colspan='4'>Week " + weekCount + "</th></tr>";
+
+                for (var date = weekStartDate; date <= weekEndDate; date.setDate(date.getDate() + 1)) {
+                    if (date >= startDate && date <= endDate) {
+                        var formattedDate = formatDate(date);
+
+                        // Find corresponding record for the date
+                        var record = findRecord(formattedDate);
+
+                        tableHTML += "<tr>" +
+                            "<td>" + formattedDate + "</td>" +
+                            "<td>" + (record ? record.startTime : "") + "</td>" +
+                            "<td>" + (record ? record.endTime : "") + "</td>" +
+                            "<td>" + (record ? record.workTime : "") + "</td>" +
+                            "</tr>";
+                    }
                 }
 
-                return monthList;
+                weekCount++;
+                weekStartDate.setDate(weekEndDate.getDate() + 1);  // Adjust to the next Sunday
+            }
+
+            tableHTML += "</table>";
+
+            document.getElementById("attendanceTable").innerHTML = tableHTML;
+        }
+
+        function formatDate(date) {
+            var year = date.getFullYear();
+            var month = (date.getMonth() + 1).toString().padStart(2, '0');
+            var day = date.getDate().toString().padStart(2, '0');
+
+            return year + "-" + month + "-" + day;
+        }
+
+        function findRecord(date) {
+        	var list = "${list}";
+
+        	// 문자열 파싱
+        	var parsedList = list
+        	    .replace(/\[|\]/g, '')  // 대괄호 제거
+        	    .split("), ")  // 개별 객체 분리
+
+        	var records = parsedList.map(function(item) {
+        	    var parts = item.split(", ");  // 속성 분리
+
+        	    var startTime = parts[1].split("=")[1];
+        	    var endTime = parts[2].split("=")[1];
+        	    var workTime = parts[3].split("=")[1];
+        	    var workDate = parts[4].split("=")[1];
+
+        	    return {
+        	        "startTime": startTime,
+        	        "endTime": endTime,
+        	        "workTime": workTime,
+        	        "workDate": workDate
+        	    };
+        	});
+
+
+            for (var i = 0; i < records.length; i++) {
+                if (records[i].workDate === date) {
+                    return records[i];
                 }
-
-                // 요일을 가져오는 함수
-                function getDayOfWeek(day) {
-                var daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
-                return daysOfWeek[day];
             }
 
-            var year = 2023;
-            var month = 6;
-
-            var monthList = generateMonthList(year, month);
-            window.onload = function () {
-            var datesElement = document.getElementById("dates");
-
-            // monthList를 datesElement에 출력
-            for (var i = 0; i < monthList.length; i++) {
-                var dateText = document.createTextNode(monthList[i]);
-                var brElement = document.createElement("br");
-                datesElement.appendChild(dateText);
-                datesElement.appendChild(brElement);
-            }
-        };
-
-        </script>
-    </head>
-    <body>
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>일자</th>
-                    <th>구분</th>
-                    <th>근무계획</th>
-                    <th>출근시간</th>
-                    <th>퇴근시간</th>
-                </tr>
-            </thead>
-            <tbody>                
-                <tr>
-                    <td id="dates"></td>
-                    <c:forEach var="list" items="${list}" varStatus="status">
-                        <td></td>
-                        <td></td>
-                        <td>${list.startTime}</td>
-                        <td>${list.endTime}</td>
-                    </c:forEach>
-                    </tr>
-            </tbody>
-        </table>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-	</body>
+            return null;
+        }
+        
+    </script>
+</body>
 </html>

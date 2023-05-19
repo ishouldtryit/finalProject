@@ -6,6 +6,7 @@
 
 
 <mapper namespace="employee">
+	
 	<insert id="save">
 		insert into employee(
 			emp_no, emp_name, emp_password, emp_email,
@@ -27,6 +28,26 @@
 		select * from employee order by emp_no asc
 	</select>
 	
+	<select id="count" resultType="int">
+	 	 SELECT COUNT(*) FROM employee
+	</select>
+	
+	<select id="getEmployeeList" resultType="employeeDto" parameterType="com.kh.synergyZone.vo.PaginationVO">
+		  <![CDATA[
+		  SELECT *
+		  FROM (
+		    SELECT e.*, ROWNUM AS rn
+		    FROM employee e
+		    WHERE ROWNUM <= #{end}
+		  )
+		  WHERE rn >= #{begin}
+		  ]]>
+	</select>
+	
+	<select id="searchEmployees" resultType="employeeDto">
+    	select * from employee where instr(${column}, #{keyword}) >0 order by ${column} asc
+    </select>
+    
 	<update id="edit">
 		update employee set
 		emp_name = #{empName}, emp_password = #{empPassword}, emp_email = #{empEmail},

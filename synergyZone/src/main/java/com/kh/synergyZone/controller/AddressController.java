@@ -2,12 +2,9 @@ package com.kh.synergyZone.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.kh.synergyZone.repo.LoginRecordRepo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -15,9 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/address/api")
 @Slf4j
 public class AddressController {
-	
-	@Autowired
-	private LoginRecordRepo loginRecordRepo;
 	
 	@GetMapping("/get")
 	public String getLocation(HttpServletRequest request) {

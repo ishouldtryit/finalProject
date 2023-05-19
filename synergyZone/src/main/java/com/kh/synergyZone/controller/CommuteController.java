@@ -59,7 +59,16 @@ public class CommuteController {
 		String empNo = (String) session.getAttribute("memberId");
 		List<CommuteRecordDto> list=commuteRecordRepo.allList(empNo);
 		model.addAttribute("list",list);
+		System.out.println(list);
 		return "/commute/record";
 	}
 	
+	
+	@GetMapping("/vacation")
+	public String vacation(Model model,HttpSession session) {
+		String empNo = (String) session.getAttribute("memberId");
+		
+		return "/commute/vacation";		
+		
+	}
 }

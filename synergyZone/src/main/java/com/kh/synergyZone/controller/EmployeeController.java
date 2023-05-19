@@ -98,11 +98,13 @@ public class EmployeeController {
 			session.setAttribute("jobNo", findDto.getJobNo());
 			
 			String ipAddress = addressController.getLocation(request);
+			String browserAddress = addressController.getBrowser(request);
 			
 			//로그인 접속 시간
 			LoginRecordDto loginRecordDto = new LoginRecordDto();
 			loginRecordDto.setEmpNo(findDto.getEmpNo());
 			loginRecordDto.setLogIp(ipAddress);
+			loginRecordDto.setLogBrowser(browserAddress);
 			
 			loginRecordRepo.insert(loginRecordDto);
 		}
@@ -211,7 +213,7 @@ public class EmployeeController {
 	//부서 등록
 	@GetMapping("/department/register")
 	public String departmentRegister() {
-		return "department/register";
+		return "employee/department/register";
 	}
 	
 	
@@ -226,7 +228,7 @@ public class EmployeeController {
 	public String departmentList(Model model) {
 		List<DepartmentDto> departments = departmentRepo.list();
 		model.addAttribute("departments",departments);
-		return "department/list";
+		return "employee/department/list";
 	}
 	
 	//부서 삭제
@@ -239,7 +241,7 @@ public class EmployeeController {
 	//직위 등록
 	@GetMapping("/job/register")
 	public String jobRegister() {
-		return "job/register";
+		return "employee/job/register";
 	}
 	
 	@PostMapping("/job/register")
@@ -253,7 +255,7 @@ public class EmployeeController {
 	public String jobList(Model model) {
 		List<JobDto> jobs = jobRepo.list();
 		model.addAttribute("jobs", jobs);
-		return "job/list";
+		return "employee/job/list";
 	}
 	
 	//직위 삭제
@@ -261,6 +263,19 @@ public class EmployeeController {
 	public String deleteJob(@RequestParam int jobNo) {
 		jobRepo.delete(jobNo);
 		return "redirect:/";
+	}
+	
+	//접속로그
+	
+	//접속로그 목록
+	@GetMapping("/log/list")
+	public String logList(Model model) {
+		List<LoginRecordDto> logs = loginRecordRepo.list();
+		List<EmployeeDto> employees = employeeRepo.list();
+		
+		model.addAttribute("employees", employees);
+		model.addAttribute("logs", logs);
+		return "employee/log/list";
 	}
 	
 	

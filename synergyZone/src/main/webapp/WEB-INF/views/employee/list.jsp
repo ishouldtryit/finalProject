@@ -32,20 +32,20 @@
 					<td>${employeeDto.empHireDate}</td>
 					<td>${employeeDto.isLeave}</td>
 					<td>${employeeDto.cpNumber}</td>
-				 <td>
-                <c:forEach var="departmentDto" items="${departments}">
-                    <c:if test="${departmentDto.deptNo == employeeDto.deptNo}">
-                        ${departmentDto.deptName}
-                    </c:if>
-                </c:forEach>
-            </td>
-            <td>
-                <c:forEach var="jobDto" items="${jobs}">
-                    <c:if test="${jobDto.jobNo == employeeDto.jobNo}">
-                        ${jobDto.jobName}
-                    </c:if>
-                </c:forEach>
-            </td>
+					<td>
+		                <c:forEach var="departmentDto" items="${departments}">
+		                    <c:if test="${departmentDto.deptNo == employeeDto.deptNo}">
+		                        ${departmentDto.deptName}
+		                    </c:if>
+		                </c:forEach>
+	            	</td>
+		            <td>
+		                <c:forEach var="jobDto" items="${jobs}">
+		                    <c:if test="${jobDto.jobNo == employeeDto.jobNo}">
+		                        ${jobDto.jobName}
+		                    </c:if>
+		                </c:forEach>
+		            </td>
 					<td>${employeeDto.wtCode}</td>
 					<td>
 						<a href="exit?empNo=${employeeDto.empNo}">퇴사처리</a>

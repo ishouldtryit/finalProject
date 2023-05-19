@@ -13,7 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AddressController {
 	
-	@GetMapping("/get")
+	//IP
+	@GetMapping("/ip")
 	public String getLocation(HttpServletRequest request) {
         String ip = request.getHeader("X-Forwarded-For");
         if (ip == null) {
@@ -36,9 +37,33 @@ public class AddressController {
             ip = request.getRemoteAddr();
         }
 
-        log.info(">>>> Result : IP Address : " + ip);
+//        log.info(">>>> Result : IP Address : " + ip);
 
         return ip;
     }
+	
+	//Browser
+	@GetMapping("/browser")
+	public String getBrowser(HttpServletRequest request) {
+		// 에이전트
+		String agent = request.getHeader("User-Agent");
+		
+		String browser = null;
+		if (agent.contains("MSIE")) {
+			browser = "MSIE";
+		} else if (agent.contains("Trident")) {
+			browser = "MSIE11";
+		} else if (agent.contains("Chrome")) {
+			browser = "Chrome";
+		} else if (agent.contains("Opera")) {
+			browser = "Opera";
+		} else if (agent.contains("Firefox")) {
+			browser = "Firefox";
+		} else if (agent.contains("Safari")) {
+			browser = "Safari";
+		}
+		
+		return browser;
+	}
 
 }

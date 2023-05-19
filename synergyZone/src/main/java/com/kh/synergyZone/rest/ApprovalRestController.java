@@ -7,19 +7,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kh.synergyZone.dto.ApprovalDto;
-import com.kh.synergyZone.repo.ApprovalRepoImpl;
+import com.kh.synergyZone.repo.EmployeeRepoImpl;
+import com.kh.synergyZone.vo.DeptEmpListVO;
 
 @RestController
 @RequestMapping("/rest/approval")
 public class ApprovalRestController {
 
 	@Autowired
-	private ApprovalRepoImpl approvalRepoImpl;
+	private EmployeeRepoImpl employeeRepoImpl;
 	
 	@GetMapping("/")
-	public List<ApprovalDto> list(){
-		return approvalRepoImpl.selectList();
+	public List<DeptEmpListVO> list(){
+		return employeeRepoImpl.treeSelect();
 	}
 	
 	

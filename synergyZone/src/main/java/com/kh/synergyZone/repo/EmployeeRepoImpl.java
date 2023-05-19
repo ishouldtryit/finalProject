@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.synergyZone.component.EmpNoGenerator;
 import com.kh.synergyZone.dto.EmployeeDto;
+import com.kh.synergyZone.vo.DeptEmpListVO;
 import com.kh.synergyZone.vo.PaginationVO;
 
 @Repository
@@ -21,7 +22,6 @@ public class EmployeeRepoImpl implements EmployeeRepo {
 	@Autowired
 	private EmpNoGenerator empNoGenerator;
 
-	@Autowired
     public EmployeeRepoImpl(SqlSession sqlSession) {
         this.sqlSession = sqlSession;
     }
@@ -76,6 +76,11 @@ public class EmployeeRepoImpl implements EmployeeRepo {
 	
 	public void update(EmployeeDto employeeDto) {
 		sqlSession.update("employee.edit", employeeDto);
+	}
+	
+	@Override
+	public List<DeptEmpListVO> treeSelect() {
+		return sqlSession.selectList("employee.treeSelect");
 	}
 
 }

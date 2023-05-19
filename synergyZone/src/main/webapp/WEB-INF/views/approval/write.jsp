@@ -18,49 +18,35 @@
       <input type="text" name="firstApprover" placeholder="1차결재">
     </div>
 
-    <div v-if="isDataLoaded">
       <ul>
-        <li v-for="(department, index) in departmentList" :key="department.departmentNo">
-          {{ department.deptName }}
+        <li v-for="(department, index) in deptEmpList">
+          {{ department.departmentDto.deptName }}
           <ul>
-            <li v-for="(employee, index) in employeeList" :key="employee.employeeNo"
-                v-if="isEmployeeInDepartment(employee, department)">
+            <li v-for="(employee, index) in department.employeeList">
               {{ employee.empName }}
             </li>
           </ul>
         </li>
       </ul>
-    </div>
     <button type="submit">등록</button>
+    
+    
   </form>
 </div>
+
 
 <script>
   Vue.createApp({
     data() {
       return {
-        departmentList: [],
-        employeeList: [],
-        isDataLoaded: false,
+        deptEmpList: [],
       };
     },
     computed: {},
     methods: {
       async loadData() {
-        try {
-          const [empResp, deptResp] = await Promise.all([
-            axios.get("/rest/employee/"),
-            axios.get("/rest/department/"),
-          ]);
-          this.employeeList = empResp.data;
-          this.departmentList = deptResp.data;
-          this.isDataLoaded = true;
-        } catch (error) {
-          console.error(error);
-        }
-      },
-      isEmployeeInDepartment(employee, department) {
-        return employee.deptNo === department.deptNo;
+    	  const Resp = await axios.get("/rest/approval/");
+          this.deptEmpList.push(...Resp.data);
       },
     },
     created() {

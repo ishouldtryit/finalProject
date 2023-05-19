@@ -18,14 +18,9 @@ public class EmployeeDto {
 	private String empDetailAddress;
 	private String empPostcode;
 	private Date empHireDate;
-	private String picPath;
-	private String picName;
 	private String isLeave;
 	private int cpNumber;
-	private String signPath;
-	private String signFileName;
 	private int jobNo;
 	private int deptNo;
 	private int wtCode;
-	
 }

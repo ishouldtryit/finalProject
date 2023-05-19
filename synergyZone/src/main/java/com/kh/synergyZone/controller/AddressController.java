@@ -24,11 +24,14 @@ import com.kh.synergyZone.vo.PaginationVO;
 @RequestMapping("/address")
 public class AddressController {
    
-   @Autowired private EmployeeRepo employeeRepo;
+   @Autowired 
+   private EmployeeRepo employeeRepo;
    
-   @Autowired private AttachmentRepo attachmentRepo;
+   @Autowired 
+   private AttachmentRepo attachmentRepo;
    
-   @Autowired private CustomFileUploadProperties fileuploadProperties;
+   @Autowired 
+   private CustomFileUploadProperties fileuploadProperties;
    
    @Autowired
 	private EmployeeService employeeService;

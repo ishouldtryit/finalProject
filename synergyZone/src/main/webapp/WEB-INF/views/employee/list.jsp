@@ -15,9 +15,8 @@
 				<th>입사일</th>
 				<th>퇴사여부</th>
 				<td>사업자번호</td>
-				<th>직위번호</th>
-				<th>부서번호</th>
-				<th>형태코드</th>
+				<th>직위</th>
+				<th>부서</th>
 				<th>관리</th>
 			</tr>
 		</thead>
@@ -46,7 +45,6 @@
 		                    </c:if>
 		                </c:forEach>
 		            </td>
-					<td>${employeeDto.wtCode}</td>
 					<td>
 						<a href="exit?empNo=${employeeDto.empNo}">퇴사처리</a>
 						<a href="detail?empNo=${employeeDto.empNo}">상세보기</a>

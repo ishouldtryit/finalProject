@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+<script src="${pageContext.request.contextPath}/static/js/employee/employee.js"></script>
   	<body>
 
 <form action="edit" method="post" enctype="multipart/form-data">
@@ -40,17 +41,13 @@
                         </div>
                     </div>
                     
-                    <form action="/employee/profile/update" method="post" enctype="multipart/form-data">
-	                    <div class="row mt-4">
-	                        <div class="col">
-	                            <label class="form-label">프로필사진</label>
-	<%--                             <c:if test="${profile != null}"> --%>
-	<%-- 	                            <img width="200" height="200" src="/attachment/download?attachmentNo=${profile.attachmentNo}">                             --%>
-	<%--                             </c:if> --%>
-	                            <input class="form-control rounded" type="file" name="attach" placeholder="프로필사진">
-	                        </div>
-	                    </div>                    
-                    </form>
+                    <div class="row mt-4">
+					    <div class="col">
+					        <img class="profilePreview" width="200" height="200" src="/attachment/download?attachmentNo=${profile.attachmentNo}">
+					        <label class="form-label">프로필사진</label>
+					        <input class="form-control rounded" type="file" id="profileImage" name="attach" placeholder="프로필사진">
+					    </div>
+					</div>
 
                     <div class="row mt-4">
                         <div class="col">
@@ -58,14 +55,6 @@
                             <input class="form-control rounded" type="date" name="empHireDate" placeholder="입사일" value="${employeeDto.empHireDate}">
                         </div>
                     </div>
-     
-
-<!--                     <div class="row mt-4"> -->
-<!--                         <div class="col"> -->
-<!--                             <label class="form-label">퇴사여부</label> -->
-<%--                             <input class="form-control rounded" type="text" name="isLeave" placeholder="퇴사여부" value="${employeeDto.isLeave}"> --%>
-<!--                         </div> -->
-<!--                     </div> -->
 
                     <div class="row mt-4">
                         <div class="col">
@@ -108,13 +97,6 @@
                             		</option>
                             	</c:forEach>
                             </select>
-                        </div>
-                    </div>
-                    
-                    <div class="row mt-4">
-                        <div class="col">
-                            <label class="form-label">형태코드</label>
-                            <input class="form-control rounsded" type="text" name="wtCode" placeholder="사업자 번호" value="${employeeDto.wtCode}">
                         </div>
                     </div>
                     

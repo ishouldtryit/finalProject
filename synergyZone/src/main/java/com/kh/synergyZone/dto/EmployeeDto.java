@@ -22,6 +22,5 @@ public class EmployeeDto {
 	private int cpNumber;
 	private int jobNo;
 	private int deptNo;
-	private int wtCode;
 	
 }

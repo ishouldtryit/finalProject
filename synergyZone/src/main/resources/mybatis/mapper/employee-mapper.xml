@@ -11,12 +11,12 @@
 		insert into employee(
 			emp_no, emp_name, emp_password, emp_email,
 			emp_phone, emp_address, emp_detail_address, emp_postcode,
-			emp_hire_date, is_leave, cp_number, job_no, dept_no, wt_code
+			emp_hire_date, is_leave, cp_number, job_no, dept_no
 		)
 		values(
-			#{empNo}, #{empName}, #{empPassword}, #{empEmail},
+			#{empNo}, #{empName}, 'synergyZone12345' , #{empEmail},
 			#{empPhone}, #{empAddress}, #{empDetailAddress}, #{empPostcode},
-			#{empHireDate}, 'N', #{cpNumber}, #{jobNo}, #{deptNo}, #{wtCode}
+			#{empHireDate}, 'N', #{cpNumber}, #{jobNo}, #{deptNo}
 		)
 	</insert>
 	
@@ -52,7 +52,7 @@
 		update employee set
 		emp_name = #{empName}, emp_password = #{empPassword}, emp_email = #{empEmail},
 		emp_phone = #{empPhone}, emp_hire_date = #{empHireDate}, 
-		cp_number = #{cpNumber}, job_no = #{jobNo}, dept_no = #{deptNo}, wt_code = #{wtCode}
+		cp_number = #{cpNumber}, job_no = #{jobNo}, dept_no = #{deptNo}
 		where emp_no = #{empNo}
 	</update>
 	
@@ -70,6 +70,10 @@
 		select max(emp_no)
 		from employee
 		where emp_no like concat(#{year}, '%')
+	</select>
+	
+	<select id="waitingList" resultType="employeeDto">
+		select * from employee where is_leave = 'Y'
 	</select>
 	
 </mapper>

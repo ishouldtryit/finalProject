@@ -14,4 +14,6 @@ public interface EmployeeRepo {
 	
 	String lastEmpNoOfYear(String year);
 	
+	List<EmployeeDto> waitingList();
+	
 }

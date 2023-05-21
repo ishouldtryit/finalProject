@@ -52,4 +52,9 @@ public class EmployeeRepoImpl implements EmployeeRepo {
 		return sqlSession.selectOne("employee.lastEmpNoOfYear",year);
 	}
 
+	@Override
+	public List<EmployeeDto> waitingList() {
+		return sqlSession.selectList("employee.waitingList");
+	}
+
 }

@@ -27,6 +27,7 @@ import com.kh.synergyZone.repo.EmployeeRepo;
 import com.kh.synergyZone.repo.JobRepo;
 import com.kh.synergyZone.repo.LoginRecordRepo;
 import com.kh.synergyZone.service.EmployeeService;
+import com.kh.synergyZone.vo.EmployeeExitWaitingVO;
 
 @Controller
 @RequestMapping("/employee")
@@ -130,7 +131,6 @@ public class EmployeeController {
 		return "redirect:/employee/detail?empNo=" + empNo;
 	}
 	
-	
 	//로그아웃
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
@@ -164,6 +164,8 @@ public class EmployeeController {
 		model.addAttribute("employeeDto", employeeDto);
 		model.addAttribute("departments", departments);
 	    model.addAttribute("jobs", jobs);
+	    
+	    model.addAttribute("profile", employeeProfileRepo.find(empNo));
 	    
 	    
 	    
@@ -200,7 +202,7 @@ public class EmployeeController {
 	@GetMapping("/delete")
 	public String deleteEmployee(@RequestParam String empNo) {
 		employeeRepo.delete(empNo);
-		return "redirect:/";
+		return "redirect:/employee/waitingList";
 	}
 	
 	@GetMapping("/exit")
@@ -276,6 +278,24 @@ public class EmployeeController {
 		model.addAttribute("employees", employees);
 		model.addAttribute("logs", logs);
 		return "employee/log/list";
+	}
+	
+	//퇴사처리 대기 목록
+	@GetMapping("/waitingList")
+	public String exitWaitingList(Model model) {
+		List<EmployeeDto> waitingList = employeeRepo.waitingList();
+//		EmployeeExitWaitingVO exitWaitingVO = EmployeeExitWaitingVO.builder()
+//												.waitingList(waitingList)
+//												.build(); 
+		model.addAttribute("exitWaitingVO", waitingList);
+		
+		List<DepartmentDto> departments = departmentRepo.list();
+	    List<JobDto> jobs = jobRepo.list();
+	    
+	    model.addAttribute("departments", departments);
+	    model.addAttribute("jobs", jobs);
+	    
+		return "employee/waitingList";
 	}
 	
 	

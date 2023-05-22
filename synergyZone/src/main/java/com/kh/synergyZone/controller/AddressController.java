@@ -53,7 +53,7 @@ public class AddressController {
        if (!column.isEmpty() && !keyword.isEmpty()) {
            employees = employeeService.searchEmployees(column, keyword);
        } else {
-           employees = employeeService.getAllEmployees();
+           employees = employeeRepo.list();
        }
        
        model.addAttribute("employees", employees);

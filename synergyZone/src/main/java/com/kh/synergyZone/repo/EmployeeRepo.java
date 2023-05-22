@@ -6,7 +6,7 @@ import com.kh.synergyZone.dto.EmployeeDto;
 import com.kh.synergyZone.vo.PaginationVO;
 
 public interface EmployeeRepo {
-	   void insert(EmployeeDto employeeDto);
+	 void insert(EmployeeDto employeeDto);
 	   EmployeeDto selectOne(String empNo);
 	   List<EmployeeDto> list();
 	   void update(EmployeeDto employeeDto);
@@ -21,4 +21,5 @@ public interface EmployeeRepo {
 	   int getCount();
 	        List<EmployeeDto> getEmployeeList(PaginationVO vo);
 	   List<EmployeeDto> searchEmployees(String column, String keyword);
+	
 }

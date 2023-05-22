@@ -211,7 +211,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 	    return employeeRepo.searchEmployees(column, keyword);
 	}
 
-
 	@Override
 	public String generateEmpNo(Date empHireDate) {
 		return null;

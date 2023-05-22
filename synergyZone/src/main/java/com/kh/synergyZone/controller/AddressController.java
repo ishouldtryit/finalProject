@@ -31,11 +31,11 @@ public class AddressController {
    @Autowired private CustomFileUploadProperties fileuploadProperties;
    
    @Autowired
-	private EmployeeService employeeService;
-	
-	@Autowired
-	private EmployeeProfileRepo employeeProfileRepo;
-	
+   private EmployeeService employeeService;
+   
+   @Autowired
+   private EmployeeProfileRepo employeeProfileRepo;
+   
    // 관리자 홈
    @GetMapping("/")
    public String home() {
@@ -64,8 +64,8 @@ public class AddressController {
        return "address/list";
    }
    
- 	
+    
    
- 	
- 	
+    
+    
 }

@@ -1,78 +1,69 @@
 package com.kh.synergyZone.controller;
 
-import java.io.IOException;
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.kh.synergyZone.configuration.CustomFileUploadProperties;
-import com.kh.synergyZone.dto.EmployeeDto;
-import com.kh.synergyZone.repo.AttachmentRepo;
-import com.kh.synergyZone.repo.EmployeeProfileRepo;
-import com.kh.synergyZone.repo.EmployeeRepo;
-import com.kh.synergyZone.service.EmployeeService;
-import com.kh.synergyZone.vo.PaginationVO;
+import lombok.extern.slf4j.Slf4j;
 
-
-@Controller
-@RequestMapping("/address")
+@RestController
+@RequestMapping("/address/api")
+@Slf4j
 public class AddressController {
-   
-   @Autowired private EmployeeRepo employeeRepo;
-   
-   @Autowired private AttachmentRepo attachmentRepo;
-   
-   @Autowired private CustomFileUploadProperties fileuploadProperties;
-   
-   @Autowired
-	private EmployeeService employeeService;
 	
-	@Autowired
-	private EmployeeProfileRepo employeeProfileRepo;
+	//IP
+	@GetMapping("/ip")
+	public String getLocation(HttpServletRequest request) {
+        String ip = request.getHeader("X-Forwarded-For");
+        if (ip == null) {
+            ip = request.getHeader("Proxy-Client-IP");
+            log.info(">>>> Proxy-Client-IP : " + ip);
+        }
+        if (ip == null) {
+            ip = request.getHeader("WL-Proxy-Client-IP"); // 웹로직
+            log.info(">>>> WL-Proxy-Client-IP : " + ip);
+        }
+        if (ip == null) {
+            ip = request.getHeader("HTTP_CLIENT_IP");
+            log.info(">>>> HTTP_CLIENT_IP : " + ip);
+        }
+        if (ip == null) {
+            ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+            log.info(">>>> HTTP_X_FORWARDED_FOR : " + ip);
+        }
+        if (ip == null) {
+            ip = request.getRemoteAddr();
+        }
+
+//        log.info(">>>> Result : IP Address : " + ip);
+
+        return ip;
+    }
 	
-   // 관리자 홈
-   @GetMapping("/")
-   public String home() {
-      return "address";
-   }
-   
-   //사원 목록
-   @GetMapping("/list")
-   public String list(Model model, @ModelAttribute("vo") PaginationVO vo,
-           @RequestParam(required = false, defaultValue = "member_regdate desc") String sort,
-           @RequestParam(required = false, defaultValue = "") String column,
-           @RequestParam(required = false, defaultValue = "") String keyword) throws IOException {
-       List<EmployeeDto> employees;
-       
-       if (!column.isEmpty() && !keyword.isEmpty()) {
-           employees = employeeService.searchEmployees(column, keyword);
-       } else {
-           employees = employeeService.getAllEmployees();
-       }
-       
-       model.addAttribute("employees", employees);
+	//Browser
+	@GetMapping("/browser")
+	public String getBrowser(HttpServletRequest request) {
+		// 에이전트
+		String agent = request.getHeader("User-Agent");
+		
+		String browser = null;
+		if (agent.contains("MSIE")) {
+			browser = "MSIE";
+		} else if (agent.contains("Trident")) {
+			browser = "MSIE11";
+		} else if (agent.contains("Chrome")) {
+			browser = "Chrome";
+		} else if (agent.contains("Opera")) {
+			browser = "Opera";
+		} else if (agent.contains("Firefox")) {
+			browser = "Firefox";
+		} else if (agent.contains("Safari")) {
+			browser = "Safari";
+		}
+		
+		return browser;
+	}
 
-       int totalMemberCnt = employeeRepo.getCount();
-       vo.setCount(totalMemberCnt);
-
-       return "address/list";
-   }
-   
- 	//사원 상세
- 	@GetMapping("/list/detail")
- 	public String detail(@RequestParam String empNo, Model model) 
- 	{
- 			model.addAttribute("employeeDto", employeeService.detailEmployee(empNo));
- 			model.addAttribute("profile", employeeProfileRepo.find(empNo));
- 			return "address/detail";
- 	}
-   
- 	
- 	
 }

@@ -19,7 +19,6 @@ import com.kh.synergyZone.repo.EmployeeRepo;
 import com.kh.synergyZone.service.EmployeeService;
 import com.kh.synergyZone.vo.PaginationVO;
 
-
 @Controller
 @RequestMapping("/address")
 public class AddressController {

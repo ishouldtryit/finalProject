@@ -8,10 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
-public class EmployeeDto {
-	private String empNo;
+public class EmpProfileInfoDto {
 	private String empName;
-	private String empPassword;
 	private String empEmail;
 	private String empPhone;
 	private String empAddress;
@@ -22,5 +20,6 @@ public class EmployeeDto {
 	private int cpNumber;
 	private int jobNo;
 	private int deptNo;
-	
+	private int attachmentNo;
+	private String empNo;
 }

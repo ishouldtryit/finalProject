@@ -1,6 +1,7 @@
 package com.kh.synergyZone.service;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -27,4 +28,5 @@ public interface EmployeeService {
 	List<JobDto> getAllJobs();
 	void deleteJob(int jobNo);
 	List<EmployeeDto> searchEmployees(String column, String keyword);
+	String generateEmpNo(Date empHireDate);
 }

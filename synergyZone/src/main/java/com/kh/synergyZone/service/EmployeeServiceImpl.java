@@ -2,6 +2,7 @@ package com.kh.synergyZone.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -210,5 +211,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 	    return employeeRepo.searchEmployees(column, keyword);
 	}
 
-}
 
+	@Override
+	public String generateEmpNo(Date empHireDate) {
+		return null;
+	}
+
+}

@@ -50,9 +50,6 @@ public class EmployeeController {
 	private LoginRecordRepo loginRecordRepo;
 	
 	@Autowired
-	private AddressController addressController;
-	
-	@Autowired
 	private EmployeeProfileRepo employeeProfileRepo;
 	
 	

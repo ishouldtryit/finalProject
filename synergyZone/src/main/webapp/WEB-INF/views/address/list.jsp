@@ -59,7 +59,8 @@
 						<td class="align-middle">${employeeDto.empNo}</td>
 						<td class="align-middle employee-name" data-empno="${employeeDto.empNo}" data-empname="${employeeDto.empName}" 
 						  data-empphone="${employeeDto.empPhone}" data-empemail="${employeeDto.empEmail}" 
-						  data-empaddress="${employeeDto.empAddress}" data-empdetailaddress="${employeeDto.empDetailAddress}">
+						  data-empaddress="${employeeDto.empAddress}" data-empdetailaddress="${employeeDto.empDetailAddress}"
+						  data-attachmentno="${employeeDto.attachmentNo}">
 						  ${employeeDto.empName}
 						</td>
 						<td class="align-middle">${employeeDto.empPhone}</td>
@@ -80,9 +81,9 @@
 		    <div class="modal-content">
 		      <div class="modal-header">
 		        <h5 class="modal-title" id="employeeModalLabel"></h5>
-		    <div class="flex">
-					<div><img width="200" height="200" src="/attachment/download?attachmentNo=${profile.attachmentNo}"></div>
-		    </div>
+		     <div class="profile-image">
+			    <img id="profileImage" width="200" height="200" src="/attachment/download?attachmentNo=${employeeDto.attachmentNo}" alt="프로필 이미지">
+			</div>
 		      <div class="modal-body">
 		        <p><strong>사원번호:</strong> <span id="employeeNo"></span></p>
 		        <p><strong>이름:</strong> <span id="employeeName"></span></p>
@@ -155,6 +156,7 @@
       var employeeEmail = $(this).data('empemail');
       var employeeAddress = $(this).data('empaddress');
       var employeeDetailAddress = $(this).data('empdetailaddress');
+      var attachmentNo = $(this).data('attachmentno');
 
       $('#employeeNo').text(employeeNo);
       $('#employeeName').text(employeeName);
@@ -162,6 +164,7 @@
       $('#employeeEmail').text(employeeEmail);
       $('#employeeAddress').text(employeeAddress);
       $('#employeeDetailAddress').text(employeeDetailAddress);
+      $("#profileImage").attr("src", "/attachment/download?attachmentNo="+attachmentNo);
 
       $('#employeeModal').modal('show');
     });

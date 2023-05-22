@@ -17,9 +17,10 @@ public interface EmployeeRepo {
 	   
 	   List<EmployeeDto> waitingList();
 
-
 	   int getCount();
-	        List<EmployeeDto> getEmployeeList(PaginationVO vo);
+	   List<EmployeeDto> getEmployeeList(PaginationVO vo);
 	   List<EmployeeDto> searchEmployees(String column, String keyword);
+	   
+	
 	
 }

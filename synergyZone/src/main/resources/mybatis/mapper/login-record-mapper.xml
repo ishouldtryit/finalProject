@@ -18,4 +18,29 @@
 	<select id="list" resultType="loginRecordDto">
 		select * from log order by log_login asc
 	</select>
+	
+	<select id="complexSearch" resultType="loginRecordDto">
+		<bind name="empNameExist" value="empName != null and !empName.equals('')"/>
+		<bind name="searchLoginDaysExist" value="searchLoginDays != null and !searchLoginDays.equals('')"/>
+		
+		select * from log
+		
+		<!-- 사원명 -->
+		<where>
+			<if test="empNameExist">
+				and instr(emp_name, #{empName}) > 0
+			</if>
+		</where>
+		
+		<!-- 최근 기록 -->
+		<if test="searchLoginDaysExist">
+			and log_login between
+				to_date(
+					to_char(sysdate - #{searchLoginDays}, 'YYYY-MM-DD'),
+					'YYYY-MM-DD'
+				)
+				and
+				sysdate
+		</if>
+	</select>
 </mapper>

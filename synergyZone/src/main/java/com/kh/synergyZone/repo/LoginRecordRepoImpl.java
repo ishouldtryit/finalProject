@@ -26,4 +26,9 @@ public class LoginRecordRepoImpl implements LoginRecordRepo {
 	public List<LoginRecordDto> list() {
 		return sqlSession.selectList("loginRecord.list");
 	}
+
+	@Override
+	public List<LoginRecordDto> searchLoginDaysList() {
+		return sqlSession.selectList("loginRecord.complexSearch");
+	}
 }

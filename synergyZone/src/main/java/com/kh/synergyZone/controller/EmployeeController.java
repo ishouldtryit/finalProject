@@ -28,6 +28,7 @@ import com.kh.synergyZone.repo.JobRepo;
 import com.kh.synergyZone.repo.LoginRecordRepo;
 import com.kh.synergyZone.service.EmployeeService;
 import com.kh.synergyZone.vo.EmployeeExitWaitingVO;
+import com.kh.synergyZone.vo.LoginRecordSearchVO;
 
 @Controller
 @RequestMapping("/employee")
@@ -271,12 +272,14 @@ public class EmployeeController {
 	
 	//접속로그 목록
 	@GetMapping("/log/list")
-	public String logList(Model model) {
+	public String logList(@ModelAttribute("vo") LoginRecordSearchVO vo,
+						  Model model) {
 		List<LoginRecordDto> logs = loginRecordRepo.list();
 		List<EmployeeDto> employees = employeeRepo.list();
 		
 		model.addAttribute("employees", employees);
 		model.addAttribute("logs", logs);
+		
 		return "employee/log/list";
 	}
 	
@@ -284,10 +287,10 @@ public class EmployeeController {
 	@GetMapping("/waitingList")
 	public String exitWaitingList(Model model) {
 		List<EmployeeDto> waitingList = employeeRepo.waitingList();
-//		EmployeeExitWaitingVO exitWaitingVO = EmployeeExitWaitingVO.builder()
-//												.waitingList(waitingList)
-//												.build(); 
-		model.addAttribute("exitWaitingVO", waitingList);
+		EmployeeExitWaitingVO exitWaitingVO = EmployeeExitWaitingVO.builder()
+												.waitingList(waitingList)
+												.build(); 
+		model.addAttribute("exitWaitingVO", exitWaitingVO);
 		
 		List<DepartmentDto> departments = departmentRepo.list();
 	    List<JobDto> jobs = jobRepo.list();

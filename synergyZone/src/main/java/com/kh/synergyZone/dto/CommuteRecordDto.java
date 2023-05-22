@@ -13,7 +13,6 @@ public class CommuteRecordDto {
 	private String startTime;
 	private String endTime;
 	
-	@DateTimeFormat(pattern = "HH:mm:ss")
 	private Duration workTime;
 	
 	private Date workDate;

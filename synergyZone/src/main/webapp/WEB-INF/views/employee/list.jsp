@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
-<div class="row">
+<div class="container">
 	<table>
 		<thead>
 			<tr>
@@ -15,9 +15,8 @@
 				<th>입사일</th>
 				<th>퇴사여부</th>
 				<td>사업자번호</td>
-				<th>직위번호</th>
-				<th>부서번호</th>
-				<th>형태코드</th>
+				<th>부서</th>
+				<th>직위</th>
 				<th>관리</th>
 			</tr>
 		</thead>
@@ -32,11 +31,22 @@
 					<td>${employeeDto.empHireDate}</td>
 					<td>${employeeDto.isLeave}</td>
 					<td>${employeeDto.cpNumber}</td>
-					<td>${employeeDto.jobNo}</td>
-					<td>${employeeDto.deptNo}</td>
-					<td>${employeeDto.wtCode}</td>
 					<td>
-						<a href="delete?empNo=${employeeDto.empNo}">퇴사처리</a>
+		                <c:forEach var="departmentDto" items="${departments}">
+		                    <c:if test="${departmentDto.deptNo == employeeDto.deptNo}">
+		                        ${departmentDto.deptName}
+		                    </c:if>
+		                </c:forEach>
+	            	</td>
+		            <td>
+		                <c:forEach var="jobDto" items="${jobs}">
+		                    <c:if test="${jobDto.jobNo == employeeDto.jobNo}">
+		                        ${jobDto.jobName}
+		                    </c:if>
+		                </c:forEach>
+		            </td>
+					<td>
+						<a href="exit?empNo=${employeeDto.empNo}">퇴사처리</a>
 						<a href="detail?empNo=${employeeDto.empNo}">상세보기</a>
 					</td>
 				</tr>

@@ -8,7 +8,7 @@
 
 	<insert id="save">
 		insert into job(
-			job_no, job_name
+			job_no ,job_name
 		)
 		values(
 			#{jobNo}, #{jobName}

@@ -1,8 +1,10 @@
 package com.kh.synergyZone.controller;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +20,15 @@ import org.springframework.web.multipart.MultipartFile;
 import com.kh.synergyZone.dto.DepartmentDto;
 import com.kh.synergyZone.dto.EmployeeDto;
 import com.kh.synergyZone.dto.JobDto;
+import com.kh.synergyZone.dto.LoginRecordDto;
+import com.kh.synergyZone.repo.DepartmentRepo;
 import com.kh.synergyZone.repo.EmployeeProfileRepo;
+import com.kh.synergyZone.repo.EmployeeRepo;
+import com.kh.synergyZone.repo.JobRepo;
+import com.kh.synergyZone.repo.LoginRecordRepo;
 import com.kh.synergyZone.service.EmployeeService;
+import com.kh.synergyZone.vo.EmployeeExitWaitingVO;
+import com.kh.synergyZone.vo.LoginRecordSearchVO;
 
 @Controller
 @RequestMapping("/employee")
@@ -29,13 +38,29 @@ public class EmployeeController {
 	private EmployeeService employeeService;
 	
 	@Autowired
+	private EmployeeRepo employeeRepo;
+	
+	@Autowired
+	private DepartmentRepo departmentRepo;
+	
+	@Autowired
+	private JobRepo jobRepo;
+	
+	@Autowired
+	private LoginRecordRepo loginRecordRepo;
+	
+	@Autowired
+	private AddressController addressController;
+	
+	@Autowired
 	private EmployeeProfileRepo employeeProfileRepo;
+	
 	
 	//회원가입
     @GetMapping("/join")
     public String join(Model model) {
-        List<DepartmentDto> departments = employeeService.getAllDepartments();
-        List<JobDto> jobs = employeeService.getAllJobs();
+        List<DepartmentDto> departments = departmentRepo.list();
+        List<JobDto> jobs = jobRepo.list();
         
         model.addAttribute("departments", departments);
         model.addAttribute("jobs", jobs);
@@ -48,7 +73,11 @@ public class EmployeeController {
     public String join(@ModelAttribute EmployeeDto employeeDto,
                        @RequestParam int deptNo,
                        @RequestParam int jobNo,
+                       @RequestParam Date empHireDate,
                        @RequestParam MultipartFile attach) throws IllegalStateException, IOException {
+    	
+    	String empNo = employeeService.generateEmpNo(empHireDate);
+    	employeeDto.setEmpNo(empNo);
         employeeDto.setDeptNo(deptNo);
         employeeDto.setJobNo(jobNo);
         
@@ -64,20 +93,37 @@ public class EmployeeController {
 	
 	@PostMapping("/login")
 	public String login(@ModelAttribute EmployeeDto employeeDto,
-						HttpSession session) {
+						HttpSession session,
+						HttpServletRequest request) {
 		EmployeeDto findDto = employeeService.login(employeeDto);
 		if(findDto != null){
+			//로그인 시 세션 저장
 			session.setAttribute("empNo", findDto.getEmpNo());
 			session.setAttribute("jobNo", findDto.getJobNo());
+			
+//			String ipAddress = addressController.getLocation(request);
+//			String browserAddress = addressController.getBrowser(request);
+
+			//로그인 접속 시간
+			LoginRecordDto loginRecordDto = new LoginRecordDto();
+			loginRecordDto.setEmpNo(findDto.getEmpNo());
+//			loginRecordDto.setLogIp(ipAddress);
+//			loginRecordDto.setLogBrowser(browserAddress);
+			
+			loginRecordRepo.insert(loginRecordDto);
 		}
+		
 		return "redirect:/";
 	}
+	
 	
 	//프로필 이미지 수정
 	@PostMapping("/profile/update")
 	public String updateProfile(@RequestParam String empNo,
 								@RequestParam MultipartFile attach) throws IllegalStateException, IOException {
-		employeeService.updateProfile(empNo, attach);
+		if (!attach.isEmpty()) {
+	        employeeService.updateProfile(empNo, attach);
+	    }
 		return "redirect:/employee/detail?empNo="+empNo;
 	}
 	
@@ -87,7 +133,6 @@ public class EmployeeController {
 		employeeService.deleteProfile(empNo);
 		return "redirect:/employee/detail?empNo=" + empNo;
 	}
-	
 	
 	//로그아웃
 	@GetMapping("/logout")
@@ -100,31 +145,58 @@ public class EmployeeController {
 	//사원 목록
 	@GetMapping("/list")
 	public String list(Model model) throws IOException {
-		List<EmployeeDto> employees = employeeService.getAllEmployees();
-		model.addAttribute("employees" ,employees);
-
-		return "employee/list";
+		List<EmployeeDto> employees = employeeRepo.list();
+	    List<DepartmentDto> departments = departmentRepo.list();
+	    List<JobDto> jobs = jobRepo.list();
+	    
+	    model.addAttribute("employees", employees);
+	    model.addAttribute("departments", departments);
+	    model.addAttribute("jobs", jobs);
+	    
+	    return "employee/list";
 	}
 	
 	//사원 정보 수정
 	@GetMapping("/edit")
-	public String edit(@RequestParam String empNo, Model model) {
-		EmployeeDto employeeDto = employeeService.detailEmployee(empNo);
+	public String edit(@RequestParam String empNo, 
+						Model model) {
+		EmployeeDto employeeDto = employeeRepo.selectOne(empNo);
+		List<DepartmentDto> departments = departmentRepo.list();
+	    List<JobDto> jobs = jobRepo.list();
+	
 		model.addAttribute("employeeDto", employeeDto);
+		model.addAttribute("departments", departments);
+	    model.addAttribute("jobs", jobs);
+	    
+	    model.addAttribute("profile", employeeProfileRepo.find(empNo));
+	    
+	    
+	    
 		return "employee/edit";
 	}
 	
 	@PostMapping("/edit")
-	public String edit(@ModelAttribute EmployeeDto employeeDto) {
-		employeeService.updateEmployee(employeeDto);
-		return "redirect:/employee/detail?empNo=" + employeeDto.getEmpNo();
+	public String edit(@ModelAttribute EmployeeDto employeeDto,
+						@RequestParam String empNo,
+						@RequestParam int deptNo,
+						@RequestParam int jobNo,
+						HttpSession session,
+						@RequestParam MultipartFile attach) throws IllegalStateException, IOException {
+		employeeDto.setDeptNo(deptNo);
+        employeeDto.setJobNo(jobNo);
+        
+        employeeService.deleteProfile(empNo);
+	    employeeService.updateProfile(empNo, attach);
+        
+		employeeRepo.update(employeeDto);
+		return "redirect:/employee/list";
 	}
 	
 	//사원 상세
 	@GetMapping("/detail")
 	public String detail(@RequestParam String empNo,
 						Model model) {
-		model.addAttribute("employeeDto", employeeService.detailEmployee(empNo));
+		model.addAttribute("employeeDto", employeeRepo.selectOne(empNo));
 		model.addAttribute("profile", employeeProfileRepo.find(empNo));
 		return "employee/detail";
 	}
@@ -132,64 +204,103 @@ public class EmployeeController {
 	//사원 퇴사
 	@GetMapping("/delete")
 	public String deleteEmployee(@RequestParam String empNo) {
-		employeeService.deleteEmployee(empNo);
-		return "redirect:/";
+		employeeRepo.delete(empNo);
+		return "redirect:/employee/waitingList";
+	}
+	
+	@GetMapping("/exit")
+	public String exitEmployee(@RequestParam String empNo) {
+		employeeRepo.exit(empNo);
+		return "redirect:/employee/list";
 	}
 	
 	
 	//부서 등록
 	@GetMapping("/department/register")
 	public String departmentRegister() {
-		return "department/register";
+		return "employee/department/register";
 	}
 	
 	
 	@PostMapping("/department/register")
 	public String departmentRegister(@ModelAttribute DepartmentDto departmentDto) {
-		employeeService.registerDepartment(departmentDto);
+		departmentRepo.insert(departmentDto);
 		return "redirect:/";
 	}
 	
 	//부서 목록
 	@GetMapping("/department/list")
 	public String departmentList(Model model) {
-		List<DepartmentDto> departments = employeeService.getAllDepartments();
+		List<DepartmentDto> departments = departmentRepo.list();
 		model.addAttribute("departments",departments);
-		return "department/list";
+		return "employee/department/list";
 	}
 	
 	//부서 삭제
 	@GetMapping("/department/delete")
 	public String deleteDepartment(@RequestParam int deptNo) {
-		employeeService.deleteDepartment(deptNo);
+		departmentRepo.delete(deptNo);
 		return "redirect:/";
 	}
 		
 	//직위 등록
 	@GetMapping("/job/register")
 	public String jobRegister() {
-		return "job/register";
+		return "employee/job/register";
 	}
 	
 	@PostMapping("/job/register")
 	public String jobRegister(@ModelAttribute JobDto jobDto) {
-		employeeService.registerJob(jobDto);
+		jobRepo.insert(jobDto);
 		return "redirect:/";
 	}
 	
 	//직위 목록
 	@GetMapping("/job/list")
 	public String jobList(Model model) {
-		List<JobDto> jobs = employeeService.getAllJobs();
+		List<JobDto> jobs = jobRepo.list();
 		model.addAttribute("jobs", jobs);
-		return "job/list";
+		return "employee/job/list";
 	}
 	
 	//직위 삭제
 	@GetMapping("/job/delete")
 	public String deleteJob(@RequestParam int jobNo) {
-		employeeService.deleteJob(jobNo);
+		jobRepo.delete(jobNo);
 		return "redirect:/";
+	}
+	
+	//접속로그
+	
+	//접속로그 목록
+	@GetMapping("/log/list")
+	public String logList(@ModelAttribute("vo") LoginRecordSearchVO vo,
+						  Model model) {
+		List<LoginRecordDto> logs = loginRecordRepo.list();
+		List<EmployeeDto> employees = employeeRepo.list();
+		
+		model.addAttribute("employees", employees);
+		model.addAttribute("logs", logs);
+		
+		return "employee/log/list";
+	}
+	
+	//퇴사처리 대기 목록
+	@GetMapping("/waitingList")
+	public String exitWaitingList(Model model) {
+		List<EmployeeDto> waitingList = employeeRepo.waitingList();
+		EmployeeExitWaitingVO exitWaitingVO = EmployeeExitWaitingVO.builder()
+												.waitingList(waitingList)
+												.build(); 
+		model.addAttribute("exitWaitingVO", exitWaitingVO);
+		
+		List<DepartmentDto> departments = departmentRepo.list();
+	    List<JobDto> jobs = jobRepo.list();
+	    
+	    model.addAttribute("departments", departments);
+	    model.addAttribute("jobs", jobs);
+	    
+		return "employee/waitingList";
 	}
 	
 	

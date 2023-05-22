@@ -13,11 +13,10 @@
 <form action="/testuser3" method="post" >
 	<button type="submit">testuser3</button>
 </form>
+<a href="${pageContext.request.contextPath}/employee/login">로그인</a>
+<a href="${pageContext.request.contextPath}/employee/logout">로그아웃</a>
 <form action="/logout" method="post" >
 	<button type="submit">로그아웃</button>
 </form>
-
-
-
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

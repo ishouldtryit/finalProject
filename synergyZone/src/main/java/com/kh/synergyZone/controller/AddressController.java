@@ -31,11 +31,11 @@ public class AddressController {
    @Autowired private CustomFileUploadProperties fileuploadProperties;
    
    @Autowired
-	private EmployeeService employeeService;
-	
-	@Autowired
-	private EmployeeProfileRepo employeeProfileRepo;
-	
+   private EmployeeService employeeService;
+   
+   @Autowired
+   private EmployeeProfileRepo employeeProfileRepo;
+   
    // 관리자 홈
    @GetMapping("/")
    public String home() {
@@ -47,14 +47,18 @@ public class AddressController {
    public String list(Model model, @ModelAttribute("vo") PaginationVO vo,
            @RequestParam(required = false, defaultValue = "member_regdate desc") String sort,
            @RequestParam(required = false, defaultValue = "") String column,
-           @RequestParam(required = false, defaultValue = "") String keyword) throws IOException {
+           @RequestParam(required = false, defaultValue = "") String keyword
+           ,@RequestParam(required = false) String empNo) throws IOException {
        List<EmployeeDto> employees;
        
        if (!column.isEmpty() && !keyword.isEmpty()) {
-           employees = employeeService.searchEmployees(column, keyword);
+    	   employees = employeeService.searchEmployees(column, keyword);
        } else {
-           employees = employeeService.getAllEmployees();
+           employees = employeeRepo.list();
        }
+       if (empNo != null) {
+    	    model.addAttribute("profile", employeeProfileRepo.find(empNo));
+    	}
        
        model.addAttribute("employees", employees);
 
@@ -64,15 +68,8 @@ public class AddressController {
        return "address/list";
    }
    
- 	//사원 상세
- 	@GetMapping("/list/detail")
- 	public String detail(@RequestParam String empNo, Model model) 
- 	{
- 			model.addAttribute("employeeDto", employeeService.detailEmployee(empNo));
- 			model.addAttribute("profile", employeeProfileRepo.find(empNo));
- 			return "address/detail";
- 	}
+    
    
- 	
- 	
+    
+    
 }

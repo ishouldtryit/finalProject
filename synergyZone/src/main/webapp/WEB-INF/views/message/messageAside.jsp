@@ -65,6 +65,8 @@ pageEncoding="UTF-8"%>
         ><i class="fa-regular fa-message" style="color: #9dace4"></i>
         &nbsp;보낸쪽지함</a
       >
+      
+      
     </div>
   </aside>
 

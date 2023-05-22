@@ -20,6 +20,7 @@
     </style>
 </head>
 <body>
+	<div class="container">
     <h1>근태기록 페이지</h1>
 
     <label for="year">년도:</label>
@@ -27,9 +28,8 @@
     <label for="month">월:</label>
     <input type="number" id="month" min="1" max="12" value="" required>
     <button onclick="showAttendance()">조회</button>
-
     <div id="attendanceTable"></div>
-
+	</div>
     <script>
         function showAttendance() {
             var year = document.getElementById("year").value;
@@ -38,7 +38,7 @@
             var startDate = new Date(year, month - 1, 1);
             var endDate = new Date(year, month, 0);
 
-            var tableHTML = "<table>" +
+            var tableHTML = "<table class='table table-hover'>" +
                 "<tr>" +
                 "<th>일자</th>" +
                 "<th>출근시간</th>" +
@@ -48,11 +48,11 @@
 
             var weekCount = 1;
             var weekStartDate = new Date(startDate);
-            weekStartDate.setDate(startDate.getDate() - startDate.getDay());  // Adjust to the previous Sunday
+            weekStartDate.setDate(startDate.getDate() - startDate.getDay());
 
             while (weekStartDate < endDate) {
                 var weekEndDate = new Date(weekStartDate);
-                weekEndDate.setDate(weekStartDate.getDate() + 6);  // Adjust to the next Saturday
+                weekEndDate.setDate(weekStartDate.getDate() + 6);  
 
                 tableHTML += "<tr><th colspan='4'>Week " + weekCount + "</th></tr>";
 
@@ -60,7 +60,7 @@
                     if (date >= startDate && date <= endDate) {
                         var formattedDate = formatDate(date);
 
-                        // Find corresponding record for the date
+                        
                         var record = findRecord(formattedDate);
 
                         tableHTML += "<tr>" +

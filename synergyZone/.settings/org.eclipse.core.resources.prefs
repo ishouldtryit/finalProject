@@ -1,9 +1,20 @@
 =\=\=\=\=\=\=
 <<<<<<<=HEAD
+<<<<<<< HEAD
 >>>>>>>=refs/heads/main
+=======
+>>>>>>>=refs/remotes/origin/main
+>>>>>>> refs/remotes/origin/main
 eclipse.preferences.version=1
 encoding//src/main/java=UTF-8
 encoding//src/main/resources=UTF-8
+<<<<<<< HEAD
 encoding//src/main/webapp/WEB-INF/views/commute/commute.jsp=UTF-8
+=======
+>>>>>>> refs/remotes/origin/main
 encoding//src/main/webapp/WEB-INF/views/employee/detail.jsp=UTF-8
+<<<<<<< HEAD
+=======
+encoding//src/test/java=UTF-8
+>>>>>>> refs/remotes/origin/main
 encoding/<project>=UTF-8

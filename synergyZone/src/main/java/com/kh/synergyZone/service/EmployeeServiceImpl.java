@@ -2,6 +2,8 @@ package com.kh.synergyZone.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
@@ -156,28 +158,42 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 
 		@Override
-		public String getLocation(HttpServletRequest request) {
-			  String ip = request.getHeader("X-Forwarded-For");
-		        if (ip == null) {
-		            ip = request.getHeader("Proxy-Client-IP");
-		        }
-		        if (ip == null) {
-		            ip = request.getHeader("WL-Proxy-Client-IP"); // 웹로직
-		        }
-		        if (ip == null) {
-		            ip = request.getHeader("HTTP_CLIENT_IP");
-		        }
-		        if (ip == null) {
-		            ip = request.getHeader("HTTP_X_FORWARDED_FOR");
-		        }
-		        if (ip == null) {
-		            ip = request.getRemoteAddr();
-		        }
+	      public String getLocation(HttpServletRequest request) {
+	         String ipAddress = request.getHeader("X-Forwarded-For");
+	          
+	          if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
+	              ipAddress = request.getHeader("Proxy-Client-IP");
+	          }
+	          
+	          if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
+	              ipAddress = request.getHeader("WL-Proxy-Client-IP");
+	          }
+	          
+	          if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
+	              ipAddress = request.getHeader("HTTP_CLIENT_IP");
+	          }
+	          
+	          if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
+	              ipAddress = request.getHeader("HTTP_X_FORWARDED_FOR");
+	          }
+	          
+	          if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
+	              ipAddress = request.getRemoteAddr();
+	              
+	              // Loopback Address 처리
+	              if (ipAddress.equals("127.0.0.1") || ipAddress.equals("0:0:0:0:0:0:0:1")) {
+	                  InetAddress inetAddress = null;
+	                  try {
+	                      inetAddress = InetAddress.getLocalHost();
+	                      ipAddress = inetAddress.getHostAddress();
+	                  } catch (UnknownHostException e) {
+	                      e.printStackTrace();
+	                  }
+	              }
+	          }
 
-//		        log.info(">>>> Result : IP Address : " + ip);
-
-		        return ip;
-		}
+	          return ipAddress;
+	      }
 
 
 		@Override

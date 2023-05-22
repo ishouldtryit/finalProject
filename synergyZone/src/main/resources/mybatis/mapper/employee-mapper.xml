@@ -56,24 +56,40 @@
 		where emp_no = #{empNo}
 	</update>
 	
+	<!-- 사원 퇴사 -->
 	<update id="exit">
 		update employee set
 		is_leave = #{isLeave}
 		where emp_no = #{empNo}
 	</update>
 	
+	<!-- 사원 삭제 -->
 	<delete id="delete">
 		delete from employee where emp_no = #{empNo}
 	</delete>
 	
+	<!-- 사원번호 -->
 	<select id="lastEmpNoOfYear" resultType="String">
 		select max(emp_no)
 		from employee
 		where emp_no like concat(#{year}, '%')
 	</select>
 	
+	<!-- 대기 목록 -->
 	<select id="waitingList" resultType="employeeDto">
 		select * from employee where is_leave = 'Y'
 	</select>
+	
+	<!-- 비밀번호 찾기 -->
+	<select id="findPw" resultType="employeeDto">
+		select emp_email from employee where emp_no = #{empNo} and emp_email = #{empEmail}
+	</select>
+	
+	<!-- 비밀번호 변경 -->	
+	<update id="changePw">
+		update employee 
+		set emp_password = #{empPassword}, 
+		where emp_no = #{empNo}
+	</update>
 	
 </mapper>

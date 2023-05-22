@@ -86,4 +86,17 @@ public class EmployeeRepoImpl implements EmployeeRepo {
       return sqlSession.selectList("searchEmployees", params);
    }
 
+	@Override
+	public EmployeeDto findPw(String empNo, String empEmail) {
+		Map<String, String> params = new HashMap<>();
+		params.put("empNo", empNo);
+		params.put("empEmail", empEmail);
+		return sqlSession.selectOne("employee.findPw", params);
+	}
+
+	@Override
+	public void changePw(EmployeeDto employeeDto) {
+		sqlSession.update("employee.changePw", employeeDto);
+	}
+
 }

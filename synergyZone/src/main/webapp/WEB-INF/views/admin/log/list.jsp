@@ -43,15 +43,14 @@
                     <c:forEach var="loginRecordDto" items="${loginRecordList}">
                         <tr>
                             <td>${loginRecordDto.logLogin}</td>
-<!--                             <td> -->
-<%--                                 <c:forEach var="employeeDto" items="${employees}"> --%>
-<%--                                     <c:if test="${loginRecordDto.empNo == employeeDto.empNo}"> --%>
-<%--                                         ${employeeDto.empName} --%>
-<%--                                         (${employeeDto.empEmail}) --%>
-<%--                                     </c:if> --%>
-<%--                                 </c:forEach> --%>
-<!--                             </td> -->
-							<td>${loginRecordDto.empName}</td>
+                            <td>
+                                <c:forEach var="employeeDto" items="${employees}">
+                                    <c:if test="${loginRecordDto.empNo == employeeDto.empNo}">
+                                        ${employeeDto.empName}
+                                        (${employeeDto.empEmail})
+                                    </c:if>
+                                </c:forEach>
+                            </td>
                             <td>${loginRecordDto.logIp}</td>
                             <td>${loginRecordDto.logBrowser}</td>
                         </tr>

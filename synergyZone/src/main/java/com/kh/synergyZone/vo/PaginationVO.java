@@ -138,6 +138,9 @@ public class PaginationVO {
   public int getPrevPage() {
     return getStartBlock() - 1;
   }
+  
+  //정렬 항목
+  private String sort = "member_regdate desc";
 
   // 쿼리스트링(column + keyword) 생성
   public String getQueryString() {

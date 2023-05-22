@@ -3,7 +3,6 @@ package com.kh.synergyZone.service;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -29,6 +28,12 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
+	
+	@Autowired
+	public EmployeeServiceImpl(EmployeeRepo employeeRepo) {
+	        this.employeeRepo = employeeRepo;
+	    }
+	
 	@Autowired
 	private EmployeeRepo employeeRepo;
 	
@@ -97,9 +102,33 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 	
 	
-	//사원 이미지
+	//사원 목록
+	@Override
+	public List<EmployeeDto> getAllEmployees() {
+		return employeeRepo.list();
+	}
 	
-	//사원 이미지 수정
+	
+	//사원 상세
+	@Override
+	public EmployeeDto detailEmployee(String empNo) {
+		return employeeRepo.selectOne(empNo);
+	}
+	
+	//사원 정보 수정
+	@Override
+	public void updateEmployee(EmployeeDto employeeDto) {
+		employeeRepo.update(employeeDto);
+	}
+	
+	//사원 퇴사
+	@Override
+	public void deleteEmployee(String empNo) {
+		employeeRepo.delete(empNo);
+	}
+	
+	
+	//사원 이미지
 	@Override
 	public void updateProfile(String empNo, MultipartFile attach) throws IllegalStateException, IOException {
 		deleteProfile(empNo);
@@ -124,7 +153,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 		}
 	}
 	
-	//사원 이미지 삭제
 	@Override
 	public void deleteProfile(String empNo) {
 		EmployeeProfileDto profile = (EmployeeProfileDto) employeeProfileRepo.find(empNo);
@@ -139,22 +167,54 @@ public class EmployeeServiceImpl implements EmployeeService {
 		}
 		
 	}
-	
-	//사원번호 생성
+
+	//부서 등록
 	@Override
-	public String generateEmpNo(Date empHireDate) {
-		LocalDate hireDate = empHireDate.toLocalDate();
-		int year = hireDate.getYear();
-		String lastEmpNoOfYear = employeeRepo.lastEmpNoOfYear(String.valueOf(year));
-		int number = 1;
-		
-		if(lastEmpNoOfYear != null) {
-			String lastNumber = lastEmpNoOfYear.substring(4);
-			number = Integer.parseInt(lastNumber) + 1;
-		}
-		
-		return year + String.format("%03d", number);
+	public void registerDepartment(DepartmentDto departmentDto) {
+		departmentRepo.insert(departmentDto);
 	}
 
+	//부서 목록
+	@Override
+	public List<DepartmentDto> getAllDepartments() {
+		return departmentRepo.list();
+	}
+
+	//부서 삭제
+	@Override
+	public void deleteDepartment(int deptNo) {
+		departmentRepo.delete(deptNo);
+	}
+
+	
+	//직위 등록
+	@Override
+	public void registerJob(JobDto jobDto) {
+		jobRepo.insert(jobDto);
+	}
+
+	//직위 목록
+	@Override
+	public List<JobDto> getAllJobs() {
+		return jobRepo.list();
+	}
+
+
+	@Override
+	public void deleteJob(int jobNo) {
+		jobRepo.delete(jobNo);
+	}
+
+	//사원 검색기능
+	@Override
+	public List<EmployeeDto> searchEmployees(String column, String keyword) {
+	    return employeeRepo.searchEmployees(column, keyword);
+	}
+
+
+	@Override
+	public String generateEmpNo(Date empHireDate) {
+		return null;
+	}
 
 }

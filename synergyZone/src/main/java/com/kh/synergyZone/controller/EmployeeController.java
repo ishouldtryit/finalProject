@@ -54,6 +54,8 @@ public class EmployeeController {
 	
 	@Autowired
 	private EmployeeProfileRepo employeeProfileRepo;
+	
+	
 	//회원가입
     @GetMapping("/join")
     public String join(Model model) {
@@ -99,14 +101,14 @@ public class EmployeeController {
 			session.setAttribute("empNo", findDto.getEmpNo());
 			session.setAttribute("jobNo", findDto.getJobNo());
 			
-			String ipAddress = addressController.getLocation(request);
-			String browserAddress = addressController.getBrowser(request);
-			
+//			String ipAddress = addressController.getLocation(request);
+//			String browserAddress = addressController.getBrowser(request);
+//			
 			//로그인 접속 시간
 			LoginRecordDto loginRecordDto = new LoginRecordDto();
 			loginRecordDto.setEmpNo(findDto.getEmpNo());
-			loginRecordDto.setLogIp(ipAddress);
-			loginRecordDto.setLogBrowser(browserAddress);
+//			loginRecordDto.setLogIp(ipAddress);
+//			loginRecordDto.setLogBrowser(browserAddress);
 			
 			loginRecordRepo.insert(loginRecordDto);
 		}

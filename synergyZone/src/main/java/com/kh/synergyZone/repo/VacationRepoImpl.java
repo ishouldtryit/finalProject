@@ -15,7 +15,7 @@ public class VacationRepoImpl implements VacationRepo {
 
 	@Override
 	public List<VacationDto> selectList() {
-		return sqlSession.selectList("");
+		return sqlSession.selectList("vacation.selectList");
 	}
 	
 }

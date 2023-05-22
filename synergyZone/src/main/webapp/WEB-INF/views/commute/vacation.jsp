@@ -52,15 +52,16 @@
 
         // AJAX 요청
         $.ajax({
-          url: "http://localhost:8080/rest/vacation/",
-          type: "POST",
-          data: JSON.stringify({ selectedValue: selectedValue }),
-          contentType: "application/json;charset=UTF-8",
-          success: function(data) {
-            console.log("선택한 값이 성공적으로 전송되었습니다.");
-            // 여기에서 필요한 작업을 수행하세요
-          }
-        });
+        	  url: "http://localhost:8080/rest/vacation/",
+        	  type: "GET",
+        	  success: function(data) {
+        	    console.log("선택한 값이 성공적으로 전송되었습니다.");
+        	    console.log(data); // 받은 데이터를 콘솔에 출력
+
+        	    // 받은 데이터를 활용하여 필요한 작업 수행
+        	    // 예: 받은 데이터를 DOM 요소에 추가하거나 처리하는 등의 작업
+        	  }
+        	});
       }
 
       // 이벤트 리스너 등록

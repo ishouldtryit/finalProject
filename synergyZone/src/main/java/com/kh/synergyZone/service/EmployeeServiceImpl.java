@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,15 +15,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.synergyZone.configuration.CustomFileUploadProperties;
 import com.kh.synergyZone.dto.AttachmentDto;
-import com.kh.synergyZone.dto.DepartmentDto;
 import com.kh.synergyZone.dto.EmployeeDto;
 import com.kh.synergyZone.dto.EmployeeProfileDto;
-import com.kh.synergyZone.dto.JobDto;
 import com.kh.synergyZone.repo.AttachmentRepo;
-import com.kh.synergyZone.repo.DepartmentRepo;
 import com.kh.synergyZone.repo.EmployeeProfileRepo;
 import com.kh.synergyZone.repo.EmployeeRepo;
-import com.kh.synergyZone.repo.JobRepo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -151,10 +148,59 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 
-	//사원 검색기능
+		//사원 검색기능
 		@Override
 		public List<EmployeeDto> searchEmployees(String column, String keyword) {
 		    return employeeRepo.searchEmployees(column, keyword);
+		}
+
+
+		@Override
+		public String getLocation(HttpServletRequest request) {
+			  String ip = request.getHeader("X-Forwarded-For");
+		        if (ip == null) {
+		            ip = request.getHeader("Proxy-Client-IP");
+		        }
+		        if (ip == null) {
+		            ip = request.getHeader("WL-Proxy-Client-IP"); // 웹로직
+		        }
+		        if (ip == null) {
+		            ip = request.getHeader("HTTP_CLIENT_IP");
+		        }
+		        if (ip == null) {
+		            ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+		        }
+		        if (ip == null) {
+		            ip = request.getRemoteAddr();
+		        }
+
+//		        log.info(">>>> Result : IP Address : " + ip);
+
+		        return ip;
+		}
+
+
+		@Override
+		public String getBrowser(HttpServletRequest request) {
+			// 에이전트
+			String agent = request.getHeader("User-Agent");
+
+			String browser = null;
+			if (agent.contains("MSIE")) {
+				browser = "MSIE";
+			} else if (agent.contains("Trident")) {
+				browser = "MSIE11";
+			} else if (agent.contains("Chrome")) {
+				browser = "Chrome";
+			} else if (agent.contains("Opera")) {
+				browser = "Opera";
+			} else if (agent.contains("Firefox")) {
+				browser = "Firefox";
+			} else if (agent.contains("Safari")) {
+				browser = "Safari";
+			}
+
+			return browser;
 		}
 
 

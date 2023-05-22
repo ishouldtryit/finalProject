@@ -101,14 +101,14 @@ public class EmployeeController {
 			session.setAttribute("empNo", findDto.getEmpNo());
 			session.setAttribute("jobNo", findDto.getJobNo());
 			
-//			String ipAddress = addressController.getLocation(request);
-//			String browserAddress = addressController.getBrowser(request);
+			String ipAddress = employeeService.getLocation(request);
+			String browserAddress = employeeService.getBrowser(request);
 
 			//로그인 접속 시간
 			LoginRecordDto loginRecordDto = new LoginRecordDto();
 			loginRecordDto.setEmpNo(findDto.getEmpNo());
-//			loginRecordDto.setLogIp(ipAddress);
-//			loginRecordDto.setLogBrowser(browserAddress);
+			loginRecordDto.setLogIp(ipAddress);
+			loginRecordDto.setLogBrowser(browserAddress);
 			
 			loginRecordRepo.insert(loginRecordDto);
 		}
@@ -276,11 +276,20 @@ public class EmployeeController {
 	@GetMapping("/log/list")
 	public String logList(@ModelAttribute("vo") LoginRecordSearchVO vo,
 						  Model model) {
-		List<LoginRecordDto> logs = loginRecordRepo.list();
+		//사원명
 		List<EmployeeDto> employees = employeeRepo.list();
 		
 		model.addAttribute("employees", employees);
-		model.addAttribute("logs", logs);
+		
+		//검색
+		List<LoginRecordDto> loginRecordList;
+		if(vo.isSearch()) {
+			loginRecordList = loginRecordRepo.logList(vo);
+		}
+		else {
+			loginRecordList = loginRecordRepo.list();
+		}
+		model.addAttribute("loginRecordList", loginRecordList);
 		
 		return "employee/log/list";
 	}

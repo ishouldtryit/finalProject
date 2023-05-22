@@ -7,9 +7,12 @@ import lombok.NoArgsConstructor;
 
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
 public class LoginRecordSearchVO {
+	private String empNo;
 	private String empName;
-//	private String beginLogDate;
-//	private String endLogDate;
 	private Integer searchLoginDays;
+	
+	public boolean isSearch() {
+		return searchLoginDays != null && empName != null;
+	}
 	
 }

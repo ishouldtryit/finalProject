@@ -64,14 +64,7 @@ public class AddressController {
        return "address/list";
    }
    
- 	//사원 상세
- 	@GetMapping("/list/detail")
- 	public String detail(@RequestParam String empNo, Model model) 
- 	{
- 			model.addAttribute("employeeDto", employeeService.detailEmployee(empNo));
- 			model.addAttribute("profile", employeeProfileRepo.find(empNo));
- 			return "address/detail";
- 	}
+ 	
    
  	
  	

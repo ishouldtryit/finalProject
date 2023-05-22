@@ -14,24 +14,25 @@ import com.kh.synergyZone.vo.PaginationVO;
 
 @Repository
 public class EmployeeRepoImpl implements EmployeeRepo {
-	
+
 	@Autowired
 	private SqlSession sqlSession;
-	
+
 	@Autowired
 	private EmpNoGenerator empNoGenerator;
 
 	@Autowired
-    public EmployeeRepoImpl(SqlSession sqlSession) {
-        this.sqlSession = sqlSession;
-    }
+	public EmployeeRepoImpl(SqlSession sqlSession) {
+		this.sqlSession = sqlSession;
+	}
+
 	@Override
-    public void insert(EmployeeDto employeeDto) {
-        int deptNo = employeeDto.getDeptNo();
-        String empNo = empNoGenerator.generateEmpNo(String.valueOf(deptNo));
-        employeeDto.setEmpNo(empNo);
-        sqlSession.insert("employee.save", employeeDto);
-    }
+	public void insert(EmployeeDto employeeDto) {
+		int deptNo = employeeDto.getDeptNo();
+		String empNo = empNoGenerator.generateEmpNo(String.valueOf(deptNo));
+		employeeDto.setEmpNo(empNo);
+		sqlSession.insert("employee.save", employeeDto);
+	}
 
 	@Override
 	public EmployeeDto selectOne(String empNo) {
@@ -50,30 +51,30 @@ public class EmployeeRepoImpl implements EmployeeRepo {
 
 	@Override
 	public int getCount() {
-        return sqlSession.selectOne("employee.count");
+		return sqlSession.selectOne("employee.count");
 	}
 
 	@Override
 	public List<EmployeeDto> getEmployeeList(PaginationVO vo) {
 
-        int begin = vo.getBegin();
-        int end = vo.getEnd();
+		int begin = vo.getBegin();
+		int end = vo.getEnd();
 
-        Map<String, Object> params = new HashMap<>();
-        params.put("begin", begin);
-        params.put("end", end);
-        
-        return sqlSession.selectList("employee.getEmployeeList", params); 
+		Map<String, Object> params = new HashMap<>();
+		params.put("begin", begin);
+		params.put("end", end);
+
+		return sqlSession.selectList("employee.getEmployeeList", params);
 	}
 
 	@Override
 	public List<EmployeeDto> searchEmployees(String column, String keyword) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("column", column);
-        params.put("keyword", keyword);
-        return sqlSession.selectList("searchEmployees", params);
-    }
-	
+		Map<String, Object> params = new HashMap<>();
+		params.put("column", column);
+		params.put("keyword", keyword);
+		return sqlSession.selectList("searchEmployees", params);
+	}
+
 	public void update(EmployeeDto employeeDto) {
 		sqlSession.update("employee.edit", employeeDto);
 	}

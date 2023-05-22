@@ -90,29 +90,33 @@
         }
 
         function findRecord(date) {
-        	var list = "${list}";
+            var list = "${list}";
 
-        	// 문자열 파싱
-        	var parsedList = list
-        	    .replace(/\[|\]/g, '')  // 대괄호 제거
-        	    .split("), ")  // 개별 객체 분리
+            // 문자열 파싱
+            var parsedList = list
+                .replace(/\[|\]/g, '')  // 대괄호 제거
+                .split(/\), (?![^(]*\))/);  // 개별 객체 분리
 
-        	var records = parsedList.map(function(item) {
-        	    var parts = item.split(", ");  // 속성 분리
+            var records = parsedList.map(function(item) {
+                var parts = item.split(", ");  // 속성 분리
 
-        	    var startTime = parts[1].split("=")[1];
-        	    var endTime = parts[2].split("=")[1];
-        	    var workTime = parts[3].split("=")[1];
-        	    var workDate = parts[4].split("=")[1];
+                var startTime = parts[1].split("=")[1];
+                var endTime = parts[2].split("=")[1];
+                var workTime = parts[3].split("=")[1];
+                var workDate = parts[4].split("=")[1].replace(/[()]/g, '');  // 괄호 제거
 
-        	    return {
-        	        "startTime": startTime,
-        	        "endTime": endTime,
-        	        "workTime": workTime,
-        	        "workDate": workDate
-        	    };
-        	});
+                // endTime이 null인 경우 빈 문자열로 설정
+                if (endTime === 'null') {
+                    endTime = '';
+                }
 
+                return {
+                    "startTime": startTime,
+                    "endTime": endTime,
+                    "workTime": workTime,
+                    "workDate": workDate
+                };
+            });
 
             for (var i = 0; i < records.length; i++) {
                 if (records[i].workDate === date) {
@@ -122,6 +126,9 @@
 
             return null;
         }
+
+
+
         
     </script>
 </body>

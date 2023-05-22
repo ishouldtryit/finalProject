@@ -80,7 +80,7 @@ $(function () {
 	<div>
 		<h1>근태관리</h1>
     <ul>
-        <li><a href="내_근태_현황_페이지_URL">내 근태 현황</a></li>
+        <li><a href="/commute/record">내 근태 현황</a></li>
         <li><a href="내_연차_내역_페이지_URL">내 연차 내역</a></li>
         <li><a href="내_인사정보_페이지_URL">내 인사정보</a></li>
     </ul>

@@ -59,7 +59,6 @@ public class CommuteController {
 		String empNo = (String) session.getAttribute("memberId");
 		List<CommuteRecordDto> list=commuteRecordRepo.allList(empNo);
 		model.addAttribute("list",list);
-		System.out.println(list);
 		return "/commute/record";
 	}
 	

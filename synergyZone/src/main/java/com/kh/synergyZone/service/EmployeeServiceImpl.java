@@ -157,4 +157,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 
+	//사원 검색기능
+	@Override
+	public List<EmployeeDto> searchEmployees(String column, String keyword) {
+		   return employeeRepo.searchEmployees(column, keyword);
+	}
+
+
 }

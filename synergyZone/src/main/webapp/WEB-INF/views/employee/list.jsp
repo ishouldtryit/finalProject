@@ -15,8 +15,8 @@
 				<th>입사일</th>
 				<th>퇴사여부</th>
 				<td>사업자번호</td>
-				<th>직위</th>
 				<th>부서</th>
+				<th>직위</th>
 				<th>관리</th>
 			</tr>
 		</thead>

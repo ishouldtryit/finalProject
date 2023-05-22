@@ -31,11 +31,11 @@ public class AddressController {
    @Autowired private CustomFileUploadProperties fileuploadProperties;
    
    @Autowired
-	private EmployeeService employeeService;
-	
+   private EmployeeService employeeService;
+   
    @Autowired
-	private EmployeeProfileRepo employeeProfileRepo;
-	
+   private EmployeeProfileRepo employeeProfileRepo;
+   
    // 관리자 홈
    @GetMapping("/")
    public String home() {
@@ -53,7 +53,7 @@ public class AddressController {
        if (!column.isEmpty() && !keyword.isEmpty()) {
            employees = employeeService.searchEmployees(column, keyword);
        } else {
-           employees = employeeRepo.list();
+           employees = employeeService.getAllEmployees();
        }
        
        model.addAttribute("employees", employees);
@@ -64,8 +64,8 @@ public class AddressController {
        return "address/list";
    }
    
- 	
+    
    
- 	
- 	
+    
+    
 }

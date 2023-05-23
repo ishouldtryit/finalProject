@@ -3,13 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
-<<<<<<< HEAD
  
 
-		<div class="container-1200" style="margin-left: 15%;">
-=======
 <div class="container-1200" style="margin-left: 15%;">
->>>>>>> refs/remotes/origin/main
 		<!-- 삭제 form -->
        <form action="delete" method="post" class="delete_form">
           <input type="hidden" name="empNo" class="delete_empNo">
@@ -145,25 +141,26 @@
         
 	
 		<!-- 페이징 영역 -->
-		<div style="display: flex; justify-content: center;">
-		  <ul class="pagination" style="width: 35%;">
-		    <li class="page-item disabled">
-		      <a class="page-link" href="${pageContext.request.contextPath}/address/list?page=${vo.prevPage}">&laquo;</a>
-		    </li>
-		    <c:forEach var="i" begin="${vo.startBlock}" end="${vo.finishBlock}">
-		      <li class="page-item">
-		        <a class="page-link" href="${pageContext.request.contextPath}/address/list?page=${i}&sort=${sort}">
-		          <span class="text-info">${i}</span>
-		        </a>
-		      </li>
-		    </c:forEach> 
-		    <li class="page-item">
-		      <a class="page-link" href="${pageContext.request.contextPath}/address/list?page=${vo.nextPage}">
-		      <span class="text-info">&raquo;</span>
-		      </a>
-		    </li>
-		  </ul>
-		</div>
+<div style="display: flex; justify-content: center;">
+  <ul class="pagination" style="width: 35%;">
+    <li class="page-item disabled">
+      <a class="page-link" href="${pageContext.request.contextPath}/address/list?page=${vo.getPrevPage()}">&laquo;</a>
+    </li>
+    <c:forEach var="i" begin="${vo.getStartBlock()}" end="${vo.getFinishBlock()}">
+      <li class="page-item">
+        <a class="page-link" href="${pageContext.request.contextPath}/address/list?page=${i}&sort=${vo.sort}">
+          <span class="text-info">${i}</span>
+        </a>
+      </li>
+    </c:forEach> 
+    <li class="page-item">
+      <a class="page-link" href="${pageContext.request.contextPath}/address/list?page=${vo.getNextPage()}">
+        <span class="text-info">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</div>
+
 	</div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
      <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>

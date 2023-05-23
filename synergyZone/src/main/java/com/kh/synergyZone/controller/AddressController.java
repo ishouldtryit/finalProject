@@ -56,6 +56,7 @@ public class AddressController {
       return "address";
    }
    
+   //사원 목록
    @GetMapping("/list")
    public String list(Model model, @ModelAttribute("vo") PaginationVO vo,
            @RequestParam(required = false, defaultValue = "") String empNo,
@@ -63,34 +64,41 @@ public class AddressController {
            @RequestParam(required = false, defaultValue = "") String column,
            @RequestParam(required = false, defaultValue = "") String keyword) throws IOException {
        List<EmployeeInfoDto> employees;
-
+       
        // 검색
        if (!column.isEmpty() && !keyword.isEmpty()) {
            employees = employeeService.searchEmployees(column, keyword);
        } else {
            employees = employeeRepo.list();
        }
-
-
+       
+       // 페이징 처리
+       int totalCount = employees.size();  // 전체 데이터 개수
+       vo.setCount(totalCount);  // PaginationVO 객체의 count 값을 설정
+       
+       int size = vo.getSize();  // 페이지당 표시할 데이터 개수
+       int page = vo.getPage();  // 현재 페이지 번호
+       
+       int startIndex = (page - 1) * size;  // 데이터의 시작 인덱스
+       int endIndex = Math.min(startIndex + size, totalCount);  // 데이터의 종료 인덱스
+       
+       List<EmployeeInfoDto> pagedEmployees = employees.subList(startIndex, endIndex);  // 페이지에 해당하는 데이터만 추출
+       
        // 직위, 부서별 조회
        List<DepartmentDto> departments = departmentRepo.list();
        List<JobDto> jobs = jobRepo.list();
-
+       
        model.addAttribute("departments", departments);
        model.addAttribute("jobs", jobs);
-
+       
        // 프로필 사진 조회
        EmployeeProfileDto profile = employeeProfileRepo.find(empNo); // 프로필 정보 조회
        model.addAttribute("profile", profile);
-       model.addAttribute("employees", employees);
-
-       // 멤버 수 조회를 통한 리스트
-       int totalMemberCnt = employeeRepo.getCount();
-       vo.setCount(totalMemberCnt);
-
+       model.addAttribute("employees", pagedEmployees);
+       
        return "address/list";
    }
-   
+
    //사원 상세
  	@GetMapping("/detail")
  	public String detail(@RequestParam String empNo,

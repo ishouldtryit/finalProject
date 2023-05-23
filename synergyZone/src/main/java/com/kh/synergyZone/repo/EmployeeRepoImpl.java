@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.synergyZone.dto.EmployeeDto;
+import com.kh.synergyZone.dto.EmployeeInfoDto;
 import com.kh.synergyZone.vo.PaginationVO;
 
 @Repository
@@ -28,7 +29,7 @@ public class EmployeeRepoImpl implements EmployeeRepo {
    }
 
    @Override
-   public List<EmployeeDto> list() {
+   public List<EmployeeInfoDto> list() {
       return sqlSession.selectList("employee.list");
    }
 
@@ -79,11 +80,13 @@ public class EmployeeRepoImpl implements EmployeeRepo {
    }
    
    @Override
-   public List<EmployeeDto> searchEmployees(String column, String keyword) {
+   public List<EmployeeInfoDto> searchEmployees(String column, String keyword) {
       Map<String, Object> params = new HashMap<>();
       params.put("column", column);
       params.put("keyword", keyword);
       return sqlSession.selectList("searchEmployees", params);
    }
+
+  
 
 }

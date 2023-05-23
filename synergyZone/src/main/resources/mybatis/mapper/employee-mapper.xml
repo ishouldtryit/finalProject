@@ -25,7 +25,7 @@
 	</select>
 	
 	<select id="list" resultType="employeeDto">
-		select * from employee order by emp_no asc
+		select EMP.*, IMG.attachment_no from employee EMP left outer join emp_profile IMG on EMP.emp_no = IMG.emp_no
 	</select>
 	
 	<select id="count" resultType="int">
@@ -44,8 +44,8 @@
 		  ]]>
 	</select>
 	
-	<select id="searchEmployees" resultType="employeeDto">
-    	select * from employee where instr(${column}, #{keyword}) >0 order by ${column} asc
+	<select id="searchEmployees" resultType="EmployeeInfoDto">
+    	select * from search_info where instr(${column}, #{keyword}) >0 order by ${column} asc
     </select>
     
 	<update id="edit">

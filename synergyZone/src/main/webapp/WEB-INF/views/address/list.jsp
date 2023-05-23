@@ -22,13 +22,15 @@
 			  <select name="column" class="form-input me-sm-2">
 			    <option value="emp_name">이름</option>
 			    <option value="emp_no">사원번호</option>
-			    <option value="job_no">사원직급</option>
+			    <option value="dept_name">부서</option>
+			    <option value="job_name">직위</option>
 			  </select>
-			  <input class="form-control me-sm-2" type="search" placeholder="검색어" name="keyword" value="${keyword}" style="width: 13%;">
-			  <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
-			  <button type="submit" class="btn btn-success">쪽지 보내기</button>
 			  
+			  <input class="form-control me-sm-2" type="search" placeholder="검색어" name="keyword" value="${keyword}" style="width: 13%;">
+			  <button class="btn btn-info my-2 my-sm-0" type="submit">검색</button>
+			  <button type="submit" class="btn btn-success">쪽지 보내기</button>
 			</form>
+
 		
 		
 		
@@ -46,26 +48,43 @@
 		            <th>이메일</th>
 		            <th>주소</th>
 		            <th>상세주소</th>
+		            <th>부서</th>
+		            <th>직위</th>
 		          </tr>
 		        </thead>
 		        <tbody>
 		          <c:forEach var="employeeDto" items="${employees}">
 		            <tr>
-		             <td class="align-middle">
-						  <div class="p-2">
-						    <input type="checkbox" name="selectedEmployees" value="${employeeDto.empNo}">
-						  </div>
-						</td>
-						<td class="align-middle">${employeeDto.empNo}</td>
-						<td class="align-middle employee-name" data-empno="${employeeDto.empNo}" data-empname="${employeeDto.empName}" 
-						  data-empphone="${employeeDto.empPhone}" data-empemail="${employeeDto.empEmail}" 
-						  data-empaddress="${employeeDto.empAddress}" data-empdetailaddress="${employeeDto.empDetailAddress}">
-						  ${employeeDto.empName}
-						</td>
-						<td class="align-middle">${employeeDto.empPhone}</td>
-						<td class="align-middle">${employeeDto.empEmail}</td>
-						<td class="align-middle">${employeeDto.empAddress}</td>
-						<td class="align-middle">${employeeDto.empDetailAddress}</td>
+		              <td class="align-middle">
+		                <div class="p-2">
+		                  <input type="checkbox" name="selectedEmployees" value="${employeeDto.empNo}">
+		                </div>
+		              </td>
+		              <td class="align-middle">${employeeDto.empNo}</td>
+		              <td class="align-middle employee-name" data-empno="${employeeDto.empNo}" data-empname="${employeeDto.empName}" 
+		                data-empphone="${employeeDto.empPhone}" data-empemail="${employeeDto.empEmail}" 
+		                data-empaddress="${employeeDto.empAddress}" data-empdetailaddress="${employeeDto.empDetailAddress}"
+		                data-attachmentno="${employeeDto.attachmentNo}">
+		                ${employeeDto.empName}
+		              </td>
+		              <td class="align-middle">${employeeDto.empPhone}</td>
+		              <td class="align-middle">${employeeDto.empEmail}</td>
+		              <td class="align-middle">${employeeDto.empAddress}</td>
+		              <td class="align-middle">${employeeDto.empDetailAddress}</td>
+		              <td class="align-middle">
+		                <c:forEach var="departmentDto" items="${departments}">
+		                  <c:if test="${departmentDto.deptNo == employeeDto.deptNo}">
+		                    ${departmentDto.deptName}
+		                  </c:if>
+		                </c:forEach>
+		              </td>
+		              <td class="align-middle">
+		                <c:forEach var="jobDto" items="${jobs}">
+		                  <c:if test="${jobDto.jobNo == employeeDto.jobNo}">
+		                    ${jobDto.jobName}
+		                  </c:if>
+		                </c:forEach>
+		              </td>
 		            </tr>
 		          </c:forEach>
 		        </tbody>
@@ -80,9 +99,9 @@
 		    <div class="modal-content">
 		      <div class="modal-header">
 		        <h5 class="modal-title" id="employeeModalLabel"></h5>
-		    <div class="flex">
-					<div><img width="200" height="200" src="/attachment/download?attachmentNo=${profile.attachmentNo}"></div>
-		    </div>
+		     <div class="profile-image">
+			    <img id="profileImage" width="200" height="200" src="/attachment/download?attachmentNo=${employeeDto.attachmentNo}" alt="프로필 이미지">
+			</div>
 		      <div class="modal-body">
 		        <p><strong>사원번호:</strong> <span id="employeeNo"></span></p>
 		        <p><strong>이름:</strong> <span id="employeeName"></span></p>
@@ -155,6 +174,7 @@
       var employeeEmail = $(this).data('empemail');
       var employeeAddress = $(this).data('empaddress');
       var employeeDetailAddress = $(this).data('empdetailaddress');
+      var attachmentNo = $(this).data('attachmentno');
 
       $('#employeeNo').text(employeeNo);
       $('#employeeName').text(employeeName);
@@ -162,6 +182,7 @@
       $('#employeeEmail').text(employeeEmail);
       $('#employeeAddress').text(employeeAddress);
       $('#employeeDetailAddress').text(employeeDetailAddress);
+      $("#profileImage").attr("src", "/attachment/download?attachmentNo="+attachmentNo);
 
       $('#employeeModal').modal('show');
     });

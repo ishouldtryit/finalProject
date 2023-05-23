@@ -14,15 +14,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.synergyZone.configuration.CustomFileUploadProperties;
 import com.kh.synergyZone.dto.AttachmentDto;
-import com.kh.synergyZone.dto.DepartmentDto;
 import com.kh.synergyZone.dto.EmployeeDto;
+import com.kh.synergyZone.dto.EmployeeInfoDto;
 import com.kh.synergyZone.dto.EmployeeProfileDto;
-import com.kh.synergyZone.dto.JobDto;
 import com.kh.synergyZone.repo.AttachmentRepo;
-import com.kh.synergyZone.repo.DepartmentRepo;
 import com.kh.synergyZone.repo.EmployeeProfileRepo;
 import com.kh.synergyZone.repo.EmployeeRepo;
-import com.kh.synergyZone.repo.JobRepo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -153,7 +150,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	//사원 검색기능
 		@Override
-		public List<EmployeeDto> searchEmployees(String column, String keyword) {
+		public List<EmployeeInfoDto> searchEmployees(String column, String keyword) {
 		    return employeeRepo.searchEmployees(column, keyword);
 		}
 

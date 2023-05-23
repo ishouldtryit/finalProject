@@ -73,7 +73,7 @@
 			<result column="dept_name" property="deptName"/>
 		</association>
 		<collection property="employeeList"
-			javaType="java.util.List" ofType="employeeDto"
+			javaType="java.util.List" ofType="EmployeeInfoDto "
 			select="treeSelectSub"
 			column="dept_no">
 			<result column="emp_no" property="empNo"/>

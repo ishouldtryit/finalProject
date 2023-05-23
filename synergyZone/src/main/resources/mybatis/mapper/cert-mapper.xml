@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="cert">
+
+	<insert id="save">
+		insert into cert(
+			email, secret
+		)
+		values(
+			#{email}, #{secret}
+		)
+	</insert>
+	
+	<select id="checkSecret">
+		select * from cert
+		where email = #{email} and secret = #{secret}
+	</select>
+	
+	<select id="checkSecretWithTime" resultType="certDto">
+		select * from cert
+		where
+		email = #{email} and secret = #{secret}
+		and
+		limit >= sysdate - 5/24/60
+	</select>
+	
+	<delete id="delete">
+		delete cert where email = #{email} and secret = #{secret}
+	</delete>
+	
+	<delete id="clean">
+		<![CDATA[
+			delete cert where limit < sysdate - 5/24/60
+		]]>
+	</delete>
+</mapper>

@@ -24,7 +24,7 @@ public interface EmployeeRepo {
 	   EmployeeDto findPw(String empNo, String empEmail);
 	   
 	   //비밀번호 변경
-	   void changePw(EmployeeDto employeeDto);
+	   void changePw(String empNo, String empPassword);
 	   
 	   int getCount();
 	        List<EmployeeDto> getEmployeeList(PaginationVO vo);

@@ -22,4 +22,5 @@ public interface EmployeeService {
 	
 	String getLocation(HttpServletRequest request);
 	String getBrowser(HttpServletRequest request);
+	
 }

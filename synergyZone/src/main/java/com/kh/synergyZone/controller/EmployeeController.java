@@ -1,21 +1,31 @@
 package com.kh.synergyZone.controller;
 
+import java.io.IOException;
+import java.util.List;
+
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.kh.synergyZone.dto.DepartmentDto;
 import com.kh.synergyZone.dto.EmployeeDto;
+import com.kh.synergyZone.dto.JobDto;
 import com.kh.synergyZone.dto.LoginRecordDto;
+import com.kh.synergyZone.repo.DepartmentRepo;
+import com.kh.synergyZone.repo.EmployeeProfileRepo;
 import com.kh.synergyZone.repo.EmployeeRepo;
+import com.kh.synergyZone.repo.JobRepo;
 import com.kh.synergyZone.repo.LoginRecordRepo;
 import com.kh.synergyZone.service.EmailService;
 import com.kh.synergyZone.service.EmployeeService;
@@ -23,8 +33,18 @@ import com.kh.synergyZone.service.EmployeeService;
 @Controller
 @RequestMapping("/employee")
 public class EmployeeController {
+	
 		@Autowired
 		private EmployeeRepo employeeRepo;
+		
+		@Autowired
+		private DepartmentRepo departmentRepo;
+		
+		@Autowired
+		private JobRepo jobRepo;
+	
+		@Autowired
+		private EmployeeProfileRepo employeeProfileRepo;
 		
 		@Autowired
 		private LoginRecordRepo loginRecordRepo;
@@ -74,7 +94,8 @@ public class EmployeeController {
 			session.removeAttribute("jobNo");
 			return "redirect:/";
 		}
-	
+		
+		//비밀번호 찾기
 		@GetMapping("/findPw")
 		public String findPw() {
 			return "employee/findPw";
@@ -99,5 +120,32 @@ public class EmployeeController {
 		@GetMapping("/findPwResult")
 		public String findPwResult() {
 			return "employee/findPwResult";
+		}
+		
+		//비밀번호 변경
+		@GetMapping("/password")
+		public String password() {
+			return "employee/password";
+		}
+		
+		@PostMapping("/password")
+		public String password(HttpSession session,
+							   @RequestParam String currentPw,
+							   @RequestParam String changePw,
+							   RedirectAttributes attr) {
+			String empNo = (String) session.getAttribute("empNo");
+			EmployeeDto employeeDto = employeeRepo.selectOne(empNo);
+			
+			if(!employeeDto.getEmpPassword().equals(currentPw)) {
+				attr.addAttribute("mode", "error");
+				return "redirect:password";
+			}
+			employeeRepo.changePw(empNo, changePw);
+			return "redirect:passwordFinish";
+		}
+		
+		@GetMapping("/passwordFinish") 
+		public String passwordFinish() {
+			return "employee/passwordFinish";
 		}
 }

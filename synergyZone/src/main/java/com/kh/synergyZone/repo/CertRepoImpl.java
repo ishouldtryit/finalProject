@@ -7,13 +7,14 @@ import org.springframework.stereotype.Repository;
 import com.kh.synergyZone.dto.CertDto;
 
 @Repository
-public class CertRepoImpl implements CertRepo {
+public class CertRepoImpl implements CertRepo{
+
 	@Autowired
 	private SqlSession sqlSession;
-
+	
 	@Override
 	public void insert(CertDto certDto) {
-		sqlSession.insert("cert.save", certDto);
+		sqlSession.insert("cert.add", certDto);
 	}
 
 	@Override
@@ -26,7 +27,7 @@ public class CertRepoImpl implements CertRepo {
 	public void delete(CertDto certDto) {
 		sqlSession.delete("cert.delete", certDto);
 	}
-
+	
 	@Override
 	public void clean() {
 		sqlSession.delete("cert.clean");

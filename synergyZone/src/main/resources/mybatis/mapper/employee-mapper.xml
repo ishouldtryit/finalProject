@@ -88,7 +88,7 @@
 	<!-- 비밀번호 변경 -->	
 	<update id="changePw">
 		update employee 
-		set emp_password = #{empPassword}, 
+		set emp_password = #{empPassword}
 		where emp_no = #{empNo}
 	</update>
 	

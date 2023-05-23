@@ -5,36 +5,38 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
 <mapper namespace="cert">
-
-	<insert id="save">
-		insert into cert(
-			email, secret
-		)
-		values(
-			#{email}, #{secret}
-		)
-	</insert>
 	
-	<select id="checkSecret">
+	<!-- 이메일에 인증번호 발송 시 해당 내용을 저장할 수 있는 기능 -->
+	<insert id="add">
+		insert into cert(email, secret) values(#{email}, #{secret})
+	</insert>	
+	
+	<!-- 
+		이메일과 인증번호가 주어졌을 때 존재하는지 확인하는 기능
+		(시간 고려 여부에 따라 코드가 달라짐) 
+	-->
+	<select id="checkSecret" resultType="CertDto">
 		select * from cert
 		where email = #{email} and secret = #{secret}
 	</select>
 	
-	<select id="checkSecretWithTime" resultType="certDto">
+	<select id="checkSecretWithTime" resultType="CertDto">
 		select * from cert
-		where
-		email = #{email} and secret = #{secret}
-		and
-		limit >= sysdate - 5/24/60
+		where 
+			email = #{email} and secret = #{secret}
+			and
+			limit >= sysdate - 5/24/60	
 	</select>
 	
 	<delete id="delete">
 		delete cert where email = #{email} and secret = #{secret}
 	</delete>
 	
+	<!-- 5분이 지난 인증정보는 쓸데가 없으므로 삭제 처리하도록 구현 -->
 	<delete id="clean">
 		<![CDATA[
-			delete cert where limit < sysdate - 5/24/60
-		]]>
+		delete cert where limit < sysdate - 5/24/60
+		]]>	
 	</delete>
+	
 </mapper>

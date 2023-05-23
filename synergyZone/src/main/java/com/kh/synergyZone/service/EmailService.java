@@ -7,4 +7,5 @@ import javax.mail.MessagingException;
 
 public interface EmailService {
 	void sendCert(String email) throws MessagingException, FileNotFoundException, IOException;
+	void sendTemporaryPw(String empNo, String empEmail) throws MessagingException;
 }

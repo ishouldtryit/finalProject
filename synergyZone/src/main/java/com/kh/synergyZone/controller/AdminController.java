@@ -85,37 +85,6 @@ public class AdminController {
         return "redirect:/";
     }
 	
-	//로그인
-	@GetMapping("/login")
-	public String login() {
-		return "admin/login";
-	}
-	
-	@PostMapping("/login")
-	public String login(@ModelAttribute EmployeeDto employeeDto,
-						HttpSession session,
-						HttpServletRequest request) {
-		EmployeeDto findDto = employeeService.login(employeeDto);
-		if(findDto != null){
-			//로그인 시 세션 저장
-			session.setAttribute("empNo", findDto.getEmpNo());
-			session.setAttribute("jobNo", findDto.getJobNo());
-			
-			String ipAddress = employeeService.getLocation(request);
-			String browserAddress = employeeService.getBrowser(request);
-
-			//로그인 접속 시간
-			LoginRecordDto loginRecordDto = new LoginRecordDto();
-			loginRecordDto.setEmpNo(findDto.getEmpNo());
-			loginRecordDto.setLogIp(ipAddress);
-			loginRecordDto.setLogBrowser(browserAddress);
-			
-			loginRecordRepo.insert(loginRecordDto);
-		}
-		
-		return "redirect:/";
-	}
-	
 	
 	//프로필 이미지 수정
 	@PostMapping("/profile/update")
@@ -132,14 +101,6 @@ public class AdminController {
 	public String deleteProfile(@RequestParam String empNo) {
 		employeeService.deleteProfile(empNo);
 		return "redirect:/admin/detail?empNo=" + empNo;
-	}
-	
-	//로그아웃
-	@GetMapping("/logout")
-	public String logout(HttpSession session) {
-		session.removeAttribute("empNo");
-		session.removeAttribute("jobNo");
-		return "redirect:/";
 	}
 	
 	//사원 목록

@@ -10,7 +10,7 @@
        <form action="delete" method="post" class="delete_form">
           <input type="hidden" name="empNo" class="delete_empNo">
           <input type="hidden" name="page" class="delete_page">
-       </form>  
+       </form>
        
        <!-- 정렬 
 	   	<div class="row ms-10">
@@ -143,23 +143,27 @@
 		<!-- 페이징 영역 -->
 <div style="display: flex; justify-content: center;">
   <ul class="pagination" style="width: 35%;">
-    <li class="page-item disabled">
-      <a class="page-link" href="${pageContext.request.contextPath}/address/list?page=${vo.getPrevPage()}">&laquo;</a>
+    <li class="page-item ${vo.isFirst() ? 'disabled' : ''}">
+      <a class="page-link" href="${vo.isFirst() ? '#' : pageContext.request.contextPath}/address/list?page=${vo.getPrevPage()}">&laquo;</a>
     </li>
     <c:forEach var="i" begin="${vo.getStartBlock()}" end="${vo.getFinishBlock()}">
       <li class="page-item">
-        <a class="page-link" href="${pageContext.request.contextPath}/address/list?page=${i}&sort=${vo.sort}">
+        <a class="page-link ${vo.getPage() eq i ? 'active' : ''}" href="${pageContext.request.contextPath}/address/list?page=${i}&sort=${vo.getSort()}">
           <span class="text-info">${i}</span>
         </a>
       </li>
     </c:forEach> 
-    <li class="page-item">
-      <a class="page-link" href="${pageContext.request.contextPath}/address/list?page=${vo.getNextPage()}">
+    <li class="page-item ${vo.isLast() ? 'disabled' : ''}">
+      <a class="page-link" href="${vo.isLast() ? '#' : pageContext.request.contextPath}/address/list?page=${vo.getNextPage()}">
         <span class="text-info">&raquo;</span>
       </a>
     </li>
   </ul>
 </div>
+
+
+
+
 
 	</div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>

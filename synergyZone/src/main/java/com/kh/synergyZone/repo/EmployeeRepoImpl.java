@@ -96,10 +96,10 @@ public class EmployeeRepoImpl implements EmployeeRepo {
 
 	@Override
 	public void changePw(String empNo, String empPassword) {
-		Map<String, String> params = new HashMap<>();
-		params.put("empNo", empNo);
-		params.put("empPassword", empPassword);
-		sqlSession.update("employee.changePw", params);
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("empNo", empNo);
+	    params.put("empPassword", empPassword);
+	    sqlSession.update("employee.changePw", params);
 	}
 
 }

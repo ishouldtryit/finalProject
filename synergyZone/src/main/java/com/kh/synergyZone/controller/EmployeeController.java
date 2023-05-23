@@ -140,7 +140,7 @@ public class EmployeeController {
 				attr.addAttribute("mode", "error");
 				return "redirect:password";
 			}
-			employeeRepo.changePw(empNo, changePw);
+			employeeRepo.changePw(empNo ,changePw);
 			return "redirect:passwordFinish";
 		}
 		

@@ -25,8 +25,6 @@
     <!-- 부트스트랩 css(공식) -->
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.2.3/journal/bootstrap.min.css">
 
-    <!-- custom 테스트 css -->
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/test.css">
 
     <script>
     	const contextPath = "${pageContext.request.contextPath}";

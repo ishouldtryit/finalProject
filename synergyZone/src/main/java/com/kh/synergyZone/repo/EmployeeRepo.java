@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.kh.synergyZone.dto.EmployeeDto;
 import com.kh.synergyZone.dto.EmployeeInfoDto;
+import com.kh.synergyZone.vo.DeptEmpListVO;
 import com.kh.synergyZone.vo.PaginationVO;
 
 public interface EmployeeRepo {
@@ -13,6 +14,7 @@ public interface EmployeeRepo {
 	   void update(EmployeeDto employeeDto);
 	   void exit(String empNo);
 	   void delete(String empNo);
+	   List<DeptEmpListVO> treeSelect();
 	   
 	   String lastEmpNoOfYear(String year);
 	   
@@ -21,7 +23,4 @@ public interface EmployeeRepo {
 	   int getCount();
 	   List<EmployeeDto> getEmployeeList(PaginationVO vo);
 	   List<EmployeeInfoDto> searchEmployees(String column, String keyword);
-
-	
-	
-}
+}	

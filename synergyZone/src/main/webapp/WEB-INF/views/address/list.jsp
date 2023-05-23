@@ -3,7 +3,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
+<<<<<<< HEAD
+ 
+
+		<div class="container-1200" style="margin-left: 15%;">
+=======
 <div class="container-1200" style="margin-left: 15%;">
+>>>>>>> refs/remotes/origin/main
 		<!-- 삭제 form -->
        <form action="delete" method="post" class="delete_form">
           <input type="hidden" name="empNo" class="delete_empNo">

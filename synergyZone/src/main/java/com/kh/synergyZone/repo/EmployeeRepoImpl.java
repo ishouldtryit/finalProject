@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.synergyZone.dto.EmployeeDto;
 import com.kh.synergyZone.dto.EmployeeInfoDto;
+import com.kh.synergyZone.vo.DeptEmpListVO;
 import com.kh.synergyZone.vo.PaginationVO;
 
 @Repository
@@ -61,6 +62,11 @@ public class EmployeeRepoImpl implements EmployeeRepo {
       return sqlSession.selectList("employee.waitingList");
    }
 
+	@Override
+	public List<DeptEmpListVO> treeSelect() {
+		return sqlSession.selectList("employee.treeSelect");
+	}
+	
    @Override
    public int getCount() {
       return sqlSession.selectOne("employee.count");

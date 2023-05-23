@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.synergyZone.dto.EmployeeDto;
+import com.kh.synergyZone.dto.EmployeeInfoDto;
 
 public interface EmployeeService {
 	EmployeeDto login(EmployeeDto employeeDto);
@@ -16,5 +17,5 @@ public interface EmployeeService {
 	
 	String generateEmpNo(Date empHireDate);
 	
-	List<EmployeeDto> searchEmployees(String column, String keyword);
+	List<EmployeeInfoDto> searchEmployees(String column, String keyword);
 }

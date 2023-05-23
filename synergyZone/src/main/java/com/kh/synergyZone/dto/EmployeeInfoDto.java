@@ -11,10 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class EmployeeDto {
-    private String empNo;
-    private String empName;
-    private String empPassword;
+public class EmployeeInfoDto {
+	private String empName;
     private String empEmail;
     private String empPhone;
     private String empAddress;
@@ -23,9 +21,10 @@ public class EmployeeDto {
     private Date empHireDate;
     private String isLeave;
     private int cpNumber;
-    private int jobNo;
     private int deptNo;
     private Integer attachmentNo;
-
+    private int jobNo;
+    private String jobName;
+    private String empNo;
+    private String deptName;
 }
-

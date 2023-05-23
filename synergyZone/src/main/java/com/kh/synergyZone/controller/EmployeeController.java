@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.synergyZone.dto.DepartmentDto;
 import com.kh.synergyZone.dto.EmployeeDto;
+import com.kh.synergyZone.dto.EmployeeInfoDto;
 import com.kh.synergyZone.dto.JobDto;
 import com.kh.synergyZone.dto.LoginRecordDto;
 import com.kh.synergyZone.repo.DepartmentRepo;
@@ -142,7 +143,7 @@ public class EmployeeController {
 	//사원 목록
 	@GetMapping("/list")
 	public String list(Model model) throws IOException {
-		List<EmployeeDto> employees = employeeRepo.list();
+		List<EmployeeInfoDto> employees = employeeRepo.list();
 	    List<DepartmentDto> departments = departmentRepo.list();
 	    List<JobDto> jobs = jobRepo.list();
 	    
@@ -274,7 +275,7 @@ public class EmployeeController {
 	public String logList(@ModelAttribute("vo") LoginRecordSearchVO vo,
 						  Model model) {
 		List<LoginRecordDto> logs = loginRecordRepo.list();
-		List<EmployeeDto> employees = employeeRepo.list();
+		List<EmployeeInfoDto> employees = employeeRepo.list();
 		
 		model.addAttribute("employees", employees);
 		model.addAttribute("logs", logs);

@@ -45,10 +45,12 @@ public class MessageWithNickDao {
         String sql;
         Object[] param;
         if ("".equals(pageVo.getKeyword())) {
-            sql = "select * from (select rownum rn, tmp.* from (select * from message_with_nick where message_recipient = ? and message_recipient_store = 1 order by message_no desc) tmp) where rn between ? and ?";
+            sql = "select * from (select rownum rn, tmp.* from (select * from message_with_nick where message_recipient = ? "
+            		+ "and message_recipient_store = 1 order by message_no desc) tmp) where rn between ? and ?";
             param = new Object[] { empName, pageVo.getBegin(), pageVo.getEnd() };
         } else {
-            sql = "select * from (select rownum rn, tmp.* from (select * from message_with_nick where message_recipient = ? and message_recipient_store = 1 and instr(#1, ?) > 0 order by message_no desc) tmp) where rn between ? and ?";
+            sql = "select * from (select rownum rn, tmp.* from (select * from message_with_nick where message_recipient = ? "
+            		+ "and message_recipient_store = 1 and instr(#1, ?) > 0 order by message_no desc) tmp) where rn between ? and ?";
             sql = sql.replace("#1", pageVo.getColumn());
             param = new Object[] {
                     empName,
@@ -65,10 +67,12 @@ public class MessageWithNickDao {
         String sql;
         Object[] param;
         if ("".equals(pageVo.getKeyword())) {
-            sql = "select * from (select rownum rn, tmp.* from (select * from message_with_nick where message_sender = ? and message_sender_store = 1 order by message_no desc) tmp) where rn between ? and ?";
+            sql = "select * from (select rownum rn, tmp.* from (select * from message_with_nick where message_sender = ? "
+            		+ "and message_sender_store = 1 order by message_no desc) tmp) where rn between ? and ?";
             param = new Object[] { empName, pageVo.getBegin(), pageVo.getEnd() };
         } else {
-            sql = "select * from (select rownum rn, tmp.* from (select * from message_with_nick where message_sender = ? and message_sender_store = 1 and instr(#1, ?) > 0 order by message_no desc) tmp) where rn between ? and ?";
+            sql = "select * from (select rownum rn, tmp.* from (select * from message_with_nick where message_sender = ? "
+            		+ "and message_sender_store = 1 and instr(#1, ?) > 0 order by message_no desc) tmp) where rn between ? and ?";
             sql = sql.replace("#1", pageVo.getColumn());
             param = new Object[] {
                     empName,
@@ -85,10 +89,13 @@ public class MessageWithNickDao {
         String sql;
         Object[] param;
         if (pageVo.getKeyword().equals("")) {
-            sql = "select * from (select rownum rn, tmp.* from (select * from message_with_nick where message_recipient = ? and message_recipient_store = 1 and message_read_time is null order by message_no desc) tmp) where rn between ? and ?";
+            sql = "select * from (select rownum rn, tmp.* from (select * from message_with_nick where message_recipient = ? "
+            		+ "and message_recipient_store = 1 and message_read_time is null order by message_no desc) tmp) where rn between ? and ?";
             param = new Object[] { empName, pageVo.getBegin(), pageVo.getEnd() };
         } else {
-            sql = "select * from (select rownum rn, tmp.* from (select * from message_with_nick where message_recipient = ? and message_recipient_store = 1 and instr(#1, ?) > 0 and message_read_time is null order by message_no desc) tmp) where rn between ? and ?";
+            sql = "select * from (select rownum rn, tmp.* from (select * from message_with_nick where message_recipient = ? "
+            		+ "and message_recipient_store = 1 and instr(#1, ?) > 0 and message_read_time is null order by message_no desc) tmp) "
+            		+ "where rn between ? and ?";
             sql = sql.replace("#1", pageVo.getColumn());
             param = new Object[] {
                     empName,
@@ -138,11 +145,13 @@ public class MessageWithNickDao {
         String sql;
         int cnt;
         if ("".equals(pageVo.getKeyword())) {
-            sql = "select count(*) from message_with_nick where message_recipient_store = 1 and message_recipient = ? and message_read_time is null";
+            sql = "select count(*) from message_with_nick where message_recipient_store = 1 and message_recipient = ? "
+            		+ "and message_read_time is null";
             Object[] param = { empName };
             cnt = jdbcTemplate.queryForObject(sql, int.class, param);
         } else {
-            sql = "select count(*) from message_with_nick where message_recipient_store = 1 and message_recipient = ? and instr(#1, ?) > 0 and message_read_time is null";
+            sql = "select count(*) from message_with_nick where message_recipient_store = 1 and message_recipient = ? and instr(#1, ?) > 0 "
+            		+ "and message_read_time is null";
             sql = sql.replace("#1", pageVo.getColumn());
             Object[] param = { empName, pageVo.getKeyword() };
             cnt = jdbcTemplate.queryForObject(sql, int.class, param);

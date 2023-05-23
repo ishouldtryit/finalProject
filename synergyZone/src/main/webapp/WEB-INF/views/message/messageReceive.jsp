@@ -11,7 +11,9 @@ pageEncoding="UTF-8"%>
   <!-- aside -->
   <jsp:include page="/WEB-INF/views/message/messageAside.jsp"></jsp:include>
     <div class="mb-30">
-        <h1>받은 쪽지함 <a class="deco-none message-not-read-cnt" href="${pageContext.request.contextPath}/message/receive?mode=new" style="color:#5E78D3">${notReadCnt}</a><c:if test="${param.mode != 'new'}">/<a class="deco-none message-receive-cnt" style="color:black" href="${pageContext.request.contextPath}/message/receive"></a></c:if></h1>
+        <h1>받은 쪽지함 <a class="deco-none message-not-read-cnt" href="${pageContext.request.contextPath}/message/receive?mode=new" 
+        style="color:#5E78D3">${notReadCnt}</a><c:if test="${param.mode != 'new'}">/<a class="deco-none message-receive-cnt" 
+        style="color:black" href="${pageContext.request.contextPath}/message/receive"></a></c:if></h1>
     </div>
     <div class="row flex">
       <div class="pocketmonTrade-btn message-delete-btn">

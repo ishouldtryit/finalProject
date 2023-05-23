@@ -43,7 +43,7 @@ public class PaginationVO {
 
   // 태그 검색용 파라미터 자동 생성
   public String getTagParameter() {
-    StringBuffer buffer = new StringBuffer();
+    StringBuilder buffer = new StringBuilder();
     buffer.append("size=");
     buffer.append(size);
     buffer.append("&tagList=");
@@ -57,7 +57,7 @@ public class PaginationVO {
 
   // 파라미터 자동 생성
   public String getParameter() {
-    StringBuffer buffer = new StringBuffer();
+    StringBuilder buffer = new StringBuilder();
     buffer.append("size=");
     buffer.append(size);
     if (isSearch()) {
@@ -72,7 +72,7 @@ public class PaginationVO {
   }
 
   public String getAddParameter() {
-    StringBuffer buffer = new StringBuffer();
+    StringBuilder buffer = new StringBuilder();
     buffer.append("&item=");
     buffer.append(item);
     buffer.append("&order=");
@@ -89,8 +89,7 @@ public class PaginationVO {
 
   // 종료행 - 페이지에서 보여주는 게시판 마지막글 순서
   public int getEnd() {
-    int lastBoard = page * size;
-    return Math.min(lastBoard, count);
+    return Math.min(page * size, count);
   }
 
   // 전체페이지
@@ -129,16 +128,30 @@ public class PaginationVO {
     return getFinishBlock() < getTotalPage();
   }
 
-  // [다음]을 누르면 나올 페이지 번호
-  public int getNextPage() {
-    return getFinishBlock() + 1;
+	//[다음]을 누르면 나올 페이지 번호
+	public int getNextPage() {
+	 int nextPage = getFinishBlock() + 1;
+	 return nextPage > getTotalPage() ? getTotalPage() : nextPage;
+	}
+	
+	//[이전]을 누르면 나올 페이지 번호
+	public int getPrevPage() {
+	 int prevPage = getStartBlock() - 1;
+	 return prevPage < 1 ? 1 : prevPage;
+	}
+  
+  // 정렬 항목
+  private String sort = "member_regdate desc";
+
+  // sort 정의 
+  public String getSort() {
+    return sort;
   }
 
-  // [이전]을 누르면 나올 페이지 번호
-  public int getPrevPage() {
-    return getStartBlock() - 1;
+  public void setSort(String sort) {
+    this.sort = sort;
   }
-
+  
   // 쿼리스트링(column + keyword) 생성
   public String getQueryString() {
     return this.keyword.equals("") ? "" : "&column=" + this.column + "&keyword=" + this.keyword;

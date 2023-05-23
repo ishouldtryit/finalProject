@@ -13,6 +13,8 @@
         <i class="recipient-btn message-recipient-delete-btn fa-solid fa-xmark ps-5" style="color: red"></i>
     </div>
 </script>
+
+
 <jsp:include page="/WEB-INF/views/message/messageAside.jsp"></jsp:include>
     <div class="mb-30">
             <h1>쪽지 쓰기</h1>

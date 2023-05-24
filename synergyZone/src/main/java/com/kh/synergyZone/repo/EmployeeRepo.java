@@ -14,18 +14,22 @@ public interface EmployeeRepo {
 	   void exit(String empNo);
 	   void delete(String empNo);
 	   
-	   //사원번호
-	   String lastEmpNoOfYear(String year);
-	   
-	   //퇴사 대기목록
-	   List<EmployeeDto> waitingList();
-
 	   //비밀번호 찾기
 	   EmployeeDto findPw(String empNo, String empEmail);
 	   
 	   //비밀번호 변경
 	   void changePw(String empNo, String empPassword);
+
+	   //사원번호
+	   String lastEmpNoOfYear(String year);
 	   
+	   //퇴사 대기목록
+	   List<EmployeeDto> waitingList();
+	   
+	   //관리자 권한 부여
+	   void authorityAdmin(String empNo);
+	   
+	   //사원 검색
 	   int getCount();
 	        List<EmployeeDto> getEmployeeList(PaginationVO vo);
 	   List<EmployeeDto> searchEmployees(String column, String keyword);

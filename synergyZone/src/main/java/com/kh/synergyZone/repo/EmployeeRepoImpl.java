@@ -16,7 +16,8 @@ public class EmployeeRepoImpl implements EmployeeRepo {
    
    @Autowired
    private SqlSession sqlSession;
-
+   
+   //사원
    @Override
     public void insert(EmployeeDto employeeDto) {
         sqlSession.insert("employee.save", employeeDto);
@@ -49,17 +50,38 @@ public class EmployeeRepoImpl implements EmployeeRepo {
       employeeDto.setIsLeave("Y");
       sqlSession.update("employee.exit", employeeDto);
    }
-
+   
+   //비밀번호 찾기
+   @Override
+   public EmployeeDto findPw(String empNo, String empEmail) {
+	   Map<String, String> params = new HashMap<>();
+	   params.put("empNo", empNo);
+	   params.put("empEmail", empEmail);
+	   return sqlSession.selectOne("employee.findPw", params);
+   }
+   
+   //비밀번호 변경
+   @Override
+   public void changePw(String empNo, String empPassword) {
+	   Map<String, String> params = new HashMap<>();
+	   params.put("empNo", empNo);
+	   params.put("empPassword", empPassword);
+	   sqlSession.update("employee.changePw", params);
+   }
+   
+   //사원번호
    @Override
    public String lastEmpNoOfYear(String year) {
       return sqlSession.selectOne("employee.lastEmpNoOfYear",year);
    }
-
+   
+   //퇴사 대기목록
    @Override
    public List<EmployeeDto> waitingList() {
       return sqlSession.selectList("employee.waitingList");
    }
-
+   
+   //사원 검색
    @Override
    public int getCount() {
       return sqlSession.selectOne("employee.count");
@@ -85,21 +107,14 @@ public class EmployeeRepoImpl implements EmployeeRepo {
       params.put("keyword", keyword);
       return sqlSession.selectList("searchEmployees", params);
    }
-
+   
+    //관리자 권한 부여
 	@Override
-	public EmployeeDto findPw(String empNo, String empEmail) {
-		Map<String, String> params = new HashMap<>();
-		params.put("empNo", empNo);
-		params.put("empEmail", empEmail);
-		return sqlSession.selectOne("employee.findPw", params);
-	}
-
-	@Override
-	public void changePw(String empNo, String empPassword) {
-	    Map<String, Object> params = new HashMap<>();
-	    params.put("empNo", empNo);
-	    params.put("empPassword", empPassword);
-	    sqlSession.update("employee.changePw", params);
+	public void authorityAdmin(String empNo) {
+		EmployeeDto employeeDto = new EmployeeDto();
+		employeeDto.setEmpNo(empNo);
+		employeeDto.setJobNo(80);
+		sqlSession.update("employee.authorityAdmin", employeeDto);
 	}
 
 }

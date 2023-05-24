@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +20,7 @@ import com.kh.synergyZone.dto.DepartmentDto;
 import com.kh.synergyZone.dto.EmployeeDto;
 import com.kh.synergyZone.dto.JobDto;
 import com.kh.synergyZone.dto.LoginRecordDto;
+import com.kh.synergyZone.dto.LoginRecordInfoDto;
 import com.kh.synergyZone.repo.DepartmentRepo;
 import com.kh.synergyZone.repo.EmployeeProfileRepo;
 import com.kh.synergyZone.repo.EmployeeRepo;
@@ -234,20 +234,10 @@ public class AdminController {
 	@GetMapping("/log/list")
 	public String logList(@ModelAttribute("vo") LoginRecordSearchVO vo,
 						  Model model) {
-		//사원명
-		List<EmployeeDto> employees = employeeRepo.list();
-		
-		model.addAttribute("employees", employees);
-		
 		//검색
-		List<LoginRecordDto> loginRecordList;
-		if(vo.isSearch()) {
-			loginRecordList = loginRecordRepo.logList(vo);
-		}
-		else {
-			loginRecordList = loginRecordRepo.list();
-		}
-		model.addAttribute("loginRecordList", loginRecordList);
+		List<LoginRecordInfoDto> logList = loginRecordRepo.logList(vo);
+		
+		model.addAttribute("logList", logList);
 		
 		return "admin/log/list";
 	}
@@ -268,6 +258,13 @@ public class AdminController {
 	    model.addAttribute("jobs", jobs);
 	    
 		return "admin/waitingList";
+	}
+	
+	@GetMapping("/authorityAdmin")
+	public String authorityAdmin(@RequestParam String empNo,
+								 Model model) {
+		employeeRepo.authorityAdmin(empNo);
+		return "redirect:list";
 	}
 	
 	

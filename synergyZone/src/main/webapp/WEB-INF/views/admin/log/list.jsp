@@ -29,7 +29,7 @@
 
     <!-- 결과화면 -->
     <c:choose>
-        <c:when test="${loginRecordList != null}">
+        <c:when test="${logList != null}">
             <table>
                 <thead>
                     <tr>
@@ -40,17 +40,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <c:forEach var="loginRecordDto" items="${loginRecordList}">
+                    <c:forEach var="loginRecordDto" items="${logList}">
                         <tr>
                             <td>${loginRecordDto.logLogin}</td>
-                            <td>
-                                <c:forEach var="employeeDto" items="${employees}">
-                                    <c:if test="${loginRecordDto.empNo == employeeDto.empNo}">
-                                        ${employeeDto.empName}
-                                        (${employeeDto.empEmail})
-                                    </c:if>
-                                </c:forEach>
-                            </td>
+                            <td>${loginRecordDto.empName}</td>
                             <td>${loginRecordDto.logIp}</td>
                             <td>${loginRecordDto.logBrowser}</td>
                         </tr>

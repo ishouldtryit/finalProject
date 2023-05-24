@@ -19,32 +19,32 @@
 		select * from log order by log_login asc
 	</select>
 	
-	<select id="complexSearch" resultType="loginRecordDto">
-	<bind name="empNameExist" value="empName != null and !empName.equals('')"/>
-    <bind name="searchLoginDaysExist" value="searchLoginDays != null and !searchLoginDays.equals('')"/>
-    
-    SELECT l.*, e.emp_name
-    FROM log l
-    INNER JOIN employee e ON l.emp_no = e.emp_no
-        
-    <where>
-        <!-- 사원명 -->
-        <if test="empNameExist">
-            and instr(e.emp_name, #{empName}) > 0
-        </if>
-        
-        <!-- 최근 기록 -->
-        <if test="searchLoginDaysExist">
-            AND log_login BETWEEN
-                to_date(
-                    to_char(sysdate - #{searchLoginDays}, 'YYYY-MM-DD'),
-                    'YYYY-MM-DD'
-                )
-                AND
-                sysdate
-        </if>
-    </where>
-</select>
+	<select id="complexSearch" resultType="LoginRecordInfoDto">
+		<bind name="empNameExist" value="empName != null and !empName.equals('')"/>
+		<bind name="searchLoginDaysExist" value="searchLoginDays != null and !searchLoginDays.equals('')"/> 
+		
+		select * from search_log_info
+		
+		<where>
+		
+			<!-- 사원명 -->
+			<if test="empNameExist">
+				and emp_name = #{empName}
+			</if>
+			
+			<!-- 최근 기록 -->
+			<if test="searchLoginDaysExist">
+				and log_login between
+					to_date(
+						to_char(sysdate - #{searchLoginDays}, 'YYYY-MM-DD'),
+						'YYYY-MM-DD'
+					) 
+					and 
+					sysdate
+			</if>
+			
+		</where>
+	</select>
 
 
 </mapper>

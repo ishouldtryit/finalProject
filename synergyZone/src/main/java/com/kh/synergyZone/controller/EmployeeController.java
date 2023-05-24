@@ -95,6 +95,17 @@ public class EmployeeController {
 			return "redirect:/";
 		}
 		
+		//사원 상세
+		@GetMapping("/mypage")
+		public String mypage(HttpSession session,
+							Model model) {
+			String empNo = (String) session.getAttribute("empNo");
+			
+			model.addAttribute("employeeDto", employeeRepo.selectOne(empNo));
+			model.addAttribute("profile", employeeProfileRepo.find(empNo));
+			return "employee/mypage";
+		}
+		
 		//비밀번호 찾기
 		@GetMapping("/findPw")
 		public String findPw() {

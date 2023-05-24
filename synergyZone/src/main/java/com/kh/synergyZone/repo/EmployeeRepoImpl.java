@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -62,11 +64,8 @@ public class EmployeeRepoImpl implements EmployeeRepo {
    
    //비밀번호 변경
    @Override
-   public void changePw(String empNo, String empPassword) {
-	   Map<String, String> params = new HashMap<>();
-	   params.put("empNo", empNo);
-	   params.put("empPassword", empPassword);
-	   sqlSession.update("employee.changePw", params);
+   public void changePw(EmployeeDto employeeDto) {
+	   sqlSession.update("employee.changePw", employeeDto);
    }
    
    //사원번호

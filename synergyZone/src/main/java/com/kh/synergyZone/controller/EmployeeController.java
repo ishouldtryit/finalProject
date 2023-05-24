@@ -151,7 +151,10 @@ public class EmployeeController {
 				attr.addAttribute("mode", "error");
 				return "redirect:password";
 			}
-			employeeRepo.changePw(empNo ,changePw);
+			
+			employeeDto.setEmpNo(empNo);
+			employeeDto.setEmpPassword(changePw);
+			employeeRepo.changePw(employeeDto);
 			return "redirect:passwordFinish";
 		}
 		

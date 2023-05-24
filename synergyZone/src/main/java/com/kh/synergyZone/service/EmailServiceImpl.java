@@ -31,11 +31,15 @@ public class EmailServiceImpl implements EmailService {
 		MimeMessageHelper helper = new MimeMessageHelper(message, false,
 									StandardCharsets.UTF_8.name());
 		
-		String temporaryPw = randomComponent.generateString();
-		employeeRepo.changePw(empNo, temporaryPw);
+		EmployeeDto employeeDto = new EmployeeDto();
 		
-		EmployeeDto employeeDto = employeeRepo.selectOne(empNo);
-		helper.setTo(employeeDto.getEmpEmail());
+		String temporaryPw = randomComponent.generateString();
+		employeeDto.setEmpPassword(temporaryPw);
+		
+		employeeRepo.changePw(employeeDto);
+		
+		EmployeeDto dto = employeeRepo.selectOne(empNo);
+		helper.setTo(dto.getEmpEmail());
 		helper.setSubject("임시 비밀번호 발급");
 		helper.setText("발급된 임시 비밀번호는 "+temporaryPw+" 입니다. 로그인 후 비밀번호를 반드시 변경해주시길 바랍니다.");
 		sender.send(message);

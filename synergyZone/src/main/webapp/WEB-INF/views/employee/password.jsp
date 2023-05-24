@@ -28,7 +28,7 @@
                        <div class="row mt-4">
                            <div class="col">
                                <label class="form-label">비밀번호 확인</label>
-                               <input class="form-control rounded" type="password" v-model="changePwCheck" name="changePw">
+                               <input class="form-control rounded" type="password" v-model="changePwCheck" name="changePw2">
                                 <span>{{changePwCheckMessage}}</span>
                             </div>
                        </div>

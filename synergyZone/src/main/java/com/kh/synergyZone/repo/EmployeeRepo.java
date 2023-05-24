@@ -2,6 +2,8 @@ package com.kh.synergyZone.repo;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import com.kh.synergyZone.dto.EmployeeDto;
 import com.kh.synergyZone.vo.PaginationVO;
 
@@ -18,7 +20,7 @@ public interface EmployeeRepo {
 	   EmployeeDto findPw(String empNo, String empEmail);
 	   
 	   //비밀번호 변경
-	   void changePw(String empNo, String empPassword);
+	   void changePw(EmployeeDto employeeDto);
 
 	   //사원번호
 	   String lastEmpNoOfYear(String year);

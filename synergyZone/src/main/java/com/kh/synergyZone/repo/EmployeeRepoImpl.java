@@ -4,13 +4,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
-
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.synergyZone.dto.EmployeeDto;
+import com.kh.synergyZone.dto.EmployeeInfoDto;
+import com.kh.synergyZone.vo.DeptEmpListVO;
 import com.kh.synergyZone.vo.PaginationVO;
 
 @Repository
@@ -31,7 +31,7 @@ public class EmployeeRepoImpl implements EmployeeRepo {
    }
 
    @Override
-   public List<EmployeeDto> list() {
+   public List<EmployeeInfoDto> list() {
       return sqlSession.selectList("employee.list");
    }
 
@@ -98,14 +98,7 @@ public class EmployeeRepoImpl implements EmployeeRepo {
 
       return sqlSession.selectList("employee.getEmployeeList", params);
    }
-   
-   @Override
-   public List<EmployeeDto> searchEmployees(String column, String keyword) {
-      Map<String, Object> params = new HashMap<>();
-      params.put("column", column);
-      params.put("keyword", keyword);
-      return sqlSession.selectList("searchEmployees", params);
-   }
+
    
     //관리자 권한 부여
 	@Override
@@ -115,5 +108,18 @@ public class EmployeeRepoImpl implements EmployeeRepo {
 		employeeDto.setJobNo(80);
 		sqlSession.update("employee.authorityAdmin", employeeDto);
 	}
+
+	@Override
+	public List<DeptEmpListVO> treeSelect() {
+		return sqlSession.selectList("employee.treeSelect");
+	}
+
+	@Override
+	public List<EmployeeInfoDto> searchEmployees(String column, String keyword) {
+		  Map<String, Object> params = new HashMap<>();
+	      params.put("column", column);
+	      params.put("keyword", keyword);
+	      return sqlSession.selectList("searchEmployees", params);
+	   }
 
 }

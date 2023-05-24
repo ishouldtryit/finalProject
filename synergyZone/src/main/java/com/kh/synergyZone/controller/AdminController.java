@@ -18,8 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.synergyZone.dto.DepartmentDto;
 import com.kh.synergyZone.dto.EmployeeDto;
+import com.kh.synergyZone.dto.EmployeeInfoDto;
 import com.kh.synergyZone.dto.JobDto;
-import com.kh.synergyZone.dto.LoginRecordDto;
 import com.kh.synergyZone.dto.LoginRecordInfoDto;
 import com.kh.synergyZone.repo.DepartmentRepo;
 import com.kh.synergyZone.repo.EmployeeProfileRepo;
@@ -103,7 +103,7 @@ public class AdminController {
 	//사원 목록
 	@GetMapping("/list")
 	public String list(Model model) throws IOException {
-		List<EmployeeDto> employees = employeeRepo.list();
+		List<EmployeeInfoDto> employees = employeeRepo.list();
 	    List<DepartmentDto> departments = departmentRepo.list();
 	    List<JobDto> jobs = jobRepo.list();
 	    

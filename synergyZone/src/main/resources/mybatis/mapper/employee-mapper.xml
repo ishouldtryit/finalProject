@@ -25,7 +25,7 @@
 	</select>
 	
 	<select id="list" resultType="employeeDto">
-		select * from employee order by emp_no asc
+		select EMP.*, IMG.attachment_no from employee EMP left outer join emp_profile IMG on EMP.emp_no = IMG.emp_no
 	</select>
 	
 	<select id="count" resultType="int">
@@ -44,8 +44,8 @@
 		  ]]>
 	</select>
 	
-	<select id="searchEmployees" resultType="employeeDto">
-    	select * from employee where instr(${column}, #{keyword}) >0 order by ${column} asc
+	<select id="searchEmployees" resultType="EmployeeInfoDto">
+    	select * from search_info where instr(${column}, #{keyword}) >0 order by ${column} asc
     </select>
     
 	<update id="edit">
@@ -56,17 +56,54 @@
 		where emp_no = #{empNo}
 	</update>
 	
-	<!-- 사원 퇴사 -->
 	<update id="exit">
 		update employee set
 		is_leave = #{isLeave}
 		where emp_no = #{empNo}
 	</update>
 	
-	<!-- 사원 삭제 -->
 	<delete id="delete">
 		delete from employee where emp_no = #{empNo}
 	</delete>
+	
+	<!-- 계층형 조회 resultMap -->
+	<resultMap type="DeptEmpListVO" id="DeptEmpListVO">
+		<association property="departmentDto">
+			<result column="dept_no" property="deptNo"/>
+			<result column="dept_name" property="deptName"/>
+		</association>
+		<collection property="employeeList"
+			javaType="java.util.List" ofType="EmployeeInfoDto "
+			select="treeSelectSub"
+			column="dept_no">
+			<result column="emp_no" property="empNo"/>
+			<result column="emp_name" property="empName"/>
+			<result column="emp_password" property="empPassword"/>
+			<result column="emp_email" property="empEmail"/>
+			<result column="emp_phone" property="empPhone"/>
+			<result column="emp_address" property="empAddress"/>
+			<result column="emp_detail_address" property="empDetailAddress"/>
+			<result column="emp_postcode" property="empPostcode"/>
+			<result column="emp_hire_date" property="empHireDate"/>
+			<result column="is_leave" property="isLeave"/>
+			<result column="cp_number" property="cpNumber"/>
+			<result column="job_no" property="jobNo"/>
+			<result column="dept_no" property="deptNo"/>
+			<result column="wt_code" property="wtCode"/>
+		</collection>
+	</resultMap>
+	
+	
+	<!-- 계층형 조회 메인 구문 -->
+	<select id="treeSelect" resultMap="DeptEmpListVO">
+		select*from department order by dept_no asc
+	</select>
+	
+	<!-- 계층형 조회 서브 구문 -->
+	<select id="treeSelectSub" resultType="employeeDto">
+		select * from employee where dept_no = #{deptNo}
+		order by job_no desc
+	</select>
 	
 	<!-- 사원번호 -->
 	<select id="lastEmpNoOfYear" resultType="String">

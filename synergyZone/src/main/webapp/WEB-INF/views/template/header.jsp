@@ -22,11 +22,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
     <!-- moment -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
-    <!-- 부트스트랩 css(공식) -->
+    <!-- 부트스트랩 css(journal) -->
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.2.3/journal/bootstrap.min.css">
 
-    <!-- custom 테스트 css -->
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/test.css">
 
     <script>
     	const contextPath = "${pageContext.request.contextPath}";

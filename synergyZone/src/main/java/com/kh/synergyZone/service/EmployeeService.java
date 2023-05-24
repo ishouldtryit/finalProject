@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.synergyZone.dto.EmployeeDto;
+import com.kh.synergyZone.dto.EmployeeInfoDto;
 
 public interface EmployeeService {
 	EmployeeDto login(EmployeeDto employeeDto);
@@ -18,9 +19,8 @@ public interface EmployeeService {
 	
 	String generateEmpNo(Date empHireDate);
 	
-	List<EmployeeDto> searchEmployees(String column, String keyword);
-	
 	String getLocation(HttpServletRequest request);
 	String getBrowser(HttpServletRequest request);
 	
+	List<EmployeeInfoDto> searchEmployees(String column, String keyword);
 }

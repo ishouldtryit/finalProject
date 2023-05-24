@@ -2,19 +2,21 @@ package com.kh.synergyZone.repo;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import com.kh.synergyZone.dto.EmployeeDto;
+import com.kh.synergyZone.dto.EmployeeInfoDto;
+import com.kh.synergyZone.vo.DeptEmpListVO;
 import com.kh.synergyZone.vo.PaginationVO;
 
 public interface EmployeeRepo {
 	   //사원
 	   void insert(EmployeeDto employeeDto);
 	   EmployeeDto selectOne(String empNo);
-	   List<EmployeeDto> list();
+	   List<EmployeeInfoDto> list();
 	   void update(EmployeeDto employeeDto);
 	   void exit(String empNo);
 	   void delete(String empNo);
+	   
+	   List<DeptEmpListVO> treeSelect();
 	   
 	   //비밀번호 찾기
 	   EmployeeDto findPw(String empNo, String empEmail);
@@ -33,8 +35,8 @@ public interface EmployeeRepo {
 	   
 	   //사원 검색
 	   int getCount();
-	        List<EmployeeDto> getEmployeeList(PaginationVO vo);
-	   List<EmployeeDto> searchEmployees(String column, String keyword);
+	   List<EmployeeDto> getEmployeeList(PaginationVO vo);
+	   List<EmployeeInfoDto> searchEmployees(String column, String keyword);
 	   
 	   
 	

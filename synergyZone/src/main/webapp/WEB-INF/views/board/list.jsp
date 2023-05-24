@@ -21,13 +21,14 @@
     </tr>
     </thead>
     <tbody>
-    <c:forEach items="${freeboards}" var="board">
+    
+    <c:forEach items="${posts}" var="board">
         <tr>
-            <td>${board.freeNo}</td>
-            <td><a href="/freeboard/${board.freeNo}">${board.freeTitle}</a></td>
-            <td>${board.writer}</td>
-            <td>${board.regDate}</td>
-            <td>${board.viewCount}</td>
+            <td>${board.boardNo}</td>
+            <td><a href="detail?boardNo=${board.boardNo}">${board.boardTitle}</a></td>
+            <td>${board.boardWriter}</td>
+            <td>${board.boardTime}</td>
+            <td>${board.boardRead}</td>
         </tr>
     </c:forEach>
     </tbody>
@@ -35,7 +36,7 @@
 
 <br>
 <div align="center">
-    <a href="/freeboard/create" style="padding: 10px 20px; border: 1px solid #ccc;">새 글 쓰기</a>
+    <a href="write" style="padding: 10px 20px; border: 1px solid #ccc;">새 글 쓰기</a>
 </div>
 </body>
 </html>

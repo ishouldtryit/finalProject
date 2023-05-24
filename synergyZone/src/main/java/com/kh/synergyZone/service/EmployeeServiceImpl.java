@@ -2,11 +2,14 @@ package com.kh.synergyZone.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -149,9 +152,72 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 
 	//사원 검색기능
+			@Override
+			public List<EmployeeInfoDto> searchEmployees(String column, String keyword) {
+			    return employeeRepo.searchEmployees(column, keyword);
+			}
+
+
 		@Override
-		public List<EmployeeInfoDto> searchEmployees(String column, String keyword) {
-		    return employeeRepo.searchEmployees(column, keyword);
+	      public String getLocation(HttpServletRequest request) {
+	         String ipAddress = request.getHeader("X-Forwarded-For");
+	          
+	          if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
+	              ipAddress = request.getHeader("Proxy-Client-IP");
+	          }
+	          
+	          if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
+	              ipAddress = request.getHeader("WL-Proxy-Client-IP");
+	          }
+	          
+	          if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
+	              ipAddress = request.getHeader("HTTP_CLIENT_IP");
+	          }
+	          
+	          if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
+	              ipAddress = request.getHeader("HTTP_X_FORWARDED_FOR");
+	          }
+	          
+	          if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
+	              ipAddress = request.getRemoteAddr();
+	              
+	              // Loopback Address 처리
+	              if (ipAddress.equals("127.0.0.1") || ipAddress.equals("0:0:0:0:0:0:0:1")) {
+	                  InetAddress inetAddress = null;
+	                  try {
+	                      inetAddress = InetAddress.getLocalHost();
+	                      ipAddress = inetAddress.getHostAddress();
+	                  } catch (UnknownHostException e) {
+	                      e.printStackTrace();
+	                  }
+	              }
+	          }
+
+	          return ipAddress;
+	      }
+
+
+		@Override
+		public String getBrowser(HttpServletRequest request) {
+			// 에이전트
+			String agent = request.getHeader("User-Agent");
+
+			String browser = null;
+			if (agent.contains("MSIE")) {
+				browser = "MSIE";
+			} else if (agent.contains("Trident")) {
+				browser = "MSIE11";
+			} else if (agent.contains("Chrome")) {
+				browser = "Chrome";
+			} else if (agent.contains("Opera")) {
+				browser = "Opera";
+			} else if (agent.contains("Firefox")) {
+				browser = "Firefox";
+			} else if (agent.contains("Safari")) {
+				browser = "Safari";
+			}
+
+			return browser;
 		}
 
 

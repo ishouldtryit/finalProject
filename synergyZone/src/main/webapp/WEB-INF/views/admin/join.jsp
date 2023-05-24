@@ -49,13 +49,6 @@
                         </div>
                     </div>
 
-<!--                     <div class="row mt-4"> -->
-<!--                         <div class="col"> -->
-<!--                             <label class="form-label">비밀번호</label> -->
-<!--                             <input class="form-control rounded" type="password" name="empPassword" placeholder="비밀번호"> -->
-<!--                         </div> -->
-<!--                     </div> -->
-
                     <div class="row mt-4">
                         <div class="col">
                             <label class="form-label">이메일</label>

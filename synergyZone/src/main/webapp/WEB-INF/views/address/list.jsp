@@ -3,12 +3,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
+ 
+
 <div class="container-1200" style="margin-left: 15%;">
 		<!-- 삭제 form -->
        <form action="delete" method="post" class="delete_form">
           <input type="hidden" name="empNo" class="delete_empNo">
           <input type="hidden" name="page" class="delete_page">
-       </form>  
+       </form>
        
        <!-- 정렬 
 	   	<div class="row ms-10">
@@ -22,13 +24,15 @@
 			  <select name="column" class="form-input me-sm-2">
 			    <option value="emp_name">이름</option>
 			    <option value="emp_no">사원번호</option>
-			    <option value="job_no">사원직급</option>
+			    <option value="dept_name">부서</option>
+			    <option value="job_name">직위</option>
 			  </select>
-			  <input class="form-control me-sm-2" type="search" placeholder="검색어" name="keyword" value="${keyword}" style="width: 13%;">
-			  <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
-			  <button type="submit" class="btn btn-success">쪽지 보내기</button>
 			  
+			  <input class="form-control me-sm-2" type="search" placeholder="검색어" name="keyword" value="${keyword}" style="width: 13%;">
+			  <button class="btn btn-info my-2 my-sm-0" type="submit">검색</button>
+			  <button type="submit" class="btn btn-success">쪽지 보내기</button>
 			</form>
+
 		
 		
 		
@@ -46,26 +50,43 @@
 		            <th>이메일</th>
 		            <th>주소</th>
 		            <th>상세주소</th>
+		            <th>부서</th>
+		            <th>직위</th>
 		          </tr>
 		        </thead>
 		        <tbody>
 		          <c:forEach var="employeeDto" items="${employees}">
 		            <tr>
-		             <td class="align-middle">
-						  <div class="p-2">
-						    <input type="checkbox" name="selectedEmployees" value="${employeeDto.empNo}">
-						  </div>
-						</td>
-						<td class="align-middle">${employeeDto.empNo}</td>
-						<td class="align-middle employee-name" data-empno="${employeeDto.empNo}" data-empname="${employeeDto.empName}" 
-						  data-empphone="${employeeDto.empPhone}" data-empemail="${employeeDto.empEmail}" 
-						  data-empaddress="${employeeDto.empAddress}" data-empdetailaddress="${employeeDto.empDetailAddress}">
-						  ${employeeDto.empName}
-						</td>
-						<td class="align-middle">${employeeDto.empPhone}</td>
-						<td class="align-middle">${employeeDto.empEmail}</td>
-						<td class="align-middle">${employeeDto.empAddress}</td>
-						<td class="align-middle">${employeeDto.empDetailAddress}</td>
+		              <td class="align-middle">
+		                <div class="p-2">
+		                  <input type="checkbox" name="selectedEmployees" value="${employeeDto.empNo}">
+		                </div>
+		              </td>
+		              <td class="align-middle">${employeeDto.empNo}</td>
+		              <td class="align-middle employee-name" data-empno="${employeeDto.empNo}" data-empname="${employeeDto.empName}" 
+		                data-empphone="${employeeDto.empPhone}" data-empemail="${employeeDto.empEmail}" 
+		                data-empaddress="${employeeDto.empAddress}" data-empdetailaddress="${employeeDto.empDetailAddress}"
+		                data-attachmentno="${employeeDto.attachmentNo}">
+		                ${employeeDto.empName}
+		              </td>
+		              <td class="align-middle">${employeeDto.empPhone}</td>
+		              <td class="align-middle">${employeeDto.empEmail}</td>
+		              <td class="align-middle">${employeeDto.empAddress}</td>
+		              <td class="align-middle">${employeeDto.empDetailAddress}</td>
+		              <td class="align-middle">
+		                <c:forEach var="departmentDto" items="${departments}">
+		                  <c:if test="${departmentDto.deptNo == employeeDto.deptNo}">
+		                    ${departmentDto.deptName}
+		                  </c:if>
+		                </c:forEach>
+		              </td>
+		              <td class="align-middle">
+		                <c:forEach var="jobDto" items="${jobs}">
+		                  <c:if test="${jobDto.jobNo == employeeDto.jobNo}">
+		                    ${jobDto.jobName}
+		                  </c:if>
+		                </c:forEach>
+		              </td>
 		            </tr>
 		          </c:forEach>
 		        </tbody>
@@ -80,9 +101,9 @@
 		    <div class="modal-content">
 		      <div class="modal-header">
 		        <h5 class="modal-title" id="employeeModalLabel"></h5>
-		    <div class="flex">
-					<div><img width="200" height="200" src="/attachment/download?attachmentNo=${profile.attachmentNo}"></div>
-		    </div>
+		     <div class="profile-image">
+			    <img id="profileImage" width="200" height="200" src="/attachment/download?attachmentNo=${employeeDto.attachmentNo}" alt="프로필 이미지">
+			</div>
 		      <div class="modal-body">
 		        <p><strong>사원번호:</strong> <span id="employeeNo"></span></p>
 		        <p><strong>이름:</strong> <span id="employeeName"></span></p>
@@ -120,25 +141,30 @@
         
 	
 		<!-- 페이징 영역 -->
-		<div style="display: flex; justify-content: center;">
-		  <ul class="pagination" style="width: 35%;">
-		    <li class="page-item disabled">
-		      <a class="page-link" href="${pageContext.request.contextPath}/address/list?page=${vo.prevPage}">&laquo;</a>
-		    </li>
-		    <c:forEach var="i" begin="${vo.startBlock}" end="${vo.finishBlock}">
-		      <li class="page-item">
-		        <a class="page-link" href="${pageContext.request.contextPath}/address/list?page=${i}&sort=${sort}">
-		          <span class="text-info">${i}</span>
-		        </a>
-		      </li>
-		    </c:forEach> 
-		    <li class="page-item">
-		      <a class="page-link" href="${pageContext.request.contextPath}/address/list?page=${vo.nextPage}">
-		      <span class="text-info">&raquo;</span>
-		      </a>
-		    </li>
-		  </ul>
-		</div>
+<div style="display: flex; justify-content: center;">
+  <ul class="pagination" style="width: 35%;">
+    <li class="page-item ${vo.isFirst() ? 'disabled' : ''}">
+      <a class="page-link" href="${vo.isFirst() ? '#' : pageContext.request.contextPath}/address/list?page=${vo.getPrevPage()}">&laquo;</a>
+    </li>
+    <c:forEach var="i" begin="${vo.getStartBlock()}" end="${vo.getFinishBlock()}">
+      <li class="page-item">
+        <a class="page-link ${vo.getPage() eq i ? 'active' : ''}" href="${pageContext.request.contextPath}/address/list?page=${i}&sort=${vo.getSort()}">
+          <span class="text-info">${i}</span>
+        </a>
+      </li>
+    </c:forEach> 
+    <li class="page-item ${vo.isLast() ? 'disabled' : ''}">
+      <a class="page-link" href="${vo.isLast() ? '#' : pageContext.request.contextPath}/address/list?page=${vo.getNextPage()}">
+        <span class="text-info">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+
+
+
 	</div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
      <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
@@ -155,6 +181,7 @@
       var employeeEmail = $(this).data('empemail');
       var employeeAddress = $(this).data('empaddress');
       var employeeDetailAddress = $(this).data('empdetailaddress');
+      var attachmentNo = $(this).data('attachmentno');
 
       $('#employeeNo').text(employeeNo);
       $('#employeeName').text(employeeName);
@@ -162,6 +189,7 @@
       $('#employeeEmail').text(employeeEmail);
       $('#employeeAddress').text(employeeAddress);
       $('#employeeDetailAddress').text(employeeDetailAddress);
+      $("#profileImage").attr("src", "/attachment/download?attachmentNo="+attachmentNo);
 
       $('#employeeModal').modal('show');
     });

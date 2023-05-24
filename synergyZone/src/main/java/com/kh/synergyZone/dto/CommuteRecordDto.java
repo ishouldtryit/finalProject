@@ -12,9 +12,7 @@ public class CommuteRecordDto {
 	private String empNo;
 	private String startTime;
 	private String endTime;
-	
-	private Duration workTime;
-	
+	private Object workTime;
 	private Date workDate;
 	
 }

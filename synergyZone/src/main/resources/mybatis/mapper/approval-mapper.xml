@@ -9,8 +9,9 @@
     <mapper namespace="approval">
     
     	<select id="selectList" resultType="ApprovalDto">
-    		select * from approval
+    		select * from approval order by draft_no
     	</select>
+    	
     	<select id="selectOne" resultType="ApprovalDto">
     		select * from approval where draft_no=#{draftNo}
     	</select>
@@ -33,15 +34,19 @@
 		<update id="editAllInOne">
 			update approval
 			<set>
-				<if test="name!=null">
-					name=#{name},
+				<if test="draftTitle!=null">
+					draft_title=#{draftTitle},
 				</if>
-				<if test="type!=null">
-					type=#{type},
+				<if test="draftContent!=null">
+					draft_content=#{draftContent},
 				</if>
 			</set>
-			where no=#{no}
+			where draft_no=#{draftNo}
 		</update>    	
+		
+		<delete id="remove">
+			delete approval where draft_no = #{draftNo}
+		</delete>
     	
     	
     </mapper>

@@ -9,5 +9,4 @@ import lombok.NoArgsConstructor;
 public class DepartmentDto {
 	private int deptNo;
 	private String deptName;
-
 }

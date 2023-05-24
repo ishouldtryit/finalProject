@@ -52,6 +52,7 @@
                 return {
                     //화면에서 사용할 데이터를 선언
                 	draftList : [],
+                	
                 };
             },
             computed:{

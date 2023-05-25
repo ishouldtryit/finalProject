@@ -1,28 +1,28 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
+
+
 <div class="container-1200" style="margin-left: 15%;">
-		<!-- 검색창 -->
-		<form class="d-flex" action="list" method="get">
-		  <select name="column" class="form-input me-sm-2">
-		    <option value="emp_name" ${column eq 'emp_name' ? 'selected' : ''}>이름</option>
-		    <option value="emp_no" ${column eq 'emp_no' ? 'selected' : ''}>사원번호</option>
-		    <option value="dept_name" ${column eq 'dept_name' ? 'selected' : ''}>부서</option>
-		    <option value="job_name" ${column eq 'job_name' ? 'selected' : ''}>직위</option>
-		  </select>
-		  
-		  <input class="form-control me-sm-2" type="search" placeholder="검색어" name="keyword" value="${param.keyword}" style="width: 13%;">
-		  <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
-		</form>
-		  <!-- My list에 추가 버튼 -->		  
-		  <button class="btn btn-success my-2 my-sm-0" type="button" onclick="addToMyList()">My list에 추가</button>
-		
+    <!-- 검색창 -->
+    <form class="d-flex" action="mylist" method="get">
+        <select name="column" class="form-input me-sm-2">
+            <option value="emp_name" ${column eq 'emp_name' ? 'selected' : ''}>이름</option>
+            <option value="emp_no" ${column eq 'emp_no' ? 'selected' : ''}>사원번호</option>
+            <option value="dept_name" ${column eq 'dept_name' ? 'selected' : ''}>부서</option>
+            <option value="job_name" ${column eq 'job_name' ? 'selected' : ''}>직위</option>
+        </select>
+
+        <input class="form-control me-sm-2" type="search" placeholder="검색어" name="keyword" value="${param.keyword}" style="width: 13%;">
+        <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
+    </form>
+    <button type="button" id="deleteBtn" class="btn btn-danger">선택된 사원 삭제</button>
 		<div class="mb-2">
         <button type="button" id="selectAllBtn" class="btn btn-primary">전체 선택</button>
       </div>
-    	<!-- 사원 목록 테이블 -->
+
+    <!-- 사원 목록 테이블 -->
 		<div class="row">
 		  <div class="col" style="margin: 0 auto;">
 		    <form id="employeeForm">
@@ -41,46 +41,50 @@
 		          </tr>
 		        </thead>
 		        <tbody>
-		          <c:forEach var="employeeDto" items="${employees}">
-		            <tr>
-		              <td class="align-middle">
-		                <div class="p-2">
-		                  <input type="checkbox" name="selectedEmployees" value="${employeeDto.empNo}">
-		                </div>
-		              </td>
-		              <td class="align-middle">${employeeDto.empNo}</td>
-		              <td class="align-middle employee-name" data-empno="${employeeDto.empNo}" data-empname="${employeeDto.empName}" 
-		                data-empphone="${employeeDto.empPhone}" data-empemail="${employeeDto.empEmail}" 
-		                data-empaddress="${employeeDto.empAddress}" data-empdetailaddress="${employeeDto.empDetailAddress}"
-		                data-attachmentno="${employeeDto.attachmentNo}">
-		                ${employeeDto.empName}
-		              </td>
-		              <td class="align-middle">${employeeDto.empPhone}</td>
-		              <td class="align-middle">${employeeDto.empEmail}</td>
-		              <td class="align-middle">${employeeDto.empAddress}</td>
-		              <td class="align-middle">${employeeDto.empDetailAddress}</td>
-		              <td class="align-middle">
-		                <c:forEach var="departmentDto" items="${departments}">
-		                  <c:if test="${departmentDto.deptNo == employeeDto.deptNo}">
-		                    ${departmentDto.deptName}
-		                  </c:if>
-		                </c:forEach>
-		              </td>
-		              <td class="align-middle">
-		                <c:forEach var="jobDto" items="${jobs}">
-		                  <c:if test="${jobDto.jobNo == employeeDto.jobNo}">
-		                    ${jobDto.jobName}
-		                  </c:if>
-		                </c:forEach>
-		              </td>
-		            </tr>
+		          <c:forEach var="bookmark" items="${bookmarkList}">
+		            <c:forEach var="employeeDto" items="${employees}">
+		              <c:if test="${bookmark.bookmarkNo == employeeDto.empNo}">
+		                <tr>
+		                  <td class="align-middle">
+		                    <div class="p-2">
+		                      <input type="checkbox" name="selectedEmployees" value="${employeeDto.empNo}">
+		                    </div>
+		                  </td>
+		                  <td class="align-middle">${employeeDto.empNo}</td>
+		                  <td class="align-middle employee-name" data-empno="${employeeDto.empNo}" data-empname="${employeeDto.empName}" 
+		                    data-empphone="${employeeDto.empPhone}" data-empemail="${employeeDto.empEmail}" 
+		                    data-empaddress="${employeeDto.empAddress}" data-empdetailaddress="${employeeDto.empDetailAddress}"
+		                    data-attachmentno="${employeeDto.attachmentNo}">
+		                    ${employeeDto.empName}
+		                  </td>
+		                  <td class="align-middle">${employeeDto.empPhone}</td>
+		                  <td class="align-middle">${employeeDto.empEmail}</td>
+		                  <td class="align-middle">${employeeDto.empAddress}</td>
+		                  <td class="align-middle">${employeeDto.empDetailAddress}</td>
+		                  <td class="align-middle">
+		                    <c:forEach var="departmentDto" items="${departments}">
+		                      <c:if test="${departmentDto.deptNo == employeeDto.deptNo}">
+		                        ${departmentDto.deptName}
+		                      </c:if>
+		                    </c:forEach>
+		                  </td>
+		                  <td class="align-middle">
+		                    <c:forEach var="jobDto" items="${jobs}">
+		                      <c:if test="${jobDto.jobNo == employeeDto.jobNo}">
+		                        ${jobDto.jobName}
+		                      </c:if>
+		                    </c:forEach>
+		                  </td>
+		                </tr>
+		              </c:if>
+		            </c:forEach>
 		          </c:forEach>
 		        </tbody>
 		      </table>
 		    </form>
 		  </div>
 		</div>
-
+		
 		<!-- 첫 번째 모달 창 -->
 	 	<div class="modal fade" id="employeeModal" tabindex="-1" role="dialog" aria-labelledby="employeeModalLabel" aria-hidden="true">
 		  <div class="modal-dialog modal-dialog-centered" role="document">
@@ -125,28 +129,33 @@
 		  </div>
 		</div>
 
-	
+
+
 		<!-- 페이징 영역 -->
 		<div style="display: flex; justify-content: center;">
 		  <ul class="pagination" style="width: 35%;">
 		    <li class="page-item ${vo.isFirst() ? 'disabled' : ''}">
-		      <a class="page-link" href="${vo.isFirst() ? '#' : pageContext.request.contextPath}/address/list?page=${vo.getPrevPage()}">&laquo;</a>
+		      <a class="page-link" href="${vo.isFirst() ? '#' : pageContext.request.contextPath}/bookmark/mylist?page=${vo.getPrevPage()}">&laquo;</a>
 		    </li>
 		    <c:forEach var="i" begin="${vo.getStartBlock()}" end="${vo.getFinishBlock()}">
 		      <li class="page-item">
-		        <a class="page-link ${vo.getPage() eq i ? 'active' : ''}" href="${pageContext.request.contextPath}/address/list?page=${i}&sort=${vo.getSort()}">
+		        <a class="page-link ${vo.getPage() eq i ? 'active' : ''}" href="${pageContext.request.contextPath}/bookmark/mylist?page=${i}&sort=${param.sort}">
 		          <span class="text-info">${i}</span>
 		        </a>
 		      </li>
 		    </c:forEach> 
 		    <li class="page-item ${vo.isLast() ? 'disabled' : ''}">
-		      <a class="page-link" href="${vo.isLast() ? '#' : pageContext.request.contextPath}/address/list?page=${vo.getNextPage()}">
+		      <a class="page-link" href="${vo.isLast() ? '#' : pageContext.request.contextPath}/bookmark/mylist?page=${vo.getNextPage()}&sort=${param.sort}">
 		        <span class="text-info">&raquo;</span>
 		      </a>
 		    </li>
 		  </ul>
 		</div>
-	</div>
+
+</div>
+
+</html>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
      <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 	  
@@ -195,6 +204,8 @@
   });
 </script>
 
+
+
 <script>
   // 페이지 로드 시 선택된 옵션 설정
   var selectedColumn = "${column}"; // 서버에서 전달된 선택한 옵션 값
@@ -205,39 +216,8 @@
   });
 </script>
     
-<script>
-function addToMyList() {
-	  var selectedEmployees = [];
-	  var checkboxes = document.getElementsByName('selectedEmployees');
-	  
-	  for (var i = 0; i < checkboxes.length; i++) {
-	    if (checkboxes[i].checked) {
-	      selectedEmployees.push(checkboxes[i].value);
-	    }
-	  }
-	  
-	  if (selectedEmployees.length > 0) {
-	    $.ajax({
-	      type: "POST",
-	      url: "/bookmark/addBookmark",
-	      data: JSON.stringify({bookmarkNo: selectedEmployees }),
-	      contentType: "application/json",
-	      success: function(response) {
-	        console.log(response);
-	      },
-	      error: function(xhr, status, error) {
-	        console.log(xhr.responseText);
-	      }
-	    });
-	  } else {
-	    console.log("No employees selected.");
-	  }
-	}
-
-</script>
-
-<script>
- //체크박스 전체선택 기능
+    
+<script>//체크박스 전체 선택 기능
   $(document).ready(function() {
     const selectAllBtn = $('#selectAllBtn');
     const checkboxes = $('input[name="selectedEmployees"]');
@@ -251,6 +231,40 @@ function addToMyList() {
     });
   });
 </script>
-    
+
+<script>
+  // 삭제 버튼 클릭 시
+  $("#deleteBtn").click(function() {
+    var selectedBookmarkNoList = [];
+
+    // 선택된 북마크 번호를 배열에 추가
+    $("input[type=checkbox]:checked").each(function() {
+      selectedBookmarkNoList.push($(this).val());
+    });
+
+    // 선택된 북마크가 없는 경우 알림 메시지 표시
+    if (selectedBookmarkNoList.length === 0) {
+      alert("삭제할 북마크를 선택해주세요.");
+      return;
+    }
+
+    // AJAX를 사용하여 선택된 북마크 삭제 요청 보내기
+    $.ajax({
+      url: "/bookmark/removeBookmark",
+      type: "POST",
+      contentType: "application/json;charset=UTF-8",
+      data: JSON.stringify({ bookmarkNo: selectedBookmarkNoList }),
+      success: function() {
+        // 삭제 성공한 경우 처리할 로직 작성
+        location.reload(); // 페이지 새로고침
+      },
+      error: function() {
+        // 삭제 실패한 경우 처리할 로직 작성
+        alert("북마크 삭제 실패");
+      }
+    });
+  });
+</script>
+
   <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
     

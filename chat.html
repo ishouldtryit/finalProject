@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.2.3/journal/bootstrap.min.css">
+            <!-- 폰트어썸 cdn -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <!-- jquery cdn -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <!-- 뷰 cdn -->
+    <script src="https://unpkg.com/vue@3.2.26"></script>
+    <!-- axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    
+    <!-- lodash -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+    <!-- moment -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <!-- 부트스트랩 css(journal) -->
+    <title>채팅ui</title>
+    <style>
+        .container {
+          display: flex;
+          flex-direction: column;
+        }
+      
+        .flex {
+          display: flex;
+          justify-content: space-between;
+        }
+      </style>
+</head>
+<body>
+    <div class="container" id="app">
+        <div class="flex">
+            <div>즐겨찾기</div>
+            <div>대화방목록</div>
+            <div>회원목록</div>
+            <div>
+                <ul>
+                <li v-for="(department, index) in deptEmpList" class="custom-list-item"> 
+                    <span v-on:click="toggleEmployeeList(index)">
+                       <i class="fa-regular" :class="{'fa-square-plus': !department.showEmployeeList, 'fa-square-minus': department.showEmployeeList}"></i>
+                      <label>{{ department.departmentDto.deptName }}</label>
+                    </span>
+                  <ul  v-show="department.showEmployeeList">
+                    <li v-for="(employee, index) in department.employeeList" class="custom-list-item">
+                      <i class="fa-regular fa-circle-user"></i>
+                      <label>{{ employee.empName }}</label>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+        </div>
+
+
+        <div class="chat">
+            <h2>채팅방</h2>
+            <hr>
+            <input type="text">
+            <button type="button" class="btn btn-primary btn-sm" id="end-btn">전송</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 회원목록
+        Vue.createApp({
+        data() {
+          return {
+            deptEmpList: [],
+            modal : null,
+          };
+        },
+        computed: {},
+        methods: {
+          async loadData() {
+              const Resp = await axios.get("/rest/approval/");
+              this.deptEmpList.push(...Resp.data);
+          },
+          toggleEmployeeList(index) {
+              this.deptEmpList[index].showEmployeeList = !this.deptEmpList[index].showEmployeeList;
+          },
+        },
+        mounted(){
+            this.modal = new bootstrap.Modal(this.$refs.modal);
+        },
+        created() {
+          this.loadData();
+        },
+      }).mount("#app");
+    </script>
+</body>
+</html>

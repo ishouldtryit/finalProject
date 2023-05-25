@@ -5,11 +5,84 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.2.3/journal/bootstrap.min.css">
+            <!-- 폰트어썸 cdn -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <!-- jquery cdn -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <!-- 뷰 cdn -->
+    <script src="https://unpkg.com/vue@3.2.26"></script>
+    <!-- axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    
+    <!-- lodash -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+    <!-- moment -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <!-- 부트스트랩 css(journal) -->
+    <style>
+      .d-flex {
+        display: flex;
+        align-items: center;
+      }
+      
+      .d-flex div {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        margin-left: 10px;
+      }
+    </style>
 </head>
 <body>
+  <div class="container">
+  <div class="emp_list">
+    <h1>내 연차내역</h1>
+    <div class="d-flex">
+      <img src="http://via.placeholder.com/50x50" alt=""><label>마장웅 </label>
+      <div>
+        총 연차 15
+      </div>
+      <div>
+        사용 연차 10
+      </div>
+      <div>
+        잔여 연차  5
+      </div>
+    </div>
+  </div>
+  비동기처리 해야하는거
   <select name="year" id="year-select"></select>
 
+  <div class="list">
+  <div>
+    <h2>사용내역</h2>
+  </div>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <td>이름</td>
+        <td>부서명</td>
+        <td>휴가종류</td>
+        <td>연차 사용기간</td>
+        <td>사용 연차</td>
+        <td>사유</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>마장웅</td>
+        <td>영업본부</td>
+        <td>연차</td>
+        <td>2023-03-08 ~ 2023-03-08</td>
+        <td>1</td>
+        <td>개인사정으로 인해, 연차를 사용하고자 합니다.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</div>
   <script>
     $(function() {
       // 현재 년도를 가져오는 함수
@@ -68,5 +141,6 @@
       generateSelectElement();
     });
   </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

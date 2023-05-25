@@ -39,7 +39,7 @@
                     <img src="https://via.placeholder.com/400x100?text=final" alt="로고">
                 </div>
                 <div class="col">
-                    <h1>파이널 프로젝트!</h1>
+                    <h1>파이널 프로젝트!!!</h1>
 
                 </div>
             </div>

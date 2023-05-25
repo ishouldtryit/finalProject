@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.synergyZone.configuration.CustomFileUploadProperties;
 import com.kh.synergyZone.dto.DepartmentDto;
-import com.kh.synergyZone.dto.EmployeeDto;
 import com.kh.synergyZone.dto.EmployeeInfoDto;
 import com.kh.synergyZone.dto.EmployeeProfileDto;
 import com.kh.synergyZone.dto.JobDto;
@@ -106,9 +105,5 @@ public class AddressController {
  		model.addAttribute("employeeDto", employeeRepo.selectOne(empNo));
  		model.addAttribute("profile", employeeProfileRepo.find(empNo));
  		return "employee/detail";
- 	}
-    
-   
-    
-    
+ 	}   
 }

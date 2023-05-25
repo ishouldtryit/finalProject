@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.synergyZone.dto.EmployeeDto;
@@ -16,6 +18,9 @@ public interface EmployeeService {
 	void deleteProfile(String empNo);
 	
 	String generateEmpNo(Date empHireDate);
+	
+	String getLocation(HttpServletRequest request);
+	String getBrowser(HttpServletRequest request);
 	
 	List<EmployeeInfoDto> searchEmployees(String column, String keyword);
 }

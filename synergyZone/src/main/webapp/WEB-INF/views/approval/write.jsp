@@ -22,17 +22,17 @@
 		  <h2>신규 결재</h2>
 		</div>
 	  <div class="row w-20">
-		   	<button type="button" class="btn" :class="approverList.length ? 'btn-info' : 'btn-secondary'" v-on:click="showModal">
+		   	<button type="button" class="btn" :class="approverList.length ? 'btn-info' : 'btn-secondary'" v-on:click="showApproverModal">
 		  		{{ approverList.length ? '결재자 정보' : '결재자 추가' }}
 			</button>
-		   	<button type="button" class="btn" :class="approverList.length ? 'btn-info' : 'btn-secondary'" v-on:click="showModal">
-		  		{{ approverList.length ? '합의자 정보' : '합의자 추가' }}
+		   	<button type="button" class="btn" :class="agreeorList.length ? 'btn-info' : 'btn-secondary'" v-on:click="showAgreeorModal">
+		  		{{ agreeorList.length ? '합의자 정보' : '합의자 추가' }}
 			</button>
-		   	<button type="button" class="btn" :class="approverList.length ? 'btn-info' : 'btn-secondary'" v-on:click="showModal">
-		  		{{ approverList.length ? '참조자 정보' : '참조자 추가' }}
+		   	<button type="button" class="btn" :class="recipientList.length ? 'btn-info' : 'btn-secondary'" v-on:click="showRecipientModal">
+		  		{{ recipientList.length ? '참조자 정보' : '참조자 추가' }}
 			</button>
-		   	<button type="button" class="btn" :class="approverList.length ? 'btn-info' : 'btn-secondary'" v-on:click="showModal">
-		  		{{ approverList.length ? '열람자 정보' : '열람자 추가' }}
+		   	<button type="button" class="btn" :class="readerList.length ? 'btn-info' : 'btn-secondary'" v-on:click="showReaderModal">
+		  		{{ readerList.length ? '열람자 정보' : '열람자 추가' }}
 			</button>
 	  </div>
 	  

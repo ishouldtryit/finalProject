@@ -16,10 +16,6 @@ public class ApprovalDto {
 	private Date draftDate;			//기안서 작성일
 	private Date updateDate;		//기안서 수정일
 	private String drafterId;		//기안서 작성자
-	private String firstApprover;	//1차 결재자
-	private String secondApprover;	//2차 결재자
-	private String thirdApprover;	//3차 결재자
-	private String finalApprover;	//최종 결재자
 	private int statusCode;			//결재 상태 코드
 	private int resultCode;			//결재 결과 코드
 	private String returnReson;		//반려 사유

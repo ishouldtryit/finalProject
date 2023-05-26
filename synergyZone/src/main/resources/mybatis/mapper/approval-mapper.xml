@@ -19,11 +19,11 @@
     	<insert id="insert" >
     		insert into approval( 
     		draft_no,draft_title,draft_content,
-    		drafter_id, first_approver
+    		drafter_id
     		) 
     		values(
     		approval_seq.nextval,#{draftTitle},#{draftContent},
-    		#{drafterId}, #{firstApprover}
+    		#{drafterId}
     		)
     	</insert>
     	

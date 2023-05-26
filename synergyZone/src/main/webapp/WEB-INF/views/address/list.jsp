@@ -29,10 +29,10 @@
 	<div class="row">
 	  <div class="col" style="margin: 0 auto;">
 	    <form id="employeeForm">
-	      <table class="table table-hover mt-2" style="width: 80%;">
+	      <table class="table table-hover mt-2" style="width: 90%;">
 	        <thead>
 	          <tr>
-	            <th>선택</th>
+	            <th></th>
 	            <th>프로필</th>
 	            <th>사원번호</th>
 	            <th>이름</th>

@@ -93,7 +93,7 @@
     <aside>
 	     <div class="wrapper d-flex align-items-stretch" >
 	            <nav id="sidebar" class="bg-info">
-	                <div class="p-4 pt-5">
+	                <div class="p-4 pt-5" style=" min-height: 70vh;">
 	                    <a href="#"><h3 class="text-light mb-5">게시판</h3></a>
 	                    <ul class="list-unstyled components mb-5">
 	                        <li>
@@ -140,7 +140,6 @@
         <!-- Page Content  -->
         <article>
 	
-	        <div id="content" class="p-4 p-md-5" style="height:200px;">
 	            
 	            <nav class="navbar navbar-expand-lg navbar-light bg-light">
 	                <div class="container-fluid">
@@ -177,6 +176,5 @@
 	                    </div>
 	                </div>
 	            </nav>
-	            
 	     
 		    

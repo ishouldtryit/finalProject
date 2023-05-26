@@ -126,30 +126,29 @@ public class BookmarkController {
 
    
    //나만의 즐겨찾기 추가하기 
-   @PostMapping("/addBookmark") 
-   @ResponseBody
-   public void addBookmark(@RequestBody BookmarkVO vo, HttpSession session) {
-       System.out.println("vo=" + vo);
-       System.out.println(Arrays.toString(vo.getBookmarkNo()));
+	@PostMapping("/addBookmark")
+	@ResponseBody
+	public void addBookmark(@RequestBody BookmarkVO vo, HttpSession session) {
+	    String ownerNo = (String) session.getAttribute("memberId");
 
-       String ownerNo = (String) session.getAttribute("memberId");
+	    for (String bookmarkNo : vo.getBookmarkNo()) {
+	        // 중복 체크
+	        if (!bookmarkRepo.existsBookmark(ownerNo, bookmarkNo)) {
+	            BookmarkDto bookmarkDto = new BookmarkDto();
+	            bookmarkDto.setOwnerNo(ownerNo);
+	            bookmarkDto.setBookmarkNo(bookmarkNo);
+	            bookmarkRepo.addToMyList(bookmarkDto);
+	        }
+	    }
+	}
 
-       for (String bookmarkNo : vo.getBookmarkNo()) {
-           BookmarkDto bookmarkDto = new BookmarkDto();
-           bookmarkDto.setOwnerNo(ownerNo);
-           bookmarkDto.setBookmarkNo(bookmarkNo);
-           bookmarkRepo.addToMyList(bookmarkDto);
-       }
-   }
-   
-   @PostMapping("/removeBookmark")
-   @ResponseBody
-   public void removeBookmark(@RequestBody BookmarkVO vo) {
-    
-       for (String bookmarkNo : vo.getBookmarkNo()) {
-           bookmarkRepo.removeFromBookmark(bookmarkNo);
-       }
-   }
+	@PostMapping("/removeBookmark")
+	@ResponseBody
+	public void removeBookmark(@RequestBody BookmarkVO vo) {
+	    for (String bookmarkNo : vo.getBookmarkNo()) {
+	        bookmarkRepo.removeFromBookmark(bookmarkNo);
+	    }
+	}
    
    @PostMapping("/getMyList")
    @ResponseBody

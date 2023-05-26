@@ -17,26 +17,33 @@ public class BookmarkRepoImpl implements BookmarkRepo {
     @Autowired
     private SqlSession sqlSession;
 
-
     @Override
     public void addToMyList(BookmarkDto bookmark) {
-        // 중복 체크를 위해 기존에 존재하는 북마크 번호인지 확인
-        int count = sqlSession.selectOne("bookmark.checkBookmarkNo", bookmark.getBookmarkNo());
-        if (count == 0) {
-            sqlSession.insert("bookmark.addToBookmark", bookmark);
-        } else {
-            // 이미 존재하는 북마크 번호이므로 추가하지 않음
-            System.out.println("이미 존재하는 북마크 번호입니다: " + bookmark.getBookmarkNo());
-        }
+        //int count = sqlSession.selectOne("bookmark.checkBookmarkNo", bookmark.getBookmarkNo());
+        //if (count == 0) {
+        //} else {
+        //    System.out.println("이미 존재하는 북마크 번호입니다: " + bookmark.getBookmarkNo());
+        //}
+    	sqlSession.insert("bookmark.addToBookmark", bookmark);
     }
 
-	@Override
-	public void removeFromBookmark(String bookmarkNo) {
+    @Override
+    public void removeFromBookmark(String bookmarkNo) {
         sqlSession.delete("bookmark.removeFromBookmark", bookmarkNo);
-	}
+    }
 
-	@Override
-	public List<BookmarkDto> getMyList(String ownerNo) {
-	    return sqlSession.selectList("bookmark.getMyList", ownerNo);
-	}
+    @Override
+    public List<BookmarkDto> getMyList(String ownerNo) {
+        return sqlSession.selectList("bookmark.getMyList", ownerNo);
+    }
+
+    @Override
+    public boolean existsBookmark(String ownerNo, String bookmarkNo) {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("ownerNo", ownerNo);
+        paramMap.put("bookmarkNo", bookmarkNo);
+
+        int count = sqlSession.selectOne("bookmark.existsBookmark", paramMap);
+        return count > 0;
+    }
 }

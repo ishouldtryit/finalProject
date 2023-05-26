@@ -2,8 +2,12 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
-
-<div class="container-1200" style="margin-left: 15%;">
+<style>
+  .employee-name {
+    color: dodgerblue;
+  }
+</style>
+<div class="container-1300" style="margin-left: 15%;">
 		<!-- 검색창 -->
 		<form class="d-flex" action="list" method="get">
 		  <select name="column" class="form-input me-sm-2">
@@ -15,75 +19,85 @@
 		  
 		  <input class="form-control me-sm-2" type="search" placeholder="검색어" name="keyword" value="${param.keyword}" style="width: 13%;">
 		  <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
-		</form>
+        <button type="button" id="selectAllBtn" class="btn btn-primary my-2 my-sm-0">전체 선택</button>
 		  <!-- My list에 추가 버튼 -->		  
 		  <button class="btn btn-success my-2 my-sm-0" type="button" onclick="addToMyList()">My list에 추가</button>
 		
-		<div class="mb-2">
-        <button type="button" id="selectAllBtn" class="btn btn-primary">전체 선택</button>
-      </div>
+		</form>
+		
     	<!-- 사원 목록 테이블 -->
-		<div class="row">
-		  <div class="col" style="margin: 0 auto;">
-		    <form id="employeeForm">
-		      <table class="table table-hover mt-2" style="width: 80%;">
-		        <thead>
-		          <tr>
-		            <th>선택</th>
-		            <th>사원번호</th>
-		            <th>이름</th>
-		            <th>전화번호</th>
-		            <th>이메일</th>
-		            <th>주소</th>
-		            <th>상세주소</th>
-		            <th>부서</th>
-		            <th>직위</th>
-		          </tr>
-		        </thead>
-		        <tbody>
-		          <c:forEach var="employeeDto" items="${employees}">
-		            <tr>
-		              <td class="align-middle">
-		                <div class="p-2">
-		                  <input type="checkbox" name="selectedEmployees" value="${employeeDto.empNo}">
-		                </div>
-		              </td>
-		              <td class="align-middle">${employeeDto.empNo}</td>
-		              <td class="align-middle employee-name" data-empno="${employeeDto.empNo}" data-empname="${employeeDto.empName}" 
-		                data-empphone="${employeeDto.empPhone}" data-empemail="${employeeDto.empEmail}" 
-		                data-empaddress="${employeeDto.empAddress}" data-empdetailaddress="${employeeDto.empDetailAddress}"
-		                data-attachmentno="${employeeDto.attachmentNo}">
-		                ${employeeDto.empName}
-		              </td>
-		              <td class="align-middle">${employeeDto.empPhone}</td>
-		              <td class="align-middle">${employeeDto.empEmail}</td>
-		              <td class="align-middle">${employeeDto.empAddress}</td>
-		              <td class="align-middle">${employeeDto.empDetailAddress}</td>
-		              <td class="align-middle">
-		                <c:forEach var="departmentDto" items="${departments}">
-		                  <c:if test="${departmentDto.deptNo == employeeDto.deptNo}">
-		                    ${departmentDto.deptName}
-		                  </c:if>
-		                </c:forEach>
-		              </td>
-		              <td class="align-middle">
-		                <c:forEach var="jobDto" items="${jobs}">
-		                  <c:if test="${jobDto.jobNo == employeeDto.jobNo}">
-		                    ${jobDto.jobName}
-		                  </c:if>
-		                </c:forEach>
-		              </td>
-		            </tr>
-		          </c:forEach>
-		        </tbody>
-		      </table>
-		      
-		       <button type="button" class="btn btn-primary" v-on:click="showModal">열기(VueJS)</button>
-		      
-		      
-		    </form>
-		  </div>
-		</div>
+	<div class="row">
+	  <div class="col" style="margin: 0 auto;">
+	    <form id="employeeForm">
+	      <table class="table table-hover mt-2" style="width: 80%;">
+	        <thead>
+	          <tr>
+	            <th>선택</th>
+	            <th>프로필</th>
+	            <th>사원번호</th>
+	            <th>이름</th>
+	            <th>전화번호</th>
+	            <th>이메일</th>
+	            <th>주소</th>
+	            <th>상세주소</th>
+	            <th>부서</th>
+	            <th>직위</th>
+	          </tr>
+	        </thead>
+	        <tbody>
+	          <c:forEach var="employeeDto" items="${employees}">
+	            <tr>
+	              <td class="align-middle">
+	                <div class="p-2">
+	                  <input type="checkbox" name="selectedEmployees" value="${employeeDto.empNo}">
+	                </div>
+	              </td>
+	              <td class="align-middle">
+	                <div class="profile-image">
+	                  <img width="50" height="50" src="<c:choose>
+	                    <c:when test="${employeeDto.attachmentNo > 0}">
+	                      /attachment/download?attachmentNo=${employeeDto.attachmentNo}
+	                    </c:when>
+	                    <c:otherwise>
+	                      https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg
+	                    </c:otherwise>
+		                      </c:choose>" alt="" style="border-radius: 50%;">
+	                </div>
+	              </td>
+	              <td class="align-middle">${employeeDto.empNo}</td>
+	              <td class="align-middle employee-name" data-empno="${employeeDto.empNo}" data-empname="${employeeDto.empName}" 
+	                data-empphone="${employeeDto.empPhone}" data-empemail="${employeeDto.empEmail}" 
+	                data-empaddress="${employeeDto.empAddress}" data-empdetailaddress="${employeeDto.empDetailAddress}"
+	                data-attachmentno="${employeeDto.attachmentNo}">
+	                ${employeeDto.empName}
+	              </td>
+	              <td class="align-middle">${employeeDto.empPhone}</td>
+	              <td class="align-middle">${employeeDto.empEmail}</td>
+	              <td class="align-middle">${employeeDto.empAddress}</td>
+	              <td class="align-middle">${employeeDto.empDetailAddress}</td>
+	              <td class="align-middle">
+	                <c:forEach var="departmentDto" items="${departments}">
+	                  <c:if test="${departmentDto.deptNo == employeeDto.deptNo}">
+	                    ${departmentDto.deptName}
+	                  </c:if>
+	                </c:forEach>
+	              </td>
+	              <td class="align-middle">
+	                <c:forEach var="jobDto" items="${jobs}">
+	                  <c:if test="${jobDto.jobNo == employeeDto.jobNo}">
+	                    ${jobDto.jobName}
+	                  </c:if>
+	                </c:forEach>
+	              </td>
+	            </tr>
+	          </c:forEach>
+	        </tbody>
+	      </table>
+	    </form>
+	  </div>
+	</div>
+
+
 
 		<!-- 첫 번째 모달 창 -->
 	 	<div class="modal fade" id="employeeModal" tabindex="-1" role="dialog" aria-labelledby="employeeModalLabel" aria-hidden="true">
@@ -93,17 +107,21 @@
 		        <h5 class="modal-title" id="employeeModalLabel"></h5>
 		        
 		     <div class="profile-image">
-			    <img id="profileImage" width="200" height="200" src="/attachment/download?attachmentNo=" alt="프로필 이미지">
+			    <img id="profileImage" width="200" height="300" src="/attachment/download?attachmentNo=" alt="프로필 이미지">
 			</div>
-		      <div class="modal-body">
-		        <p><strong>사원번호:</strong> <span id="employeeNo"></span></p>
-		        <p><strong>이름:</strong> <span id="employeeName"></span></p>
-		        <p><strong>전화번호:</strong> <span id="employeePhone"></span></p>
-		        <p><strong>이메일:</strong> <span id="employeeEmail"></span></p>
-		        <p><strong>주소:</strong> <span id="employeeAddress"></span></p>
-		        <p><strong>상세주소:</strong> <span id="employeeDetailAddress"></span></p>
-		        <!-- 다른 사원 정보 항목들을 추가할 수 있습니다 -->
+			
+			  <div class="modal-body">
+		        <p><strong>사원번호 :</strong> <span id="employeeNo"></span></p>
+		        <p><strong>이름 :</strong> <span id="employeeName"></span></p>
+		        <p><strong>전화번호 :</strong> <span id="employeePhone"></span></p>
+		        <p><strong>이메일 :</strong> <span id="employeeEmail"></span></p>
+		        <p><strong>주소 :</strong> <span id="employeeAddress"></span></p>
+		        <p><strong>상세주소 :</strong> <span id="employeeDetailAddress"></span></p>
+		        <p><strong>부서 :</strong> <span id="employeeDepartment"></span></p> <!-- 부서 정보를 표시할 곳 -->
+		        <p><strong>직위 :</strong> <span id="employeeJob"></span></p> <!-- 직위 정보를 표시할 곳 -->
+		        <!-- 정보 추가 가능 -->
 		      </div>
+      
 		      </div>
 		      <div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>	      
@@ -167,6 +185,8 @@
       var employeeAddress = $(this).data('empaddress');
       var employeeDetailAddress = $(this).data('empdetailaddress');
       var attachmentNo = $(this).data('attachmentno');
+      var departmentName = $(this).closest('tr').find('td:eq(7)').text(); // 부서 정보 가져오기
+      var jobName = $(this).closest('tr').find('td:eq(8)').text(); // 직위 정보 가져오기
 
       $('#employeeNo').text(employeeNo);
       $('#employeeName').text(employeeName);
@@ -174,13 +194,14 @@
       $('#employeeEmail').text(employeeEmail);
       $('#employeeAddress').text(employeeAddress);
       $('#employeeDetailAddress').text(employeeDetailAddress);
-     
-      //더미이미지 삽입
-      if(attachmentNo > 0	){
-      $("#profileImage").attr("src", "/attachment/download?attachmentNo="+attachmentNo);
-      }
-      else{
-    	  $("#profileImage").attr("src", "https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg");
+      $('#employeeDepartment').text(departmentName); // 부서 정보 설정
+      $('#employeeJob').text(jobName); // 직위 정보 설정
+
+      // 더미이미지 삽입
+      if (attachmentNo > 0) {
+        $("#profileImage").attr("src", "/attachment/download?attachmentNo=" + attachmentNo);
+      } else {
+        $("#profileImage").attr("src", "https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg");
       }
 
       $('#employeeModal').modal('show');

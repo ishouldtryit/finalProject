@@ -120,7 +120,7 @@ public class BookmarkController {
 	    model.addAttribute("endPage", endPage);
 	    model.addAttribute("totalPage", totalPage);
 	    model.addAttribute("currentPage", page);
-	
+	    
 	    return "bookmark/mylist";
 	}
 

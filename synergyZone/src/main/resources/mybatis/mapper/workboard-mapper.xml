@@ -18,7 +18,7 @@
 		)
 		values(
 			work_board_seq.nextval, #{empNo}, #{workTitle},
-			#{workContent}, #{workStart}, #{workDeadline},
+			'dd', #{workStart}, #{workDeadline},
 			#{workStatus}, sysdate, #{workSecret}, #{workType}
 		)
 	</insert>

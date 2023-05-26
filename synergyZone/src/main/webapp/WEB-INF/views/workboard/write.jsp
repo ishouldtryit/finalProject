@@ -2,90 +2,79 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
-<script src="${pageContext.request.contextPath}/static/js/employee/employee.js"></script>
 
-    <!-- summernote cdn -->
+<!-- summernote cdn -->
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
-
+    
     <script type="text/javascript">
-        $(function(){
-            $('[name=workContent]').summernote({
-                placeholder: '내용 작성',
-                tabsize: 4,//탭키를 누르면 띄어쓰기 몇 번 할지
-                height: 250,//최초 표시될 높이(px)
-                toolbar: [//메뉴 설정
-                    ['style', ['style']],
-                    ['font', ['bold', 'underline', 'clear']],
-                    ['color', ['color']],
-                    ['para', ['ul', 'ol', 'paragraph']],
-                    ['table', ['table']],
-                    ['insert', ['link', 'picture']]
-                ],
-                callbacks: {
-                    onImageUpload: function(files) {
-                    	console.log(files);
-                    	if(files.length != 1) return;
-                    	
-                      //console.log("비동기 파일 업로드 시작");
-                      //[1] FormData [2] processData [3] contentType
-                      var fd = new FormData();
-                      fd.append("attach", files[0]);
-                      
-                      $.ajax({
-                    	  url:"/rest/attachment/upload",
-                    	  method:"post",
-                    	  data:fd,
-                    	  processData:false,
-                    	  contentType:false,
-                    	  success:function(response){
-                    		  //console.log(response);
-                    		  
-                    		  //서버로 전송할 이미지 번호 정보 생성
-                    		  var input = $("<input>").attr("type", "hidden")
-                    		  							.attr("name", "attachmentNo")
-                    		  							.val(response.attachmentNo);
-                    		  
-                    		  $("form").prepend(input);
-                    		  
-                    		  var imgNode = $("<img>").attr("src", "/rest/attachment/download/"+response.attachmentNo); //PathVariable
-                    		  $("[name=workContent]").summernote('insertNode', imgNode.get(0)); //Jquery->JavaScript
-                    	  },
-                    	  error:function(){
-                    		  
-                    	  }
-                      });
-                      
-                      // upload image to server and create imgNode...
-                    }
-                  }
-            });
-           
-            
-            $('[name=workSecret]').on('change', function() {
-                if ($(this).is(':checked')) {
-                    $('[name=workSecret]').val("Y");
-                } else {
-                    $('[name=workSecret]').val("N");
+    $(function(){
+        $('[name=workContent]').summernote({
+            placeholder: '내용 작성',
+            tabsize: 4,//탭키를 누르면 띄어쓰기 몇 번 할지
+            height: 250,//최초 표시될 높이(px)
+            toolbar: [//메뉴 설정
+                ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['table', ['table']],
+                ['insert', ['link', 'picture']]
+            ],
+            callbacks: {
+                onImageUpload: function(files) {
+                	console.log(files);
+                	if(files.length != 1) return;
+                	
+                  //console.log("비동기 파일 업로드 시작");
+                  //[1] FormData [2] processData [3] contentType
+                  var fd = new FormData();
+                  fd.append("attach", files[0]);
+                  
+                  $.ajax({
+                	  url:"/rest/attachment/upload",
+                	  method:"post",
+                	  data:fd,
+                	  processData:false,
+                	  contentType:false,
+                	  success:function(response){
+                		  //console.log(response);
+                		  
+                		  //서버로 전송할 이미지 번호 정보 생성
+                		  var input = $("<input>").attr("type", "hidden")
+                		  							.attr("name", "attachmentNo")
+                		  							.val(response.attachmentNo);
+                		  
+                		  $("form").prepend(input);
+                		  
+                		  var imgNode = $("<img>").attr("src", "/rest/attachment/download/"+response.attachmentNo); //PathVariable
+                		  $("[name=workContent]").summernote('insertNode', imgNode.get(0)); //Jquery->JavaScript
+                	  },
+                	  error:function(){
+                		  
+                	  }
+                  });
+                  
+                  // upload image to server and create imgNode...
                 }
-            	console.log($(this).val());
-            });
-            
-            $('form').on('submit', function() {
-                var isChecked = $('[name=workSecret]').is(':checked');
-                if (isChecked) {
-                    $('[name=workSecret]').val("Y");
-                } else {
-                    $('[name=workSecret]').val("N");
-                }
-            });
-
-
+              }
         });
-
+        
+    
+    });
+       
+    function validateForm() {
+        if ($('#workSecretCheck').is(':checked')) {
+            $("#workSecret").val("Y");
+        } else {
+            $("#workSecret").val("N");
+        }
+        return true;
+    }
+       
     </script>
 	
-    <form action="write" method="post" enctype="multipart/form-data">
+    <form action="write" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
         <div class="container-fluid mt-4">
     
             <div class="row">
@@ -133,29 +122,22 @@
                   </div>
                   
 				<div class="row mt-4">
-				    <div class="col">
-				        <label class="form-label">공개여부</label>
-				        <input type="checkbox" name="workSecret">
-				    </div>
-				</div>
-				
-				<div class="row mt-4">
                       <div class="col">
                         <textarea name="workContent"></textarea>
                       </div>
                   </div>
-
-                    
-                  <div class="row mt-4">
-                      <div class="col">
-                        <button class="btn btn-primary w-100">
-                        확인
-                        </button>
-                      </div>
-                  </div>
-                    
-
-                    
+                  
+				<div class="offset-md-2 col-md-8">
+                <div class="row mt-4">
+                    <div class="col">
+                        <label class="form-label">공개여부</label>
+                        <input type="checkbox" id="workSecretCheck">
+                        <input type="hidden" id="workSecret" name="workSecret">
+                        <button type="submit" class="btn btn-primary">등록</button>
+                    </div>
+                </div>
+            </div>
+                   
 
                 </div>
             </div>

@@ -20,44 +20,7 @@
                 ['para', ['ul', 'ol', 'paragraph']],
                 ['table', ['table']],
                 ['insert', ['link', 'picture']]
-            ],
-            callbacks: {
-                onImageUpload: function(files) {
-                	console.log(files);
-                	if(files.length != 1) return;
-                	
-                  //console.log("비동기 파일 업로드 시작");
-                  //[1] FormData [2] processData [3] contentType
-                  var fd = new FormData();
-                  fd.append("attach", files[0]);
-                  
-                  $.ajax({
-                	  url:"/rest/attachment/upload",
-                	  method:"post",
-                	  data:fd,
-                	  processData:false,
-                	  contentType:false,
-                	  success:function(response){
-                		  //console.log(response);
-                		  
-                		  //서버로 전송할 이미지 번호 정보 생성
-                		  var input = $("<input>").attr("type", "hidden")
-                		  							.attr("name", "attachmentNo")
-                		  							.val(response.attachmentNo);
-                		  
-                		  $("form").prepend(input);
-                		  
-                		  var imgNode = $("<img>").attr("src", "/rest/attachment/download/"+response.attachmentNo); //PathVariable
-                		  $("[name=workContent]").summernote('insertNode', imgNode.get(0)); //Jquery->JavaScript
-                	  },
-                	  error:function(){
-                		  
-                	  }
-                  });
-                  
-                  // upload image to server and create imgNode...
-                }
-              }
+            ]
         });
         
     
@@ -127,7 +90,15 @@
                       </div>
                   </div>
                   
-				<div class="offset-md-2 col-md-8">
+                 <div class="row mt-4">
+				    <div class="col">
+				        <label class="form-label">파일첨부</label>
+				        <input class="form-control rounded" type="file" name="attachments" multiple="multiple">
+				    </div>
+				</div>
+
+
+                  
                 <div class="row mt-4">
                     <div class="col">
                         <label class="form-label">공개여부</label>
@@ -136,7 +107,6 @@
                         <button type="submit" class="btn btn-primary">등록</button>
                     </div>
                 </div>
-            </div>
                    
 
                 </div>

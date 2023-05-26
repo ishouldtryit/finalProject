@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +27,10 @@ import com.kh.synergyZone.configuration.CustomFileUploadProperties;
 import com.kh.synergyZone.dto.AttachmentDto;
 import com.kh.synergyZone.dto.WorkFileDto;
 import com.kh.synergyZone.repo.AttachmentRepo;
+import com.kh.synergyZone.repo.WorkBoardRepo;
 import com.kh.synergyZone.repo.WorkFileRepo;
+
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @CrossOrigin
 @RestController
@@ -41,6 +45,9 @@ public class AttachmentRestController {
 	private WorkFileRepo workFileRepo;
 	
 	@Autowired
+	private WorkBoardRepo workBoardRepo;
+	
+	@Autowired
 	private CustomFileUploadProperties fileUploadProperties;
 	
 	private File dir;
@@ -53,35 +60,30 @@ public class AttachmentRestController {
 	
 	//업로드
 	@PostMapping("/upload")
-	public AttachmentDto upload(@RequestParam WorkFileDto workFileDto,
-								@RequestParam MultipartFile attach) throws IllegalStateException, IOException {
-		
-		if(!attach.isEmpty()) {//파일이 있을 경우 
-			//번호 생성
-			int attachmentNo = attachmentRepo.sequence();
-			//파일 저장 (저장 위치는 임시로 생성)
-			
-			File target = new File(dir, String.valueOf(attachmentNo));//파일명=시퀀스
-			attach.transferTo(target);
-			
-			//DB 저장
-			attachmentRepo.insert(AttachmentDto.builder()
-						.attachmentNo(attachmentNo)
-						.attachmentName(attach.getOriginalFilename())
-						.attachmentType(attach.getContentType())
-						.attachmentSize(attach.getSize())
-					.build());
-			
-			workFileRepo.insert(WorkFileDto.builder()
-						.workNo(workFileDto.getWorkNo())
-						.attachmentNo(attachmentNo)
-					.build());
-			return attachmentRepo.find(attachmentNo); //DTO를 반환함
-		}
-		
-		return null; //또는 예외처리
-		
+	public AttachmentDto upload(@RequestParam MultipartFile attach) throws IllegalStateException, IOException {
+
+	    if (!attach.isEmpty()) { // 파일이 있을 경우
+	        // 번호 생성
+	        int attachmentNo = attachmentRepo.sequence();
+	        
+	        // 파일 저장 (저장 위치는 임시로 생성)
+	        File target = new File(dir, String.valueOf(attachmentNo)); // 파일명 = 시퀀스
+	        attach.transferTo(target);
+	        
+	        // DB 저장
+	        attachmentRepo.insert(AttachmentDto.builder()
+	                .attachmentNo(attachmentNo)
+	                .attachmentName(attach.getOriginalFilename())
+	                .attachmentType(attach.getContentType())
+	                .attachmentSize(attach.getSize())
+	                .build());
+	        
+	        return attachmentRepo.find(attachmentNo); // DTO를 반환함
+	    }
+
+	    return null; // 또는 예외처리
 	}
+
 	
 	//다운로드
 	@GetMapping("/download/{attachmentNo}")

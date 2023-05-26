@@ -62,6 +62,7 @@ public class AdminController {
         model.addAttribute("departments", departments);
         model.addAttribute("jobs", jobs);
         
+        
         return "admin/join";
     }
     

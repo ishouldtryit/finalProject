@@ -17,5 +17,4 @@ public class WorkFileRepoImpl implements WorkFileRepo {
 		sqlSession.insert("workFile.insertFile", workFileDto);
 	}
 	
-	
 }

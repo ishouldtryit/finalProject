@@ -18,9 +18,17 @@
 		)
 		values(
 			work_board_seq.nextval, #{empNo}, #{workTitle},
-			'dd', #{workStart}, #{workDeadline},
+			#{workContent}, #{workStart}, #{workDeadline},
 			#{workStatus}, sysdate, #{workSecret}, #{workType}
 		)
 	</insert>
+	
+	<select id="find" resultType="workBoardDto">
+		select * from work_board where work_no = #{workNo}
+	</select>
+	
+	<select id="list" resultType="workBoardDto">
+		select * from work_board order by work_no asc
+	</select>
 	
 </mapper>

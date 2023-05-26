@@ -90,6 +90,7 @@
                     
                      <div class="row mt-4">
                         <div class="col">
+<%--                         	<img class="profilePreview" width="200" height="200" src="/attachment/download?attachmentNo=${profile.attachmentNo}"> --%>
                             <label class="form-label">프로필사진</label>
                             <input class="form-control rounded" type="file" name="attach" placeholder="프로필사진">
                         </div>

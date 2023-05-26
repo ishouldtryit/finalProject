@@ -74,12 +74,17 @@ public class EmployeeController {
                        @RequestParam Date empHireDate,
                        @RequestParam MultipartFile attach) throws IllegalStateException, IOException {
     	
+    	//입사일 기준 부서번호생성
     	String empNo = employeeService.generateEmpNo(empHireDate);
     	employeeDto.setEmpNo(empNo);
         employeeDto.setDeptNo(deptNo);
         employeeDto.setJobNo(jobNo);
         
         employeeService.join(employeeDto, attach);
+        
+        //연차등록
+        
+        
         return "redirect:/";
     }
 	
@@ -98,6 +103,8 @@ public class EmployeeController {
 			//로그인 시 세션 저장
 			session.setAttribute("empNo", findDto.getEmpNo());
 			session.setAttribute("jobNo", findDto.getJobNo());
+			//웹소켓에 필요한 회원 이름저장 
+			session.setAttribute("empName", findDto.getEmpName());
 			
 //			String ipAddress = employeeService.getLocation(request);
 //			String browserAddress = employeeService.getBrowser(request);

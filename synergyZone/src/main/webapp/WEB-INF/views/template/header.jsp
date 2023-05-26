@@ -126,6 +126,21 @@
 	                            </ul>
 	                        </li>
 	
+	 <li>
+	                            <a href="#addressSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">주소록 </a>
+	                            <ul class="collapse list-unstyled" id="addressSubmenu">
+	                                <li>
+	                                    <a href="#">공지사항</a>
+	                                </li>
+	                                <li>
+	                                    <a href="#">자유게시판</a>
+	                                </li>
+	                                <li>
+	                                    <a href="#">ㅋㅋㅋ</a>
+	                                </li>
+	                            </ul>
+	                        </li>
+	
 	                        <li>
 	                            <a href="#">공지사항</a>
 	                        </li>
@@ -178,7 +193,6 @@
 	                </div>
 	            </nav>
 	            
-	            <!-- 내용 -->
-	            여기에 작성
-		    </div>
+	   
+
 		    

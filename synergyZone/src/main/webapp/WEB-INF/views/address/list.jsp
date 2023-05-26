@@ -7,7 +7,7 @@
     color: dodgerblue;
   }
 </style>
-<div class="container-1300" style="margin-left: 15%;">
+<div class="container-1200" style="margin-left: 15%;">
 		<!-- 검색창 -->
 		<form class="d-flex" action="list" method="get">
 		  <select name="column" class="form-input me-sm-2">
@@ -138,7 +138,7 @@
 		        <h5 class="modal-title" id="employeeInfoModalLabel"></h5>
 		      </div>
 		      <div class="modal-body">
-		        <!-- 사원 상세 정보를 추가하십시오 -->
+		        <!-- 사원 상세 정보 추가칸 -->
 		      </div>
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>

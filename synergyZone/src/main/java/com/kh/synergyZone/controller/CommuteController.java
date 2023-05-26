@@ -26,7 +26,6 @@ public class CommuteController {
 	public String commute(Model model, HttpSession session, @ModelAttribute CommuteRecordDto commuteRecordDto) {
 		//사원번호
 		String empNo = (String) session.getAttribute("memberId");
-		System.out.println(commuteRecordRepo.today(empNo));
 		//오늘 근무정보
 		model.addAttribute("w",commuteRecordRepo.today(empNo));
 		

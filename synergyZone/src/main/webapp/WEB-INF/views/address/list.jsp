@@ -77,6 +77,10 @@
 		          </c:forEach>
 		        </tbody>
 		      </table>
+		      
+		       <button type="button" class="btn btn-primary" v-on:click="showModal">열기(VueJS)</button>
+		      
+		      
 		    </form>
 		  </div>
 		</div>

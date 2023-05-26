@@ -1,9 +1,9 @@
 package com.kh.synergyZone.controller;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.util.List;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.synergyZone.dto.DepartmentDto;
 import com.kh.synergyZone.dto.EmployeeDto;
-import com.kh.synergyZone.dto.EmployeeInfoDto;
 import com.kh.synergyZone.dto.JobDto;
 import com.kh.synergyZone.dto.LoginRecordDto;
 import com.kh.synergyZone.repo.DepartmentRepo;
@@ -27,280 +27,139 @@ import com.kh.synergyZone.repo.EmployeeProfileRepo;
 import com.kh.synergyZone.repo.EmployeeRepo;
 import com.kh.synergyZone.repo.JobRepo;
 import com.kh.synergyZone.repo.LoginRecordRepo;
+import com.kh.synergyZone.service.EmailService;
 import com.kh.synergyZone.service.EmployeeService;
-import com.kh.synergyZone.vo.EmployeeExitWaitingVO;
-import com.kh.synergyZone.vo.LoginRecordSearchVO;
 
 @Controller
 @RequestMapping("/employee")
 public class EmployeeController {
 	
-	@Autowired
-	private EmployeeService employeeService;
+		@Autowired
+		private EmployeeRepo employeeRepo;
+		
+		@Autowired
+		private DepartmentRepo departmentRepo;
+		
+		@Autowired
+		private JobRepo jobRepo;
 	
-	@Autowired
-	private EmployeeRepo employeeRepo;
-	
-	@Autowired
-	private DepartmentRepo departmentRepo;
-	
-	@Autowired
-	private JobRepo jobRepo;
-	
-	@Autowired
-	private LoginRecordRepo loginRecordRepo;
-	
-	@Autowired
-	private EmployeeProfileRepo employeeProfileRepo;
+		@Autowired
+		private EmployeeProfileRepo employeeProfileRepo;
+		
+		@Autowired
+		private LoginRecordRepo loginRecordRepo;
+		
+		@Autowired
+		private EmailService emailService;
+		
+		@Autowired
+		private EmployeeService employeeService;
 	
 	
-	//회원가입
-    @GetMapping("/join")
-    public String join(Model model) {
-        List<DepartmentDto> departments = departmentRepo.list();
-        List<JobDto> jobs = jobRepo.list();
-        
-        model.addAttribute("departments", departments);
-        model.addAttribute("jobs", jobs);
-        
-        return "employee/join";
-    }
-    
-    // 회원가입 처리
-    @PostMapping("/join")
-    public String join(@ModelAttribute EmployeeDto employeeDto,
-                       @RequestParam int deptNo,
-                       @RequestParam int jobNo,
-                       @RequestParam Date empHireDate,
-                       @RequestParam MultipartFile attach) throws IllegalStateException, IOException {
-    	
-    	String empNo = employeeService.generateEmpNo(empHireDate);
-    	employeeDto.setEmpNo(empNo);
-        employeeDto.setDeptNo(deptNo);
-        employeeDto.setJobNo(jobNo);
-        
-        employeeService.join(employeeDto, attach);
-        return "redirect:/";
-    }
-	
-	//로그인
-	@GetMapping("/login")
-	public String login() {
-		return "employee/login";
-	}
-	
-	@PostMapping("/login")
-	public String login(@ModelAttribute EmployeeDto employeeDto,
-						HttpSession session,
-						HttpServletRequest request) {
-		EmployeeDto findDto = employeeService.login(employeeDto);
-		if(findDto != null){
-			//로그인 시 세션 저장
-			session.setAttribute("empNo", findDto.getEmpNo());
-			session.setAttribute("jobNo", findDto.getJobNo());
-			
-//			String ipAddress = addressController.getLocation(request);
-//			String browserAddress = addressController.getBrowser(request);
-
-			//로그인 접속 시간
-			LoginRecordDto loginRecordDto = new LoginRecordDto();
-			loginRecordDto.setEmpNo(findDto.getEmpNo());
-//			loginRecordDto.setLogIp(ipAddress);
-//			loginRecordDto.setLogBrowser(browserAddress);
-			
-			loginRecordRepo.insert(loginRecordDto);
+		//로그인
+		@GetMapping("/login")
+		public String login() {
+			return "employee/login";
 		}
 		
-		return "redirect:/";
-	}
-	
-	
-	//프로필 이미지 수정
-	@PostMapping("/profile/update")
-	public String updateProfile(@RequestParam String empNo,
-								@RequestParam MultipartFile attach) throws IllegalStateException, IOException {
-		if (!attach.isEmpty()) {
-	        employeeService.updateProfile(empNo, attach);
-	    }
-		return "redirect:/employee/detail?empNo="+empNo;
-	}
-	
-	//프로필 이미지 삭제
-	@GetMapping("/profile/delete")
-	public String deleteProfile(@RequestParam String empNo) {
-		employeeService.deleteProfile(empNo);
-		return "redirect:/employee/detail?empNo=" + empNo;
-	}
-	
-	//로그아웃
-	@GetMapping("/logout")
-	public String logout(HttpSession session) {
-		session.removeAttribute("empNo");
-		session.removeAttribute("jobNo");
-		return "redirect:/";
-	}
-	
-	//사원 목록
-	@GetMapping("/list")
-	public String list(Model model) throws IOException {
-		List<EmployeeInfoDto> employees = employeeRepo.list();
-	    List<DepartmentDto> departments = departmentRepo.list();
-	    List<JobDto> jobs = jobRepo.list();
-	    
-	    model.addAttribute("employees", employees);
-	    model.addAttribute("departments", departments);
-	    model.addAttribute("jobs", jobs);
-	    
-	    return "employee/list";
-	}
-	
-	//사원 정보 수정
-	@GetMapping("/edit")
-	public String edit(@RequestParam String empNo, 
-						Model model) {
-		EmployeeDto employeeDto = employeeRepo.selectOne(empNo);
-		List<DepartmentDto> departments = departmentRepo.list();
-	    List<JobDto> jobs = jobRepo.list();
-	
-		model.addAttribute("employeeDto", employeeDto);
-		model.addAttribute("departments", departments);
-	    model.addAttribute("jobs", jobs);
-	    
-	    model.addAttribute("profile", employeeProfileRepo.find(empNo));
-	    
-	    
-	    
-		return "employee/edit";
-	}
-	
-	@PostMapping("/edit")
-	public String edit(@ModelAttribute EmployeeDto employeeDto,
-						@RequestParam String empNo,
-						@RequestParam int deptNo,
-						@RequestParam int jobNo,
-						HttpSession session,
-						@RequestParam MultipartFile attach) throws IllegalStateException, IOException {
-		employeeDto.setDeptNo(deptNo);
-        employeeDto.setJobNo(jobNo);
-        
-        employeeService.deleteProfile(empNo);
-	    employeeService.updateProfile(empNo, attach);
-        
-		employeeRepo.update(employeeDto);
-		return "redirect:/employee/list";
-	}
-	
-	//사원 상세
-	@GetMapping("/detail")
-	public String detail(@RequestParam String empNo,
-						Model model) {
-		model.addAttribute("employeeDto", employeeRepo.selectOne(empNo));
-		model.addAttribute("profile", employeeProfileRepo.find(empNo));
-		return "employee/detail";
-	}
-	
-	//사원 퇴사
-	@GetMapping("/delete")
-	public String deleteEmployee(@RequestParam String empNo) {
-		employeeRepo.delete(empNo);
-		return "redirect:/employee/waitingList";
-	}
-	
-	@GetMapping("/exit")
-	public String exitEmployee(@RequestParam String empNo) {
-		employeeRepo.exit(empNo);
-		return "redirect:/employee/list";
-	}
-	
-	
-	//부서 등록
-	@GetMapping("/department/register")
-	public String departmentRegister() {
-		return "employee/department/register";
-	}
-	
-	
-	@PostMapping("/department/register")
-	public String departmentRegister(@ModelAttribute DepartmentDto departmentDto) {
-		departmentRepo.insert(departmentDto);
-		return "redirect:/";
-	}
-	
-	//부서 목록
-	@GetMapping("/department/list")
-	public String departmentList(Model model) {
-		List<DepartmentDto> departments = departmentRepo.list();
-		model.addAttribute("departments",departments);
-		return "employee/department/list";
-	}
-	
-	//부서 삭제
-	@GetMapping("/department/delete")
-	public String deleteDepartment(@RequestParam int deptNo) {
-		departmentRepo.delete(deptNo);
-		return "redirect:/";
-	}
+		@PostMapping("/login")
+		public String login(@ModelAttribute EmployeeDto employeeDto,
+							HttpSession session,
+							HttpServletRequest request) {
+			EmployeeDto findDto = employeeService.login(employeeDto);
+			if(findDto != null){
+				//로그인 시 세션 저장
+				session.setAttribute("empNo", findDto.getEmpNo());
+				session.setAttribute("jobNo", findDto.getJobNo());
+				
+				String ipAddress = employeeService.getLocation(request);
+				String browserAddress = employeeService.getBrowser(request);
+
+				//로그인 접속 시간
+				LoginRecordDto loginRecordDto = new LoginRecordDto();
+				loginRecordDto.setEmpNo(findDto.getEmpNo());
+				loginRecordDto.setLogIp(ipAddress);
+				loginRecordDto.setLogBrowser(browserAddress);
+				
+				loginRecordRepo.insert(loginRecordDto);
+			}
+			
+			return "redirect:/";
+		}
 		
-	//직위 등록
-	@GetMapping("/job/register")
-	public String jobRegister() {
-		return "employee/job/register";
-	}
-	
-	@PostMapping("/job/register")
-	public String jobRegister(@ModelAttribute JobDto jobDto) {
-		jobRepo.insert(jobDto);
-		return "redirect:/";
-	}
-	
-	//직위 목록
-	@GetMapping("/job/list")
-	public String jobList(Model model) {
-		List<JobDto> jobs = jobRepo.list();
-		model.addAttribute("jobs", jobs);
-		return "employee/job/list";
-	}
-	
-	//직위 삭제
-	@GetMapping("/job/delete")
-	public String deleteJob(@RequestParam int jobNo) {
-		jobRepo.delete(jobNo);
-		return "redirect:/";
-	}
-	
-	//접속로그
-	
-	//접속로그 목록
-	@GetMapping("/log/list")
-	public String logList(@ModelAttribute("vo") LoginRecordSearchVO vo,
-						  Model model) {
-		List<LoginRecordDto> logs = loginRecordRepo.list();
-		List<EmployeeInfoDto> employees = employeeRepo.list();
+		//로그아웃
+		@GetMapping("/logout")
+		public String logout(HttpSession session) {
+			session.removeAttribute("empNo");
+			session.removeAttribute("jobNo");
+			return "redirect:/";
+		}
 		
-		model.addAttribute("employees", employees);
-		model.addAttribute("logs", logs);
+		//사원 상세
+		@GetMapping("/mypage")
+		public String mypage(HttpSession session,
+							Model model) {
+			String empNo = (String) session.getAttribute("empNo");
+			
+			model.addAttribute("employeeDto", employeeRepo.selectOne(empNo));
+			model.addAttribute("profile", employeeProfileRepo.find(empNo));
+			return "employee/mypage";
+		}
 		
-		return "employee/log/list";
-	}
-	
-	//퇴사처리 대기 목록
-	@GetMapping("/waitingList")
-	public String exitWaitingList(Model model) {
-		List<EmployeeDto> waitingList = employeeRepo.waitingList();
-		EmployeeExitWaitingVO exitWaitingVO = EmployeeExitWaitingVO.builder()
-												.waitingList(waitingList)
-												.build(); 
-		model.addAttribute("exitWaitingVO", exitWaitingVO);
+		//비밀번호 찾기
+		@GetMapping("/findPw")
+		public String findPw() {
+			return "employee/findPw";
+		}
 		
-		List<DepartmentDto> departments = departmentRepo.list();
-	    List<JobDto> jobs = jobRepo.list();
-	    
-	    model.addAttribute("departments", departments);
-	    model.addAttribute("jobs", jobs);
-	    
-		return "employee/waitingList";
-	}
-	
-	
-	
+		@PostMapping("/findPw")
+		public String findPw(@RequestParam String empNo,
+							 @RequestParam String empEmail,
+							 RedirectAttributes attr) throws MessagingException {
+			EmployeeDto employeeDto = employeeRepo.selectOne(empNo);
+			if(employeeDto == null || !employeeDto.getEmpEmail().equals(empEmail)) {
+				attr.addAttribute("mode", "error");
+				return "redirect:findPw";
+			}
+			
+			//이메일 일치 시 임시 비밀번호 생성
+			emailService.sendTemporaryPw(empNo, empEmail);
+			return "redirect:findPwResult";
+		}
+		
+		
+		@GetMapping("/findPwResult")
+		public String findPwResult() {
+			return "employee/findPwResult";
+		}
+		
+		//비밀번호 변경
+		@GetMapping("/password")
+		public String password() {
+			return "employee/password";
+		}
+		
+		@PostMapping("/password")
+		public String password(HttpSession session,
+							   @RequestParam String currentPw,
+							   @RequestParam String changePw,
+							   RedirectAttributes attr) {
+			String empNo = (String) session.getAttribute("empNo");
+			EmployeeDto employeeDto = employeeRepo.selectOne(empNo);
+			
+			if(!employeeDto.getEmpPassword().equals(currentPw)) {
+				attr.addAttribute("mode", "error");
+				return "redirect:password";
+			}
+			
+			employeeDto.setEmpNo(empNo);
+			employeeDto.setEmpPassword(changePw);
+			employeeRepo.changePw(employeeDto);
+			return "redirect:passwordFinish";
+		}
+		
+		@GetMapping("/passwordFinish") 
+		public String passwordFinish() {
+			return "employee/passwordFinish";
+		}
 }

@@ -48,6 +48,7 @@
 					<td>
 						<a href="exit?empNo=${employeeDto.empNo}">퇴사처리</a>
 						<a href="detail?empNo=${employeeDto.empNo}">상세보기</a>
+						<a href="authorityAdmin?empNo=${employeeDto.empNo}">관리자 권한 부여</a>
 					</td>
 				</tr>
 			</c:forEach>

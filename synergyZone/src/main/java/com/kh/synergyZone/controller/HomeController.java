@@ -40,9 +40,9 @@ public class HomeController {
 		public String loginTestuser1(
 				HttpSession session
 				) {
-			 session.removeAttribute("memberId");
+			 session.removeAttribute("empNo");
 			 session.removeAttribute("jobNo");
-			 session.setAttribute("memberId", "202399001");
+			 session.setAttribute("empNo", "202399001");
 			 session.setAttribute("jobNo", "99");
 			return "redirect:/";
 		}
@@ -52,7 +52,7 @@ public class HomeController {
 				) {
 			session.removeAttribute("memberId");
 			session.removeAttribute("jobNo");
-			session.setAttribute("memberId", "202399002");
+			session.setAttribute("empNo", "202399002");
 			session.setAttribute("jobNo", "99");
 			return "redirect:/";
 		}
@@ -62,7 +62,7 @@ public class HomeController {
 				) {
 			session.removeAttribute("memberId");
 			session.removeAttribute("jobNo");
-			session.setAttribute("memberId", "202399003");
+			session.setAttribute("empNo", "202399003");
 			session.setAttribute("jobNo", "99");
 			return "redirect:/";
 		}
@@ -70,7 +70,7 @@ public class HomeController {
 		public String logout(
 				HttpSession session
 				) {
-			session.removeAttribute("memberId");
+			session.removeAttribute("empNo");
 			session.removeAttribute("jobNo");
 			return "redirect:/";
 		}

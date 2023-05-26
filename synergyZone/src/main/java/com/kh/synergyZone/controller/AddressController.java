@@ -8,16 +8,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.synergyZone.configuration.CustomFileUploadProperties;
 import com.kh.synergyZone.dto.DepartmentDto;
-import com.kh.synergyZone.dto.EmployeeDto;
 import com.kh.synergyZone.dto.EmployeeInfoDto;
 import com.kh.synergyZone.dto.EmployeeProfileDto;
 import com.kh.synergyZone.dto.JobDto;
 import com.kh.synergyZone.repo.AttachmentRepo;
+import com.kh.synergyZone.repo.BookmarkRepo;
 import com.kh.synergyZone.repo.DepartmentRepo;
 import com.kh.synergyZone.repo.EmployeeProfileRepo;
 import com.kh.synergyZone.repo.EmployeeRepo;
@@ -50,13 +51,16 @@ public class AddressController {
 	@Autowired
 	private JobRepo jobRepo;
 	
+	@Autowired
+	private BookmarkRepo bookmarkRepo;
+	
    // 관리자 홈
    @GetMapping("/")
    public String home() {
       return "address";
    }
    
-   //사원 목록
+   // 사원 목록
    @GetMapping("/list")
    public String list(Model model, @ModelAttribute("vo") PaginationVO vo,
            @RequestParam(required = false, defaultValue = "") String empNo,
@@ -95,6 +99,9 @@ public class AddressController {
        model.addAttribute("departments", departments);
        model.addAttribute("jobs", jobs);
        
+       //selected 유지
+       model.addAttribute("column", column);
+       
        // 프로필 사진 조회
        EmployeeProfileDto profile = employeeProfileRepo.find(empNo); // 프로필 정보 조회
        model.addAttribute("profile", profile);
@@ -103,16 +110,5 @@ public class AddressController {
        return "address/list";
    }
 
-   //사원 상세
- 	@GetMapping("/detail")
- 	public String detail(@RequestParam String empNo,
- 						Model model) {
- 		model.addAttribute("employeeDto", employeeRepo.selectOne(empNo));
- 		model.addAttribute("profile", employeeProfileRepo.find(empNo));
- 		return "employee/detail";
- 	}
-    
-   
-    
-    
+
 }

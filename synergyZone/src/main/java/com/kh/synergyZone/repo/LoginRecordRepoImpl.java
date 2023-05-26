@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.synergyZone.dto.LoginRecordDto;
+import com.kh.synergyZone.dto.LoginRecordInfoDto;
+import com.kh.synergyZone.vo.LoginRecordSearchVO;
 
 @Repository
 public class LoginRecordRepoImpl implements LoginRecordRepo {
@@ -28,7 +30,7 @@ public class LoginRecordRepoImpl implements LoginRecordRepo {
 	}
 
 	@Override
-	public List<LoginRecordDto> searchLoginDaysList() {
-		return sqlSession.selectList("loginRecord.complexSearch");
+	public List<LoginRecordInfoDto> logList(LoginRecordSearchVO vo) {
+		return sqlSession.selectList("loginRecord.complexSearch", vo);
 	}
 }

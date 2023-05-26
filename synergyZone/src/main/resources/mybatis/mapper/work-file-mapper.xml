@@ -15,4 +15,7 @@
 		)
 	</insert>
 	
+	<select id="find" resultType="workFileDto">
+		select * from work_file where work_no = #{workNo}
+	</select>
 </mapper>

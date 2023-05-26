@@ -17,7 +17,7 @@
 			work_status, work_report_date, work_secret, work_type
 		)
 		values(
-			work_board_seq.nextval, #{empNo}, #{workTitle},
+			#{workNo}, #{empNo}, #{workTitle},
 			#{workContent}, #{workStart}, #{workDeadline},
 			#{workStatus}, sysdate, #{workSecret}, #{workType}
 		)

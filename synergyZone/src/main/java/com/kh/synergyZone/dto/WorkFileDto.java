@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
 public class WorkFileDto {
-	private Integer workNo;
+	private int workNo;
 	private Integer attachmentNo;
 
 }

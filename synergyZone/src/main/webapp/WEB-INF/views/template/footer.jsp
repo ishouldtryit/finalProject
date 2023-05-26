@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
-
 	</article>
-      </section>
+	</section>
+
      <hr>
      <div class="w-100 mt-20"></div>
       <footer class="ROW center" >
@@ -24,5 +24,6 @@ pageEncoding="UTF-8"%>
 
       
     </main>
+    
   </body>
 </html>

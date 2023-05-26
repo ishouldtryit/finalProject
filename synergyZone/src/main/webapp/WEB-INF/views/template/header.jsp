@@ -126,6 +126,18 @@
 	                            </ul>
 	                        </li>
 	
+	 <li>
+	                            <a href="#addressSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">주소록</a>
+	                            <ul class="collapse list-unstyled" id="addressSubmenu">
+	                                <li>
+	                                    <a href="${pageContext.request.contextPath}/address/list">전체 주소록</a>
+	                                </li>
+	                                <li>
+	                                    <a href="${pageContext.request.contextPath}/bookmark/mylist">개인 주소록</a>
+	                                </li>
+	                            </ul>
+	                        </li>
+	
 	                        <li>
 	                            <a href="#">공지사항</a>
 	                        </li>
@@ -140,6 +152,7 @@
         <!-- Page Content  -->
         <article>
 	
+   <!--   <div id="content" class="p-4 p-md-5" style="height:200px;">	  -->           
 	            
 	            <nav class="navbar navbar-expand-lg navbar-light bg-light">
 	                <div class="container-fluid">
@@ -176,5 +189,4 @@
 	                    </div>
 	                </div>
 	            </nav>
-	     
-		    
+

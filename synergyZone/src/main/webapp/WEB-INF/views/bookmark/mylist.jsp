@@ -8,7 +8,7 @@
 </style>
 
 
-<div class="container-1200" style="margin-left: 15%;">
+<div class="container-800" style="margin-left: 5%;">
     <!-- 검색창 -->
     <form class="d-flex" action="mylist" method="get">
         <select name="column" class="form-input me-sm-2">
@@ -28,10 +28,10 @@
 		<div class="row">
 		  <div class="col" style="margin: 0 auto;">
 		    <form id="employeeForm">
-		      <table class="table table-hover mt-2" style="width: 80%;">
+		      <table class="table table-hover mt-2" style="width: 90%;">
 		        <thead>
 		          <tr>
-		            <th>선택</th>
+		            <th></th>
 		            <th>프로필</th>
 		            <th>사원번호</th>
 		            <th>이름</th>
@@ -152,7 +152,7 @@
 
 		<!-- 페이징 영역 -->
 		<div style="display: flex; justify-content: center;">
-		  <ul class="pagination" style="width: 35%;">
+		  <ul class="pagination" style="width: 20%;">
 		    <li class="page-item ${vo.isFirst() ? 'disabled' : ''}">
 		      <a class="page-link" href="${vo.isFirst() ? '#' : pageContext.request.contextPath}/bookmark/mylist?page=${vo.getPrevPage()}">&laquo;</a>
 		    </li>

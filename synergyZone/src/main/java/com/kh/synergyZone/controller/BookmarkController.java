@@ -76,7 +76,7 @@ public class BookmarkController {
 	        @RequestParam(required = false, defaultValue = "") String keyword) throws IOException {
 	
 	    // 즐겨찾기한 사원들 띄우기
-	    String ownerNo = (String) session.getAttribute("memberId");
+	    String ownerNo = (String) session.getAttribute("empNo");
 	    List<BookmarkDto> bookmarkList = bookmarkRepo.getMyList(ownerNo);
 	    model.addAttribute("bookmarkList", bookmarkList);
 	
@@ -129,7 +129,7 @@ public class BookmarkController {
 	@PostMapping("/addBookmark")
 	@ResponseBody
 	public void addBookmark(@RequestBody BookmarkVO vo, HttpSession session) {
-	    String ownerNo = (String) session.getAttribute("memberId");
+	    String ownerNo = (String) session.getAttribute("empNo");
 
 	    for (String bookmarkNo : vo.getBookmarkNo()) {
 	        // 중복 체크
@@ -153,7 +153,7 @@ public class BookmarkController {
    @PostMapping("/getMyList")
    @ResponseBody
    public List<BookmarkDto> getMyList(HttpSession session) {
-       String ownerNo = (String) session.getAttribute("memberId");
+       String ownerNo = (String) session.getAttribute("empNo");
        return bookmarkRepo.getMyList(ownerNo);
    }
    

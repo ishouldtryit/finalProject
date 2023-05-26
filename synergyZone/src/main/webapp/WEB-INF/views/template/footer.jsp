@@ -2,7 +2,7 @@
 pageEncoding="UTF-8"%>
 
        
-		    </div>
+		   
 	</article>
 	</section>
 

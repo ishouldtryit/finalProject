@@ -152,7 +152,7 @@
         <!-- Page Content  -->
         <article>
 	
-     <div id="content" class="p-4 p-md-5" style="height:200px;">	            
+   <!--   <div id="content" class="p-4 p-md-5" style="height:200px;">	  -->           
 	            <nav class="navbar navbar-expand-lg navbar-light bg-light">
 	                <div class="container-fluid">
 	

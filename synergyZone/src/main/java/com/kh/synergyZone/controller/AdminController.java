@@ -268,6 +268,16 @@ public class AdminController {
 		return "redirect:list";
 	}
 	
+	//관리자 목록
+	@GetMapping("/adminList")
+	public String adminList(Model model) throws IOException {
+		List<EmployeeDto> adminList = employeeRepo.adminList();
+		    
+		model.addAttribute("adminList" ,adminList);
+		    
+		    
+		return "admin/adminList";
+	}
 	
 	
 }

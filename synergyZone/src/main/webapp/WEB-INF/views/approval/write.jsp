@@ -111,7 +111,7 @@
 							        	</span>
 							          <ul  v-show="department.showEmployeeList">
 							            <li v-for="(employee, index) in department.employeeList" class="custom-list-item">
-							             <span @click="addToAppoverList(employee, index ,department)">
+							             <span @click="addToAppoverList(employee, department)">
 							              <i class="fa-regular fa-circle-user"></i>
 							              {{ employee.empName }}
 							            </span>
@@ -499,10 +499,9 @@
     		    this.deptEmpList[i].showEmployeeList = false;
     		  }
       },
-      addToAppoverList(employee, index, department) { //결재자 리스트 추가
+      addToAppoverList(employee, department) { //결재자 리스트 추가
     	  const approverData = {
     		  approverList : employee,
-    		  approverOrder : index+1, 
 	    	  department : department.departmentDto,
       		}
     	  let check = false;
@@ -540,7 +539,6 @@
   	        const approver = this.approverList[i];
   	        const approverData = {
   	          approverList: approver.approverList.empNo,
-  	          approverOrder: approver.approverOrder,
   	        };
   	        this.approvalVO.approverList.push(approverData);
   	      }

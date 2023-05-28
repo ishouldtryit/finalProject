@@ -25,7 +25,7 @@ public class CommuteController {
 	@GetMapping("/")
 	public String commute(Model model, HttpSession session, @ModelAttribute CommuteRecordDto commuteRecordDto) {
 		//사원번호
-		String empNo = (String) session.getAttribute("memberId");
+		String empNo = (String) session.getAttribute("empNo");
 		//오늘 근무정보
 		model.addAttribute("w",commuteRecordRepo.today(empNo));
 		
@@ -37,7 +37,7 @@ public class CommuteController {
 	@PostMapping("/change")
 	public String changeCommute(Model model, HttpSession session,HttpServletRequest request) {
 		//사원번호
-		String empNo = (String) session.getAttribute("memberId");
+		String empNo = (String) session.getAttribute("empNo");
 		int status =Integer.parseInt(request.getParameter("status"));
 		
 		//출근처리
@@ -55,7 +55,7 @@ public class CommuteController {
 	
 	@GetMapping("/record")
 	public String record(Model model,HttpSession session) {
-		String empNo = (String) session.getAttribute("memberId");
+		String empNo = (String) session.getAttribute("empNo");
 		List<CommuteRecordDto> list=commuteRecordRepo.allList(empNo);
 		model.addAttribute("list",list);
 		return "/commute/record";
@@ -64,8 +64,7 @@ public class CommuteController {
 	
 	@GetMapping("/vacation")
 	public String vacation(Model model,HttpSession session) {
-		String empNo = (String) session.getAttribute("memberId");
-		
+		String empNo = (String) session.getAttribute("empNo");
 		return "/commute/vacation";		
 		
 	}

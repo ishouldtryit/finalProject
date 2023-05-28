@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,15 +11,51 @@
 </head>
 <body>
   <select name="year" id="year-select"></select>
-
+  <div>
+  	<div id="table-container"></div>
+  </div>
+	<p class="mt-50 mb-50">
+     		<h2>empNo=${sessionScope.empNo}</h2>
+     		<h2>jobNo=${sessionScope.jobNo}</h2>
+     		<span>
+     		Copyright Â©2023 SYNERGYZONE. All Rights Reserved.
+     		</span>
+     	</p>
   <script>
     $(function() {
-      // ÇöÀç ³âµµ¸¦ °¡Á®¿À´Â ÇÔ¼ö
+    	function createTable(data) {
+    		  var tableElement = $("<table class='table table-hover'>");
+
+    		  
+    		  var headerRow = $("<tr>");
+    		  headerRow.append($("<th>").text("ì—°ì°¨ì‚¬ìš©ë‚ ì§œ"));
+    		  headerRow.append($("<th>").text("íœ´ê°€ ì¢…ë¥˜"));
+    		  headerRow.append($("<th>").text("ì‚¬ìœ "));
+    		  headerRow.append($("<th>").text("ì‚¬ìš© ì—°ì°¨"));
+    		  tableElement.append(headerRow);
+
+    		  
+    		  for (var i = 0; i < data.length; i++) {
+    		    var rowData = data[i];
+    		    var row = $("<tr>");
+
+    		  
+    		    row.append($("<td>").text(rowData.startDate + ' ~ ' + rowData.endDate));
+    		    row.append($("<td>").text(rowData.vacationName));
+    		    row.append($("<td>").text(rowData.reason));
+    		    row.append($("<td>").text(rowData.useCount));
+
+    		    tableElement.append(row);
+    		  }
+
+    		  return tableElement;
+    		}
+      // í˜„ì¬ ë…„ë„ë¥¼ ê°€ì ¸ì˜¤ëŠ” í•¨ìˆ˜
       function getCurrentYear() {
         return new Date().getFullYear();
       }
 
-      // ÀÔ»çÀÏ·ÎºÎÅÍÀÇ ³âµµ ¹üÀ§¸¦ »ı¼ºÇÏ´Â ÇÔ¼ö
+      // ì…ì‚¬ì¼ë¡œë¶€í„°ì˜ ë…„ë„ ë²”ìœ„ë¥¼ ìƒì„±í•˜ëŠ” í•¨ìˆ˜
       function generateYearRange(startYear, endYear) {
         var yearRange = [];
 
@@ -30,45 +66,54 @@
         return yearRange;
       }
 
-      // select ¿ä¼Ò¸¦ »ı¼ºÇÏ´Â ÇÔ¼ö
-      function generateSelectElement() {
-        var selectElement = $("#year-select");
-        var currentYear = getCurrentYear();
-        var startYear = 2020; // ½ÃÀÛ ³âµµ
-        var endYear = currentYear; // ÇöÀç ³âµµ
+      // select ìš”ì†Œë¥¼ ìƒì„±í•˜ëŠ” í•¨ìˆ˜
+		      function generateSelectElement() {
+		  var selectElement = $("#year-select");
+		  var currentYear = getCurrentYear();
+		  var startYear = 2020; // ì‹œì‘ ë…„ë„ ******************* ì…ì‚¬ì¼ë¡œ ë³€ê²½
+		  var endYear = currentYear; // í˜„ì¬ ë…„ë„
+		
+		  var yearRange = generateYearRange(startYear, endYear);
+		
+		  for (var i = yearRange.length - 1; i >= 0; i--) {
+		    var option = $("<option>").val(yearRange[i]).text(yearRange[i] + "-01 ~ " + yearRange[i] + "-12");
+		    selectElement.append(option);
+		  }
+		
+		  selectElement.val(yearRange[yearRange.length]); // ì²« ë²ˆì§¸ ê°’ì„ ê¸°ë³¸ê°’ìœ¼ë¡œ ì„¤ì •
+		
+		  selectElement.on("change", function() {
+		    // ì„ íƒëœ ê°’ì´ ë³€ê²½ë  ë•Œì˜ ë™ì‘ì„ ì •ì˜
+		    var selectedValue = $(this).val();
+		    // ì„ íƒëœ ê°’ì— ë”°ë¼ ë™ì‘ ìˆ˜í–‰
+		  });
+		}
 
-        var yearRange = generateYearRange(startYear, endYear);
 
-        for (var i = yearRange.length - 1; i >= 0; i--) {
-          var option = $("<option>").val(yearRange[i]).text(yearRange[i] + "-01 ~ " + yearRange[i] + "-12");
-          selectElement.append(option);
-        }
-      }
-
-      // ¼±ÅÃµÈ °ªÀ» ¼­¹ö·Î Àü¼ÛÇÏ´Â ÇÔ¼ö
+      // ì„ íƒëœ ê°’ì„ ì„œë²„ë¡œ ì „ì†¡í•˜ëŠ” í•¨ìˆ˜
       function sendSelectedValue() {
         var selectElement = $("#year-select");
         var selectedValue = selectElement.val();
-
-        // AJAX ¿äÃ»
+        // AJAX ìš”ì²­
         $.ajax({
         	  url: "http://localhost:8080/rest/vacation/",
         	  type: "GET",
+        	  data: { selectedValue: selectedValue },
         	  success: function(data) {
-        	    console.log("¼±ÅÃÇÑ °ªÀÌ ¼º°øÀûÀ¸·Î Àü¼ÛµÇ¾ú½À´Ï´Ù.");
-        	    console.log(data); // ¹ŞÀº µ¥ÀÌÅÍ¸¦ ÄÜ¼Ö¿¡ Ãâ·Â
-
-        	    // ¹ŞÀº µ¥ÀÌÅÍ¸¦ È°¿ëÇÏ¿© ÇÊ¿äÇÑ ÀÛ¾÷ ¼öÇà
-        	    // ¿¹: ¹ŞÀº µ¥ÀÌÅÍ¸¦ DOM ¿ä¼Ò¿¡ Ãß°¡ÇÏ°Å³ª Ã³¸®ÇÏ´Â µîÀÇ ÀÛ¾÷
+        		  var table = createTable(data);
+        		  // í…Œì´ë¸”ì„ ì›í•˜ëŠ” ìœ„ì¹˜ì— ì¶”ê°€
+        		  $("#table-container").empty().append(table);
         	  }
         	});
       }
-
-      // ÀÌº¥Æ® ¸®½º³Ê µî·Ï
+		
+      // ì´ë²¤íŠ¸ ë¦¬ìŠ¤ë„ˆ ë“±ë¡
       $("#year-select").on("change", sendSelectedValue);
 
-      // ÇÔ¼ö È£Ãâ
+      // í•¨ìˆ˜ í˜¸ì¶œ
       generateSelectElement();
+      
+      
     });
   </script>
 </body>

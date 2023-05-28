@@ -7,7 +7,12 @@
     
     <mapper namespace="vacation">
     <!-- 사원 연차사용 기록 -->
-     <select id="selectList" resultType="VacationDto">
-     	select * from vacation where emp_no=#{empNo} and status=1
+     <select id="list" resultType="VacationVO">
+     	SELECT * FROM vacation WHERE emp_no = #{empNo} AND status = 1 AND EXTRACT(YEAR FROM used_date) = #{selectedValue}
      </select>
+     
+     <!-- 연차사용  결재완료시 만들어야함-->
+     <insert id="add">
+     	
+     </insert>
     </mapper>

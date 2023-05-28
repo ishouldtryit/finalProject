@@ -20,43 +20,44 @@
 
 
 <div id="app">
+<form action="/approval/write">
 	<div class="container-fluid">
 		<div class="row mb-3"> 
 		  <h3>신규 결재</h3>
 		</div>
 	  <div class="row mb-2">
 	  	<div class="col-6">
-		   	<button type="button" class="btn ms-3 mb-2" :class="approverList.length ? 'btn-info' : 'btn-secondary'" v-on:click="showApproverModal">
-		  		{{ approverList.length ? '결재자 정보' : '결재자 추가' }}
+		   	<button type="button" class="btn ms-3 mb-2" :class="approvalVO.approverList.length ? 'btn-info' : 'btn-secondary'" v-on:click="showApproverModal">
+		  		{{ approvalVO.approverList.length ? '결재자 정보' : '결재자 추가' }}
 			</button>
-		   	<button type="button" class="btn ms-3 mb-2" :class="agreeorList.length ? 'btn-info' : 'btn-secondary'" v-on:click="showAgreeorModal">
-		  		{{ agreeorList.length ? '합의자 정보' : '합의자 추가' }}
+		   	<button type="button" class="btn ms-3 mb-2" :class="approvalVO.agreeorList.length ? 'btn-info' : 'btn-secondary'" v-on:click="showAgreeorModal">
+		  		{{ approvalVO.agreeorList.length ? '합의자 정보' : '합의자 추가' }}
 			</button>
-		   	<button type="button" class="btn ms-3 mb-2" :class="recipientList.length ? 'btn-info' : 'btn-secondary'" v-on:click="showRecipientModal">
-		  		{{ recipientList.length ? '참조자 정보' : '참조자 추가' }}
+		   	<button type="button" class="btn ms-3 mb-2" :class="approvalVO.recipientList.length ? 'btn-info' : 'btn-secondary'" v-on:click="showRecipientModal">
+		  		{{ approvalVO.recipientList.length ? '참조자 정보' : '참조자 추가' }}
 			</button>
-		   	<button type="button" class="btn ms-3 mb-2" :class="readerList.length ? 'btn-info' : 'btn-secondary'" v-on:click="showReaderModal">
-		  		{{ readerList.length ? '열람자 정보' : '열람자 추가' }}
+		   	<button type="button" class="btn ms-3 mb-2" :class="approvalVO.readerList.length ? 'btn-info' : 'btn-secondary'" v-on:click="showReaderModal">
+		  		{{ approvalVO.readerList.length ? '열람자 정보' : '열람자 추가' }}
 			</button>
 	  	</div>
 	  	<div class="col-4">
 		</div>
 	  	<div class="col-2 d-flex align-items-center justify-content-center">
 	  		<div class="form-check form-switch d-flex, align-items-center">
-			  <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" :checked="approvalDto.isemergency === 1" @change="emergencyCheck">
+			  <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" :checked="approvalVO.isemergency === 1" @change="emergencyCheck">
 			  <label class="form-check-label" for="flexSwitchCheckDefault">긴급 문서</label>
 			</div>
 	  	</div>
 	  </div>
 	  
 	    <div class="row p-3" >
-	      <span class="mb-1">제목</span>
-	      <input type="text" name="draftTitle" v-model="approvalDto.draftTitle">
+	      <label for="draftTitle" clas="form-label">제목</label>
+	      <input type="text" id="draftTitle" name="draftTitle" v-model="approvalVO.draftTitle" class="form-control">
 	    </div>
 	    
 	    <div class="row p-3">
-	      <span class="mb-1">내용</span>
-	      <textarea name="draftContent" required class="form-input w-100" style="min-height: 300px;" v-model="approvalDto.draftContent"></textarea>
+	      <label for="draftContent" clas="form-label">내용</label>
+	      <textarea id="draftContent" name="draftContent" required style="min-height: 300px;" v-model="approvalVO.draftContent" class="form-control"></textarea>
 	    </div>
 
 <!-- 		<input v-for="(approver, i) in approverList" :name="'approver['+i+'].approverNo'" type="hidden" :value="approver.approverList.empNo"  :key="i" >	 -->
@@ -72,7 +73,7 @@
 	    	</div>
 	    </div>
 	    
-  
+  </form>
   </div>
   
 <!-- 결재자 선택 modal -->
@@ -89,6 +90,16 @@
 						  <span>중복된 대상입니다.</span>
 						</div>
 					</div>
+	   	       		<div v-if="showApproverNoDataAlert" class="duplicate-alert-container w-20">
+						<div class="alert alert-dismissible alert-primary">
+						  <span>먼저 결재자를 추가 하세요.</span>
+						</div>
+					</div>
+	   	       		<div v-if="showApproverAddDataAlert" class="duplicate-alert-container w-20">
+						<div class="alert alert-dismissible alert-success">
+						  <span>저장되었습니다.</span>
+						</div>
+					</div>
                     <div class="container-fluid">
       						<div class="row">
           						<div class="col-4" style="overflow-y: scroll; height:400px;">
@@ -100,7 +111,7 @@
 							        	</span>
 							          <ul  v-show="department.showEmployeeList">
 							            <li v-for="(employee, index) in department.employeeList" class="custom-list-item">
-							             <span @click="addToAppoverList(employee,department)">
+							             <span @click="addToAppoverList(employee, index ,department)">
 							              <i class="fa-regular fa-circle-user"></i>
 							              {{ employee.empName }}
 							            </span>
@@ -152,7 +163,8 @@
 	                </div>
                 <div class="modal-footer">
                 	<div class="row">
-                    	<button type="button" class="btn btn-secondary  ml-auto" data-bs-dismiss="modal" @click="hideEmployeeList">닫기</button>
+                    	<button type="button" class="btn" :class="approverList.length ? 'btn-info' : 'btn-secondary'"  @click="saveApproverList">저장</button>
+                    	<button type="button" class="btn btn-secondary ml-auto ms-2" data-bs-dismiss="modal" @click="hideApproverModal">닫기</button>
                     </div>
                 </div>
             </div>      
@@ -234,7 +246,7 @@
 	                </div>
                 <div class="modal-footer">
                 	<div class="row">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"  @click="hideEmployeeList">닫기</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"  @click="hideAgreeorModal">닫기</button>
                     </div>
                 </div>
             </div>      
@@ -315,7 +327,7 @@
 	                </div>
                 <div class="modal-footer">
                 	<div class="row">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"  @click="hideEmployeeList">닫기</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"  @click="hideRecipientModal">닫기</button>
                     </div>
                 </div>
             </div>      
@@ -395,7 +407,7 @@
 	                </div>
                 <div class="modal-footer">
                 	<div class="row">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"  @click="hideEmployeeList">닫기</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"  @click="hideReaderModal">닫기</button>
                     </div>
                 </div>
             </div>      
@@ -416,15 +428,24 @@
         agreeorList : [],
         recipientList : [],
         readerList : [],
+        tempApproverList: [],
+        
+        
         approverModal : null,
         agreeorModal : null,
         recipientModal : null,
         readerModal : null,
         showDuplicateAlert: false,
-        approvalDto : {
+        showApproverNoDataAlert : false,
+        showApproverAddDataAlert : false,
+        approvalVO : {
         	draftTitle : '',
         	draftContent : '',
         	isemergency : 0,
+        	approverList : [],
+            agreeorList : [],
+            recipientList : [],
+            readerList : [],
         },
       };
     },
@@ -436,40 +457,39 @@
     	  const Resp = await axios.get("/rest/approval/");
           this.deptEmpList.push(...Resp.data);
       },
-      emergencyCheck(event) {
-    	  this.approvalDto.isemergency = event.target.checked ? 1 : 0;
+      emergencyCheck(event) {	//긴급 문서 여부
+    	  this.approvalVO.isemergency = event.target.checked ? 1 : 0;
       },
       showApproverModal(){	//결재자 모달 보이기
-          if(this.approverModal == null) return;
+          this.tempApproverList = [...this.approverList]; //데이터 백업
           this.approverModal.show();
       },
       showAgreeorModal(){	//합의자 모달 보이기
-          if(this.agreeorModal == null) return;
           this.agreeorModal.show();
       },
       showRecipientModal(){	//참조자 모달 보이기
-          if(this.recipientModal == null) return;
           this.recipientModal.show();
       },
       showReaderModal(){	//열람자 모달 보이기
-          if(this.readerModal == null) return;
           this.readerModal.show();
       },
       hideApproverModal(){	//결재자 모달 숨기기
-          if(this.approverModal == null) return;
+      		this.approverList.length=0;
+          this.approverList = [...this.tempApproverList]; //저장 데이터로 덮기
           this.approverModal.hide();
+          this.hideEmployeeList();
       },
       hideAgreeorModal(){	//합의자 모달 숨기기
-          if(this.agreeorModal == null) return;
           this.agreeorModal.hide();
+          this.hideEmployeeList();
       },
       hideRecipientModal(){	//참조자 모달 숨기기
-          if(this.recipientModal == null) return;
           this.recipientModal.hide();
+          this.hideEmployeeList();
       },
       hideReaderModal(){	//열람자 모달 숨기기
-          if(this.readerModal == null) return;
           this.readerModal.hide();
+     	  this.hideEmployeeList();
       },
       toggleEmployeeList(index) {	//부서별 사원 목록 접었다 펴기
           this.deptEmpList[index].showEmployeeList = !this.deptEmpList[index].showEmployeeList;
@@ -479,10 +499,11 @@
     		    this.deptEmpList[i].showEmployeeList = false;
     		  }
       },
-      addToAppoverList(employee, department) { //결재자 리스트 추가
+      addToAppoverList(employee, index, department) { //결재자 리스트 추가
     	  const approverData = {
     		  approverList : employee,
-	    	  department : department.departmentDto
+    		  approverOrder : index+1, 
+	    	  department : department.departmentDto,
       		}
     	  let check = false;
     	  for (let i = 0; i < this.approverList.length; i++) {
@@ -503,6 +524,37 @@
 	   	        }, 1000);
     	  }
   	  },
+  	saveApproverList() { //결재자 저장
+  		  this.approvalVO.approverList.length=0; //이전 데이터 초기화
+	        
+	  		if(this.approverList.length==0){	//결재자 리스트 없으면 경고
+		  		this.showApproverNoDataAlert = true;
+		  		const that = this;
+		  		setTimeout(function(){
+		  			that.showApproverNoDataAlert = false;
+		  		}, 1000);
+		  		return;
+	  		}
+  		  
+  	      for (let i = 0; i < this.approverList.length; i++) { //결재자 정보 저장
+  	        const approver = this.approverList[i];
+  	        const approverData = {
+  	          approverList: approver.approverList.empNo,
+  	          approverOrder: approver.approverOrder,
+  	        };
+  	        this.approvalVO.approverList.push(approverData);
+  	      }
+  	      this.tempApproverList.length = 0;
+  	      this.tempApproverList = [...this.approverList];
+  	      
+	  		this.showApproverAddDataAlert = true;
+	  		const that = this;
+	  		setTimeout(function(){
+	  			that.showApproverAddDataAlert = false;
+	  		}, 1000);
+
+  	    },
+  	    
       addToAgreeorList(employee, department) { //합의자 리스트 추가
     	  const agreeorData = {
    			  agreeorList : employee,
@@ -580,13 +632,14 @@
   	         const temp = this.approverList[index];
   	         this.approverList[index] = this.approverList[index - 1];
   	         this.approverList[index - 1] = temp;
-  	      }
+            }
   	   },
   	 	approverMoveDown(index) { // 결재자 순서 내리기
   	      if (index < this.approverList.length - 1) {
   	         const temp = this.approverList[index];
   	         this.approverList[index] = this.approverList[index + 1];
   	         this.approverList[index + 1] = temp;
+  	         
   	      }
   	   },
   	   removeApprover(index) { //결재자 제거

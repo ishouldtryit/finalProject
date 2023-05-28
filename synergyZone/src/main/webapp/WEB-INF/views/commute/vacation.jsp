@@ -10,6 +10,31 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
+	<h1>내 연차내역</h1>
+	<h1 id="currentDate"></h1>
+	<hr>
+	<!-- 해당 페이지도 view로 다시 묶어서 해야함 -->
+	<div>
+		<table>
+		  <thead>
+		    <tr>
+		      <th></th>
+		      <th>총 연차</th>
+		      <th>사용연차</th>
+		      <th>잔여 연차</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <tr>
+		      <td>사원써야함</td>
+		      <td>${one.total}</td>
+		      <td>${one.uesd}</td>
+		      <td>${one.residual}</td>
+		    </tr>
+		  </tbody>
+		</table>
+	</div>
+	<hr>
   <select name="year" id="year-select"></select>
   <div>
   	<div id="table-container"></div>
@@ -21,6 +46,20 @@
      		Copyright ©2023 SYNERGYZONE. All Rights Reserved.
      		</span>
      	</p>
+     	
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+  var currentDate = new Date();
+  var year = currentDate.getFullYear();
+  var month = currentDate.getMonth() + 1;
+  var day = currentDate.getDate();
+
+  var formattedDate = year + '-' + ('0' + month).slice(-2) + '-' + ('0' + day).slice(-2);
+  $('#currentDate').text(formattedDate);
+});
+</script>
   <script>
     $(function() {
     	function createTable(data) {

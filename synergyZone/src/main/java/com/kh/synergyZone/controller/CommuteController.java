@@ -14,13 +14,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.kh.synergyZone.dto.CommuteRecordDto;
-import com.kh.synergyZone.repo.CommuteRecordRepo;
+import com.kh.synergyZone.repo.CommuteRecordRepoImpl;
+import com.kh.synergyZone.repo.VacationInfoRepoImpl;
 
 @Controller
 @RequestMapping("/commute")
 public class CommuteController {
 	@Autowired
-	private CommuteRecordRepo commuteRecordRepo;
+	private CommuteRecordRepoImpl commuteRecordRepo;
+	@Autowired
+	private VacationInfoRepoImpl vacationInfo;
 	//근태관리 메인
 	@GetMapping("/")
 	public String commute(Model model, HttpSession session, @ModelAttribute CommuteRecordDto commuteRecordDto) {
@@ -65,6 +68,7 @@ public class CommuteController {
 	@GetMapping("/vacation")
 	public String vacation(Model model,HttpSession session) {
 		String empNo = (String) session.getAttribute("empNo");
+		model.addAttribute("one",vacationInfo.one(empNo));
 		return "/commute/vacation";		
 		
 	}

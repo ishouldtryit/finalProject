@@ -20,6 +20,7 @@
 		  <input class="form-control me-sm-2" type="search" placeholder="검색어" name="keyword" value="${param.keyword}" style="width: 13%;">
 		  <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
         <button type="button" id="selectAllBtn" class="btn btn-primary my-2 my-sm-0">전체 선택</button>
+		  
 		  <!-- My list에 추가 버튼 -->		  
 			<c:if test="${empNo != null}">
 		  <button class="btn btn-success my-2 my-sm-0" type="button" onclick="addToMyList()">My list에 추가</button>

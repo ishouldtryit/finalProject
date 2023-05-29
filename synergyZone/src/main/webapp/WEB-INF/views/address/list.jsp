@@ -57,7 +57,10 @@
 	                </div>
 	              </td>
 	              <td class="align-middle">
-	                <div class="profile-image">
+	                <div class="profile-image employee-name" data-empno="${employeeDto.empNo}" 
+		                    data-empname="${employeeDto.empName}" data-empphone="${employeeDto.empPhone}" 
+		                    data-empemail="${employeeDto.empEmail}" data-empaddress="${employeeDto.empAddress}" 
+		                    data-empdetailaddress="${employeeDto.empDetailAddress}" data-attachmentno="${employeeDto.attachmentNo}">
 	                  <img width="50" height="50" src="<c:choose>
 	                    <c:when test="${employeeDto.attachmentNo > 0}">
 	                      /attachment/download?attachmentNo=${employeeDto.attachmentNo}

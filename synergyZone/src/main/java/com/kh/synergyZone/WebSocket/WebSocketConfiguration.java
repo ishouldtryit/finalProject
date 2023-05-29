@@ -1,4 +1,4 @@
-package com.kh.synergyZone.Websocket;
+package com.kh.synergyZone.WebSocket;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;

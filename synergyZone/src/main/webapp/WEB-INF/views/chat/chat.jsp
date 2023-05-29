@@ -66,14 +66,11 @@
           this.deptEmpList[index].showEmployeeList = !this.deptEmpList[index].showEmployeeList;
         },
         sendMessage() {
-          // 전송 버튼을 눌렀을 때 실행되는 함수입니다.
-          // 메시지를 전송하는 로직을 구현하면 됩니다.
-          console.log(this.message); // 예시: 콘솔에 메시지를 출력합니다.
-          this.message = ''; // 메시지 전송 후 입력 필드를 초기화합니다.
+          console.log(this.message);
+          this.message = ''; 
         }
       },
       mounted() {
-        // 페이지가 로드되면 데이터를 가져옵니다.
         this.loadData();
       },
     }).mount("#app");

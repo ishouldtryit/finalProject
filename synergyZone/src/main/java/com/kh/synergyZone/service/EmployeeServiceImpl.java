@@ -17,10 +17,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.synergyZone.configuration.CustomFileUploadProperties;
 import com.kh.synergyZone.dto.AttachmentDto;
+import com.kh.synergyZone.dto.BookmarkDto;
 import com.kh.synergyZone.dto.EmployeeDto;
 import com.kh.synergyZone.dto.EmployeeInfoDto;
 import com.kh.synergyZone.dto.EmployeeProfileDto;
 import com.kh.synergyZone.repo.AttachmentRepo;
+import com.kh.synergyZone.repo.BookmarkRepo;
 import com.kh.synergyZone.repo.EmployeeProfileRepo;
 import com.kh.synergyZone.repo.EmployeeRepo;
 
@@ -220,5 +222,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 			return browser;
 		}
 
+		
 
 }

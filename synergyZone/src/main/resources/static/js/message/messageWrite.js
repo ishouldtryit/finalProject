@@ -2,6 +2,7 @@ $(function () {
   // 쿼리스트링으로 전달받은 대상 처리
   const queryString = new URLSearchParams(location.search);
   const promiseRecipient = queryString.get("recipient");
+  const empNo = queryString.get("empNo");
 
   // 메세지 입력창
   const recipientInput = $("#message-recipient-input");
@@ -10,7 +11,7 @@ $(function () {
 
   // 메세지 발송 대상 있는 경우 처리
   if (promiseRecipient !== null) {
-    if (promiseRecipient === memberId) {
+    if (promiseRecipient === empNo) {
       toMeFn();
     } else {
       makeNewRecipientEle(promiseRecipient);
@@ -42,7 +43,7 @@ $(function () {
     const messageRecipientOne = $(newMessageRecipientEle).find(
       "[name=messageRecipient]"
     );
-    messageRecipientOne.val(memberId).attr("disabled", "true");
+    messageRecipientOne.val(empNo).attr("disabled", "true");
     // 수정 버튼 없애기
     $(newMessageRecipientEle).children().eq(1).remove();
     // 삭제버튼 이벤트 등록
@@ -59,7 +60,7 @@ $(function () {
     // 메세지 새로운 받는 사람 추가
     $(newMessageRecipientEle).insertBefore("#message-recipient-input");
 
-    recipientInput.val(memberId).attr("disabled", "true");
+    recipientInput.val(empNo).attr("disabled", "true");
     countRecipient();
   }
 
@@ -73,27 +74,28 @@ $(function () {
       "[name=messageRecipient]"
     );
 
-    // 메세지 수신 memberId 설정
-    let isExist;
-    $.ajax({
-      url:contextPath+ "/rest/member/memberId/" + recipientVal,
-      method: "get",
-      async: false,
-      success: function (response) {
-        isExist = !(response === "Y");
-      },
-      error: function () {
-        console.log("받는 사람 체크 통신오류!!!!");
-      },
-    });
-    if (!isExist) {
-      $(newMessageRecipientEle).removeClass("back-sc-brighter");
-      $(newMessageRecipientEle).addClass("back-red-brighter");
-      // return;
-    }
+    // 메세지 수신 empNo 설정
+	let isExist;
+	$.ajax({
+	  url: "/rest/message/" + recipientVal,
+	  method: "get",
+	  async: false,
+	  success: function (response) {
+	    isExist = !(response === "Y");
+	  },
+	  error: function () {
+	    console.log("받는 사람 체크 통신오류!!!!");
+	  },
+	});
+	if (!isExist) {
+	  $(newMessageRecipientEle).removeClass("back-sc-brighter");
+	  $(newMessageRecipientEle).addClass("back-red-brighter");
+	  // return;
+	}
 
     // 메세지 받는사람 입력 비우기
     $("#message-recipient-input").val("");
+    
     // 받는사람 기입
     messageRecipientOne.val(recipientVal);
 
@@ -131,25 +133,25 @@ $(function () {
         confirmBtn.click(function () {
           const newRecipient = $(newMessageRecipientEle).children().eq(3).val();
 
-          let isExist;
-          $.ajax({
-            url:contextPath+ "/rest/member/memberId/" + newRecipient,
-            method: "get",
-            async: false,
-            success: function (response) {
-              isExist = !(response === "Y");
-            },
-            error: function () {
-              console.log("받는 사람 체크 통신오류!!!!");
-            },
-          });
-          if (!isExist) {
-            $(newMessageRecipientEle).removeClass("back-sc-brighter");
-            $(newMessageRecipientEle).addClass("back-red-brighter");
-          } else {
-            $(newMessageRecipientEle).removeClass("back-red-brighter");
-            $(newMessageRecipientEle).addClass("back-sc-brighter");
-          }
+         let isExist;
+		$.ajax({
+	  		url: "/rest/message/" + recipientVal,
+		  method: "get",
+		  async: false,
+		  success: function (response) {
+		    isExist = !(response === "Y");
+		  },
+		  error: function () {
+		    console.log("받는 사람 체크 통신오류!!!!");
+		  },
+		});
+		if (!isExist) {
+		  $(newMessageRecipientEle).removeClass("back-sc-brighter");
+		  $(newMessageRecipientEle).addClass("back-red-brighter");
+		} else {
+		  $(newMessageRecipientEle).removeClass("back-red-brighter");
+		  $(newMessageRecipientEle).addClass("back-sc-brighter");
+		}
 
           $(this).parent().children().eq(0).val(newRecipient);
           eleChildren.show();
@@ -267,48 +269,48 @@ $(function () {
     }
 
     // 메세지 보내는 대상자 확인
-    let result = true;
-    $(".message-recipient-ele").each(function () {
-      $.ajax({
-        url:contextPath+
-          "/rest/member/memberId/" +
-          $(this).find("[name=messageRecipient]").val(),
-        method: "get",
-        async: false,
-        success: function (response) {
-          result &&= response === "N";
-        },
-        error: function () {
-          console.log("멤버 확인 통신오류!!!!");
-        },
-      });
-    });
-    if (!result) {
-      alert("쪽지를 보낼 수 없습니다\n받는 주소를 확인해주세요");
-      return;
-    }
+	let result = true;
+	$(".message-recipient-ele").each(function () {
+	  $.ajax({	 
+
+	   url: "/rest/message/" + $(this).find("[name=messageRecipient]").val(),
+	    method: "get",
+	    async: false,
+	    success: function (response) {
+	      result &&= response === "N";
+	    },
+	    error: function () {
+	      console.log("멤버 확인 통신오류!!!!");
+	    },
+	  });
+	});
+	if (!result) {
+	  alert("쪽지를 보낼 수 없습니다\n받는 주소를 확인해주세요");
+	  return;
+	}
+
 
     // 다수 쪽지 보내기 처리
-    const test = [];
-    $(".message-recipient-ele").each(function () {
-      test.push($(this).find("[name=messageRecipient]").val());
-    });
-    $.ajax({
-      url:contextPath+ "/rest/message/write",
-      method: "post",
-      data:
-        messageSendForm.serialize() +
-        "&recipients=" +
-        test.join("&recipients="),
-      success: function () {
-        alert("쪽지를 성공적으로 보냈습니다");
-        console.log(messageSendForm.serialize());
-        messageSendForm[0].reset();
-        removeRecipientEle();
-      },
-      error: function () {
-        console.log("메세지 전송 통신오류");
-      },
-    });
+	const test = [];
+	$(".message-recipient-ele").each(function () {
+	  test.push($(this).find("[name=messageRecipient]").val());
+	});
+	$.ajax({
+	  url: "/rest/message/write",
+	  method: "post",
+	  data:
+	    messageSendForm.serialize() +
+	    "&recipients=" +
+	    test.join("&recipients="),
+	  success: function () {
+	    alert("쪽지를 성공적으로 보냈습니다");
+	    console.log(messageSendForm.serialize());
+	    messageSendForm[0].reset();
+	    removeRecipientEle();
+	  },
+	  error: function () {
+	    console.log("메세지 전송 통신오류");
+	  },
+	});
   });
 });

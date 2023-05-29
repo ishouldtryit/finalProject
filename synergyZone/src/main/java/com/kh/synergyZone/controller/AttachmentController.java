@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.kh.synergyZone.configuration.CustomFileUploadProperties;
 import com.kh.synergyZone.dto.AttachmentDto;
 import com.kh.synergyZone.repo.AttachmentRepo;
+import com.kh.synergyZone.service.WorkBoardService;
 
 @Controller
 @RequestMapping("/attachment")
@@ -32,6 +33,9 @@ public class AttachmentController {
 	
 	@Autowired
 	private AttachmentRepo attachmentRepo;
+	
+	@Autowired
+	private WorkBoardService workBoardService;
 	
 	@Autowired
 	private CustomFileUploadProperties customFileUploadProperties;
@@ -98,5 +102,6 @@ public class AttachmentController {
 		                    .filename(attachmentDto.getAttachmentName(), StandardCharsets.UTF_8).build().toString())
 		            .body(resource);
 		}
+		
 
 }

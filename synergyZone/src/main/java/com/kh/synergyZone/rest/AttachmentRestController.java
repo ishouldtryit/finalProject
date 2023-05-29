@@ -3,6 +3,8 @@ package com.kh.synergyZone.rest;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 
@@ -14,8 +16,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,8 +31,7 @@ import com.kh.synergyZone.dto.WorkFileDto;
 import com.kh.synergyZone.repo.AttachmentRepo;
 import com.kh.synergyZone.repo.WorkBoardRepo;
 import com.kh.synergyZone.repo.WorkFileRepo;
-
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import com.kh.synergyZone.service.WorkBoardService;
 
 @CrossOrigin
 @RestController
@@ -48,6 +49,9 @@ public class AttachmentRestController {
 	private WorkBoardRepo workBoardRepo;
 	
 	@Autowired
+	private WorkBoardService workBoardService;
+	
+	@Autowired
 	private CustomFileUploadProperties fileUploadProperties;
 	
 	private File dir;
@@ -58,30 +62,36 @@ public class AttachmentRestController {
 		dir.mkdirs();
 	}
 	
-	//업로드
 	@PostMapping("/upload")
-	public AttachmentDto upload(@RequestParam MultipartFile attach) throws IllegalStateException, IOException {
+	public List<AttachmentDto> upload(@RequestParam List<MultipartFile> attachments) throws IllegalStateException, IOException {
 
-	    if (!attach.isEmpty()) { // 파일이 있을 경우
-	        // 번호 생성
-	        int attachmentNo = attachmentRepo.sequence();
-	        
-	        // 파일 저장 (저장 위치는 임시로 생성)
-	        File target = new File(dir, String.valueOf(attachmentNo)); // 파일명 = 시퀀스
-	        attach.transferTo(target);
-	        
-	        // DB 저장
-	        attachmentRepo.insert(AttachmentDto.builder()
-	                .attachmentNo(attachmentNo)
-	                .attachmentName(attach.getOriginalFilename())
-	                .attachmentType(attach.getContentType())
-	                .attachmentSize(attach.getSize())
-	                .build());
-	        
-	        return attachmentRepo.find(attachmentNo); // DTO를 반환함
+	    List<AttachmentDto> uploadedAttachments = new ArrayList<>();
+
+	    for (MultipartFile attach : attachments) {
+	        if (!attach.isEmpty()) {
+	            // Generate attachment number
+	            int attachmentNo = attachmentRepo.sequence();
+
+	            // Save file
+	            File target = new File(dir, String.valueOf(attachmentNo));
+	            attach.transferTo(target);
+
+	            // Store in the database
+	            attachmentRepo.insert(AttachmentDto.builder()
+	                    .attachmentNo(attachmentNo)
+	                    .attachmentName(attach.getOriginalFilename())
+	                    .attachmentType(attach.getContentType())
+	                    .attachmentSize(attach.getSize())
+	                    .build());
+	            // Add uploaded attachment to the list
+	            uploadedAttachments.add(AttachmentDto.builder()
+	                    .attachmentNo(attachmentNo)
+	                    .attachmentName(attach.getOriginalFilename())
+	                    .build());
+	        }
 	    }
 
-	    return null; // 또는 예외처리
+	    return uploadedAttachments;
 	}
 
 	
@@ -116,6 +126,32 @@ public class AttachmentRestController {
 									).build().toString())
 				.body(resource);//다운
 	}
+	
+	//첨부파일 삭제
+	@DeleteMapping("/delete/{attachmentNo}")
+	public ResponseEntity<String> delete(@PathVariable int attachmentNo){
+		AttachmentDto attachmentDto = attachmentRepo.find(attachmentNo);
+		if(attachmentDto == null) {
+			return ResponseEntity.notFound().build();
+		}
+		
+		File target = new File(dir, String.valueOf(attachmentNo));
+		if(target.exists() && target.delete()) {
+			attachmentRepo.delete(attachmentNo);
+			return ResponseEntity.ok("Attachment deleted successfully.");
+		}else {
+			return ResponseEntity.internalServerError().body("Failed to delete attachment.");
+		}
+	}
+	
+	@GetMapping("/list/{attachmentNo}")
+	public List<AttachmentDto> list(@PathVariable int attachmentNo) {
+	    // attachmentNo를 이용하여 해당 첨부 파일 목록을 조회하고 반환하는 로직 구현
+	    return attachmentRepo.findAll(attachmentNo);
+	}
+
+
+	
 	
 	
 }

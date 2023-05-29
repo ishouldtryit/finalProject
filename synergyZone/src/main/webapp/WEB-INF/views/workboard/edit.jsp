@@ -33,6 +33,29 @@
         }
         return true;
     }
+    
+    $(document).ready(function() {
+        $('.delete-attachment').click(function() {
+            var attachmentId = $(this).data('attachment-id');
+            deleteAttachment(attachmentId);
+        });
+    });
+
+    function deleteAttachment(attachmentId) {
+        $.ajax({
+            url: '/attachment/delete',
+            type: 'POST',
+            data: { attachmentId: attachmentId },
+            success: function(response) {
+                // Handle the success response, such as removing the deleted attachment from the UI
+                console.log('Attachment deleted successfully');
+            },
+            error: function(xhr, status, error) {
+                // Handle the error response
+                console.error('Error deleting attachment:', error);
+            }
+        });
+    }
        
     </script>
 
@@ -91,15 +114,21 @@
                       </div>
                   </div>
                   
-                  <div class="row mt-4">
-				    <div class="col">
-				        <label class="form-label">파일첨부</label>
-				        <input class="form-control rounded" type="file" name="attachments" multiple="multiple">
-				        <c:forEach var="file" items="${files}">
-					    <a href="/attachment/download?attachmentNo=${file.attachmentNo}">${file.attachmentNo}</a>                
-					</c:forEach>
-				    </div>
-				</div>
+                  <div class="col">
+					    <label class="form-label">파일첨부</label>
+					    <input class="form-control rounded" type="file" name="attachments" multiple="multiple">
+					    <c:forEach var="file" items="${files}">
+					        <div class="attachment">
+					            <a href="/attachment/download?attachmentNo=${file.attachmentNo}">
+					                ${file.attachmentNo}
+					            </a>
+					            <button class="btn btn-sm btn-danger delete-attachment" data-attachment-id="${file.attachmentNo}">
+					                X
+					            </button>
+					        </div>
+					    </c:forEach>
+					</div>
+
 				
 				<div class="row mt-4">
                     <div class="col">

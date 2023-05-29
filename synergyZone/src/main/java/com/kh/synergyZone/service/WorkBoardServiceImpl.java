@@ -83,7 +83,6 @@ public class WorkBoardServiceImpl implements WorkBoardService{
 			}
 			attachmentRepo.delete(attachmentNo);
 			workFileRepo.delete(workNo);
-			
 		}
 	}
 

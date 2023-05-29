@@ -58,7 +58,6 @@ public class WorkBoardController {
 		int workNo = workBoardRepo.sequence();
 		workBoardDto.setWorkNo(workNo);
 		
-		
 //		System.out.println(workBoardDto.getWorkSecret());
 		
 		workBoardService.write(workBoardDto, attachments);
@@ -92,7 +91,7 @@ public class WorkBoardController {
 					   @RequestParam int workNo,
 					   @RequestParam("attachments") List<MultipartFile> attachments,
 					   RedirectAttributes attr) throws IllegalStateException, IOException {
-		workBoardService.deleteFile(workNo);
+//		workBoardService.deleteFile(workNo);
 		workBoardService.updateFile(workNo, attachments);
 		
 		workBoardRepo.update(workBoardDto);

@@ -195,8 +195,8 @@
       var employeeAddress = $(this).data('empaddress');
       var employeeDetailAddress = $(this).data('empdetailaddress');
       var attachmentNo = $(this).data('attachmentno');
-      var departmentName = $(this).closest('tr').find('td:eq(7)').text(); // 부서 정보 가져오기
-      var jobName = $(this).closest('tr').find('td:eq(8)').text(); // 직위 정보 가져오기
+      var departmentName = $(this).closest('tr').find('td:eq(8)').text(); // 부서 정보 가져오기
+      var jobName = $(this).closest('tr').find('td:eq(9)').text(); // 직위 정보 가져오기
 
       $('#employeeNo').text(employeeNo);
       $('#employeeName').text(employeeName);

@@ -202,8 +202,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 		@Override
 		public String getBrowser(HttpServletRequest request) {
 			String agent = request.getHeader("User-Agent");
-			System.out.println(agent);
-
 			String browser = null;
 			 if (agent.contains("MSIE")) {
 			        browser = "MSIE";

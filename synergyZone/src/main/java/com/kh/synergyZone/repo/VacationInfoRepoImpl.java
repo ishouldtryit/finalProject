@@ -28,7 +28,7 @@ public class VacationInfoRepoImpl implements VacationInfoRepo{
 	//사용시 연차 정보 변경
 	@Override
 	public boolean used(VacationInfoDto info) {
-		return session.update("vacationInfo.used")>0;
+		return session.update("vacationInfo.used",info)>0;
 		
 	}
 

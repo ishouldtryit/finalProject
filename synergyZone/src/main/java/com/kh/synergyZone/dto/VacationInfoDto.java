@@ -8,4 +8,8 @@ public class VacationInfoDto {
 	private int total;
 	private int uesd;
 	private int residual;
+	
+	private String empName;
+	private String jobName;
+	private int attachmentNo;
 }

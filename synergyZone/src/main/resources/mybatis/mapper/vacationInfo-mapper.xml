@@ -11,7 +11,7 @@
     </insert>
     <!--  사원 연차정보 조회 -->
     <select id="one" resultType="VacationInfoDto">
-    	select * from vacation_info where emp_no= #{empNo}
+    	select * from emp_vacation_info where emp_no= #{empNo}
     </select>
     
     <!-- 사용 연차사용시 변경 -->

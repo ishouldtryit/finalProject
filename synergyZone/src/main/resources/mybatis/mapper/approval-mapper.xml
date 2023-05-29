@@ -92,4 +92,61 @@
     		)
     	</insert>
     	
+    	<!-- 계층형 조회 resultMap -->
+		<resultMap type="ApprovalDataVO" id="ApprovalVO">
+			<association property="approvalDto">
+				<result column="draft_no" property="draftNo"/>
+				<result column="draft_title" property="draftTitle"/>
+				<result column="draft_content" property="draftContent"/>
+				<result column="draft_date" property="draftDate"/>
+				<result column="update_date" property="updateDate"/>
+				<result column="drafter_no" property="drafterNo"/>
+				<result column="status_code" property="statusCode"/>
+				<result column="result_code" property="resultCode"/>
+				<result column="return_reson" property="returnReson"/>
+				<result column="isemergency" property="isemergency"/>
+			</association>
+			<collection property="approverList"
+				javaType="java.util.List" ofType="approverDto "
+				select="approverDataSelect"
+				column="draft_no">
+				<result column="approver_no" property="approverNo"/>
+				<result column="approver_order" property="approverOrder"/>
+				<result column="draft_no" property="draftNo"/>
+			</collection>
+			<collection property="agreeorList"
+				javaType="java.util.List" ofType="agreeorDto "
+				select="agreeorDataSelect"
+				column="draft_no">
+				<result column="agreeor_no" property="agreeorNo"/>
+				<result column="draft_no" property="draftNo"/>
+			</collection>
+			<collection property="recipientList"
+				javaType="java.util.List" ofType="recipientDto "
+				select="recipientDataSelect"
+				column="draft_no">
+				<result column="recipient_no" property="recipientNo"/>
+				<result column="draft_no" property="draftNo"/>
+			</collection>
+			<collection property="readerList"
+				javaType="java.util.List" ofType="readerDto "
+				select="readerDataSelect"
+				column="draft_no">
+				<result column="reader_no" property="readerNo"/>
+				<result column="draft_no" property="draftNo"/>
+			</collection>
+		</resultMap>
+		
+		
+		<!-- 계층형 조회 메인 구문 -->
+		<select id="approvalDataSelect" resultMap="ApprovalDataVO">
+			select*from approval order by draft_no desc
+		</select>
+		
+		<!-- 계층형 조회 서브 구문 -->
+		<select id="approverDataSelect" resultType="EmployeeDetailsDto">
+			select * from employee_details where emp_no = #{approverNo}
+			order by approver_order asc
+		</select>
+    	
     </mapper>

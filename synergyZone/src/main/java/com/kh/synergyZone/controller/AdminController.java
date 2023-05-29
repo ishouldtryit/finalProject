@@ -62,6 +62,7 @@ public class AdminController {
         model.addAttribute("departments", departments);
         model.addAttribute("jobs", jobs);
         
+        
         return "admin/join";
     }
     
@@ -260,6 +261,7 @@ public class AdminController {
 		return "admin/waitingList";
 	}
 	
+	//관리자 등록
 	@GetMapping("/authorityAdmin")
 	public String authorityAdmin(@RequestParam String empNo,
 								 Model model) {
@@ -267,6 +269,16 @@ public class AdminController {
 		return "redirect:list";
 	}
 	
+	//관리자 목록
+	@GetMapping("/adminList")
+	public String adminList(Model model) throws IOException {
+		List<EmployeeDto> adminList = employeeRepo.adminList();
+		    
+		model.addAttribute("adminList" ,adminList);
+		    
+		    
+		return "admin/adminList";
+	}
 	
 	
 }

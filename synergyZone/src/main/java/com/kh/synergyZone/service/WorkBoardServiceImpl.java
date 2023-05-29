@@ -2,11 +2,13 @@ package com.kh.synergyZone.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.autoconfigure.metrics.MetricsProperties.Data;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -114,6 +116,16 @@ public class WorkBoardServiceImpl implements WorkBoardService{
 	        }
 	    }
 	}
+
+//	@Override
+//	public WorkBoardDto calculateWorkDates(WorkBoardDto workBoardDto) {
+//		String workType = workBoardDto.getWorkType();
+//		Date today = new Date();
+//		
+//		if(workType.equals("일일업무")) {
+//			workBoardDto.setWorkStart(today);
+//		}
+//	}
 
 	
 }

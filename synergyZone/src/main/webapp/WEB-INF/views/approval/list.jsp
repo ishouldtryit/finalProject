@@ -2,18 +2,101 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+<style>
+  .pointable {
+    cursor: pointer;
+  }
+</style>
+<div id="app">
 
-<c:forEach var="approvalDto" items="${list}">
-	<div>
-		<a href="detail?draftNo=${approvalDto.draftNo}">
-		번호:${approvalDto.draftNo}, 제목:${approvalDto.draftTitle}, 작성자:${approvalDto.drafterId}
-		</a> 
-		<a href="delete?draftNo=${approvalDto.draftNo}">삭제</a>
-		<a href="edit?draftNo=${approvalDto.draftNo}">수정</a>
-	</div>
-	<hr>
-</c:forEach>
+    <div class="container">
+
+		<div class="row mt-4">
+                    <div class="col">
+                        <h2>기안서 목록</h2>
+                    </div>
+                 </div>
+                <div class="row mt-4">
+                    <div class="col">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>번호</th>
+                                    <th>제목</th>
+                                    <th>작성자</th>
+                                </tr>
+                            </thead>
+                            <tbody v-for="(draft, index) in draftList" :key="draft.draftNo">
+                                <tr>
+                                    <td>{{draft.draftNo}}</td>
+                                    	<td @click="goToDetail(draft.draftNo)"  class="pointable">
+                                    	
+                                    	{{draft.draftTitle}}
+                                    	
+                                    	</td>
+                                    <td>{{draft.drafterNo}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+		  	<div class="d-flex align-items-center justify-content-center">
+		  		<div class="d-flex">
+				  <ul class="pagination">
+				    <li class="page-item disabled">
+				      <a class="page-link" href="#">&laquo;</a>
+				    </li>
+				    <li class="page-item active">
+				      <a class="page-link" href="#">1</a>
+				    </li>
+				    <li class="page-item">
+				      <a class="page-link" href="#">2</a>
+				    </li>
+				    <li class="page-item">
+				      <a class="page-link" href="#">3</a>
+				    </li>
+				    <li class="page-item">
+				      <a class="page-link" href="#">4</a>
+				    </li>
+				    <li class="page-item">
+				      <a class="page-link" href="#">5</a>
+				    </li>
+				    <li class="page-item">
+				      <a class="page-link" href="#">&raquo;</a>
+				    </li>
+				  </ul>
+				</div>
+			</div>	
+        </div>
+    </div>
 
 
+
+    <script>
+        Vue.createApp({
+            //데이터 설정 영역
+            data(){
+                return {
+                    //화면에서 사용할 데이터를 선언
+                	draftList : [],
+                };
+            },
+            computed:{
+
+            },
+            methods:{
+                async loadData(){
+                    const resp = await axios.get("/rest/approval/list");
+                    this.draftList.push(...resp.data);
+                },
+                goToDetail(draftNo) {
+                    window.location.href = 'detail?draftNo=' + draftNo;
+                },
+            },
+            created(){
+            	this.loadData();
+            }
+        }).mount("#app");
+    </script>
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

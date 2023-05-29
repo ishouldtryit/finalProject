@@ -30,21 +30,10 @@ public class ApprovalController {
 		return "/approval/write";
 	}
 	
-	@PostMapping("/write")
-	public String write(
-			@ModelAttribute ApprovalDto approvalDto,
-			HttpSession session
-			) {
-		String memberId = session.getAttribute("memberId") == null ? null : (String) session.getAttribute("memberId");
-		approvalDto.setDrafterId(memberId);
-		approvalRepoImpl.insert(approvalDto);
-		return "redirect:/approval/detail";
-	}
-	
 	@GetMapping("/list")
 	public String list(Model model) {
 		model.addAttribute("list", approvalRepoImpl.selectList());
-		return "/approval/list2";
+		return "/approval/list";
 	}
 	
 	@GetMapping("/detail")

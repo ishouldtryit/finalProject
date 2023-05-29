@@ -7,7 +7,11 @@
     
 
     <mapper namespace="approval">
-    
+   	   	<!-- 시퀀스 번호 생성 -->
+   	    <select id="approvalSequence" resultType="int">
+      	  select approval_seq.nextval from dual
+    	</select>
+    	
     	<select id="selectList" resultType="ApprovalDto">
     		select * from approval order by draft_no
     	</select>
@@ -19,11 +23,11 @@
     	<insert id="insert" >
     		insert into approval( 
     		draft_no,draft_title,draft_content,
-    		drafter_id
+    		drafter_no, isemergency
     		) 
     		values(
-    		approval_seq.nextval,#{draftTitle},#{draftContent},
-    		#{drafterId}
+    		#{draftNo},#{draftTitle},#{draftContent},
+    		#{drafterNo}, #{isemergency}
     		)
     	</insert>
     	
@@ -48,5 +52,91 @@
 			delete approval where draft_no = #{draftNo}
 		</delete>
     	
+    	<!-- 결재자 추가 -->
+    	<insert id="approverInsert">
+    		insert into approver(
+    		approver_no, draft_no, approver_order
+    		)
+    		values(
+    		#{approverNo}, #{draftNo}, #{approverOrder}
+    		)
+    	</insert>
+    	
+    	<!-- 합의자 추가 -->
+    	<insert id="agreeorInsert">
+    		insert into agreeor(
+    		agreeor_no, draft_no
+    		)
+    		values(
+    		#{agreeorNo}, #{draftNo}
+    		)
+    	</insert>
+    	
+    	<!-- 참조자 추가 -->
+    	<insert id="recipientInsert">
+    		insert into recipient(
+    		recipient_no, draft_no
+    		)
+    		values(
+    		#{recipientNo}, #{draftNo}
+    		)
+    	</insert>
+    	
+    	<!-- 열람자 추가 -->
+    	<insert id="readerInsert">
+    		insert into reader(
+    		reader_no, draft_no
+    		)
+    		values(
+    		#{readerNo}, #{draftNo}
+    		)
+    	</insert>
+    	
+    		<!-- 계층형 조회 resultMap -->
+		<resultMap type="ApprovalVO" id="ApprovalVO">
+			<association property="approvalDto">
+				<result column="draft_no" property="draftNo"/>
+				<result column="draft_title" property="draftTitle"/>
+				<result column="draft_content" property="draftContent"/>
+				<result column="draft_date" property="draftDate"/>
+				<result column="update_date" property="updateDate"/>
+				<result column="drafter_no" property="drafterNo"/>
+				<result column="status_code" property="statusCode"/>
+				<result column="result_code" property="resultCode"/>
+				<result column="return_reson" property="returnReson"/>
+				<result column="isemergency" property="isemergency"/>
+			</association>
+			<collection property="employeeList"
+				javaType="java.util.List" ofType="EmployeeInfoDto "
+				select="treeSelectSub"
+				column="emp_no">
+				<result column="emp_no" property="empNo"/>
+				<result column="emp_name" property="empName"/>
+				<result column="emp_password" property="empPassword"/>
+				<result column="emp_email" property="empEmail"/>
+				<result column="emp_phone" property="empPhone"/>
+				<result column="emp_address" property="empAddress"/>
+				<result column="emp_detail_address" property="empDetailAddress"/>
+				<result column="emp_postcode" property="empPostcode"/>
+				<result column="emp_hire_date" property="empHireDate"/>
+				<result column="is_leave" property="isLeave"/>
+				<result column="cp_number" property="cpNumber"/>
+				<result column="job_no" property="jobNo"/>
+				<result column="dept_no" property="deptNo"/>
+				<result column="wt_code" property="wtCode"/>
+			</collection>
+		</resultMap>
+		
+		
+		<!-- 계층형 조회 메인 구문 -->
+		<select id="treeSelect" resultMap="DeptEmpListVO">
+			select*from department order by dept_no asc
+		</select>
+		
+		<!-- 계층형 조회 서브 구문 -->
+		<select id="treeSelectSub" resultType="employeeDto">
+			select * from employee where dept_no = #{deptNo}
+			order by job_no desc
+		</select>
     	
     </mapper>

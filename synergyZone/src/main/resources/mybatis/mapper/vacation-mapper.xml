@@ -8,7 +8,7 @@
     <mapper namespace="vacation">
     <!-- 사원 연차사용 기록 -->
      <select id="list" resultType="VacationVO">
-     	SELECT * FROM vacation WHERE emp_no = #{empNo} AND status = 1 AND EXTRACT(YEAR FROM used_date) = #{selectedValue}
+     	SELECT * FROM EMP_VACATION_VIEW WHERE emp_no = #{empNo} AND status = 1 AND EXTRACT(YEAR FROM used_date) = #{selectedValue}
      </select>
      
      <!-- 연차사용  결재완료시 만들어야함-->

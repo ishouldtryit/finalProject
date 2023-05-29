@@ -110,8 +110,7 @@
 
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script>
-		$(document).ready(
-				function() {
+		$(function() {
 					var currentDate = new Date();
 					var year = currentDate.getFullYear();
 					var month = currentDate.getMonth() + 1;
@@ -132,6 +131,7 @@
 					selectedValue : getCurrentYear()
 				},
 				success : function(data) {
+					console.log(data);
 					var table = createTable(data);
 					$("#table-container").empty().append(table);
 				}
@@ -141,6 +141,8 @@
 				  var tableElement = $("<table class='table table-hover'>");
 
 				  var headerRow = $("<tr>");
+				  headerRow.append($("<th>").text("이름"));
+				  headerRow.append($("<th>").text("부서명"));
 				  headerRow.append($("<th>").text("연차사용날짜"));
 				  headerRow.append($("<th>").text("휴가 종류"));
 				  headerRow.append($("<th>").text("사유"));
@@ -157,6 +159,8 @@
 				      var rowData = data[i];
 				      var row = $("<tr>");
 
+				      row.append($("<td>").text(rowData.empName));
+				      row.append($("<td>").text(rowData.deptName));
 				      row.append($("<td>").text(rowData.startDate + ' ~ ' + rowData.endDate));
 				      row.append($("<td>").text(rowData.vacationName));
 				      row.append($("<td>").text(rowData.reason));

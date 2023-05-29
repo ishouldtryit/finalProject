@@ -16,6 +16,11 @@ public class VacationVO {
 	private int stauts;
 	private String reason;
 	
+	private String empName;
+	private String deptName;
+	private String deptNo;
+	
+	
 	//받아온값
 	private String selectedValue;
 }

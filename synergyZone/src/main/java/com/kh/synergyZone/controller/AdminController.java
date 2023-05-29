@@ -21,18 +21,27 @@ import com.kh.synergyZone.dto.EmployeeDto;
 import com.kh.synergyZone.dto.EmployeeInfoDto;
 import com.kh.synergyZone.dto.JobDto;
 import com.kh.synergyZone.dto.LoginRecordInfoDto;
+import com.kh.synergyZone.dto.VacationInfoDto;
 import com.kh.synergyZone.repo.DepartmentRepo;
 import com.kh.synergyZone.repo.EmployeeProfileRepo;
 import com.kh.synergyZone.repo.EmployeeRepo;
 import com.kh.synergyZone.repo.JobRepo;
 import com.kh.synergyZone.repo.LoginRecordRepo;
+import com.kh.synergyZone.repo.VacationInfoRepoImpl;
 import com.kh.synergyZone.service.EmployeeService;
+import com.kh.synergyZone.service.VacationServiceImpl;
 import com.kh.synergyZone.vo.EmployeeExitWaitingVO;
 import com.kh.synergyZone.vo.LoginRecordSearchVO;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
+
+	@Autowired
+	private VacationServiceImpl vacaitonService;
+	
+	@Autowired
+	private VacationInfoRepoImpl vacationRepo;
 	
 	@Autowired
 	private EmployeeService employeeService;
@@ -79,6 +88,19 @@ public class AdminController {
         employeeDto.setJobNo(jobNo);
         
         employeeService.join(employeeDto, attach);
+        
+        VacationInfoDto info=new VacationInfoDto();
+        
+        int total=vacaitonService.calculateVacationDays(empHireDate);
+        
+        info.setEmpNo(empNo);
+        info.setTotal(total);
+        info.setResidual(total);
+        
+        vacationRepo.add(info);
+        
+        
+        
         return "redirect:/";
     }
 	

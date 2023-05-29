@@ -23,7 +23,7 @@ public class HomeController {
 		
 		@GetMapping("/")
 		public String home(Model model, HttpSession session, @ModelAttribute CommuteRecordDto commuteRecordDto) {
-		    String empNo = (String) session.getAttribute("memberId");
+		    String empNo = (String) session.getAttribute("empNo");
 //		    if (empNo != null) {
 //		        CommuteRecordDto today = commuteRecordRepo.today(empNo);
 //		        System.out.println(today);
@@ -50,7 +50,7 @@ public class HomeController {
 		public String loginTestuser2(
 				HttpSession session
 				) {
-			session.removeAttribute("memberId");
+			session.removeAttribute("empNo");
 			session.removeAttribute("jobNo");
 			session.setAttribute("empNo", "202399002");
 			session.setAttribute("jobNo", "99");
@@ -60,7 +60,7 @@ public class HomeController {
 		public String loginTestuser3(
 				HttpSession session
 				) {
-			session.removeAttribute("memberId");
+			session.removeAttribute("empNo");
 			session.removeAttribute("jobNo");
 			session.setAttribute("empNo", "202399003");
 			session.setAttribute("jobNo", "99");
@@ -79,14 +79,14 @@ public class HomeController {
 		public String start(HttpSession session,@ModelAttribute CommuteRecordDto commuteRecordDto,
 				Model model) {
 			
-			String empNo =(String)session.getAttribute("memberId");
+			String empNo =(String)session.getAttribute("empNo");
 			commuteRecordRepo.insert(empNo);
 			 return "redirect:/";
 		}
 		
 		@PostMapping("/end")
 		public String end(HttpSession session,@ModelAttribute CommuteRecordDto commuteRecordDto) {
-			String empNo =(String)session.getAttribute("memberId");
+			String empNo =(String)session.getAttribute("empNo");
 			commuteRecordDto.setEmpNo(empNo);
 			commuteRecordRepo.update(empNo);
 			return "redirect:/";

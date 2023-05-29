@@ -93,7 +93,7 @@
     <aside>
 	     <div class="wrapper d-flex align-items-stretch" >
 	            <nav id="sidebar" class="bg-info">
-	                <div class="p-4 pt-5">
+	                <div class="p-4 pt-5" style=" min-height: 70vh;">
 	                    <a href="#"><h3 class="text-light mb-5">게시판</h3></a>
 	                    <ul class="list-unstyled components mb-5">
 	                        <li>
@@ -126,6 +126,20 @@
 	                            </ul>
 	                        </li>
 	
+	 <li>
+	                            <a href="#addressSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">주소록</a>
+	                            <ul class="collapse list-unstyled" id="addressSubmenu">
+	                                <li>
+	                                    <a href="${pageContext.request.contextPath}/address/list">전체 주소록</a>
+	                                </li>
+	                                <c:if test="${empNo != null}">
+									  <li>
+									    <a href="${pageContext.request.contextPath}/bookmark/mylist">개인 주소록</a>
+									  </li>
+									</c:if>
+	                            </ul>
+	                        </li>
+	
 	                        <li>
 	                            <a href="#">공지사항</a>
 	                        </li>
@@ -140,7 +154,7 @@
         <!-- Page Content  -->
         <article>
 	
-	        <div id="content" class="p-4 p-md-5" style="height:200px;">
+   <!--   <div id="content" class="p-4 p-md-5" style="height:200px;">	  -->           
 	            
 	            <nav class="navbar navbar-expand-lg navbar-light bg-light">
 	                <div class="container-fluid">
@@ -177,6 +191,4 @@
 	                    </div>
 	                </div>
 	            </nav>
-	            
-	     
-		    
+

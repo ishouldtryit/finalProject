@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="${pageContext.request.contextPath}/static/js/message/messageWrite.js"></script>
 <script>
-    const memberId = "${sessionScope.memberId}";
+    const empNo = "${sessionScope.empNo}";
 </script>
 <script type="text/template" id="message-recipient-template">
     <div class="message-recipient-ele flex-all-center inline-flex back-sc-brighter radius-1em ph-h-em">
@@ -21,7 +21,7 @@
     </div>
     <div class="row">
         <form id="message-send-form" action="write" method="post">
-            <input type="hidden" name="messageSender" value="${sessionScope.memberId}">
+            <input type="hidden" name="messageSender" value="${sessionScope.empNo}">
             <div class="row">
                 <label for="message-recipient-input">
                     받는사람 (<span class="recipient-cnt">0</span>/10)

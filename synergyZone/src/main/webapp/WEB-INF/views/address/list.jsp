@@ -7,7 +7,7 @@
     color: dodgerblue;
   }
 </style>
-<div class="container-1300" style="margin-left: 15%;">
+<div class="container-800" style="margin-left: 5%;">
 		<!-- 검색창 -->
 		<form class="d-flex" action="list" method="get">
 		  <select name="column" class="form-input me-sm-2">
@@ -20,8 +20,12 @@
 		  <input class="form-control me-sm-2" type="search" placeholder="검색어" name="keyword" value="${param.keyword}" style="width: 13%;">
 		  <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
         <button type="button" id="selectAllBtn" class="btn btn-primary my-2 my-sm-0">전체 선택</button>
+		  
 		  <!-- My list에 추가 버튼 -->		  
+			<c:if test="${empNo != null}">
 		  <button class="btn btn-success my-2 my-sm-0" type="button" onclick="addToMyList()">My list에 추가</button>
+		</c:if>
+
 		
 		</form>
 		
@@ -29,10 +33,10 @@
 	<div class="row">
 	  <div class="col" style="margin: 0 auto;">
 	    <form id="employeeForm">
-	      <table class="table table-hover mt-2" style="width: 80%;">
+	      <table class="table table-hover mt-2" style="width: 90%;">
 	        <thead>
 	          <tr>
-	            <th>선택</th>
+	            <th></th>
 	            <th>프로필</th>
 	            <th>사원번호</th>
 	            <th>이름</th>
@@ -53,7 +57,10 @@
 	                </div>
 	              </td>
 	              <td class="align-middle">
-	                <div class="profile-image">
+	                <div class="profile-image employee-name" data-empno="${employeeDto.empNo}" 
+		                    data-empname="${employeeDto.empName}" data-empphone="${employeeDto.empPhone}" 
+		                    data-empemail="${employeeDto.empEmail}" data-empaddress="${employeeDto.empAddress}" 
+		                    data-empdetailaddress="${employeeDto.empDetailAddress}" data-attachmentno="${employeeDto.attachmentNo}">
 	                  <img width="50" height="50" src="<c:choose>
 	                    <c:when test="${employeeDto.attachmentNo > 0}">
 	                      /attachment/download?attachmentNo=${employeeDto.attachmentNo}
@@ -138,7 +145,7 @@
 		        <h5 class="modal-title" id="employeeInfoModalLabel"></h5>
 		      </div>
 		      <div class="modal-body">
-		        <!-- 사원 상세 정보를 추가하십시오 -->
+		        <!-- 사원 상세 정보 추가칸 -->
 		      </div>
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
@@ -150,7 +157,7 @@
 	
 		<!-- 페이징 영역 -->
 		<div style="display: flex; justify-content: center;">
-		  <ul class="pagination" style="width: 35%;">
+		  <ul class="pagination" style="width: 20%;">
 		    <li class="page-item ${vo.isFirst() ? 'disabled' : ''}">
 		      <a class="page-link" href="${vo.isFirst() ? '#' : pageContext.request.contextPath}/address/list?page=${vo.getPrevPage()}">&laquo;</a>
 		    </li>
@@ -185,8 +192,8 @@
       var employeeAddress = $(this).data('empaddress');
       var employeeDetailAddress = $(this).data('empdetailaddress');
       var attachmentNo = $(this).data('attachmentno');
-      var departmentName = $(this).closest('tr').find('td:eq(7)').text(); // 부서 정보 가져오기
-      var jobName = $(this).closest('tr').find('td:eq(8)').text(); // 직위 정보 가져오기
+      var departmentName = $(this).closest('tr').find('td:eq(8)').text(); // 부서 정보 가져오기
+      var jobName = $(this).closest('tr').find('td:eq(9)').text(); // 직위 정보 가져오기
 
       $('#employeeNo').text(employeeNo);
       $('#employeeName').text(employeeName);

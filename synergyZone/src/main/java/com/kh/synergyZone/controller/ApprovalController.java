@@ -35,8 +35,8 @@ public class ApprovalController {
 			@ModelAttribute ApprovalDto approvalDto,
 			HttpSession session
 			) {
-		String memberId = session.getAttribute("memberId") == null ? null : (String) session.getAttribute("memberId");
-		approvalDto.setDrafterId(memberId);
+		String empNo = session.getAttribute("empNo") == null ? null : (String) session.getAttribute("empNo");
+		approvalDto.setDrafterId(empNo);
 		approvalRepoImpl.insert(approvalDto);
 		return "redirect:/approval/detail";
 	}

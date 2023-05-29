@@ -132,9 +132,11 @@
 	                                <li>
 	                                    <a href="${pageContext.request.contextPath}/address/list">전체 주소록</a>
 	                                </li>
-	                                <li>
-	                                    <a href="${pageContext.request.contextPath}/bookmark/mylist">개인 주소록</a>
-	                                </li>
+	                                <c:if test="${empNo != null}">
+									  <li>
+									    <a href="${pageContext.request.contextPath}/bookmark/mylist">개인 주소록</a>
+									  </li>
+									</c:if>
 	                            </ul>
 	                        </li>
 	

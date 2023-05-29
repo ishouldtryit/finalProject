@@ -20,8 +20,12 @@
 		  <input class="form-control me-sm-2" type="search" placeholder="검색어" name="keyword" value="${param.keyword}" style="width: 13%;">
 		  <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
         <button type="button" id="selectAllBtn" class="btn btn-primary my-2 my-sm-0">전체 선택</button>
+		  
 		  <!-- My list에 추가 버튼 -->		  
+			<c:if test="${empNo != null}">
 		  <button class="btn btn-success my-2 my-sm-0" type="button" onclick="addToMyList()">My list에 추가</button>
+		</c:if>
+
 		
 		</form>
 		
@@ -53,7 +57,10 @@
 	                </div>
 	              </td>
 	              <td class="align-middle">
-	                <div class="profile-image">
+	                <div class="profile-image employee-name" data-empno="${employeeDto.empNo}" 
+		                    data-empname="${employeeDto.empName}" data-empphone="${employeeDto.empPhone}" 
+		                    data-empemail="${employeeDto.empEmail}" data-empaddress="${employeeDto.empAddress}" 
+		                    data-empdetailaddress="${employeeDto.empDetailAddress}" data-attachmentno="${employeeDto.attachmentNo}">
 	                  <img width="50" height="50" src="<c:choose>
 	                    <c:when test="${employeeDto.attachmentNo > 0}">
 	                      /attachment/download?attachmentNo=${employeeDto.attachmentNo}

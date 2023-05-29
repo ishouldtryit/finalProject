@@ -124,6 +124,9 @@ public class WorkBoardServiceImpl implements WorkBoardService{
 //		
 //		if(workType.equals("일일업무")) {
 //			workBoardDto.setWorkStart(today);
+//			workBoardDto.setWorkDeadline(today);
+//		}else if(workType.equals("주간업무")) {
+//			
 //		}
 //	}
 

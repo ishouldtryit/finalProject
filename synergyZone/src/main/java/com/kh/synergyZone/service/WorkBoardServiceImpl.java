@@ -70,6 +70,50 @@ public class WorkBoardServiceImpl implements WorkBoardService{
 	    }
 	    
 	    System.out.println("Selected file count: " + attachments.size());
+	 }
+
+	@Override
+	public void deleteFile(int workNo) {
+		WorkFileDto file = workFileRepo.selectOne(workNo);
+		if(file != null) {
+			int attachmentNo = file.getAttachmentNo();
+			File target = new File(dir, String.valueOf(attachmentNo));
+			if(target.exists()) {
+				target.delete();
+			}
+			attachmentRepo.delete(attachmentNo);
+			workFileRepo.delete(workNo);
+			
+		}
+	}
+
+	@Override
+	public void updateFile(int workNo, List<MultipartFile> attachments) throws IllegalStateException, IOException {
+		deleteFile(workNo);
+		
+		for (MultipartFile attach : attachments) {
+	        if (!attach.isEmpty()) {
+	            // Generate attachment number
+	            int attachmentNo = attachmentRepo.sequence();
+
+	            // Save file
+	            File target = new File(dir, String.valueOf(attachmentNo));
+	            attach.transferTo(target);
+
+	            // Store in the database
+	            attachmentRepo.insert(AttachmentDto.builder()
+	                    .attachmentNo(attachmentNo)
+	                    .attachmentName(attach.getOriginalFilename())
+	                    .attachmentType(attach.getContentType())
+	                    .attachmentSize(attach.getSize())
+	                    .build());
+	            
+	            workFileRepo.insert(WorkFileDto.builder()
+	            		.workNo(workNo)
+	            		.attachmentNo(attachmentNo)
+	            		.build());
+	        }
+	    }
 	}
 
 	

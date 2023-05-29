@@ -31,4 +31,13 @@
 		select * from work_board order by work_no asc
 	</select>
 	
+	<update id="edit">
+		update work_board set
+		work_title = #{workTitle}, work_content = #{workContent},
+		work_start = #{workStart}, work_deadline = #{workDeadline},
+		work_status = #{workStatus}, work_secret = #{workSecret},
+		work_type = #{workType}
+		where work_no = #{workNo}
+	</update>
+	
 </mapper>

@@ -1,5 +1,7 @@
 package com.kh.synergyZone.repo;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -15,6 +17,34 @@ public class WorkFileRepoImpl implements WorkFileRepo {
 	@Override
 	public void insert(WorkFileDto workFileDto) {
 		sqlSession.insert("workFile.insertFile", workFileDto);
+	}
+
+	@Override
+	public WorkFileDto selectOne(int workNo) {
+		List<WorkFileDto> files = sqlSession.selectList("workFile.find", workNo);
+		if(files != null && !files.isEmpty()) {
+			return files.get(0);
+		}
+		return null;
+	}
+
+	@Override
+	public List<WorkFileDto> selectAll(int workNo) {
+		List<WorkFileDto> files = sqlSession.selectList("workFile.find", workNo);
+		if(files != null && !files.isEmpty()) {
+			return files;
+		}
+		return null;
+	}
+
+	@Override
+	public void delete(int workNo) {
+		sqlSession.delete("workFile.deleteFile", workNo);
+	}
+
+	@Override
+	public void update(int workNo) {
+		sqlSession.update("workFile.update", workNo);
 	}
 	
 }

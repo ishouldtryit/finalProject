@@ -261,6 +261,7 @@ public class AdminController {
 		return "admin/waitingList";
 	}
 	
+	//관리자 등록
 	@GetMapping("/authorityAdmin")
 	public String authorityAdmin(@RequestParam String empNo,
 								 Model model) {

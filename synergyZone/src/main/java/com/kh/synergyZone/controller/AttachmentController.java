@@ -2,6 +2,7 @@ package com.kh.synergyZone.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
@@ -73,35 +74,29 @@ public class AttachmentController {
 		    return null; // 또는 예외처리
 		}
 	
-	//다운로드
 		@GetMapping("/download")
-		public ResponseEntity<ByteArrayResource> download(
-										@RequestParam int attachmentNo) throws IOException {
-			//DB 조회
-			AttachmentDto attachmentDto = (AttachmentDto) attachmentRepo.find(attachmentNo);
-			if(attachmentDto == null) {//없으면 404
-				return ResponseEntity.notFound().build();
-			}
-			
-			//파일 찾기
-			File target = new File(dir, String.valueOf(attachmentNo));
-			
-			//보낼 데이터 생성
-			byte[] data = FileUtils.readFileToByteArray(target);
-			ByteArrayResource resource = new ByteArrayResource(data);
-			
-			return ResponseEntity.ok()
-						.contentType(MediaType.APPLICATION_OCTET_STREAM)
-						.contentLength(attachmentDto.getAttachmentSize())
-						.header(HttpHeaders.CONTENT_ENCODING, 
-													StandardCharsets.UTF_8.name())
-						.header(HttpHeaders.CONTENT_DISPOSITION,
-							ContentDisposition.attachment()
-										.filename(
-												attachmentDto.getAttachmentName(), 
-												StandardCharsets.UTF_8
-										).build().toString()
-						)
-						.body(resource);
+		public ResponseEntity<ByteArrayResource> download(@RequestParam int attachmentNo) throws IOException {
+		    AttachmentDto attachmentDto = attachmentRepo.find(attachmentNo);
+		    if (attachmentDto == null) {
+		        return ResponseEntity.notFound().build();
+		    }
+
+		    File target = new File(dir, String.valueOf(attachmentNo));
+		    byte[] data = FileUtils.readFileToByteArray(target);
+		    ByteArrayResource resource = new ByteArrayResource(data);
+
+		    String contentType = URLConnection.guessContentTypeFromName(attachmentDto.getAttachmentName());
+		    if (contentType == null) {
+		        contentType = MediaType.APPLICATION_OCTET_STREAM_VALUE;
+		    }
+
+		    return ResponseEntity.ok()
+		            .contentType(MediaType.parseMediaType(contentType))
+		            .contentLength(attachmentDto.getAttachmentSize())
+		            .header(HttpHeaders.CONTENT_ENCODING, StandardCharsets.UTF_8.name())
+		            .header(HttpHeaders.CONTENT_DISPOSITION, ContentDisposition.attachment()
+		                    .filename(attachmentDto.getAttachmentName(), StandardCharsets.UTF_8).build().toString())
+		            .body(resource);
 		}
+
 }

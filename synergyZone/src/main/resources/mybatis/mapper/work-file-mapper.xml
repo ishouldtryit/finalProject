@@ -18,4 +18,14 @@
 	<select id="find" resultType="workFileDto">
 		select * from work_file where work_no = #{workNo}
 	</select>
+	
+	<update id="updateFile">
+		update work_file
+		set attachment_no = #{attachmentNo}
+		where work_no = #{workNo}
+	</update>
+	
+	<delete id="deleteFile">
+		delete from work_file where work_no = #{workNo}
+	</delete>
 </mapper>

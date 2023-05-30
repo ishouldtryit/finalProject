@@ -73,7 +73,7 @@
 			<result column="dept_name" property="deptName"/>
 		</association>
 		<collection property="employeeList"
-			javaType="java.util.List" ofType="employeeDto"
+			javaType="java.util.List" ofType="EmployeeInfoDto "
 			select="treeSelectSub"
 			column="dept_no">
 			<result column="emp_no" property="empNo"/>
@@ -105,15 +105,39 @@
 		order by job_no desc
 	</select>
 	
-	
+	<!-- 사원번호 -->
 	<select id="lastEmpNoOfYear" resultType="String">
 		select max(emp_no)
 		from employee
 		where emp_no like concat(#{year}, '%')
 	</select>
 	
+	<!-- 대기 목록 -->
 	<select id="waitingList" resultType="employeeDto">
 		select * from employee where is_leave = 'Y'
 	</select>
 	
+	<!-- 비밀번호 찾기 -->
+	<select id="findPw" resultType="employeeDto">
+		select emp_email from employee where emp_no = #{empNo} and emp_email = #{empEmail}
+	</select>
+	
+	<!-- 임시 비밀번호 -->	
+	<update id="changePw">
+		update employee 
+		set emp_password = #{empPassword}
+		where emp_no = #{empNo}
+	</update>
+	
+	<!-- 관리자 권한 부여 -->
+	<update id="authorityAdmin">
+		update employee
+		set job_no = #{jobNo}
+		where emp_no = #{empNo}
+	</update>
+	
+	<!-- 관리자 목록 -->
+	<select id="adminList" resultType="employeeDto">
+		select * from employee where job_no = 80
+	</select>
 </mapper>

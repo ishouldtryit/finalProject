@@ -8,19 +8,39 @@ import com.kh.synergyZone.vo.DeptEmpListVO;
 import com.kh.synergyZone.vo.PaginationVO;
 
 public interface EmployeeRepo {
-	 void insert(EmployeeDto employeeDto);
+	   //사원
+	   void insert(EmployeeDto employeeDto);
 	   EmployeeDto selectOne(String empNo);
 	   List<EmployeeInfoDto> list();
 	   void update(EmployeeDto employeeDto);
 	   void exit(String empNo);
 	   void delete(String empNo);
+	   
 	   List<DeptEmpListVO> treeSelect();
 	   
+	   //비밀번호 찾기
+	   EmployeeDto findPw(String empNo, String empEmail);
+	   
+	   //비밀번호 변경
+	   void changePw(EmployeeDto employeeDto);
+
+	   //사원번호
 	   String lastEmpNoOfYear(String year);
 	   
+	   //퇴사 대기목록
 	   List<EmployeeDto> waitingList();
-
+	   
+	   //관리자 권한 부여
+	   void authorityAdmin(String empNo);
+	   
+	   //관리자 목록
+	   List<EmployeeDto> adminList();
+	   
+	   //사원 검색
 	   int getCount();
 	   List<EmployeeDto> getEmployeeList(PaginationVO vo);
 	   List<EmployeeInfoDto> searchEmployees(String column, String keyword);
-}	
+	   
+	   
+	
+}

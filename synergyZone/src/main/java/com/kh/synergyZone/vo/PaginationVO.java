@@ -12,7 +12,7 @@ public class PaginationVO {
   private int page = 1;
   
   // 페이지 마다 보여줄 게시글 수
-  private int size = 10;
+  private int size = 15;
   
   // 전체 게시글 개수
   private int count;

@@ -74,7 +74,9 @@
         <div class="container-fluid">
 	      <div class="row">
 	          <div class="col col-7 bg-info text-light">
+	            <a href="http://localhost:8080/">
 	            <img src="/static/img/logo.png" id="rogo-img" class="p-1">
+	            </a>
 	          </div>
 	      
 	          <div class="col bg-info text-light p-2">
@@ -138,6 +140,18 @@
 									  </li>
 									</c:if>
 	                            </ul>
+	                            
+	                           <c:if test="${empNo != null}">
+	                            <a href="#messageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">쪽지함</a>
+	                            <ul class="collapse list-unstyled" id="messageSubmenu">
+	                                <li>
+	                                    <a href="${pageContext.request.contextPath}/message/receive">받은 쪽지함</a>
+	                                </li>
+									  <li>
+									    <a href="${pageContext.request.contextPath}/message/send">보낸 쪽지함</a>
+									  </li>
+	                            </ul>
+									</c:if>
 	                        </li>
 	
 	                        <li>

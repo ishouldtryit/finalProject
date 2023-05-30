@@ -31,7 +31,7 @@ public class MessageWithNickDao {
                     .messageTitle(rs.getString("MESSAGE_TITLE"))
                     .messageContent(rs.getString("MESSAGE_CONTENT"))
                     .messageSendTime(rs.getDate("MESSAGE_SEND_TIME"))
-                    .messageReadTime(rs.getDate("MESSAGE_RECEIVE_TIME"))
+                    .messageReadTime(rs.getDate("MESSAGE_READ_TIME"))
                     .messageSenderStore(rs.getInt("MESSAGE_SENDER_STORE"))
                     .messageRecipientStore(rs.getInt("MESSAGE_RECIPIENT_STORE"))
                     .messageSenderNick(rs.getString("MESSAGE_SENDER_NICK"))

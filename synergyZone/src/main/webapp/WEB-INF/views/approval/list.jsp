@@ -9,13 +9,10 @@
 </style>
 <div id="app">
 
-    <div class="container">
-
-		<div class="row mt-4">
-                    <div class="col">
-                        <h2>기안서 목록</h2>
-                    </div>
-                 </div>
+    <div class="container-fluid">
+       <div class="row mb-3">
+           <h3>기안서 목록</h3>
+       </div>
                 <div class="row mt-4">
                     <div class="col">
                         <table class="table table-hover">
@@ -68,8 +65,7 @@
 				</div>
 			</div>	
         </div>
-    </div>
-
+</div>
 
 
     <script>

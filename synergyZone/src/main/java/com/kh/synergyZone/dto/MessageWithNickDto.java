@@ -24,4 +24,7 @@ public class MessageWithNickDto {
     private int messageRecipientStore;
     private String messageSenderNick;
     private String messageRecipientNick;
+    private String empName;
+    private String empNo;
+    
 }

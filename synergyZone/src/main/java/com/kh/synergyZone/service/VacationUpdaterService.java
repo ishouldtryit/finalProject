@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -13,56 +14,68 @@ import com.kh.synergyZone.dto.VacationInfoDto;
 import com.kh.synergyZone.repo.VacationInfoRepoImpl;
 
 import lombok.extern.slf4j.Slf4j;
-
+//입사일에따른 연차초기화 스케줄링구현
 
 @Service
 public class VacationUpdaterService {
-	
-	
-    private Map<String, Integer> empVacationMap; // 각 사원의 연차 정보를 저장하는 맵
 
     // DB에 접근하기 위해 선언
+	@Autowired
     private VacationInfoRepoImpl infoRepo;
 
-    // 생성자를 통해 의존성 주입
-    public VacationUpdaterService(VacationInfoRepoImpl infoRepo) {
-        this.infoRepo = infoRepo;
-    }
  
-    @Scheduled(cron = "0 0 0 1 1 *") // 매년 1월 1일 자정에 실행
+	 @Scheduled(cron = "0 0 0 1 1 * ") // 매년 1월 1일 자정에 실행
     public void resetVacation() {
         List<VacationInfoDto> list = infoRepo.list();
-        empVacationMap = new HashMap<>();
+        
 
         // 가져온 정보들을 dto 내에 넣음
-        for (VacationInfoDto dto : list) {
-            // dto에 empNo와 total을 꺼내서 맵에 넣음
-            String empNo = dto.getEmpNo();
-            int total = dto.getTotal();
-            empVacationMap.put(empNo, total);
-
-            // 입사일과 사원번호를 기반으로 연차 계산
-            Date empHireDate = dto.getEmpHireDate();
-            calculateVacation(empNo, empHireDate);
+        for (VacationInfoDto info : list) {
+        	VacationInfoDto dto= new VacationInfoDto();
+        	//입사일뽑고 계산돌림
+        	String empNo=info.getEmpNo();
+        	Date empHireDate = info.getEmpHireDate();
+        	int total=calculateVacation(empNo, empHireDate);
+        	dto.setTotal(total);
+        	dto.setUsed(0);
+        	dto.setResidual(0);
+        	dto.setEmpNo(empNo);
+        	
+            
             infoRepo.scheduling(dto);
         }
     }
 
 
-    public void calculateVacation(String employeeId, Date empHireDate) {
+    public int calculateVacation(String employeeId, Date empHireDate) {
+    	//현재년도
         LocalDate currentDate = LocalDate.now();
+        //현재년도 - 입사일 차
         int yearsOfService = currentDate.getYear() - empHireDate.toLocalDate().getYear();
 
+        //입사일이 1년차이상이면
         if (yearsOfService > 0) {
-            int vacationDays = (2 * yearsOfService) - 1;
 
-            // 연차 정보 맵에 저장
-            empVacationMap.put(employeeId, vacationDays);
+        	//입사일 등차수열 계산
+        	if (yearsOfService % 2 == 0) {
+                return 15 + (yearsOfService / 2);
+            } else {
+                return 15 + (yearsOfService / 2) + 1;
+            }
+
+        	
+        }else {
+        	//0년차들
+        	LocalDate joinDate = empHireDate.toLocalDate();
+
+            // 입사일의 월 구하기
+            int joinMonth = joinDate.getMonthValue();
+
+            // 12월에서 입사일의 월 차이 계산
+            int monthDifference = 12 - joinMonth;
+
+        	return monthDifference;
         }
     }
 
-
-
-
- 
 }

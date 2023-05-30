@@ -37,7 +37,7 @@ public class VacationInfoRepoImpl implements VacationInfoRepo{
 	//스케쥴링 연차정보 초기화
 	@Override
 	public boolean scheduling(VacationInfoDto info) {
-		return session.update("vacationInfo.")>0;
+		return session.update("vacationInfo.scheduling",info)>0;
 		
 		
 	}

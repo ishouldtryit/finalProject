@@ -8,7 +8,7 @@ import lombok.Data;
 public class VacationInfoDto {
 	private String empNo;
 	private int total;
-	private int uesd;
+	private int used;
 	private int residual;
 	
 	private String empName;

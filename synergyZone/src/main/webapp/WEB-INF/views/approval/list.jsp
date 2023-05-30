@@ -22,6 +22,7 @@
                            <th>긴급</th>
                            <th>제목</th>
                            <th>기안자</th>
+                           <th>현재 결재자</th>
                            <th>최종 결재자</th>
                            <th>결재상태</th>
                        </tr>
@@ -38,6 +39,9 @@
                            	
                            	</td>
                            <td>{{approval.approvalWithDrafterDto.empName}}</td>
+                           <td>
+                           		{{ approval.approverList[approval.approvalWithDrafterDto.statusCode].empName }}
+                           </td>
                            <td>
 	                           {{ approval.approverList[approval.approverList.length - 1].empName }}
                            </td>

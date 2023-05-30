@@ -40,6 +40,7 @@
       <div class="flex-all-center message-check-column">
         <input class="message-check-all" type="checkbox" />
       </div>
+      
       <div class="flex-align-center">보낸사람</div>
       <div class="flex-align-center">제목</div>
       <div class="flex-align-center">날짜</div>

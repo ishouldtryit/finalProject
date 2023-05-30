@@ -1,11 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!-- font-awesome CDN -->
-<link
-  rel="stylesheet"
-  type="text/css"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
-/>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script type="text/template" id="receive-message-row">
   <hr class="mg-0"/>
   <div class="flex-row-grow message-row">
@@ -41,34 +38,30 @@ pageEncoding="UTF-8"%>
   .message-nav {
   }
 </style>
+
 <!-- section -->
-<section class="container-1200 mt-50 mb-50">
+<section class="container">
   <aside class="message-nav">
     <div class="flex-row-grow">
-      <a class="back-sc white-bold message-send-btn" href="${pageContext.request.contextPath}/message/write"
-        >쪽지쓰기</a
-      >
-      <a
-        class="back-sc white-bold message-send-btn"
-        href="${pageContext.request.contextPath}/message/write?recipient=${sessionScope.memberId}"
-        >내게쓰기</a
-      >
+      <a class="btn btn-primary message-send-btn" href="${pageContext.request.contextPath}/message/write">쪽지쓰기</a>
+      <a class="btn btn-primary message-send-btn" href="${pageContext.request.contextPath}/message/write?recipient=${sessionScope.empNo}">내게쓰기</a>
     </div>
     <div class="row reply-aside receive-store">
-      <a href="${pageContext.request.contextPath}/message/receive" class="link"
-        ><i class="fa-solid fa-message" style="color: #9dace4"></i>
-        &nbsp;받은쪽지함</a
-      >
+      <a href="${pageContext.request.contextPath}/message/receive" class="link">
+        <i class="fas fa-envelope" style="color: #9dace4"></i>
+        &nbsp;받은쪽지함
+      </a>
     </div>
     <div class="row reply-aside send-store">
-      <a href="${pageContext.request.contextPath}/message/send" class="link"
-        ><i class="fa-regular fa-message" style="color: #9dace4"></i>
-        &nbsp;보낸쪽지함</a
-      >
-      
-      
+      <a href="${pageContext.request.contextPath}/message/send" class="link">
+        <i class="far fa-envelope" style="color: #9dace4"></i>
+        &nbsp;보낸쪽지함
+      </a>
     </div>
   </aside>
 
   <!-- article -->
-  <article class="container-1000 ps-30">
+  <article class="container-1200 ps-30">
+    <!-- Content here -->
+  </article>
+</section>

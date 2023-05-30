@@ -10,8 +10,12 @@
     	insert into vacation_info values (#{empNo},#{total},0,#{residual})
     </insert>
     <!--  사원 연차정보 조회 -->
-    <select id="one">
-    	select * from vacation_info where emp_no=#{empNo}
+    <select id="one" resultType="VacationInfoDto">
+    	select * from emp_vacation_info where emp_no= #{empNo}
+    </select>
+    
+    <select id="list" resultType="VacationInfoDto">
+    	select * from emp_vacation_info
     </select>
     
     <!-- 사용 연차사용시 변경 -->

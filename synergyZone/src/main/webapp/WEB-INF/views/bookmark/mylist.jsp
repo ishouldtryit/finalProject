@@ -54,16 +54,20 @@
 		                    </div>
 		                  </td>
 		                  <td class="align-middle">
-		                    <div class="profile-image">
-		                      <img width="50" height="50" src="<c:choose>
-		                        <c:when test="${employeeDto.attachmentNo > 0}">
-		                          /attachment/download?attachmentNo=${employeeDto.attachmentNo}
-		                        </c:when>
-		                        <c:otherwise>
-		                          https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg
-		                        </c:otherwise>
-		                      </c:choose>" alt="" style="border-radius: 50%;">
-		                    </div>
+		                    <div class="profile-image employee-name" data-empno="${employeeDto.empNo}" 
+		                    data-empname="${employeeDto.empName}" data-empphone="${employeeDto.empPhone}" 
+		                    data-empemail="${employeeDto.empEmail}" data-empaddress="${employeeDto.empAddress}" 
+		                    data-empdetailaddress="${employeeDto.empDetailAddress}" data-attachmentno="${employeeDto.attachmentNo}">
+		                    
+						  <img width="50" height="50" src="<c:choose>
+						    <c:when test="${employeeDto.attachmentNo > 0}">
+						      /attachment/download?attachmentNo=${employeeDto.attachmentNo}
+						    </c:when>
+						    <c:otherwise>
+						      https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg
+						    </c:otherwise>
+						  </c:choose>" alt="" style="border-radius: 50%;">
+						</div>
 		                  </td>
 		                  <td class="align-middle">${employeeDto.empNo}</td>
 		                  <td class="align-middle employee-name" data-empno="${employeeDto.empNo}" data-empname="${employeeDto.empName}" 
@@ -191,8 +195,8 @@
       var employeeAddress = $(this).data('empaddress');
       var employeeDetailAddress = $(this).data('empdetailaddress');
       var attachmentNo = $(this).data('attachmentno');
-      var departmentName = $(this).closest('tr').find('td:eq(7)').text(); // 부서 정보 가져오기
-      var jobName = $(this).closest('tr').find('td:eq(8)').text(); // 직위 정보 가져오기
+      var departmentName = $(this).closest('tr').find('td:eq(8)').text(); // 부서 정보 가져오기
+      var jobName = $(this).closest('tr').find('td:eq(9)').text(); // 직위 정보 가져오기
 
       $('#employeeNo').text(employeeNo);
       $('#employeeName').text(employeeName);
@@ -216,14 +220,49 @@
     // 두 번째 모달 창 열기
     $('#employeeName').click(function() {
       var employeeName = $(this).text();
+      
+      
       // 두 번째 모달 창 내용 설정
       $('#employeeInfoModalLabel').text(employeeName);
-      // 여기에 사원 상세 정보를 설정하는 코드를 추가하십시오
-      // 예를 들어, AJAX 요청을 통해 서버에서 사원의 상세 정보를 가져와서 모달 창에 표시할 수 있습니다.
+      // 여기에 사원 상세 정보를 설정하는 코드를 추가
+    
 
       $('#employeeInfoModal').modal('show');
     });
   });
+  
+  //프로필 이미지 클릭시 모달창 
+ $('.profile-image').click(function() {
+    var employeeName = $(this).data('empname');
+    var employeePhone = $(this).data('empphone');
+    var employeeEmail = $(this).data('empemail');
+    var employeeAddress = $(this).data('empaddress');
+    var employeeDetailAddress = $(this).data('empdetailaddress');
+    var attachmentNo = $(this).data('attachmentno');
+    var departmentName = $(this).closest('tr').find('td:eq(7)').text(); // 부서 정보 가져오기
+    var jobName = $(this).closest('tr').find('td:eq(8)').text(); // 직위 정보 가져오기
+
+    $('#employeeInfoModalLabel').text(employeeName);
+    $('#employeeName').text(employeeName);
+    $('#employeePhone').text(employeePhone);
+    $('#employeeEmail').text(employeeEmail);
+    $('#employeeAddress').text(employeeAddress);
+    $('#employeeDetailAddress').text(employeeDetailAddress);
+    $('#employeeDepartment').text(departmentName); // 부서 정보 설정
+    $('#employeeJob').text(jobName); // 직위 정보 설정
+
+    // 더미이미지 삽입
+    if (attachmentNo > 0) {
+      $("#profileImage").attr("src", "/attachment/download?attachmentNo=" + attachmentNo);
+    } else {
+      $("#profileImage").attr("src", "https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg");
+    }
+
+  });
+  
+  
+  
+  
 </script>
 
 

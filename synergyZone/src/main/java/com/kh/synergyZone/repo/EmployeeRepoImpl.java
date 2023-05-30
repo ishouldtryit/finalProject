@@ -109,6 +109,12 @@ public class EmployeeRepoImpl implements EmployeeRepo {
 		sqlSession.update("employee.authorityAdmin", employeeDto);
 	}
 	
+	//관리자 목록
+	@Override
+	public List<EmployeeDto> adminList() {
+		return sqlSession.selectList("employee.adminList");
+	}
+
 	//부서별 사원목록
 	@Override
 	public List<DeptEmpListVO> treeSelect() {

@@ -1,21 +1,13 @@
 package com.kh.synergyZone.repo;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.http.ContentDisposition;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 import com.kh.synergyZone.dto.AttachmentDto;
+import com.kh.synergyZone.dto.WorkFileDto;
 
 @Repository
 public class AttachmentRepoImpl implements AttachmentRepo{
@@ -46,6 +38,15 @@ public class AttachmentRepoImpl implements AttachmentRepo{
 	@Override
 	public AttachmentDto find(int attachmentNo) {
 		return sqlSession.selectOne("attach.find", attachmentNo);
+	}
+
+	@Override
+	public List<AttachmentDto> findAll(int attachmentNo) {
+		List<AttachmentDto> attachments = sqlSession.selectList("attach.find", attachmentNo);
+		if(attachments != null && !attachments.isEmpty()) {
+			return attachments;
+		}
+		return null;
 	}
 	
 }

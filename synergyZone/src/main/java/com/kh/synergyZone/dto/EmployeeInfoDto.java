@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class EmployeeInfoDto {
+public class EmployeeInfoDto {	//회원 정보 통합 뷰
 	private String empName;
     private String empEmail;
     private String empPhone;

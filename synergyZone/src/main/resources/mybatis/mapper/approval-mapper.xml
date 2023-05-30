@@ -93,8 +93,8 @@
     	</insert>
     	
     	<!-- 계층형 조회 resultMap -->
-		<resultMap type="ApprovalDataVO" id="ApprovalVO">
-			<association property="approvalDto">
+		<resultMap type="ApprovalDataVO" id="ApprovalDataVO">
+			<association property="approvalWithDrafterDto">
 				<result column="draft_no" property="draftNo"/>
 				<result column="draft_title" property="draftTitle"/>
 				<result column="draft_content" property="draftContent"/>
@@ -105,6 +105,20 @@
 				<result column="result_code" property="resultCode"/>
 				<result column="return_reson" property="returnReson"/>
 				<result column="isemergency" property="isemergency"/>
+				<result column="emp_email" property="empEmail"/>
+				<result column="emp_name" property="empName"/>
+				<result column="emp_phone" property="empPhone"/>
+				<result column="emp_address" property="empAddress"/>
+				<result column="emp_detail_address" property="empDetailAddress"/>
+				<result column="emp_postcode" property="empPostcode"/>
+				<result column="emp_hireDate" property="empHireDate"/>
+				<result column="is_leave" property="isLeave"/>
+				<result column="cp_number" property="cpNumber"/>
+				<result column="job_no" property="jobNo"/>
+				<result column="dept_no" property="deptNo"/>
+				<result column="attachment_no" property="attachmentNo"/>
+				<result column="job_name" property="jobName"/>
+				<result column="dept_name" property="deptName"/>
 			</association>
 			<collection property="approverList"
 				javaType="java.util.List" ofType="approverDto "
@@ -140,13 +154,28 @@
 		
 		<!-- 계층형 조회 메인 구문 -->
 		<select id="approvalDataSelect" resultMap="ApprovalDataVO">
-			select*from approval order by draft_no desc
+			select*from approval_with_drafter order by draft_no desc
 		</select>
 		
-		<!-- 계층형 조회 서브 구문 -->
-		<select id="approverDataSelect" resultType="EmployeeDetailsDto">
-			select * from employee_details where emp_no = #{approverNo}
+		<!-- 계층형 조회 서브 구문 (결재자) -->
+		<select id="approverDataSelect" resultType="approverDto">
+			select * from approver where draft_no = #{draftNo}
 			order by approver_order asc
+		</select>
+		
+		<!-- 계층형 조회 서브 구문 (합의자) -->
+		<select id="agreeorDataSelect" resultType="agreeorDto">
+			select * from agreeor where draft_no = #{draftNo}
+		</select>
+		
+		<!-- 계층형 조회 서브 구문 (참조자) -->
+		<select id="recipientDataSelect" resultType="recipientDto">
+			select * from recipient where draft_no = #{draftNo}
+		</select>
+		
+		<!-- 계층형 조회 서브 구문 (열람자)-->
+		<select id="readerDataSelect" resultType="readerDto">
+			select * from reader where draft_no = #{draftNo}
 		</select>
     	
     </mapper>

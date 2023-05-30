@@ -31,8 +31,7 @@ public class ApprovalController {
 	}
 	
 	@GetMapping("/list")
-	public String list(Model model) {
-		model.addAttribute("list", approvalRepoImpl.selectList());
+	public String list() {
 		return "/approval/list";
 	}
 	

@@ -108,7 +108,8 @@ public class EmployeeRepoImpl implements EmployeeRepo {
 		employeeDto.setJobNo(80);
 		sqlSession.update("employee.authorityAdmin", employeeDto);
 	}
-
+	
+	//부서별 사원목록
 	@Override
 	public List<DeptEmpListVO> treeSelect() {
 		return sqlSession.selectList("employee.treeSelect");

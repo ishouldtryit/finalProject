@@ -11,7 +11,7 @@ import com.kh.synergyZone.dto.ApprovalDto;
 import com.kh.synergyZone.dto.ApproverDto;
 import com.kh.synergyZone.dto.ReaderDto;
 import com.kh.synergyZone.dto.RecipientDto;
-import com.kh.synergyZone.vo.ApprovalVO;
+import com.kh.synergyZone.vo.ApprovalDataVO;
 
 @Repository
 public class ApprovalRepoImpl implements ApprovalRepo {
@@ -22,12 +22,11 @@ public class ApprovalRepoImpl implements ApprovalRepo {
 	@Override
 	public void insert(ApprovalDto approvalDto) {
 		sqlSession.insert("approval.insert",approvalDto);
-		
 	}
 
 	@Override
-	public List<ApprovalDto> selectList() {
-		return sqlSession.selectList("approval.selectList");
+	public List<ApprovalDataVO> selectList() {
+		return sqlSession.selectList("approval.approvalDataSelect");
 	}
 
 	@Override

@@ -26,15 +26,15 @@
                                     <th>작성자</th>
                                 </tr>
                             </thead>
-                            <tbody v-for="(draft, index) in draftList" :key="draft.draftNo">
+                            <tbody v-for="(approval, index) in approvalDataVO">
                                 <tr>
-                                    <td>{{draft.draftNo}}</td>
-                                    	<td @click="goToDetail(draft.draftNo)"  class="pointable">
+                                    <td>{{approval.approvalWithDrafterDto.draftNo}}</td>
+                                    	<td @click="goToDetail(approval.approvalWithDrafterDto.draftNo)"  class="pointable">
                                     	
-                                    	{{draft.draftTitle}}
+                                    	{{approval.approvalWithDrafterDto.draftTitle}}
                                     	
                                     	</td>
-                                    <td>{{draft.drafterNo}}</td>
+                                    <td>{{approval.approvalWithDrafterDto.empName}}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -78,7 +78,7 @@
             data(){
                 return {
                     //화면에서 사용할 데이터를 선언
-                	draftList : [],
+                	approvalDataVO : [],
                 };
             },
             computed:{
@@ -87,7 +87,7 @@
             methods:{
                 async loadData(){
                     const resp = await axios.get("/rest/approval/list");
-                    this.draftList.push(...resp.data);
+                    this.approvalDataVO.push(...resp.data);
                 },
                 goToDetail(draftNo) {
                     window.location.href = 'detail?draftNo=' + draftNo;

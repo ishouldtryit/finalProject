@@ -12,16 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.synergyZone.dto.AgreeorDto;
-import com.kh.synergyZone.dto.ApprovalDto;
 import com.kh.synergyZone.dto.ApproverDto;
 import com.kh.synergyZone.dto.ReaderDto;
 import com.kh.synergyZone.dto.RecipientDto;
 import com.kh.synergyZone.repo.ApprovalRepoImpl;
 import com.kh.synergyZone.repo.EmployeeRepoImpl;
+import com.kh.synergyZone.vo.ApprovalDataVO;
 import com.kh.synergyZone.vo.ApprovalVO;
 import com.kh.synergyZone.vo.DeptEmpListVO;
-
-import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/rest/approval")
@@ -78,11 +76,11 @@ public class ApprovalRestController {
 	    return draftNo;
 	}
 	
-	//	@GetMapping("/list")
-	//	public List<ApprovalVO> draftList(){
-	//		approvalRepoImpl.selectList();
-	//		
-	//		return 
-	//	}
+		@GetMapping("/list")
+		public List<ApprovalDataVO> draftList(){
+			
+			
+			return approvalRepoImpl.selectList();
+		}
 	
 }

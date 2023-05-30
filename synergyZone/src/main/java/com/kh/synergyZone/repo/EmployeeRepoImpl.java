@@ -102,11 +102,11 @@ public class EmployeeRepoImpl implements EmployeeRepo {
    
     //관리자 권한 부여
 	@Override
-	public void authorityAdmin(String empNo) {
+	public boolean authorityAdmin(String empNo) {
 		EmployeeDto employeeDto = new EmployeeDto();
 		employeeDto.setEmpNo(empNo);
 		employeeDto.setJobNo(80);
-		sqlSession.update("employee.authorityAdmin", employeeDto);
+		return sqlSession.update("employee.authorityAdmin", employeeDto) > 0;
 	}
 	
 	//관리자 목록

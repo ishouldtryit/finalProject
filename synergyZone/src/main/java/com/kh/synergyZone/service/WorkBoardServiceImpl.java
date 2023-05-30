@@ -117,18 +117,5 @@ public class WorkBoardServiceImpl implements WorkBoardService{
 	    }
 	}
 
-//	@Override
-//	public WorkBoardDto calculateWorkDates(WorkBoardDto workBoardDto) {
-//		String workType = workBoardDto.getWorkType();
-//		Date today = new Date();
-//		
-//		if(workType.equals("일일업무")) {
-//			workBoardDto.setWorkStart(today);
-//			workBoardDto.setWorkDeadline(today);
-//		}else if(workType.equals("주간업무")) {
-//			
-//		}
-//	}
-
 	
 }

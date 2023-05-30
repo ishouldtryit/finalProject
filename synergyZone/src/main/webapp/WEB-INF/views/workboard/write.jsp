@@ -7,136 +7,129 @@
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
     
-    <script type="text/javascript">
-    $(function() {
-        $('[name=workContent]').summernote({
-            placeholder: '내용 작성',
-            tabsize: 4,
-            height: 250,
-            toolbar: [
-                ['style', ['style']],
-                ['font', ['bold', 'underline', 'clear']],
-                ['color', ['color']],
-                ['para', ['ul', 'ol', 'paragraph']],
-                ['table', ['table']],
-            ]
-        });
-
-        $("[name=attachments]").change(function() {
-            const attachmentElement = $("#attachments")[0];
-            const fileListElement = $("#fileList");
-
-            const getData = async () => {
-                const formData = new FormData();
-
-                for (let i = 0; i < attachmentElement.files.length; i++) {
-                    formData.append("attachments", attachmentElement.files[i]);
-                }
-
-                const url = "/rest/attachment/upload";
-
-                $.ajax({
-                    url: url,
-                    type: "POST",
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function(response) {
-                        console.log(response);
-
-                        fileListElement.empty();
-
-                        response.forEach(file => {
-                            const attachmentDiv = $("<div>").attr("id", "attachment-" + file.attachmentNo);
-                            const fileNameElement = $("<p>").text(file.attachmentName);
-                            const deleteButton = $("<i>")
-                                .addClass("btn btn-danger delete-attachment fas fa-times")
-                                .attr("data-attachment-no", file.attachmentNo);
-
-                            attachmentDiv.append(fileNameElement, deleteButton);
-                            fileListElement.append(attachmentDiv);
-                        });
-                    },
-                    error: function(error) {
-                        console.error(error);
-                    }
-                });
-            };
-
-            getData();
-        });
-        
-        function getList() {
-            const fileListElement = $("#fileList");
-            const url = "/rest/attachment/list/" + attachmentNo; // Replace {attachmentNo} with the appropriate attachment number.
-
-            $.ajax({
-                url: url,
-                type: "GET",
-                success: function(response) {
-                    console.log(response);
-                    updateFileList(response);
-                },
-                error: function(error) {
-                    console.error(error);
-                }
-            });
-        }
-        
-        function updateFileList(files) {
-            const fileListElement = $("#fileList");
-            fileListElement.empty();
-        
-            files.forEach((file) => {
-                const attachmentDiv = $("<div>").attr("id", "attachment-" + file.attachmentNo);
-                const fileNameElement = $("<p>").text(file.attachmentName);
-                const deleteButton = $("<i>")
-                    .addClass("btn btn-danger delete-attachment fas fa-times")
-                    .attr("data-attachment-no", file.attachmentNo);
-        
-                attachmentDiv.append(fileNameElement, deleteButton);
-                fileListElement.append(attachmentDiv);
-            });
-        }
-
-
-        function deleteAttachment(attachmentNo) {
-            const url = "/rest/attachment/delete/" + attachmentNo;
-
-            $.ajax({
-                url: url,
-                type: "DELETE",
-                success: function(response) {
-                    if (response.status === 200) {
-                        getList(); // Call getList() to update the file list
-                        console.log("Attachment deleted successfully.");
-                    } else {
-                        console.log("Failed to delete attachment.");
-                    }
-                },
-                error: function(error) {
-                    console.error(error);
-                }
-            });
-        }
-
-
-        $(document).on("click", ".delete-attachment", function() {
-            const attachmentNo = $(this).data("attachment-no");
-            deleteAttachment(attachmentNo);
-        });
+     <script type="text/javascript">
+  $(function() {
+    $('[name=workContent]').summernote({
+      placeholder: '내용 작성',
+      tabsize: 4,
+      height: 250,
+      toolbar: [
+        ['style', ['style']],
+        ['font', ['bold', 'underline', 'clear']],
+        ['color', ['color']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        ['table', ['table']],
+      ]
     });
-       
-    function validateForm() {
-        if ($('#workSecretCheck').is(':checked')) {
-            $("#workSecret").val("Y");
-        } else {
-            $("#workSecret").val("N");
+
+    $("[name=attachments]").change(function() {
+      const attachmentElement = $("#attachments")[0];
+      const fileListElement = $("#fileList");
+
+      const getData = async () => {
+        const formData = new FormData();
+
+        for (let i = 0; i < attachmentElement.files.length; i++) {
+          formData.append("attachments", attachmentElement.files[i]);
         }
-        return true;
+
+        const url = "/rest/attachment/upload";
+
+        try {
+          const response = await axios.post(url, formData);
+          console.log(response);
+
+          fileListElement.empty();
+
+          response.data.forEach(file => {
+            const attachmentDiv = $("<div>").attr("id", "attachment-" + file.attachmentNo);
+            const fileNameElement = $("<p>").text(file.attachmentName);
+            const deleteButton = $("<i>")
+              .addClass("btn btn-danger delete-attachment fas fa-times")
+              .attr("data-attachment-no", file.attachmentNo);
+
+            attachmentDiv.append(fileNameElement, deleteButton);
+            fileListElement.append(attachmentDiv);
+          });
+        } catch (error) {
+          console.error(error);
+        }
+      };
+
+      getData();
+    });
+
+//     function getList() {
+//     	  const fileListElement = $("#fileList");
+//     	  const url = "/rest/attachment/list/" + attachmentNo;
+
+//     	  axios
+//     	    .get(url)
+//     	    .then((response) => {
+//     	      console.log(response.data);
+//     	      updateFileList(response.data);
+//     	    })
+//     	    .catch((error) => {
+//     	      console.error(error);
+//     	    });
+//     	}
+
+    function updateFileList(files) {
+    	  const fileListElement = $("#fileList");
+    	  fileListElement.empty();
+
+    	  files.forEach((file) => {
+    	    const attachmentDiv = $("<div>").attr("id", "attachment-" + file.attachmentNo);
+    	    const fileNameElement = $("<p>").text(file.attachmentName);
+    	    const deleteButton = $("<i>")
+    	      .addClass("btn btn-danger delete-attachment fas fa-times")
+    	      .attr("data-attachment-no", file.attachmentNo);
+
+    	    attachmentDiv.append(fileNameElement, deleteButton);
+    	    fileListElement.append(attachmentDiv);
+    	  });
+    	}
+
+    function deleteAttachment(attachmentNo) {
+    	  const url = "/rest/attachment/delete/" + attachmentNo;
+
+    	  axios
+    	    .delete(url)
+    	    .then((response) => {
+    	      if (response.status === 200) {
+    	        console.log("Attachment deleted successfully.");
+    	        // 첨부 파일을 삭제한 후 해당 첨부 파일 div 요소를 삭제
+    	        $("#attachment-" + attachmentNo).remove();
+    	      } else {
+    	        console.log("Failed to delete attachment.");
+    	      }
+    	    })
+    	    .catch((error) => {
+    	      console.error(error);
+    	    });
+    	}
+
+    	$(document).on("click", ".delete-attachment", function() {
+    	  const attachmentNo = $(this).data("attachment-no");
+    	  deleteAttachment(attachmentNo);
+    	});
+    	
+    	
+
+  });
+  
+  
+
+  function validateForm() {
+    if ($('#workSecretCheck').is(':checked')) {
+      $("#workSecret").val("Y");
+    } else {
+      $("#workSecret").val("N");
     }
-       
-    </script>
+    return true;
+  }
+</script>
+
 	
     <form action="write" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
         <div class="container-fluid mt-4">
@@ -201,6 +194,7 @@
 				<div class="row mt-4">
 				    <div class="col">
 				        <label class="form-label">첨부된 파일 목록</label>
+				        <div id="preview"></div>
 				        <div id="fileList">
 				        </div>
 				    </div>

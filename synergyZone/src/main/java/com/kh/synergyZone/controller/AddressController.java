@@ -105,6 +105,7 @@ public class AddressController {
        // 프로필 사진 조회
        EmployeeProfileDto profile = employeeProfileRepo.find(empNo); // 프로필 정보 조회
        model.addAttribute("profile", profile);
+       
        model.addAttribute("employees", pagedEmployees);
        
        return "address/list";

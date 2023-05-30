@@ -31,15 +31,42 @@
   </div>
   <hr/>
   <div class="row">
-    <b>보낸사람:</b>
-    ${messageWithNickDto.messageSenderNick} (${messageWithNickDto.messageSender})
-    [<fmt:formatDate value="${messageWithNickDto.messageSendTime}" pattern="yyyy.MM.dd. H:m"/>]
-  </div>
-  <div class="row">
-    <b>받은사람:</b>
-    ${messageWithNickDto.messageRecipientNick} (${messageWithNickDto.messageRecipient})
-    [<fmt:formatDate value="${messageWithNickDto.messageReadTime}" pattern="yyyy.MM.dd. H:m"/>]
-  </div>
+  <div class="p-2">
+    <div class="profile-image employee-name">
+        <img width="50" height="50" src="<c:choose>
+            <c:when test="${senderProfile.attachmentNo > 0}">
+                /attachment/download?attachmentNo=${senderProfile.attachmentNo}
+            </c:when>
+            <c:otherwise>
+                https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg
+            </c:otherwise>
+        </c:choose>" alt="" style="border-radius: 50%;">
+    </div>
+</div>
+
+  <b>보낸사람:</b>
+  ${messageWithNickDto.messageSenderNick} (${messageWithNickDto.messageSender})
+  [<fmt:formatDate value="${messageWithNickDto.messageSendTime}" pattern="yyyy.MM.dd. H:m"/>]
+</div>
+
+
+<div class="row">
+  <div class="p-2">
+    <div class="profile-image employee-name">
+        <img width="50" height="50" src="<c:choose>
+            <c:when test="${recipientProfile.attachmentNo > 0}">
+                /attachment/download?attachmentNo=${recipientProfile.attachmentNo}
+            </c:when>
+            <c:otherwise>
+                https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg
+            </c:otherwise>
+        </c:choose>" alt="" style="border-radius: 50%;">
+    </div>
+  <b>받은사람:</b>
+  ${messageWithNickDto.messageRecipientNick} (${messageWithNickDto.messageRecipient})
+  [<fmt:formatDate value="${messageWithNickDto.messageReadTime}" pattern="yyyy.MM.dd. H:m"/>]
+</div>
+
   <hr/>
   <div class="row message-content" style="min-height: 200px;">
     ${messageWithNickDto.messageContent}

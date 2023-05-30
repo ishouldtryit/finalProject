@@ -10,7 +10,7 @@
 
 <script type="text/javascript">
     $(function(){
-        $('[name=boardContent]').summernote({
+        $('[name=noticeContent]').summernote({
             placeholder: '내용 작성',
             tabsize: 4,//탭키를 누르면 띄어쓰기 몇 번 할지
             height: 250,//최초 표시될 높이(px)
@@ -27,56 +27,23 @@
 </script>
 
 <form action="edit" method="post">
-<input type="hidden" name="boardNo" value="${post.boardNo}">
+<input type="hidden" name="noticeNo" value="${post.noticeNo}">
 
 <div class="container-800">
 
 	<!-- 제목 -->
 	<div class="row center">
-		<h2>${post.boardNo}번 게시글 수정</h2>
-	</div>
-	
-	<div class="row">
-		<label class="form-label w-100">말머리</label>
-			<c:choose>
-				<c:when test="${post.boardHead == '자유'}">
-					<select name="boardHead" class="form-input">
-						<option value="">없음</option>
-						<c:if test="${jobName == '관리자'}">
-						<option>공지</option>
-						</c:if>
-						<option selected>자유</option>
-					</select>
-				</c:when>
-				<c:when test="${post.boardHead == '공지'}">
-					<select name="boardHead" class="form-input">
-						<option value="">없음</option>
-						<c:if test="${jobName == '관리자'}">
-						<option selected>공지</option>
-						</c:if>
-						<option>자유</option>
-					</select>
-				</c:when>
-				<c:otherwise>
-					<select name="boardHead" class="form-input">
-						<option value="" selected>없음</option>
-						<c:if test="${jobName == '관리자'}">
-						<option>공지</option>
-						</c:if>
-						<option>자유</option>
-					</select>
-				</c:otherwise>
-			</c:choose>	
-	</div>
+		<h2>${post.noticeNo}번 게시글 수정</h2>
+	</div>	
 	
 	<div class="row">
 		<label>제목<i class="fa-solid fa-asterisk"></i></label>
-		<input type="text" name="boardTitle" required class="form-input w-100" value="${post.boardTitle}">
+		<input type="text" name="noticeTitle" required class="form-input w-100" value="${post.noticeTitle}">
 	</div>
 	
 	<div class="row">
 		<label>내용<i class="fa-solid fa-asterisk"></i></label>
-		<textarea name="boardContent" required class="form-input w-100" style="min-height: 300px;">${post.boardContent}</textarea>
+		<textarea name="noticeContent" required class="form-input w-100" style="min-height: 300px;">${post.noticeContent}</textarea>
 	</div>
 	
 	<div class="row">

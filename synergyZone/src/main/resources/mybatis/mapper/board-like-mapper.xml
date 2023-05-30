@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BoardLike">
+    <!-- 좋아요 등록 쿼리문 -->
+    <insert id="insert">
+        INSERT INTO board_like (emp_no, board_no)
+        VALUES (#{empNo}, #{boardNo})
+    </insert>
+
+    <!-- 좋아요 해제 쿼리문 -->
+    <delete id="delete">
+        DELETE FROM board_like
+        WHERE emp_no = #{empNo} AND board_no = #{boardNo}
+    </delete>
+
+    <!-- 좋아요 여부 확인 쿼리문 -->
+    <select id="check" resultType="boolean">
+        SELECT COUNT(*) &gt; 0
+        FROM board_like
+        WHERE emp_no = #{empNo} AND board_no = #{boardNo}
+    </select>
+
+    <!-- 게시글 좋아요 개수 쿼리문 -->
+    <select id="count" resultType="int">
+        SELECT count(*) 
+        FROM board_like
+        WHERE board_no = #{boardNo}
+    </select>
+
+</mapper>

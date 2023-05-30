@@ -7,52 +7,48 @@
 
 <c:if test="${sessionScope.empNo != null}">
 
-<script src="/static/js/board-like.js"></script>
+<script src="/static/js/notice-like.js"></script>
 </c:if>
 
 <script>
 	var empNo = "${sessionScope.empNo}";
-	var boardWriter = "${boardDto.boardWriter}";
+	var noticeWriter = "${noticeDto.noticeWriter}";
 </script>
-<script src="/static/js/reply.js"></script>
-<script type="text/template" id="reply-template">
-	<div class="reply-item">
-		<div class="replyWriter">?</div>
-		<div class="replyContent">?</div>
-		<div class="replyTime">?</div>
+<script src="/static/js/notice-reply.js"></script>
+<script type="text/template" id="notice-reply-template">
+	<div class="notice-reply-item">
+		<div class="noticeReplyWriter">?</div>
+		<div class="noticeReplyContent">?</div>
+		<div class="noticeReplyTime">?</div>
 	</div>
 </script>
 
 <div class="container-800">
 	<div class="row center">
-		<h2>${boardDto.boardNo}번 게시글</h2>
+		<h2>${noticeDto.noticeNo}번 게시글</h2>
 	</div>
 	
 	<div class="row">
-		<h3 style="color:gray;">${boardDto.boardHead}</h3>
-	</div>
-	
-	<div class="row">
-		<h3>${boardDto.boardTitle}</h3>
+		<h3>${noticeDto.noticeTitle}</h3>
 	</div>
 	<hr>
 	<div class="row">
-		${boardDto.boardWriter}
+		${noticeDto.noticeWriter}
 	</div>
 	<hr>
 	<div class="row">
-		<fmt:formatDate value="${boardDto.boardTime}" 
+		<fmt:formatDate value="${noticeDto.noticeTime}" 
 										pattern="y년 M월 d일 H시 m분 s초"/>
-				조회 ${boardDto.boardRead}
+				조회 ${noticeDto.noticeRead}
 	</div>
 	<hr>
 	<div class="row" style="min-height:200px;">
-		${boardDto.boardContent}
+		${noticeDto.noticeContent}
 	</div>
 	<hr>
 	<div class="row">
 		좋아요 
-		<span class="heart-count">${boardDto.boardLike}</span>
+		<span class="heart-count">${noticeDto.noticeLike}</span>
 		
 		<c:if test="${sessionScope.empNo != null}">
 			<!-- 하트자리 -->
@@ -60,10 +56,10 @@
 		</c:if>
 		
 		댓글 
-		<span class="reply-count">${boardDto.boardReply}</span>
+		<span class="notice-reply-count">${noticeDto.noticeReply}</span>
 	</div>
 	<hr>
-	<div class="row reply-list">
+	<div class="row notice-reply-list">
 		댓글목록 위치
 	</div>
 	<hr>
@@ -74,11 +70,11 @@
 		<div class="row">
 			<c:choose>
 				<c:when test="${sessionScope.empNo != null}">
-					<textarea name="replyContent" class="form-input w-100"
+					<textarea name="noticeReplyContent" class="form-input w-100"
 							placeholder="댓글 내용을 작성하세요"></textarea>	
 				</c:when>
 				<c:otherwise>
-					<textarea name="replyContent" class="form-input w-100"
+					<textarea name="noticeReplyContent" class="form-input w-100"
 							placeholder="로그인 후에 댓글 작성이 가능합니다" disabled></textarea>	
 				</c:otherwise>
 			</c:choose>
@@ -86,7 +82,7 @@
 		</div>
 		<c:if test="${sessionScope.empNo != null}">		
 		<div class="row right">
-			<button type="button" class="form-btn positive reply-insert-btn">댓글 작성</button>
+			<button type="button" class="form-btn positive notice-reply-insert-btn">댓글 작성</button>
 		</div>
 		</c:if>
 
@@ -95,21 +91,21 @@
 	<hr>
 	
 	<div class="row right">
-		<a class="form-btn positive" href="/board/write">글쓰기</a>
-		<a class="form-btn positive" href="/board/write?boardParent=${boardDto.boardNo}">답글쓰기</a>
+		<a class="form-btn positive" href="/notice/write">글쓰기</a>
+		<a class="form-btn positive" href="/notice/write?noticeParent=${noticeDto.noticeNo}">답글쓰기</a>
 		
 		<c:if test="${owner}">
 		<!-- 내가 작성한 글이라면 수정과 삭제 메뉴를 출력 -->
-		<a class="form-btn negative" href="/board/edit?boardNo=${boardDto.boardNo}">수정</a>
+		<a class="form-btn negative" href="/notice/edit?noticeNo=${noticeDto.noticeNo}">수정</a>
 		</c:if>
 		
 		<c:if test="${owner || admin}">
 		<!-- 파라미터 방식일 경우의 링크 -->
-		<a class="form-btn negative" href="/board/delete?boardNo=${boardDto.boardNo}">삭제</a>
+		<a class="form-btn negative" href="/notice/delete?noticeNo=${noticeDto.noticeNo}">삭제</a>
 		<!-- 경로 변수 방식일 경우의 링크 -->
-	<%-- 				<a href="/board/delete/${boardDto.boardNo}">삭제</a> --%>
+	<%-- 				<a href="/notice/delete/${noticeDto.noticeNo}">삭제</a> --%>
 		</c:if>
-		<a class="form-btn neutral" href="/board/list">목록보기</a>
+		<a class="form-btn neutral" href="/notice/list">목록보기</a>
 	</div>
 	
 </div>

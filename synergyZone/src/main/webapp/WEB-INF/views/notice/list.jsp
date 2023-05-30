@@ -10,7 +10,7 @@
     <title>자유게시판 List</title>
 </head>
 <body>
-<h1>자유게시판 목록</h1>
+<h1>공지게시판 목록</h1>
 <hr>
 <table class="table table-hover">
   <thead>
@@ -23,13 +23,13 @@
     </tr>
   </thead>
     <tbody>
-    <c:forEach items="${posts}" var="board">
+    <c:forEach items="${posts}" var="notice">
         <tr>
-            <td>${board.boardNo}</td>
-            <td><a href="detail?boardNo=${board.boardNo}">${board.boardTitle}</a></td>
-            <td>${board.boardWriter}</td>
-            <td>${board.boardTime}</td>
-            <td>${board.boardRead}</td>
+            <td>${notice.noticeNo}</td>
+            <td><a href="detail?noticeNo=${notice.noticeNo}">${notice.noticeTitle}</a></td>
+            <td>${notice.noticeWriter}</td>
+            <td>${notice.noticeTime}</td>
+            <td>${notice.noticeRead}</td>
         </tr>
     </c:forEach>
     </tbody>

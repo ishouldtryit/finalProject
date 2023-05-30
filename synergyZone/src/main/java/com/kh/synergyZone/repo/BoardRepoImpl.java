@@ -102,5 +102,6 @@ public class BoardRepoImpl implements BoardRepo{
 	public List<BoardDto> selectList(PaginationVO vo) {
 		return sqlSession.selectList("Board.selectList", vo);
 	}
+	
 
 }

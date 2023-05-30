@@ -17,20 +17,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.kh.synergyZone.dto.BoardDto;
-import com.kh.synergyZone.repo.BoardRepo;
-import com.kh.synergyZone.service.BoardService;
+import com.kh.synergyZone.dto.NoticeDto;
+import com.kh.synergyZone.repo.NoticeRepo;
+import com.kh.synergyZone.service.NoticeService;
 import com.kh.synergyZone.vo.PaginationVO;
 
 @Controller
-@RequestMapping("/board")
-public class BoardController {
+@RequestMapping("/notice")
+public class NoticeController {
 
     @Autowired
-    private BoardRepo boardRepo;
+    private NoticeRepo noticeRepo;
     
 	@Autowired
-	private BoardService boardService;
+	private NoticeService noticeService;
 
     @GetMapping("/list")
     public String list(@RequestParam(value = "page", defaultValue = "1") int page,
@@ -38,82 +38,82 @@ public class BoardController {
                        @RequestParam(value = "keyword", required = false) String keyword,
                        Model model) {
         PaginationVO vo = new PaginationVO();
-        List<BoardDto> posts = null;
+        List<NoticeDto> posts = null;
 
         if (column == null || keyword == null) {
-            posts = boardRepo.selectList(vo);
+            posts = noticeRepo.selectList(vo);
         } else {
             vo.setColumn(column);
             vo.setKeyword(keyword);
-            posts = boardRepo.selectList(vo);
+            posts = noticeRepo.selectList(vo);
         }
         
         model.addAttribute("posts", posts);
         model.addAttribute("pagination", vo);
-        return "board/list";
+        return "notice/list";
     }
 
     @GetMapping("/write")
     public String write(
-			@RequestParam(required = false) Integer boardParent,
+			@RequestParam(required = false) Integer noticeParent,
 			Model model) {
-		model.addAttribute("boardParent", boardParent);
-        return "board/write";
+		model.addAttribute("noticeParent", noticeParent);
+        return "notice/write";
     }
 
     @PostMapping("/write")
-    public String write(@ModelAttribute BoardDto boardDto,
+    public String write(@ModelAttribute NoticeDto noticeDto,
 			@RequestParam(required=false) List<Integer> attachmentNo,
 			HttpSession session, RedirectAttributes attr) {
 		String empNo = (String)session.getAttribute("empNo");
-		boardDto.setBoardWriter(empNo);
+		noticeDto.setNoticeWriter(empNo);
 		System.out.println("writer"+empNo);
-		System.out.println("test"+boardDto);
+		System.out.println("test"+noticeDto);
 		//나머지 일반 프로그래밍 코드는 서비스를 호출하여 처리
-		int boardNo = boardService.write(boardDto, attachmentNo);
+		int noticeNo = noticeService.write(noticeDto, attachmentNo);
 		
 		//상세 페이지로 redirect
-		attr.addAttribute("boardNo", boardNo);
-        return "redirect:/board/list";
+		attr.addAttribute("noticeNo", noticeNo);
+        return "redirect:/notice/list";
     }
 
     @GetMapping("/read")
-    public String read(@PathVariable("boardNo") int boardNo, Model model) {
-        BoardDto post = boardRepo.selectOne(boardNo);
-        boardRepo.updateReadcount(boardNo);
+    public String read(@PathVariable("noticeNo") int noticeNo, Model model) {
+        NoticeDto post = noticeRepo.selectOne(noticeNo);
+        noticeRepo.updateNoticeReadcount(noticeNo);
         model.addAttribute("post", post);
-        return "board/read";
+        return "notice/read";
     }
 
     @GetMapping("/delete")
-    public String delete(@RequestParam("boardNo") int boardNo) {
-        boardRepo.delete(boardNo);
-        return "redirect:/board/list";
+    public String delete(@RequestParam("noticeNo") int noticeNo) {
+        noticeRepo.delete(noticeNo);
+        return "redirect:/notice/list";
     }
 
     @GetMapping("/edit")
-    public String edit(@RequestParam int boardNo, Model model) {
-        BoardDto post = boardRepo.selectOne(boardNo);
+    public String edit(@RequestParam int noticeNo, Model model) {
+        NoticeDto post = noticeRepo.selectOne(noticeNo);
         model.addAttribute("post", post);
-        return "board/edit";
+        return "notice/edit";
     }
 
     @PostMapping("/edit")
-    public String editProcess(@RequestParam("boardNo") int boardNo, BoardDto boardDto) {
-        boardRepo.update(boardDto);
-        return "redirect:/board/detail/?boardNo=" + boardNo;
+    public String editProcess(@RequestParam("noticeNo") int noticeNo, NoticeDto noticeDto) {
+        noticeRepo.update(noticeDto);
+        return "redirect:/notice/detail/?noticeNo=" + noticeNo;
     }
     
 	@GetMapping("/detail")
-	public String detail(@RequestParam int boardNo, 
+	public String detail(@RequestParam int noticeNo, 
 						Model model, HttpSession session) {
 		
 		//사용자가 작성자인지 판정 후 JSP로 전달
-		BoardDto boardDto = boardRepo.selectOne(boardNo);
+		NoticeDto noticeDto = noticeRepo.selectOne(noticeNo);
 		String empNo = (String) session.getAttribute("empNo");
 		
-		boolean owner = boardDto.getBoardWriter() != null 
-				&& boardDto.getBoardWriter().equals(empNo);
+		boolean owner = noticeDto.getNoticeWriter() != null 
+				&& noticeDto.getNoticeWriter().equals(empNo);
 		model.addAttribute("owner", owner);
 		
 		//사용자가 관리자인지 판정 후 JSP로 전달
@@ -130,16 +130,16 @@ public class BoardController {
 				memory = new HashSet<>();
 			}
 			
-			if(!memory.contains(boardNo)) {//읽은 적이 없는가(기억에 없는가)
-				boardRepo.updateReadcount(boardNo);
-				boardDto.setBoardRead(boardDto.getBoardRead()+1);//DTO 조회수 1증가
-				memory.add(boardNo);//저장소에 추가(기억에 추가)
+			if(!memory.contains(noticeNo)) {//읽은 적이 없는가(기억에 없는가)
+				noticeRepo.updateNoticeReadcount(noticeNo);
+				noticeDto.setNoticeRead(noticeDto.getNoticeRead()+1);//DTO 조회수 1증가
+				memory.add(noticeNo);//저장소에 추가(기억에 추가)
 			}
 			//System.out.println("memory = " + memory);
 			session.setAttribute("memory", memory);//저장소 갱신
 			
 		}
-		model.addAttribute("boardDto", boardDto);
-		return "board/detail";
+		model.addAttribute("noticeDto", noticeDto);
+		return "notice/detail";
 	}
 }

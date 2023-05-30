@@ -13,30 +13,42 @@
        <div class="row mb-3">
            <h3>기안서 목록</h3>
        </div>
-                <div class="row mt-4">
-                    <div class="col">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>번호</th>
-                                    <th>제목</th>
-                                    <th>작성자</th>
-                                </tr>
-                            </thead>
-                            <tbody v-for="(approval, index) in approvalDataVO">
-                                <tr>
-                                    <td>{{approval.approvalWithDrafterDto.draftNo}}</td>
-                                    	<td @click="goToDetail(approval.approvalWithDrafterDto.draftNo)"  class="pointable">
-                                    	
-                                    	{{approval.approvalWithDrafterDto.draftTitle}}
-                                    	
-                                    	</td>
-                                    <td>{{approval.approvalWithDrafterDto.empName}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+       <div class="row mt-4">
+           <div class="col">
+               <table class="table table-hover">
+                   <thead>
+                       <tr>
+                           <th>기안일자</th>
+                           <th>긴급</th>
+                           <th>제목</th>
+                           <th>기안자</th>
+                           <th>최종 결재자</th>
+                           <th>결재상태</th>
+                       </tr>
+                   </thead>
+                   <tbody v-for="(approval, index) in approvalDataVO">
+                       <tr>
+                           <td>{{approval.approvalWithDrafterDto.draftDate}}</td>
+                           <td>
+                           	<span class="border border-primary text-primary" v-if="approval.approvalWithDrafterDto.isemergency == 1">긴급</span>
+                           </td>
+                           	<td @click="goToDetail(approval.approvalWithDrafterDto.draftNo)"  class="pointable">
+                           	
+                           	{{approval.approvalWithDrafterDto.draftTitle}}
+                           	
+                           	</td>
+                           <td>{{approval.approvalWithDrafterDto.empName}}</td>
+                           <td>
+	                           {{ approval.approverList[approval.approverList.length - 1].empName }}
+                           </td>
+                           <td>
+                           	<span class="border border-primary text-primary" >진행중</span>
+                           </td>
+                       </tr>
+                   </tbody>
+               </table>
+           </div>
+       </div>
 		  	<div class="d-flex align-items-center justify-content-center">
 		  		<div class="d-flex">
 				  <ul class="pagination">
@@ -88,6 +100,10 @@
                 goToDetail(draftNo) {
                     window.location.href = 'detail?draftNo=' + draftNo;
                 },
+                testObject(list) {
+                	console.log(list[0]);
+                	return "test";
+                }
             },
             created(){
             	this.loadData();

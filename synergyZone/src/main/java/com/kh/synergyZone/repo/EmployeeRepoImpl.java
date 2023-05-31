@@ -115,6 +115,7 @@ public class EmployeeRepoImpl implements EmployeeRepo {
 		return sqlSession.selectList("employee.adminList");
 	}
 
+	//부서별 사원목록
 	@Override
 	public List<DeptEmpListVO> treeSelect() {
 		return sqlSession.selectList("employee.treeSelect");

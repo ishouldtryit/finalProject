@@ -6,8 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data @Builder @AllArgsConstructor @NoArgsConstructor
-public class readerDto {
-	private String readerNo;
-	private int draftNo;
-	private int readerOrder;
+public class RecipientDto {
+	private String recipientNo;	//참조자 사원번호
+	private int draftNo;	//기안서 번호
 }

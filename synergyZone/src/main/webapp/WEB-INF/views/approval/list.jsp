@@ -46,9 +46,21 @@
                            <td>
 	                           {{ approval.approverList[approval.approverList.length - 1].empName }}
                            </td>
-                           <td>
-                           	<span class="border border-primary text-primary" >진행중</span>
-                           </td>
+							<td>
+							  <span v-if="approval.approvalWithDrafterDto.resultCode === 0" class="border border-success text-success">
+							    진행중
+							    {{ approval.approvalWithDrafterDto.statusCode }}/{{ approval.approverList.length }}
+							  </span>
+							  <span v-else-if="approval.approvalWithDrafterDto.resultCode === 1" class="border border-info text-info">
+							    회수
+							  </span>
+							  <span v-else-if="approval.approvalWithDrafterDto.resultCode === 2" class="border border-info text-primary">
+							    반려
+							  </span>
+							  <span v-else-if="approval.approvalWithDrafterDto.resultCode === 3" class="border border-secondary text-secondary">
+							    완료
+							  </span>
+							</td>
                        </tr>
                    </tbody>
                </table>

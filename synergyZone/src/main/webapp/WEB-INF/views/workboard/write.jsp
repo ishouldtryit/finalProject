@@ -115,7 +115,7 @@
 
 </script>
 
-
+ 
 	
     <form action="write" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
         <div class="container-fluid mt-4">

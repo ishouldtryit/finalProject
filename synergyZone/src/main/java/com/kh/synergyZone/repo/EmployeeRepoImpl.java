@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import com.kh.synergyZone.dto.EmployeeDto;
@@ -19,9 +21,15 @@ public class EmployeeRepoImpl implements EmployeeRepo {
    @Autowired
    private SqlSession sqlSession;
    
+   @Autowired
+   private PasswordEncoder encoder;
+   
    //사원
    @Override
     public void insert(EmployeeDto employeeDto) {
+	    String empPassword = "synergyZone12345";
+		String encrypt = encoder.encode(empPassword);
+		employeeDto.setEmpPassword(encrypt);
         sqlSession.insert("employee.save", employeeDto);
     }
 

@@ -9,6 +9,7 @@
 </style>
 <div id="app">
 
+	<!-- 강사 임시주석 -->
     <div class="container-fluid">
        <div class="row mb-3">
            <h3>기안서 목록</h3>

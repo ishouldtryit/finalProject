@@ -101,7 +101,7 @@
 	      $("#workSecret").val("N");
 	    }
 	    return true;
-	  }
+	  } 
 
 	  // FileListWrapper class definition
 	  function FileListWrapper(files) {

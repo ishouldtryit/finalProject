@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.synergyZone.dto.BoardDto;
 import com.kh.synergyZone.repo.BoardRepo;
+import com.kh.synergyZone.vo.BoardVO;
 
 
 
@@ -23,7 +24,7 @@ public class BoardService {
 	//게시글 등록 서비스
 	//- 컨트롤러에게서 게시글 정보를 받는다
 	//- 컨트롤러에게 등록된 게시글 번호를 반환한다
-	public int write(BoardDto boardDto, List<Integer> attachmentNo) {
+	public int write(BoardVO boardVO, List<Integer> attachmentNo) {
 		//boardDto의 정보를 새글과 답글로 구분하여 처리 후 등록
 		//- 새글일 경우 boardParent가 null이다.
 		//		- 그룹번호(boardGroup)는 글번호와 동일하게 처리
@@ -37,24 +38,24 @@ public class BoardService {
 		
 		//글 번호와 회원 아이디 구하기(새글/답글 공통)
 		int boardNo = boardRepo.sequence();
-		boardDto.setBoardNo(boardNo);
+		boardVO.setBoardNo(boardNo);
 		
 		//새글일 경우와 답글일 경우에 따른 추가 계산 작업
 		//if(boardDto.getBoardParent() == null) {
-		if(boardDto.isNew()) {
-			boardDto.setBoardGroup(boardNo);//그룹번호를 글번호로 설정
+		if(boardVO.isNew()) {
+			boardVO.setBoardGroup(boardNo);//그룹번호를 글번호로 설정
 			//boardDto.setBoardParent(null);//대상글번호를 null로 설정
 			//boardDto.setBoardDepth(0);//차수를 0으로 설정
 		}
 		else {
 			//전달받은 대상글번호의 모든 정보 조회
-			BoardDto parentDto = boardRepo.selectOne(boardDto.getBoardParent());
-			boardDto.setBoardGroup(parentDto.getBoardGroup());//대상글 그룹번호
-			boardDto.setBoardDepth(parentDto.getBoardDepth()+1);//대상글 차수+1
+			BoardVO parentDto = boardRepo.selectOne(boardVO.getBoardParent());
+			boardVO.setBoardGroup(parentDto.getBoardGroup());//대상글 그룹번호
+			boardVO.setBoardDepth(parentDto.getBoardDepth()+1);//대상글 차수+1
 		}
 		
 		//등록
-		boardRepo.insert(boardDto);
+		boardRepo.insert(boardVO);
 		
 		//글에 사용된 첨부파일번호(attachmentNo)와 글번호(boardNo)를 연결
 		if(attachmentNo != null) {

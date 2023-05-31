@@ -4,15 +4,17 @@
 <mapper namespace="Board">
 
 <!-- selectList -->
-<select id="selectList" resultType="BoardDto">
-	select * from board 
-						connect by prior board_no=board_parent 
-						start with board_parent is null 
-						order siblings by board_group desc, board_no asc
+<select id="selectList" resultType="BoardVO">
+SELECT B.*, S.*
+FROM board B
+JOIN search_info S ON B.board_writer = S.emp_no
+   connect by prior board_no=board_parent 	
+                  start with board_parent is null 
+                  order siblings by board_group desc, board_no asc
 </select>
 
 <!-- selectListByColumn -->
-<select id="selectListByColumn" resultType="BoardDto">
+<select id="selectListByColumn" resultType="BoardVO">
 	select *
 	from board
 	where instr(#{column}, #{keyword}) > 0
@@ -22,9 +24,10 @@
 </select>
 
 <!-- selectOne -->
-<select id="selectOne" resultType="BoardDto">
-	select *
-	from board
+<select id="selectOne" resultType="BoardVO">
+	SELECT B.*, S.*
+	FROM board B
+	JOIN SEARCH_INFO S ON B.board_writer = S.emp_no
 	where board_no = #{boardNo}
 </select>
 
@@ -80,7 +83,7 @@
 </select>
 
 <!-- selectListByPaging -->
-<select id="selectListByPaging" resultType="BoardDto">
+<select id="selectListByPaging" resultType="BoardVO">
 	<if test="search">
 		select *
 		from (

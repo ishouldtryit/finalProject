@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.synergyZone.dto.BoardDto;
+import com.kh.synergyZone.vo.BoardVO;
 import com.kh.synergyZone.vo.PaginationVO;
 
 
@@ -19,7 +20,7 @@ public class BoardRepoImpl implements BoardRepo{
 	private SqlSession sqlSession;
 	
 	@Override
-	public List<BoardDto> selectNoticeList(int begin, int end) {
+	public List<BoardVO> selectNoticeList(int begin, int end) {
 		Map<String, Object> param = new HashMap<>();
 		param.put("begin", begin);
 		param.put("end", end);
@@ -27,12 +28,12 @@ public class BoardRepoImpl implements BoardRepo{
 	}
 
 	@Override
-	public List<BoardDto> selectList() {
+	public List<BoardVO> selectList() {
 		return sqlSession.selectList("Board.selectList");
 	}
 
 	@Override
-	public List<BoardDto> selectList(String column, String keyword) {
+	public List<BoardVO> selectList(String column, String keyword) {
 		Map<String, Object> param = new HashMap<>();
 		param.put("column", column);
 		param.put("keyword", keyword);
@@ -40,7 +41,7 @@ public class BoardRepoImpl implements BoardRepo{
 	}
 
 	@Override
-	public BoardDto selectOne(int boardNo) {
+	public BoardVO selectOne(int boardNo) {
 		return sqlSession.selectOne("Board.selectOne",boardNo);
 	}
 
@@ -50,8 +51,8 @@ public class BoardRepoImpl implements BoardRepo{
 	}
 
 	@Override
-	public void insert(BoardDto boardDto) {
-		sqlSession.insert("Board.insert", boardDto);
+	public void insert(BoardVO boardVO) {
+		sqlSession.insert("Board.insert", boardVO);
 	}
 
 	@Override
@@ -61,8 +62,8 @@ public class BoardRepoImpl implements BoardRepo{
 	}
 
 	@Override
-	public boolean update(BoardDto boardDto) {
-		int result = sqlSession.update("Board.update",boardDto);
+	public boolean update(BoardVO boardVO) {
+		int result = sqlSession.update("Board.update",boardVO);
 		return result > 0;
 	}
 
@@ -99,7 +100,7 @@ public class BoardRepoImpl implements BoardRepo{
 	}
 
 	@Override
-	public List<BoardDto> selectList(PaginationVO vo) {
+	public List<BoardVO> selectList(PaginationVO vo) {
 		return sqlSession.selectList("Board.selectList", vo);
 	}
 	

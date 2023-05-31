@@ -13,6 +13,7 @@ public interface ApprovalRepo {
 
 	void insert(ApprovalDto approvalDto);	//등록
 	List<ApprovalDataVO> selectList();	//전체목록
+	List<ApprovalDataVO> selectListDrafter();	//전체목록
 	ApprovalDto selectOne(int draftNo);	//상세
 	void delete(int draftNo);	//삭제
 	void edit(ApprovalDto approvalDto);	//수정

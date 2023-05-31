@@ -69,6 +69,11 @@ public class ApprovalRepoImpl implements ApprovalRepo {
 	public void readerInsert(ReaderDto readerDto) {
 		sqlSession.insert("approval.readerInsert", readerDto);
 	}
+	
+	@Override
+	public List<ApprovalDataVO> selectListDrafter() {
+		return sqlSession.selectList("approval.approvalDataDrafterSelect");
+	}
 
 
 

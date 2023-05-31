@@ -152,10 +152,19 @@
 		</resultMap>
 		
 		
-		<!-- 계층형 조회 메인 구문 -->
+		<!-- 계층형 조회 메인 구문(관리자) -->
 		<select id="approvalDataSelect" resultMap="ApprovalDataVO">
 			SELECT * FROM 
 			approval_with_drafter
+			ORDER BY CASE
+			WHEN isemergency = 1 THEN 0 ELSE 1 END,
+			draft_no DESC
+		</select>
+		<!-- 계층형 조회 메인 구문(기안자) -->
+		<select id="approvalDataDrafterSelect" resultMap="ApprovalDataVO">
+			SELECT * FROM 
+			approval_with_drafter
+			WHERE drafter_no = #{drafterNo}
 			ORDER BY CASE
 			WHEN isemergency = 1 THEN 0 ELSE 1 END,
 			draft_no DESC

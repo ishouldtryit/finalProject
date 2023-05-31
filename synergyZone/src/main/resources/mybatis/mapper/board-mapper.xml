@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Board">
+
+<!-- selectList -->
+<select id="selectList" resultType="BoardDto">
+	select * from board 
+						connect by prior board_no=board_parent 
+						start with board_parent is null 
+						order siblings by board_group desc, board_no asc
+</select>
+
+<!-- selectListByColumn -->
+<select id="selectListByColumn" resultType="BoardDto">
+	select *
+	from board
+	where instr(#{column}, #{keyword}) > 0
+	connect by prior board_no = board_parent
+	start with board_parent is null
+	order siblings by board_group desc, board_no asc
+</select>
+
+<!-- selectOne -->
+<select id="selectOne" resultType="BoardDto">
+	select *
+	from board
+	where board_no = #{boardNo}
+</select>
+
+<select id="sequence" resultType="int">
+        select board_seq.nextval from dual
+</select>
+    
+<!-- insert -->
+<insert id="insert">
+	insert into board(
+		board_no, board_writer, board_title, board_content,
+		board_time, board_read, board_like, board_reply, board_group,
+		board_parent, board_depth
+	)
+	values (
+		#{boardNo}, #{boardWriter}, #{boardTitle}, #{boardContent},
+		sysdate, 0, 0, 0, #{boardGroup}, #{boardParent, jdbcType=NUMERIC}, #{boardDepth}
+	)
+</insert>
+
+<!-- delete -->
+<delete id="delete">
+	delete board
+	where board_no = #{boardNo}
+</delete>
+
+<!-- update -->
+<update id="update">
+	update board
+	set board_title = #{boardTitle},
+		board_content = #{boardContent}
+	where board_no = #{boardNo}
+</update>
+
+<!-- updateReadcount -->
+<update id="updateReadcount">
+	update board
+	set board_read = board_read + 1
+	where board_no = #{boardNo}
+</update>
+
+<!-- selectCount -->
+<select id="selectCount" resultType="int">
+	<if test="search">
+		select count(*)
+		from board
+		where instr(#{column}, #{keyword}) > 0
+	</if>
+	<if test="not search">
+		select count(*)
+		from board
+	</if>
+</select>
+
+<!-- selectListByPaging -->
+<select id="selectListByPaging" resultType="BoardDto">
+	<if test="search">
+		select *
+		from (
+			select rownum rn, TMP.*
+			from (
+				select *
+				from board
+				where instr(#{column}, #{keyword}) > 0
+				connect by prior board_no = board_parent
+				start with board_parent is null
+				order siblings by board_group desc, board_no asc
+			)TMP
+		)
+		where rn between #{begin} and #{end}
+	</if>
+	<if test="not search">
+		select *
+		from (
+			select rownum rn, TMP.*
+			from (
+				select *
+				from board
+				connect by prior board_no = board_parent
+				start with board_parent is null
+				order siblings by board_group desc, board_no asc
+			)TMP
+		)
+		where rn between #{begin} and #{end}
+	</if>
+</select>
+
+<!-- updateLikecount -->
+<update id="updateLikecount">
+	update board
+	set board_like = #{count}
+	where board_no = #{boardNo}
+</update>
+
+<!-- updateReplycount -->
+<update id="updateReplycount">
+	update board
+	set board_reply = (
+		select count(*)
+		from reply
+		where reply_origin = #{boardNo}
+	)
+	where board_no = #{boardNo}
+</update>
+
+<!-- connect -->
+<insert id="connect">
+	insert into board_attachment (board_no, attachment_no) values (#{boardNo}, #{attachmentNo})
+</insert>
+
+
+</mapper>

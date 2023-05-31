@@ -13,6 +13,7 @@
 
 	<!-- 강사 임시주석 -->
     <div class="container-fluid">
+    	
        <div class="row mb-3">
            <h3>기안서 목록</h3>
        </div>
@@ -21,24 +22,24 @@
                <table class="table table-hover">
                    <thead>
                        <tr>
-                           <th class="col-1">
+                           <th class="col-xs-1">
 	                           <span class="ms-3">
 	                           	기안일자
 	                           </span>
                            </th>
-                           <th class="col-1">긴급</th>
-                           <th class="col-3">제목</th>
-                           <th class="col-2">기안자</th>
-                           <th class="col-2">현재 결재자</th>
-                           <th class="col-2">최종 결재자</th>
-                           <th class="col-1">결재상태</th>
+                           <th class="col-xs-1">긴급</th>
+                           <th class="col-xs-3">제목</th>
+                           <th class="col-xs-2">기안자</th>
+                           <th class="col-xs-2">현재 결재자</th>
+                           <th class="col-xs-2">최종 결재자</th>
+                           <th class="col-xs-1">결재상태</th>
                        </tr>
                    </thead>
-                   <tbody v-for="(approval, index) in approvalDataVO">
+                   <tbody v-for="(approval, index) in ApprovalWithPageVO.approvalDataVO">
                        <tr>
                            <td>
 	                           <span class="ms-3">
-		                           {{approval.approvalWithDrafterDto.draftDate}}
+		                           {{approval.approvalWithDrafterDto.draftDateForm}}
 	                           </span>
                            </td>
                            <td>
@@ -92,21 +93,16 @@
 						<i class="fa-solid fa-angle-left"></i>
 						</span>
 				    </li>
-				    <li class="page-item active">
-				      <span class="page-link" >1</span>
-				    </li>
-				    <li class="page-item">
-				      <span class="page-link" >2</span>
-				    </li>
-				    <li class="page-item">
-				      <span class="page-link" >3</span>
-				    </li>
-				    <li class="page-item">
-				      <span class="page-link" >4</span>
-				    </li>
-				    <li class="page-item">
-				      <span class="page-link">5</span>
-				    </li>
+				    
+      <li
+        v-for="page in getViewBlockRange"
+        :key="page"
+        :class="{'page-item': true, 'active': page === ApprovalWithPageVO.paginationVO.page}"
+        @click="move(page)"
+        >
+        <span class="page-link">{{ page }}</span>
+      </li>
+
 				    <li class="page-item">
 				      <span class="page-link">
 						<i class="fa-solid fa-angle-right"></i>
@@ -130,17 +126,38 @@
             data(){
                 return {
                     //화면에서 사용할 데이터를 선언
-                	approvalDataVO : [],
+                	ApprovalWithPageVO : {
+                		
+                	},
                 };
             },
             computed:{
+            	 getViewBlockRange() {
+            	      const viewBlock = this.ApprovalWithPageVO.paginationVO.viewBlock;
+            	      const startBlock = this.ApprovalWithPageVO.paginationVO.startBlock;
+            	      const currentPage = this.ApprovalWithPageVO.paginationVO.page;
+            	      const endBlock = startBlock + viewBlock - 1;
 
+            	      const range = [];
+            	      for (let i = startBlock; i <= endBlock; i++) {
+            	        range.push(i);
+            	      }
+            	      return range;
+            	    }
+            	  
             },
             methods:{
                 async loadData(){
                     const resp = await axios.get("/rest/approval/list");
-                    this.approvalDataVO.push(...resp.data);
+                    this.ApprovalWithPageVO = resp.data;
                 },
+                async move(page) {
+                	 this.ApprovalWithPageVO.paginationVO.page = page;
+                	  const resp = await axios.post("/rest/approval/moveList", this.ApprovalWithPageVO.paginationVO);
+                	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
+                	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
+               	},
+
                 goToDetail(draftNo) {
                     window.location.href = 'detail?draftNo=' + draftNo;
                 },

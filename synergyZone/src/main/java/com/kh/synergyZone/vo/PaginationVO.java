@@ -101,11 +101,15 @@ public class PaginationVO {
   public int getStartBlock() {
     return (page - 1) / blockSize * blockSize + 1;
   }
-
+  
   // 끝 블록 번호(번호판 끝)
   public int getFinishBlock() {
     int value = (page - 1) / blockSize * blockSize + blockSize;
     return Math.min(getTotalPage(), value);
+  }
+  // 보이는 블록 수
+  public int getViewBlock() {
+	  return getFinishBlock() - getStartBlock()+1;
   }
 
   // 첫 페이지인가?

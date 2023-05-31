@@ -12,6 +12,7 @@ import com.kh.synergyZone.dto.ApproverDto;
 import com.kh.synergyZone.dto.ReaderDto;
 import com.kh.synergyZone.dto.RecipientDto;
 import com.kh.synergyZone.vo.ApprovalDataVO;
+import com.kh.synergyZone.vo.PaginationVO;
 
 @Repository
 public class ApprovalRepoImpl implements ApprovalRepo {
@@ -25,8 +26,8 @@ public class ApprovalRepoImpl implements ApprovalRepo {
 	}
 
 	@Override
-	public List<ApprovalDataVO> selectList() {
-		return sqlSession.selectList("approval.approvalDataSelect");
+	public List<ApprovalDataVO> selectList(PaginationVO vo) {
+		return sqlSession.selectList("approval.approvalDataSelect", vo);
 	}
 
 	@Override
@@ -42,7 +43,6 @@ public class ApprovalRepoImpl implements ApprovalRepo {
 	@Override
 	public void edit(ApprovalDto approvalDto) {
 		sqlSession.update("approval.editAllInOne", approvalDto);
-		
 	}
 
 	@Override
@@ -73,6 +73,11 @@ public class ApprovalRepoImpl implements ApprovalRepo {
 	@Override
 	public List<ApprovalDataVO> selectListDrafter() {
 		return sqlSession.selectList("approval.approvalDataDrafterSelect");
+	}
+
+	@Override
+	public int approvalDataCount(PaginationVO vo) {
+		return sqlSession.selectOne("approval.approvalDataCount", vo);
 	}
 
 

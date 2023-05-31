@@ -8,11 +8,13 @@ import com.kh.synergyZone.dto.ApproverDto;
 import com.kh.synergyZone.dto.ReaderDto;
 import com.kh.synergyZone.dto.RecipientDto;
 import com.kh.synergyZone.vo.ApprovalDataVO;
+import com.kh.synergyZone.vo.PaginationVO;
 
 public interface ApprovalRepo {
 
 	void insert(ApprovalDto approvalDto);	//등록
-	List<ApprovalDataVO> selectList();	//전체목록
+	int approvalDataCount(PaginationVO vo); // 전체 카운트
+	List<ApprovalDataVO> selectList(PaginationVO vo);	//전체목록
 	List<ApprovalDataVO> selectListDrafter();	//전체목록
 	ApprovalDto selectOne(int draftNo);	//상세
 	void delete(int draftNo);	//삭제

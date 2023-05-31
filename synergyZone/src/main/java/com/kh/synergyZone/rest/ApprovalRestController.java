@@ -19,7 +19,9 @@ import com.kh.synergyZone.repo.ApprovalRepoImpl;
 import com.kh.synergyZone.repo.EmployeeRepoImpl;
 import com.kh.synergyZone.vo.ApprovalDataVO;
 import com.kh.synergyZone.vo.ApprovalVO;
+import com.kh.synergyZone.vo.ApprovalWithPageVO;
 import com.kh.synergyZone.vo.DeptEmpListVO;
+import com.kh.synergyZone.vo.PaginationVO;
 
 @RestController
 @RequestMapping("/rest/approval")
@@ -77,10 +79,32 @@ public class ApprovalRestController {
 	}
 	
 		@GetMapping("/list")
-		public List<ApprovalDataVO> draftList(){
+		public ApprovalWithPageVO draftList(PaginationVO vo){
+			PaginationVO listPagination = new PaginationVO();
+			listPagination.setPage(1);
+			listPagination.setSize(6);
+			listPagination.setCount(approvalRepoImpl.approvalDataCount(vo));
 			
-			
-			return approvalRepoImpl.selectList();
+		    ApprovalWithPageVO approvalWithPageVO = ApprovalWithPageVO.builder()
+		            .approvalDataVO(approvalRepoImpl.selectList(listPagination))
+		            .paginationVO(listPagination)
+		            .build();
+			return approvalWithPageVO;
 		}
+		
+		@PostMapping("/moveList")
+		public ApprovalWithPageVO moveList(@RequestBody PaginationVO vo) {
+			PaginationVO listPagination = new PaginationVO();
+			listPagination.setPage(vo.getPage());
+			listPagination.setSize(6);
+			listPagination.setCount(approvalRepoImpl.approvalDataCount(vo));
+			
+		    ApprovalWithPageVO approvalWithPageVO = ApprovalWithPageVO.builder()
+		            .approvalDataVO(approvalRepoImpl.selectList(listPagination))
+		            .paginationVO(listPagination)
+		            .build();
+			return approvalWithPageVO;			
+		}
+		
 	
 }

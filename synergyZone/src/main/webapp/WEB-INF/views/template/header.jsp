@@ -36,12 +36,14 @@
 	<!-- 사이드바관련 -->
 	<script src="/static/js/popper.js"></script>
 	<script src="/static/js/main.js"></script>
-    <script src="/static/js/jquery.min.js"></script>
+<!--     <script src="/static/js/jquery.min.js"></script> -->
     <script src="/static/js/bootstrap.min.js"></script>
 
 
     <script>
     	const contextPath = "${pageContext.request.contextPath}";
+    	const memberId = "${sessionScope.memberId}";
+    	const memberLevel = "${sessionScope.memberLevel}";
     </script>
     
     <style>

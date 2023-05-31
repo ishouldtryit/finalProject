@@ -19,10 +19,7 @@ pageEncoding="UTF-8"%>
      		Copyright ©2023 SYNERGYZONE. All Rights Reserved.
      		</span>
      	</p>
-     
-     
-     
-     
+
       </footer>
 
       

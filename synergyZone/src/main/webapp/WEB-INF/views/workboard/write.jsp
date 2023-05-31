@@ -7,128 +7,114 @@
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
     
-     <script type="text/javascript">
-  $(function() {
-    $('[name=workContent]').summernote({
-      placeholder: '내용 작성',
-      tabsize: 4,
-      height: 250,
-      toolbar: [
-        ['style', ['style']],
-        ['font', ['bold', 'underline', 'clear']],
-        ['color', ['color']],
-        ['para', ['ul', 'ol', 'paragraph']],
-        ['table', ['table']],
-      ]
-    });
+ <script type="text/javascript">
+ $(function() {
+	  $('[name=workContent]').summernote({
+	    placeholder: '내용 작성',
+	    tabsize: 4,
+	    height: 250,
+	    toolbar: [
+	      ['style', ['style']],
+	      ['font', ['bold', 'underline', 'clear']],
+	      ['color', ['color']],
+	      ['para', ['ul', 'ol', 'paragraph']],
+	      ['table', ['table']],
+	    ]
+	  });
 
-    $("[name=attachments]").change(function() {
-      const attachmentElement = $("#attachments")[0];
-      const fileListElement = $("#fileList");
+	  // 파일 선택 시 파일 목록 표시
+	  $(document).on('change', '#attachments', function() {
+	    const fileListContainer = document.getElementById('fileList');
+	    const existingFiles = Array.from(document.querySelectorAll('#fileList li'));
+	    const newFiles = Array.from(this.files);
 
-      const getData = async () => {
-        const formData = new FormData();
+	    const mergedFiles = existingFiles.map(fileItem => {
+	      const fileName = fileItem.querySelector('span').innerText;
+	      return {
+	        name: fileName,
+	        file: null
+	      };
+	    });
 
-        for (let i = 0; i < attachmentElement.files.length; i++) {
-          formData.append("attachments", attachmentElement.files[i]);
-        }
+	    newFiles.forEach(file => {
+	      mergedFiles.push({
+	        name: file.name,
+	        file: file
+	      });
+	    });
 
-        const url = "/rest/attachment/upload";
+	    displayFileList(mergedFiles);
+	  });
 
-        try {
-          const response = await axios.post(url, formData);
-          console.log(response);
+	  // Delete all files
+	  const deleteAll = () => {
+	    $('#attachments').val('');
+	    $('#fileList').empty();
+	  }
 
-          fileListElement.empty();
+	  // Delete a specific file
+	  const deleteFile = (fileName) => {
+		  const fileListContainer = document.getElementById('fileList');
+		  const listItem = Array.from(fileListContainer.querySelectorAll('li')).find(item => {
+		    const span = item.querySelector('span');
+		    return span.innerText === fileName;
+		  });
+		  if (listItem) {
+		    fileListContainer.removeChild(listItem);
+		  }
+		}
 
-          response.data.forEach(file => {
-            const attachmentDiv = $("<div>").attr("id", "attachment-" + file.attachmentNo);
-            const fileNameElement = $("<p>").text(file.attachmentName);
-            const deleteButton = $("<i>")
-              .addClass("btn btn-danger delete-attachment fas fa-times")
-              .attr("data-attachment-no", file.attachmentNo);
 
-            attachmentDiv.append(fileNameElement, deleteButton);
-            fileListElement.append(attachmentDiv);
-          });
-        } catch (error) {
-          console.error(error);
-        }
-      };
+	  // Display file list
+	  function displayFileList(files) {
+	    const fileListContainer = document.getElementById('fileList');
+	    fileListContainer.innerHTML = '';
 
-      getData();
-    });
+	    for (let i = 0; i < files.length; i++) {
+	      const file = files[i];
+	      const fileId = `file-${i}`;
+	      const listItem = document.createElement('li');
+	      listItem.id = fileId;
 
-//     function getList() {
-//     	  const fileListElement = $("#fileList");
-//     	  const url = "/rest/attachment/list/" + attachmentNo;
+	      const fileName = document.createElement('span');
+	      fileName.innerText = file.name;
 
-//     	  axios
-//     	    .get(url)
-//     	    .then((response) => {
-//     	      console.log(response.data);
-//     	      updateFileList(response.data);
-//     	    })
-//     	    .catch((error) => {
-//     	      console.error(error);
-//     	    });
-//     	}
+	      const removeButton = document.createElement('button');
+	      removeButton.type = 'button';
+	      removeButton.className = 'remove_button';
+	      removeButton.dataset.fileName = file.name;
+	      removeButton.innerText = 'X';
+	      removeButton.addEventListener('click', () => deleteFile(file.name));
 
-    function updateFileList(files) {
-    	  const fileListElement = $("#fileList");
-    	  fileListElement.empty();
 
-    	  files.forEach((file) => {
-    	    const attachmentDiv = $("<div>").attr("id", "attachment-" + file.attachmentNo);
-    	    const fileNameElement = $("<p>").text(file.attachmentName);
-    	    const deleteButton = $("<i>")
-    	      .addClass("btn btn-danger delete-attachment fas fa-times")
-    	      .attr("data-attachment-no", file.attachmentNo);
+	      listItem.appendChild(removeButton);
+	      listItem.appendChild(fileName);
+	      fileListContainer.appendChild(listItem);
+	    }
+	  }
 
-    	    attachmentDiv.append(fileNameElement, deleteButton);
-    	    fileListElement.append(attachmentDiv);
-    	  });
-    	}
+	  // Validate form
+	  function validateForm() {
+	    if ($('#workSecretCheck').is(':checked')) {
+	      $("#workSecret").val("Y");
+	    } else {
+	      $("#workSecret").val("N");
+	    }
+	    return true;
+	  }
 
-    function deleteAttachment(attachmentNo) {
-    	  const url = "/rest/attachment/delete/" + attachmentNo;
+	  // FileListWrapper class definition
+	  function FileListWrapper(files) {
+	    const dataTransfer = new DataTransfer();
+	    for (let i = 0; i < files.length; i++) {
+	      dataTransfer.items.add(files[i]);
+	    }
+	    return dataTransfer.files;
+	  }
+	});
 
-    	  axios
-    	    .delete(url)
-    	    .then((response) => {
-    	      if (response.status === 200) {
-    	        console.log("Attachment deleted successfully.");
-    	        // 첨부 파일을 삭제한 후 해당 첨부 파일 div 요소를 삭제
-    	        $("#attachment-" + attachmentNo).remove();
-    	      } else {
-    	        console.log("Failed to delete attachment.");
-    	      }
-    	    })
-    	    .catch((error) => {
-    	      console.error(error);
-    	    });
-    	}
-
-    	$(document).on("click", ".delete-attachment", function() {
-    	  const attachmentNo = $(this).data("attachment-no");
-    	  deleteAttachment(attachmentNo);
-    	});
-    	
-    	
-
-  });
-  
-  
-
-  function validateForm() {
-    if ($('#workSecretCheck').is(':checked')) {
-      $("#workSecret").val("Y");
-    } else {
-      $("#workSecret").val("N");
-    }
-    return true;
-  }
 </script>
+
 
 	
     <form action="write" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">

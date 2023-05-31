@@ -45,13 +45,6 @@
 		}
 </style>
 
-
-
-
-
-
-
-
 <table class="table table-hover">
   <thead>
     <tr>
@@ -81,12 +74,13 @@
         </tr>
     </c:forEach>
     </tbody>
-</table>
+</table> 
 
 <br>
 <div align="center">
     <a href="write" style="padding: 10px 20px; border: 1px solid #ccc;">새 글 쓰기</a>
 </div>
+
 <!-- 검색창 -->
     <div class="row center">
 		<form action="list" method="get">
@@ -97,7 +91,6 @@
 						<option value="board_title">제목</option>
 						<option value="board_content" selected>내용</option>
 						<option value="board_writer">작성자</option>
-						<option value="board_head">말머리</option>
 					</select>
 				</c:when>
 				<c:when test="${vo.column == 'board_writer'}">
@@ -105,7 +98,6 @@
 						<option value="board_title">제목</option>
 						<option value="board_content">내용</option>
 						<option value="board_writer" selected>작성자</option>
-						<option value="board_head">말머리</option>
 					</select>
 				</c:when>
 				<c:when test="${vo.column == 'board_head'}">
@@ -113,7 +105,6 @@
 						<option value="board_title">제목</option>
 						<option value="board_content">내용</option>
 						<option value="board_writer">작성자</option>
-						<option value="board_head" selected>말머리</option>
 					</select>
 				</c:when>
 				<c:otherwise>
@@ -121,7 +112,6 @@
 						<option value="board_title" selected>제목</option>
 						<option value="board_content">내용</option>
 						<option value="board_writer">작성자</option>
-						<option value="board_head">말머리</option>
 					</select>
 				</c:otherwise>
 			</c:choose>

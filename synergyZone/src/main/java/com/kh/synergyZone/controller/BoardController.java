@@ -32,26 +32,6 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 
-//	목록 및 검색
-//	@GetMapping("/list")
-//	public String list(Model model, 
-//			@RequestParam(required = false, defaultValue = "boardTitle") String column, 
-//			@RequestParam(required = false, defaultValue = "") String keyword) {
-//		if(keyword.equals("")) {//키워드가 없다면 -> 목록
-//			model.addAttribute("list", boardRepo.selectList());
-//		}
-//		else {//키워드가 있다면 -> 검색
-//			model.addAttribute("column", column);
-//			model.addAttribute("keyword", keyword);
-//			model.addAttribute("list", boardRepo.selectList(column, keyword));
-//		}
-//		//검색 여부와 관계 없이 공지사항을 3개 조회해서 Model에 첨부
-//		model.addAttribute("noticeList", boardRepo.selectNoticeList(1, 3));
-//		return "/WEB-INF/views/board/list.jsp";
-//	}
-	
-//	(+추가) ModelAttribute는 자동 수신 외에 기능이 하나 더 있다.
-//	-----> Model에 자동으로 추가됨(이름을 설정해야 함)
 	@GetMapping("/list")
 	public String list(
 			@ModelAttribute("vo") PaginationVO vo, 
@@ -86,8 +66,8 @@ public class BoardController {
 		model.addAttribute("owner", owner);
 		
 		//사용자가 관리자인지 판정 후 JSP로 전달
-		String memberLevel = (String) session.getAttribute("jobNo");
-		boolean admin = memberLevel != null && memberLevel.equals("80");
+		String jobNo = (String) session.getAttribute("jobNo");
+		boolean admin = jobNo != null && jobNo.equals("80");
 		model.addAttribute("admin", admin);
 		
 		//조회수 증가
@@ -136,27 +116,6 @@ public class BoardController {
 		model.addAttribute("boardParent", boardParent);
 		return "board/write";
 	}
-	
-//	@PostMapping("/write")
-//	public String write(
-//			@ModelAttribute BoardDto boardDto,//3개(말머리,제목,내용)
-//			HttpSession session, RedirectAttributes attr
-//			) {
-//		//번호와 회원아이디를 추출
-//		int boardNo = boardRepo.sequence();
-//		String empNo = (String)session.getAttribute("empNo");
-//		
-//		//작성한 게시글 정보에 첨부
-//		boardDto.setBoardNo(boardNo);
-//		boardDto.setBoardWriter(empNo);
-//		
-//		//게시글을 등록
-//		boardRepo.insert(boardDto);
-//		
-//		//상세 페이지로 이동
-//		attr.addAttribute("boardNo", boardNo);
-//		return "redirect:detail";
-//	}
 	
 	@PostMapping("/write")
 	public String write(@ModelAttribute BoardDto boardDto,

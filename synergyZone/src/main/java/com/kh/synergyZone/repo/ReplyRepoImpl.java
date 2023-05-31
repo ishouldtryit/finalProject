@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.synergyZone.dto.ReplyDto;
+import com.kh.synergyZone.vo.ReplyVO;
 
 
 @Repository
@@ -28,7 +29,7 @@ public class ReplyRepoImpl implements ReplyRepo {
     }
 
     @Override
-    public List<ReplyDto> selectList(int replyOrigin) {
+    public List<ReplyVO> selectList(int replyOrigin) {
         return sqlSession.selectList("reply.selectList", replyOrigin);
     }
 
@@ -43,7 +44,7 @@ public class ReplyRepoImpl implements ReplyRepo {
     }
 
     @Override
-    public ReplyDto selectOne(int replyNo) {
+    public ReplyVO selectOne(int replyNo) {
         return sqlSession.selectOne("reply.selectOne", replyNo);
     }
 }

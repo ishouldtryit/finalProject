@@ -3,20 +3,21 @@ package com.kh.synergyZone.repo;
 import java.util.List;
 
 import com.kh.synergyZone.dto.BoardDto;
+import com.kh.synergyZone.vo.BoardVO;
 import com.kh.synergyZone.vo.PaginationVO;
 
 public interface BoardRepo {
-	List<BoardDto> selectNoticeList(int begin, int end);
-	List<BoardDto> selectList();
-	List<BoardDto> selectList(String column, String keyword);
-	BoardDto selectOne(int boardNo);
+	List<BoardVO> selectNoticeList(int begin, int end);
+	List<BoardVO> selectList();
+	List<BoardVO> selectList(String column, String keyword);
+	BoardVO selectOne(int boardNo);
 	int sequence();
-	void insert(BoardDto boardDto);
+	void insert(BoardVO BoardVO);
 	boolean delete(int boardNo);
-	boolean update(BoardDto boardDto);
+	boolean update(BoardVO BoardVO);
 	boolean updateReadcount(int boardNo);
 	int selectCount(PaginationVO vo);
-	List<BoardDto> selectList(PaginationVO vo);
+	List<BoardVO> selectList(PaginationVO vo);
 	void updateLikecount(int boardNo, int count);
 	void updateReplycount(int boardNo);
 	void connect(int boardNo, int attachmentNo);

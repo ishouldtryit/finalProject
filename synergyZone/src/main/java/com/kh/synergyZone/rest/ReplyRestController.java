@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kh.synergyZone.dto.ReplyDto;
 import com.kh.synergyZone.repo.BoardRepo;
 import com.kh.synergyZone.repo.ReplyRepo;
+import com.kh.synergyZone.vo.ReplyVO;
 
 
 @RestController
@@ -30,9 +31,10 @@ public class ReplyRestController {
 	private BoardRepo boardRepo;
 
 	@GetMapping("/{replyOrigin}")
-	public List<ReplyDto> list(@PathVariable int replyOrigin) {
-		return replyRepo.selectList(replyOrigin);
+	public List<ReplyVO> list(@PathVariable int replyOrigin) {
+	    return replyRepo.selectList(replyOrigin);
 	}
+
 	
 	@PostMapping("/")
 	public void write(HttpSession session, 
@@ -49,11 +51,11 @@ public class ReplyRestController {
 	
 	@DeleteMapping("/{replyNo}")
 	public void delete(@PathVariable int replyNo) {
-		ReplyDto replyDto = replyRepo.selectOne(replyNo);
+		ReplyVO replyVO = replyRepo.selectOne(replyNo);
 		//삭제를 조회보다 나중에 해야 정보가 나옴
 		replyRepo.delete(replyNo);
 		//댓글 삭제 후 개수 갱신
-		boardRepo.updateReplycount(replyDto.getReplyOrigin());
+		boardRepo.updateReplycount(replyVO.getReplyOrigin());
 	}
 	
 //	@PutMapping("/")//전체수정

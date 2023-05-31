@@ -3,11 +3,12 @@ package com.kh.synergyZone.repo;
 import java.util.List;
 
 import com.kh.synergyZone.dto.ReplyDto;
+import com.kh.synergyZone.vo.ReplyVO;
 
 public interface ReplyRepo {
     void insert(ReplyDto replyDto);
-    List<ReplyDto> selectList(int replyOrigin);
+    List<ReplyVO> selectList(int replyOrigin);
     void update(ReplyDto replyDto);
     void delete(int replyNo);
-    ReplyDto selectOne(int replyNo);
+    ReplyVO selectOne(int replyNo);
 }

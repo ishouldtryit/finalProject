@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import com.kh.synergyZone.dto.BoardDto;
 import com.kh.synergyZone.dto.EmployeeDto;
 import com.kh.synergyZone.repo.BoardRepo;
 import com.kh.synergyZone.repo.EmployeeRepo;
+import com.kh.synergyZone.vo.BoardVO;
 
 
 
@@ -37,8 +37,8 @@ public class BoardManageInterceptor implements HandlerInterceptor{
 		
 		//게시글 작성자 확인 코드
 		int boardNo = Integer.parseInt(request.getParameter("boardNo"));
-		BoardDto boardDto = boardRepo.selectOne(boardNo);
-		String writerId = boardDto.getBoardWriter();
+		BoardVO boardVO = boardRepo.selectOne(boardNo);
+		String writerId = boardVO.getBoardWriter();
 		
 		//현재 로그인 회원 확인 코드
 		HttpSession session = request.getSession();

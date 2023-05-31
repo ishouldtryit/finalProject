@@ -1,4 +1,4 @@
-package com.kh.synergyZone.dto;
+package com.kh.synergyZone.vo;
 
 import java.sql.Date;
 
@@ -7,11 +7,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class EmployeeInfoDto {	//회원 정보 통합 뷰
+@Data @Builder @AllArgsConstructor @NoArgsConstructor
+public class ReaderVO {
+
+	private String readerNo;	//열람자 사원번호
+	private int draftNo;	//기안서 번호
 	private String empName;
     private String empEmail;
     private String empPhone;
@@ -27,4 +27,5 @@ public class EmployeeInfoDto {	//회원 정보 통합 뷰
     private String jobName;
     private String empNo;
     private String deptName;
+	
 }

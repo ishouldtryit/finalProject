@@ -1,14 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+    
+<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
-<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include> 
-
-<c:if test="${sessionScope.empNo != null}">
-
+<c:if test="${sessionScope.empNo != null}"></c:if>
 <script src="/static/js/board-like.js"></script>
-</c:if>
 
 <script>
 	var empNo = "${sessionScope.empNo}";
@@ -17,112 +15,93 @@
 <script src="/static/js/reply.js"></script>
 <script type="text/template" id="reply-template">
 	<div class="reply-item">
-		<div class="replyWriter">?</div>
-		<div class="replyContent">?</div>
-		<div class="replyTime">?</div>
+		<div class="row mt-4">
+			<div class="col-md-10 offset-md-1">
+				<hr>
+				<h5 class="replyWriter text-dark">?</h5>
+				<h6 class="replyTime text-secondary">
+					?분 전
+				</h6>
+				<pre class="replyContent mt-3" style="min-height:30px;">테스트 댓글 영역</pre>
+			</div>
+		</div>
 	</div>
 </script>
+<div class="container-fluid">
 
-<div class="container-800">
-	<div class="row center">
-		<h2>${boardDto.boardNo}번 게시글</h2>
+	<!-- 제목 -->
+	<div class="row mt-4">
+		<div class="col-md-10 offset-md-1">
+			<h1>${boardDto.boardTitle}[${boardDto.boardReply}]</h1>
+			<h2 class="text-secondary">${boardDto.boardWriter}</h2>
+		</div>
 	</div>
 	
-	<div class="row">
-		<h3 style="color:gray;">${boardDto.boardHead}</h3>
-	</div>
-	
-	<div class="row">
-		<h3>${boardDto.boardTitle}</h3>
-	</div>
-	<hr>
-	<div class="row">
-		${boardDto.boardWriter}
-	</div>
-	<hr>
-	<div class="row">
-		<fmt:formatDate value="${boardDto.boardTime}" 
-										pattern="y년 M월 d일 H시 m분 s초"/>
-				조회 ${boardDto.boardRead}
-	</div>
-	<hr>
-	<div class="row" style="min-height:200px;">
-		${boardDto.boardContent}
-	</div>
-	<hr>
-	<div class="row">
-		좋아요 
-		<span class="heart-count">${boardDto.boardLike}</span>
-		
-		<c:if test="${sessionScope.empNo != null}">
-			<!-- 하트자리 -->
-			<i class="fa-solid fa-heart"></i>
-		</c:if>
-		
-		댓글 
-		<span class="reply-count">${boardDto.boardReply}</span>
-	</div>
-	<hr>
-	<div class="row reply-list">
-		댓글목록 위치
-	</div>
-	<hr>
-	
-	<!-- 댓글 작성란 -->
-	<div class="row">
-		
-		<div class="row">
-			<c:choose>
-				<c:when test="${sessionScope.empNo != null}">
-					<textarea name="replyContent" class="form-input w-100"
-							placeholder="댓글 내용을 작성하세요"></textarea>	
-				</c:when>
-				<c:otherwise>
-					<textarea name="replyContent" class="form-input w-100"
-							placeholder="로그인 후에 댓글 작성이 가능합니다" disabled></textarea>	
-				</c:otherwise>
-			</c:choose>
+	<!-- 게시글 정보표시자리 -->
+	<div class="row mt-4">
+		<div class="col-md-10 offset-md-1">
+			<div class="row">
+				<div class="col-6 text-start">
+					<i class="fa-solid fa-eye"></i> <span class="ms-1">${boardDto.boardRead}</span>
+					<span class="ms-4 text-secondary"><fmt:formatDate value="${boardDto.boardTime}" 
+						pattern="y년 M월 d일 H시 m분 s초"/></span>
+				</div>
+				<div class="col-6 text-end">
+					<i class="ms-2 fa-regular fa-bookmark"></i>
+					<i class="ms-2 fa-solid fa-share-nodes"></i>
+					<i class="ms-2 fa-regular fa-share-from-square"></i>
+				</div>
+			</div>
 			
+			<hr>
 		</div>
-		<c:if test="${sessionScope.empNo != null}">		
-		<div class="row right">
-			<button type="button" class="form-btn positive reply-insert-btn">댓글 작성</button>
-		</div>
-		</c:if>
-
 	</div>
-	
-	<hr>
-	
-	<div class="row right">
-		<a class="form-btn positive" href="/board/write">글쓰기</a>
-		<a class="form-btn positive" href="/board/write?boardParent=${boardDto.boardNo}">답글쓰기</a>
-		
-		<c:if test="${owner}">
-		<!-- 내가 작성한 글이라면 수정과 삭제 메뉴를 출력 -->
-		<a class="form-btn negative" href="/board/edit?boardNo=${boardDto.boardNo}">수정</a>
-		</c:if>
-		
-		<c:if test="${owner || admin}">
-		<!-- 파라미터 방식일 경우의 링크 -->
-		<a class="form-btn negative" href="/board/delete?boardNo=${boardDto.boardNo}">삭제</a>
-		<!-- 경로 변수 방식일 경우의 링크 -->
-	<%-- 				<a href="/board/delete/${boardDto.boardNo}">삭제</a> --%>
-		</c:if>
-		<a class="form-btn neutral" href="/board/list">목록보기</a>
-	</div>
-	
 </div>
-
-<%-- (+추가) 오늘 읽은 글(memory) 목록을 출력 --%>
-<%-- <c:forEach var="number" items="${sessionScope.memory}"> --%>
-<%-- 	${number}<br> --%>
-<%-- </c:forEach> --%>
-
+	
+	
+	
+	<!-- 게시글 내용 -->
+	<div class="row mt-4" style="min-height:350px;">
+		<div class="col-md-10 offset-md-1" value="${boardDto.boardContent}">
+			${boardDto.boardContent}
+		</div>
+	</div>
+	
+	<!-- 버튼 영역 -->
+	<div class="row mt-4">
+		<div class="col-md-10 offset-md-1 text-end">
+			<hr>
+			
+			<!-- 글쓰기와 다르게 답글쓰기는 계산을 위해 원본글의 번호를 전달해야함 -->
+			<a href="/board/write" class="btn btn-primary">글쓰기</a>
+			<a href="/board/write?boardParent=${boardDto.boardNo}" class="btn btn-success">답글쓰기</a>
+			
+			<!-- 
+				수정과 삭제가 password 페이지를 거쳐서 갈 수 있도록 링크 수정
+				- 주소는 /password/edit 또는 delete/번호 형태로 경로 변수 처리 
+			-->
+			<c:if test="${owner}">
+			<a href="/board/edit?boardNo=${boardDto.boardNo}" class="btn btn-warning">수정</a>
+			</c:if>
+			<c:if test="${owner || admin}">
+			<a href="/board/delete?boardNo=${boardDto.boardNo}" class="btn btn-danger">삭제</a>
+			</c:if>
+			<a href="/board/list" class="btn btn-dark">목록</a>
+		</div>
+	</div>
+	
+	<!-- 댓글 표시 영역 -->
+	<div class="row mt-4">
+		<div class="reply-list col-md-10 offset-md-1">
+		</div>
+	</div>
+	<c:if test="${sessionScope.empNo != null}">	
+	<div class="row mt-4">
+		<div class="col-md-10 offset-md-1">
+				<textarea name="replyContent" class="form-control" rows="4" style="resize: none;"></textarea>
+				<button type="submit" class="btn btn-primary w-100 mt-3 reply-insert-btn">등록</button>
+			</form>
+		</div>
+	</div>
+</c:if>
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
-
-
-
-
-
-

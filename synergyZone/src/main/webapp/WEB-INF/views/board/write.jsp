@@ -84,19 +84,6 @@
 	</div>
 	
 	<div class="row">
-		<label class="form-label w-100">말머리</label>
-		<select name="boardHead" class="form-input">
-			<!-- 없음을 선택하면 값이 비어서 전송되므로 DB에 null로 들어감 -->
-			<option value="">없음</option>
-			<c:if test="${jobName == '관리자'}">
-				<option>공지</option>
-			</c:if>
-			<option>자유</option>
-			<option>정보</option>
-		</select>
-	</div>
-	
-	<div class="row">
 		<label>제목<i class="fa-solid fa-asterisk"></i></label>
 		<c:choose>
 			<c:when test="${boardParent == null}">

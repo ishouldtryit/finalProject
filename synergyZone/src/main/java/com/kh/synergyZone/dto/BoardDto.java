@@ -12,7 +12,6 @@ public class BoardDto {
 	private String boardTitle;
 	private String boardContent;
 	private Date boardTime;
-	private String boardHead;
 	private int boardRead;
 	private int boardLike;
 	private int boardReply;

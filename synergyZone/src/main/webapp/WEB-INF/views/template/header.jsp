@@ -96,10 +96,10 @@
 	     <div class="wrapper d-flex align-items-stretch" >
 	            <nav id="sidebar" class="bg-info">
 	                <div class="p-4 pt-5" style=" min-height: 70vh;">
-	                    <a href="#"><h3 class="text-light mb-5">게시판</h3></a>
+	                    <a href="#"><h3 class="text-light mb-5">그룹웨어</h3></a>
 	                    <ul class="list-unstyled components mb-5">
 	                        <li>
-	                            <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">회사 게시판</a>
+	                            <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">게시판</a>
 	                            <ul class="collapse list-unstyled" id="homeSubmenu">
 	                                <li>
 	                                    <a href="#">공지사항</a>
@@ -107,23 +107,20 @@
 	                                <li>
 	                                    <a href="#">자유게시판</a>
 	                                </li>
-	                                <li>
-	                                    <a href="#">ㅋㅋㅋ</a>
-	                                </li>
 	                            </ul>
 	                        </li>
 	
 	                        <li>
-	                        <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">부서 게시판</a>
+	                        <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">전자결재</a>
 	                        <ul class="collapse list-unstyled" id="pageSubmenu">
 	                                <li>
-	                                <a href="#">공지사항</a>
+	                                <a href="/approval/write">신규 결재</a>
 	                                </li>
 	                                <li>
-	                                    <a href="#">자유게시판</a>
+	                                    <a href="/approval/list">개인 문서함</a>
 	                                </li>
 	                                <li>
-	                                    <a href="#">팀 게시판</a>
+	                                    <a href="#">부서 문서함</a>
 	                                </li>
 	                            </ul>
 	                        </li>

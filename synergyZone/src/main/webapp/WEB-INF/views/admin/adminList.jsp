@@ -127,6 +127,9 @@
           <div class="row">
             <button type="button" class="btn btn-secondary ml-auto" data-bs-dismiss="modal" @click="hideEmployeeList">닫기</button>
           </div>
+          <div class="row">
+            <button type="button" class="btn btn-secondary ml-auto" data-bs-dismiss="modal" @click="addAdmin">추가</button>
+          </div>
         </div>
       </div>
     </div>
@@ -152,6 +155,11 @@
         const resp = await axios.get("/rest/approval/");
         this.deptEmpList.push(...resp.data);
       },
+      //관리자 목록
+      async loadList() {
+        const resp = await axios.get("/rest/employee/");
+        this.adminList.push(...resp.data);
+      },
       showAdminModal() {
         if (this.adminModal == null) return;
         this.adminModal.show();
@@ -162,10 +170,6 @@
       },
       toggleEmployeeList(index) {
         this.deptEmpList[index].showEmployeeList = !this.deptEmpList[index].showEmployeeList;
-      },
-      async loadList() {
-        const resp = await axios.get("/rest/employee/");
-        this.adminList.push(...resp.data);
       },
       addToManager(employee, department) {
         const managerData = {

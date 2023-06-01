@@ -115,7 +115,7 @@
        <div>
        
        </div>
-		  	<div class="d-flex align-items-center justify-content-center">
+		  	<div class="d-flex align-items-center justify-content-center mt-4">
 		  		<div class="d-flex">
 				  <ul class="pagination">
 				    <li class="page-item" @click="firstMove"  :class="{ 'disabled': ApprovalWithPageVO.paginationVO.page == 1 }">

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Notice">
+
+<!-- selectList -->
+<select id="selectList" resultType="NoticeDto">
+	select *
+	from notice order by notice_no asc
+</select>
+
+<!-- selectListByColumn -->
+<select id="selectListByColumn" resultType="NoticeDto">
+	select *
+	from notice
+	where instr(#{column}, #{keyword}) > 0
+	connect by prior notice_no = notice_parent
+	start with notice_parent is null
+	order siblings by notice_group desc, notice_no asc
+</select>
+
+<!-- selectOne -->
+<select id="selectOne" resultType="NoticeDto">
+	select *
+	from notice
+	where notice_no = #{noticeNo}
+</select>
+
+<select id="sequence" resultType="int">
+        select notice_seq.nextval from dual
+</select>
+    
+<!-- insert -->
+<insert id="insert">
+	insert into notice(
+		notice_no, notice_writer, notice_title, notice_content,
+		notice_time, notice_read, notice_like, notice_reply, notice_group,
+		notice_parent, notice_depth
+	)
+	values (
+		#{noticeNo}, #{noticeWriter}, #{noticeTitle}, #{noticeContent},
+		sysdate, 0, 0, 0, #{noticeGroup}, #{noticeParent, jdbcType=NUMERIC}, #{noticeDepth}
+	)
+</insert>
+
+<!-- delete -->
+<delete id="delete">
+	delete notice
+	where notice_no = #{noticeNo}
+</delete>
+
+<!-- update -->
+<update id="update">
+	update notice
+	set notice_title = #{noticeTitle},
+		notice_content = #{noticeContent}
+	where notice_no = #{noticeNo}
+</update>
+
+<!-- updateReadcount -->
+<update id="updateNoticeReadcount">
+	update notice
+	set notice_read = notice_read + 1
+	where notice_no = #{noticeNo}
+</update>
+
+<!-- selectCount -->
+<select id="selectCount" resultType="int">
+	<if test="search">
+		select count(*)
+		from notice
+		where instr(#{column}, #{keyword}) > 0
+	</if>
+	<if test="not search">
+		select count(*)
+		from notice
+	</if>
+</select>
+
+<!-- selectListByPaging -->
+<select id="selectListByPaging" resultType="NoticeDto">
+	<if test="search">
+		select *
+		from (
+			select rownum rn, TMP.*
+			from (
+				select *
+				from notice
+				where instr(#{column}, #{keyword}) > 0
+				connect by prior notice_no = notice_parent
+				start with notice_parent is null
+				order siblings by notice_group desc, notice_no asc
+			)TMP
+		)
+		where rn between #{begin} and #{end}
+	</if>
+	<if test="not search">
+		select *
+		from (
+			select rownum rn, TMP.*
+			from (
+				select *
+				from notice
+				connect by prior notice_no = notice_parent
+				start with notice_parent is null
+				order siblings by notice_group desc, notice_no asc
+			)TMP
+		)
+		where rn between #{begin} and #{end}
+	</if>
+</select>
+
+<!-- updateLikecount -->
+<update id="updateLikecount">
+	update notice
+	set notice_like = #{count}
+	where notice_no = #{noticeNo}
+</update>
+
+<!-- updateReplycount -->
+<update id="updateNoticeReplycount">
+	update notice
+	set notice_reply = (
+		select count(*)
+		from reply
+		where reply_origin = #{noticeNo}
+	)
+	where notice_no = #{noticeNo}
+</update>
+
+<!-- connect -->
+<insert id="connect">
+	insert into notice_attachment (notice_no, attachment_no) values (#{noticeNo}, #{attachmentNo})
+</insert>
+
+
+</mapper>

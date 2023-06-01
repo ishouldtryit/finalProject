@@ -136,4 +136,8 @@
 		where emp_no = #{empNo}
 	</update>
 	
+	<!-- 관리자 목록 -->
+	<select id="adminList" resultType="employeeDto">
+		select * from employee where job_no = 80
+	</select>
 </mapper>

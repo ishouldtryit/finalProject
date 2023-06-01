@@ -7,7 +7,11 @@
     
 
     <mapper namespace="approval">
-    
+   	   	<!-- 시퀀스 번호 생성 -->
+   	    <select id="approvalSequence" resultType="int">
+      	  select approval_seq.nextval from dual
+    	</select>
+    	
     	<select id="selectList" resultType="ApprovalDto">
     		select * from approval order by draft_no
     	</select>
@@ -19,11 +23,11 @@
     	<insert id="insert" >
     		insert into approval( 
     		draft_no,draft_title,draft_content,
-    		drafter_id, first_approver
+    		drafter_no, isemergency
     		) 
     		values(
-    		approval_seq.nextval,#{draftTitle},#{draftContent},
-    		#{drafterId}, #{firstApprover}
+    		#{draftNo},#{draftTitle},#{draftContent},
+    		#{drafterNo}, #{isemergency}
     		)
     	</insert>
     	
@@ -48,5 +52,142 @@
 			delete approval where draft_no = #{draftNo}
 		</delete>
     	
+    	<!-- 결재자 추가 -->
+    	<insert id="approverInsert">
+    		insert into approver(
+    		approver_no, draft_no, approver_order
+    		)
+    		values(
+    		#{approverNo}, #{draftNo}, #{approverOrder}
+    		)
+    	</insert>
+    	
+    	<!-- 합의자 추가 -->
+    	<insert id="agreeorInsert">
+    		insert into agreeor(
+    		agreeor_no, draft_no
+    		)
+    		values(
+    		#{agreeorNo}, #{draftNo}
+    		)
+    	</insert>
+    	
+    	<!-- 참조자 추가 -->
+    	<insert id="recipientInsert">
+    		insert into recipient(
+    		recipient_no, draft_no
+    		)
+    		values(
+    		#{recipientNo}, #{draftNo}
+    		)
+    	</insert>
+    	
+    	<!-- 열람자 추가 -->
+    	<insert id="readerInsert">
+    		insert into reader(
+    		reader_no, draft_no
+    		)
+    		values(
+    		#{readerNo}, #{draftNo}
+    		)
+    	</insert>
+    	
+    	<!-- 계층형 조회 resultMap -->
+		<resultMap type="ApprovalDataVO" id="ApprovalDataVO">
+			<association property="approvalWithDrafterDto">
+				<result column="draft_no" property="draftNo"/>
+				<result column="draft_title" property="draftTitle"/>
+				<result column="draft_content" property="draftContent"/>
+				<result column="draft_date" property="draftDate"/>
+				<result column="update_date" property="updateDate"/>
+				<result column="drafter_no" property="drafterNo"/>
+				<result column="status_code" property="statusCode"/>
+				<result column="result_code" property="resultCode"/>
+				<result column="return_reson" property="returnReson"/>
+				<result column="isemergency" property="isemergency"/>
+				<result column="emp_email" property="empEmail"/>
+				<result column="emp_name" property="empName"/>
+				<result column="emp_phone" property="empPhone"/>
+				<result column="emp_address" property="empAddress"/>
+				<result column="emp_detail_address" property="empDetailAddress"/>
+				<result column="emp_postcode" property="empPostcode"/>
+				<result column="emp_hireDate" property="empHireDate"/>
+				<result column="is_leave" property="isLeave"/>
+				<result column="cp_number" property="cpNumber"/>
+				<result column="job_no" property="jobNo"/>
+				<result column="dept_no" property="deptNo"/>
+				<result column="attachment_no" property="attachmentNo"/>
+				<result column="job_name" property="jobName"/>
+				<result column="dept_name" property="deptName"/>
+			</association>
+			<collection property="approverList"
+				javaType="java.util.List" ofType="approverDto "
+				select="approverDataSelect"
+				column="draft_no">
+				<result column="approver_no" property="approverNo"/>
+				<result column="approver_order" property="approverOrder"/>
+				<result column="draft_no" property="draftNo"/>
+			</collection>
+			<collection property="agreeorList"
+				javaType="java.util.List" ofType="agreeorDto "
+				select="agreeorDataSelect"
+				column="draft_no">
+				<result column="agreeor_no" property="agreeorNo"/>
+				<result column="draft_no" property="draftNo"/>
+			</collection>
+			<collection property="recipientList"
+				javaType="java.util.List" ofType="recipientDto "
+				select="recipientDataSelect"
+				column="draft_no">
+				<result column="recipient_no" property="recipientNo"/>
+				<result column="draft_no" property="draftNo"/>
+			</collection>
+			<collection property="readerList"
+				javaType="java.util.List" ofType="readerDto "
+				select="readerDataSelect"
+				column="draft_no">
+				<result column="reader_no" property="readerNo"/>
+				<result column="draft_no" property="draftNo"/>
+			</collection>
+		</resultMap>
+		
+		
+		<!-- 계층형 조회 메인 구문 -->
+		<select id="approvalDataSelect" resultMap="ApprovalDataVO">
+			SELECT * FROM 
+			approval_with_drafter
+			ORDER BY CASE
+			WHEN isemergency = 1 THEN 0 ELSE 1 END,
+			draft_no DESC
+		</select>
+		
+		<!-- 계층형 조회 서브 구문 (결재자) -->
+		<select id="approverDataSelect" resultType="approverVO">
+			select * from 
+			approver AP inner join employee EMP on AP.approver_no = EMP.emp_no 
+			where draft_no = #{draftNo}
+			order by approver_order asc
+		</select>
+		
+		<!-- 계층형 조회 서브 구문 (합의자) -->
+		<select id="agreeorDataSelect" resultType="agreeorVO">
+			select * from 
+			agreeor AG inner join employee EMP on AG.agreeor_no = EMP.emp_no
+			where draft_no = #{draftNo}
+		</select>
+		
+		<!-- 계층형 조회 서브 구문 (참조자) -->
+		<select id="recipientDataSelect" resultType="recipientVO">
+			select * from 
+			recipient RECP inner join employee EMP on RECP.recipient_no = EMP.emp_no
+			where draft_no = #{draftNo}
+		</select>
+		
+		<!-- 계층형 조회 서브 구문 (열람자)-->
+		<select id="readerDataSelect" resultType="readerVO">
+			select * from 
+			reader RD inner join employee EMP on RD.reader_no = EMP.emp_no
+			where draft_no = #{draftNo}
+		</select>
     	
     </mapper>

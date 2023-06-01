@@ -7,8 +7,7 @@
 
 <div>제목 : ${approvalDto.draftTitle}</div>
 <div>내용 : ${approvalDto.draftContent}</div>
-<div>작성자 : ${approvalDto.drafterId}</div>
-<div>결재자 : ${approvalDto.firstApprover}</div>
+<div>작성자 : ${approvalDto.drafterNo}</div>
 
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

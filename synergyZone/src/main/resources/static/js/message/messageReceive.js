@@ -165,6 +165,7 @@ $(function () {
           } else {
             $(newReceiveMsgRow).find("a").addClass("blue");
           }
+          
           $(".target").append(newReceiveMsgRow);
         }
 
@@ -283,7 +284,7 @@ $(function () {
     }
   }
 
-  // option 선택
+	  // option 선택
   $(".column-option").each(function () {
     if (column === $(this).val()) {
       $(this).attr("selected", "selected");

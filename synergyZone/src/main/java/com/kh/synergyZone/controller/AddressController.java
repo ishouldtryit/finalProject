@@ -68,13 +68,17 @@ public class AddressController {
            @RequestParam(required = false, defaultValue = "") String column,
            @RequestParam(required = false, defaultValue = "") String keyword) throws IOException {
        List<EmployeeInfoDto> employees;
+
        
        // 검색
        if (!column.isEmpty() && !keyword.isEmpty()) {
-           employees = employeeService.searchEmployees(column, keyword);
+    	   employees = employeeService.searchEmployees(column, keyword);
        } else {
            employees = employeeRepo.list();
        }
+       if (empNo != null) {
+    	    model.addAttribute("profile", employeeProfileRepo.find(empNo));
+    	}
        
        // 페이징 처리
        int totalCount = employees.size();  // 전체 데이터 개수
@@ -101,6 +105,7 @@ public class AddressController {
        // 프로필 사진 조회
        EmployeeProfileDto profile = employeeProfileRepo.find(empNo); // 프로필 정보 조회
        model.addAttribute("profile", profile);
+       
        model.addAttribute("employees", pagedEmployees);
        
        return "address/list";

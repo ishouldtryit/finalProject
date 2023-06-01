@@ -16,6 +16,7 @@ public interface EmployeeRepo {
 	   void exit(String empNo);
 	   void delete(String empNo);
 	   
+	   //부서별 사원목록
 	   List<DeptEmpListVO> treeSelect();
 	   
 	   //비밀번호 찾기
@@ -32,6 +33,9 @@ public interface EmployeeRepo {
 	   
 	   //관리자 권한 부여
 	   void authorityAdmin(String empNo);
+	   
+	   //관리자 목록
+	   List<EmployeeDto> adminList();
 	   
 	   //사원 검색
 	   int getCount();

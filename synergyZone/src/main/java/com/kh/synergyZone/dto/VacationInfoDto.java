@@ -8,8 +8,8 @@ import lombok.Data;
 public class VacationInfoDto {
 	private String empNo;
 	private int total;
-	private int used;
-	private int residual;
+	private double used;
+	private double residual;
 	
 	private String empName;
 	private String jobName;

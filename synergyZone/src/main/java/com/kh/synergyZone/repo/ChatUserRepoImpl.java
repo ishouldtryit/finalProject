@@ -20,8 +20,8 @@ public class ChatUserRepoImpl implements ChatUserRepo {
 	}
 	
 	@Override
-	public List<ChatUserDto> find(String memberId) {
-		return sqlSession.selectList("chatUser.find", memberId);
+	public List<ChatUserDto> find(String empNo) {
+		return sqlSession.selectList("chatUser.find", empNo);
 	}
 	
 	@Override

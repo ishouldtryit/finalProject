@@ -81,7 +81,7 @@
 							<div class="my-card-body">
 								<!-- 변경된 클래스 이름 -->
 								<h5 class="card-title">사용 연차</h5>
-								<p class="card-text">${one.uesd}</p>
+								<p class="card-text">${one.used}</p>
 							</div>
 						</div>
 						<div class="my-card text-center">

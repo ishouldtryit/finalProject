@@ -23,7 +23,7 @@ public class ChatController {
 		return "chat/home";
 	}
 	
-	@GetMapping("/channel6")
+	@GetMapping("/chat")
 	public String main() {
 		return "chat/chat";
 	}

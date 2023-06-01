@@ -3,7 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <h1>웹소켓 예제 모음</h1>
-
+아이디 : ${sessionScope.empNo}, 
+등급 : ${sessionScope.empName}
 <c:choose>
 	<c:when test="${empNo == null}">
 		<!-- 로그인 화면 : 로그아웃 상태일 때 -->
@@ -44,7 +45,7 @@
 </form>
 
 <h2>채널 6번 예제(방 선택하여 입장+서비스화) - 로그인 필요</h2>
-<form action="channel6">
+<form action="chat">
 	<input type="text" name="room" placeholder="채널명 입력" required>
 	<button type="submit">입장</button>
 </form>
@@ -55,7 +56,7 @@
 
 <c:forEach var="chatRoom" items="${chatRoomList}">
 	<h3>
-		<a href="channel6?room=${chatRoom.roomName}">
+		<a href="chat?room=${chatRoom.roomName}">
 		${chatRoom.roomName}
 		</a>
 	</h3>

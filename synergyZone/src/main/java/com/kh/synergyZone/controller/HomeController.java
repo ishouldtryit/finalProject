@@ -33,7 +33,7 @@ public class HomeController {
 //		        }
 //		    }
 		    
-		    return "main";
+		    return "login";
 		}
 		
 		@PostMapping("/testuser1")

@@ -34,10 +34,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
    
 	<!-- 사이드바관련 -->
-	<script src="/static/js/popper.js"></script>
-	<script src="/static/js/main.js"></script>
     <script src="/static/js/jquery.min.js"></script>
+	<script src="/static/js/popper.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
+	<script src="/static/js/main.js"></script>
 
 
     <script>
@@ -47,6 +47,9 @@
     <style>
       #rogo-img{
         width: 200px;
+        width: 280px;
+        height: 50px;
+        margin-top: 2px;
       }
                   a{
                 text-decoration: none;
@@ -180,5 +183,5 @@
 	            
 	            <!-- 내용 -->
 	            여기에 작성
-		    </div>
+		    
 		    

@@ -81,7 +81,7 @@
 
         <div class="row">
             <div class="col col-7 bg-info text-light">
-               <img src="img/logo.png" id="img" class="p-1">
+               <img src="static/img/logo.png" id="img" class="p-1">
             </div>
 
             <div class="col bg-info text-light p-2">

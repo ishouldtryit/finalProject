@@ -195,7 +195,9 @@
                 </div>
                 
                 <div class="bg-light border" style="height: 315px; width: 348px; margin-top: 320px; margin-left: 102px;">
-                    2
+                    <form action="/logout" method="post" >
+						<button type="submit">로그아웃</button>
+					</form>
                 </div>
             </div>
 

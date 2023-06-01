@@ -208,12 +208,12 @@
                         </div>
                   </div>
                   
-                  <div class="row mt-4">
-                        <div class="col">	
-                            <label class="form-label">참조자</label>
-                           	<button>추가</button>
-                        </div>
-                  </div>
+<!--                   <div class="row mt-4"> -->
+<!--                         <div class="col">	 -->
+<!--                             <label class="form-label">참조자</label> -->
+<!--                            	<button>추가</button> -->
+<!--                         </div> -->
+<!--                   </div> -->
                   
 				<div class="row mt-4">
                       <div class="col">

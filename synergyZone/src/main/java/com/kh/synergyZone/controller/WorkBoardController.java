@@ -77,6 +77,25 @@ public class WorkBoardController {
 		return "redirect:/";
 	}
 	
+	@GetMapping("/report")
+	public String report(@RequestParam int workNo,
+						 Model model) {
+		model.addAttribute("workBoardDto", workBoardRepo.selectOne(workNo));
+		
+		return "workboard/report";
+	}
+	
+	@PostMapping("/report")
+	public String report(@ModelAttribute WorkReportDto workReportDto,
+						 HttpSession session,
+						 @RequestParam("supList") List<WorkReportDto> supList) {
+		
+		for(WorkReportDto dto : supList) {
+			workReportRepo.insert(dto);
+		}
+		return "redirect:/";
+	}
+	
 	//업무일지 목록
 	@GetMapping("/list")
 	public String list(Model model) {
@@ -121,4 +140,6 @@ public class WorkBoardController {
 		model.addAttribute("files", workFileRepo.selectAll(workNo));
 		return "workboard/detail";
 	}
+	
+	
 }

@@ -60,38 +60,38 @@ public class EmployeeController {
 		private PasswordEncoder encoder;
 	
 	
-		//로그인
-		@GetMapping("/login")
-		public String login() {
-			return "employee/login";
-		}
-		
-		@PostMapping("/login")
-		public String login(@ModelAttribute EmployeeDto employeeDto,
-							HttpSession session,
-							HttpServletRequest request) {
-			EmployeeDto findDto = employeeService.login(employeeDto);
-			
-			if(findDto != null){
-				//로그인 시 세션 저장
-				session.setAttribute("empName", findDto.getEmpName());
-				session.setAttribute("empNo", findDto.getEmpNo());
-				session.setAttribute("jobNo", findDto.getJobNo());
-				
-				String ipAddress = employeeService.getLocation(request);
-				String browserAddress = employeeService.getBrowser(request);
-
-				//로그인 접속 시간
-				LoginRecordDto loginRecordDto = new LoginRecordDto();
-				loginRecordDto.setEmpNo(findDto.getEmpNo());
-				loginRecordDto.setLogIp(ipAddress);
-				loginRecordDto.setLogBrowser(browserAddress);
-				
-				loginRecordRepo.insert(loginRecordDto);
-			}
-			
-			return "redirect:/";
-		}
+//		//로그인
+//		@GetMapping("/login")
+//		public String login() {
+//			return "employee/login";
+//		}
+//		
+//		@PostMapping("/login")
+//		public String login(@ModelAttribute EmployeeDto employeeDto,
+//							HttpSession session,
+//							HttpServletRequest request) {
+//			EmployeeDto findDto = employeeService.login(employeeDto);
+//			
+//			if(findDto != null){
+//				//로그인 시 세션 저장
+//				session.setAttribute("empName", findDto.getEmpName());
+//				session.setAttribute("empNo", findDto.getEmpNo());
+//				session.setAttribute("jobNo", findDto.getJobNo());
+//				
+//				String ipAddress = employeeService.getLocation(request);
+//				String browserAddress = employeeService.getBrowser(request);
+//
+//				//로그인 접속 시간
+//				LoginRecordDto loginRecordDto = new LoginRecordDto();
+//				loginRecordDto.setEmpNo(findDto.getEmpNo());
+//				loginRecordDto.setLogIp(ipAddress);
+//				loginRecordDto.setLogBrowser(browserAddress);
+//				
+//				loginRecordRepo.insert(loginRecordDto);
+//			}
+//			
+//			return "redirect:/";
+//		}
 		
 		//로그아웃
 		@GetMapping("/logout")

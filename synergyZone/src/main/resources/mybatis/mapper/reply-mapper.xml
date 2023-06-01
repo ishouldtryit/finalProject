@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="reply">
+    
+    <!-- 댓글 조회 -->
+    <select id="selectList" resultType="ReplyVO">
+    SELECT R.*, S.*
+    FROM reply R
+    JOIN search_info S ON R.reply_writer = S.emp_no
+    WHERE R.reply_origin = #{replyOrigin}
+    ORDER BY R.reply_no ASC
+	</select>
+
+    <!-- 댓글 작성 -->
+    <insert id="insert">
+        INSERT INTO REPLY (REPLY_NO, REPLY_WRITER, REPLY_ORIGIN, REPLY_CONTENT, REPLY_TIME)
+        VALUES (REPLY_SEQ.NEXTVAL, #{replyWriter}, #{replyOrigin}, #{replyContent}, SYSDATE)
+    </insert>
+
+    <!-- 댓글 수정 -->
+    <update id="update">
+        UPDATE REPLY SET REPLY_CONTENT = #{replyContent}
+        WHERE REPLY_NO = #{replyNo}
+    </update>
+
+    <!-- 댓글 삭제 -->
+    <delete id="delete">
+        DELETE FROM REPLY WHERE REPLY_NO = #{replyNo}
+    </delete>
+
+    <!-- 댓글 번호로 조회 -->
+   <select id="selectOne" resultType="ReplyVO">
+	    SELECT R.*, S.*
+	    FROM reply R
+	    JOIN search_info S ON R.reply_writer = S.emp_no
+	    WHERE R.reply_no = #{replyNo}
+	</select>
+
+    
+</mapper>

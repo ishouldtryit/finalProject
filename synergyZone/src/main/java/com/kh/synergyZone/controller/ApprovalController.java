@@ -1,9 +1,6 @@
 package com.kh.synergyZone.controller;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,21 +27,9 @@ public class ApprovalController {
 		return "/approval/write";
 	}
 	
-	@PostMapping("/write")
-	public String write(
-			@ModelAttribute ApprovalDto approvalDto,
-			HttpSession session
-			) {
-		String empNo = session.getAttribute("empNo") == null ? null : (String) session.getAttribute("empNo");
-		approvalDto.setDrafterId(empNo);
-		approvalRepoImpl.insert(approvalDto);
-		return "redirect:/approval/detail";
-	}
-	
 	@GetMapping("/list")
-	public String list(Model model) {
-		model.addAttribute("list", approvalRepoImpl.selectList());
-		return "/approval/list2";
+	public String list() {
+		return "/approval/list";
 	}
 	
 	@GetMapping("/detail")

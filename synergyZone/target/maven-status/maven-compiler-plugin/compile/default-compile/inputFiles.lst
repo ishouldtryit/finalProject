@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\vo\ChatRoomVO.java
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\repo\ChatUserRepoImpl.java
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\repo\CommuteRecordRepoImpl.java
@@ -23,9 +24,11 @@ C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\dto
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\dto\VacationInfoDto.java
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\service\ChatService.java
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\service\MessageService.java
+=======
+>>>>>>> refs/remotes/origin/main
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\controller\ApprovalController.java
-C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\dto\BookmarkDto.java
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\dto\AttachmentDto.java
+<<<<<<< HEAD
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\dto\WorkBoardDto.java
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\controller\AdminController.java
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\repo\AttachmentRepoImpl.java
@@ -74,34 +77,67 @@ C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\dto
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\WebSocket\WebSocketConfiguration.java
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\repo\ChatUserRepo.java
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\rest\ChatRestController.java
+=======
+C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\service\EmployeeServiceImpl.java
+>>>>>>> refs/remotes/origin/main
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\controller\HomeController.java
-C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\service\EmailService.java
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\controller\AddressController.java
+<<<<<<< HEAD
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\dto\LoginRecordInfoDto.java
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\dto\ChatMessageDto.java
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\vo\DeptEmpListVO.java
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\vo\MemberMessageVO.java
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\configuration\CustomEmailProperties.java
+=======
+C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\dto\CalendarScheduleDto.java
+C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\repo\AttachmentRepoImpl.java
+C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\repo\EmployeeProfileRepoImpl.java
+C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\controller\AttachmentController.java
+C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\repo\DepartmentRepoImpl.java
+C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\controller\CalendarController.java
+C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\controller\MessageController.java
+>>>>>>> refs/remotes/origin/main
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\dao\MessageWithNickDao.java
+<<<<<<< HEAD
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\rest\EmployeeRestController.java
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\WebSocket\WebSocketServer.java
+=======
+C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\component\EmpNoGeneratorImpl.java
+C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\repo\CalendarRepo.java
+C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\dao\MessageDao.java
+>>>>>>> refs/remotes/origin/main
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\vo\PaginationVO.java
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\rest\MessageRestController.java
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\repo\DepartmentRepo.java
+<<<<<<< HEAD
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\repo\VacationInfoRepo.java
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\rest\DepartmentRestController.java
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\repo\ChatRoomRepo.java
+=======
+C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\component\EmpNoGenerator.java
+>>>>>>> refs/remotes/origin/main
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\repo\EmployeeProfileRepo.java
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\dto\MessageDto.java
+<<<<<<< HEAD
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\dto\EmployeeInfoDto.java
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\vo\JsonMessageVO.java
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\vo\EmployeeExitWaitingVO.java
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\repo\CommuteRecordRepo.java
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\controller\BookmarkController.java
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\interceptor\AdminInterceptor.java
+=======
+C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\dto\EmployeeDto.java
+C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\repo\AttachmentRepo.java
+>>>>>>> refs/remotes/origin/main
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\dto\DepartmentDto.java
+C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\repo\ApprovalRepo.java
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\service\EmployeeService.java
+<<<<<<< HEAD
+=======
+C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\controller\EmployeeController.java
+>>>>>>> refs/remotes/origin/main
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\repo\EmployeeRepo.java
+<<<<<<< HEAD
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\controller\CommuteController.java
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\dto\VacationDto.java
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\repo\WorkFileRepo.java
@@ -109,4 +145,26 @@ C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\dto
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\vo\LoginRecordSearchVO.java
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\repo\WorkFileRepoImpl.java
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\rest\ApprovalRestController.java
+=======
+C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\dto\EmployeeProfileDto.java
+C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\ServletInitializer.java
+C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\configuration\CustomFileUploadProperties.java
+C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\repo\EmployeeRepoImpl.java
+C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\repo\JobRepo.java
+C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\repo\JobRepoImpl.java
+C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\service\CalendarServiceImpl.java
+C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\repo\ApprovalRepoImpl.java
+C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\repo\CalendarRepoImpl.java
+C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\dto\CalendarBookMarkDto.java
+C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\dto\JobDto.java
+C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\service\CalendarService.java
+C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\dto\MessageWithNickDto.java
+C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\dto\CalendarMemberDto.java
+C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\dto\ApprovalDto.java
+C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\service\MessageService.java
+>>>>>>> refs/remotes/origin/main
 C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\SynergyZoneApplication.java
+<<<<<<< HEAD
+=======
+C:\Users\user1\git\finalProject\synergyZone\src\main\java\com\kh\synergyZone\dto\CalendarDto.java
+>>>>>>> refs/remotes/origin/main

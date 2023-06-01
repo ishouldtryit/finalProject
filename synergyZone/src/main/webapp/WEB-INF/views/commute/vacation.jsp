@@ -55,8 +55,8 @@
 							<!-- 변경된 클래스 이름 -->
 							<img width="50" height="50"
 								src="<c:choose>
-                       <c:when test="${employeeDto.attachmentNo > 0}">
-                         /attachment/download?attachmentNo=${employeeDto.attachmentNo}
+                       <c:when test="${one.attachmentNo > 0}">
+                         /attachment/download?attachmentNo=${one.attachmentNo}
                        </c:when>
                        <c:otherwise>
                          https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg
@@ -91,6 +91,7 @@
 								<h5 class="card-title">잔여 연차</h5>
 								<p class="card-text">${one.residual}</p>
 							</div>
+							<input class="empDate" type="hidden" value="${one.empHireDate}">
 						</div>
 					</div>
 				</div>
@@ -188,7 +189,7 @@
 			function generateSelectElement() {
 				var selectElement = $("#year-select");
 				var currentYear = getCurrentYear();
-				var startYear = 2020; // 시작 년도 ******************* 입사일로 변경
+				var startYear = new Date($('.empDate').val()).getFullYear();
 				var endYear = currentYear; // 현재 년도
 
 				var yearRange = generateYearRange(startYear, endYear);
@@ -218,7 +219,7 @@
 						selectedValue : selectedValue
 					},
 					success : function(data) {
-						
+							console.log(data);
 							var table = createTable(data);
 							$("#table-container").empty().append(table);
 						

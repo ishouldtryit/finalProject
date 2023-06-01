@@ -14,13 +14,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.kh.synergyZone.dto.CommuteRecordDto;
-import com.kh.synergyZone.dto.VacationDto;
 import com.kh.synergyZone.repo.CommuteRecordRepoImpl;
 import com.kh.synergyZone.repo.VacationInfoRepoImpl;
 import com.kh.synergyZone.repo.VacationRepoImpl;
 import com.kh.synergyZone.service.EmployeeService;
-import com.kh.synergyZone.service.EmployeeServiceImpl;
-import com.kh.synergyZone.service.VacationServiceImpl;
+
 import com.kh.synergyZone.vo.VacationVO;
 
 @Controller
@@ -83,7 +81,6 @@ public class CommuteController {
 		//사원 연차기록
 		List<CommuteRecordDto> list=commuteRecordRepo.allList(empNo);
 		model.addAttribute("list",list);
-		System.out.println(list);
 		return "/commute/record";
 	}
 	
@@ -104,7 +101,7 @@ public class CommuteController {
 		vo.setEmpNo(empNo);
 		List<VacationVO> list=vacationRepo.queue(vo);
 		model.addAttribute("list",list);
-		System.out.println(list);
+
 
 		return "/commute/write";
 	}

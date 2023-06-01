@@ -78,11 +78,18 @@ $(function () {
 	</form>
 	
 	<div>
-		<h1>근태관리</h1>
+		<h4>근태 신청서</h4>
     <ul>
-        <li><a href="/commute/record">내 근태 현황</a></li>
-        <li><a href="내_연차_내역_페이지_URL">내 연차 내역</a></li>
-        <li><a href="내_인사정보_페이지_URL">내 인사정보</a></li>
+        <li><a href="/commute/write">휴가 신청</a></li>
+        <li><a href="/commute/trip">출장 신청</a></li>
+    </ul>
+	
+	
+		<h4>근태현황</h4>
+    <ul>
+        <li><a href="/commute/record">근무시간 집계현황</a></li>
+        <li><a href="/commute/vacation">내 연차 내역</a></li>
+        <li><a href="#">출장현황</a></li>
     </ul>
 	</div>
 	

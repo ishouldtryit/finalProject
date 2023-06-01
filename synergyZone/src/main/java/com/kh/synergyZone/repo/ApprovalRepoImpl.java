@@ -1,4 +1,4 @@
-package com.kh.synergyZone.repo;
+	package com.kh.synergyZone.repo;
 
 import java.util.List;
 

@@ -22,10 +22,10 @@
   </div>
   <hr class="mt-0"/>
   <div class="row flex">
-    <div class="pocketmonTrade-btn message-delete-btn">
+    <div class="Trade-btn message-delete-btn">
       <i class="fas fa-times" style="color:red;"></i> 삭제
     </div>
-    <a href="${pageContext.request.contextPath}/message/send" class="pocketmonTrade-btn message-list-btn ml-auto">
+    <a href="${pageContext.request.contextPath}/message/send" class="Trade-btn message-list-btn ml-auto">
       <i class="fas fa-list" style="color: #9DACE4;"></i> 목록
     </a>
   </div>

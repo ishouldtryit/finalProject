@@ -12,31 +12,42 @@
 <div id="app">
 
 	<!-- 강사 임시주석 -->
-    <div class="container-fluid">
+    <div class="container-fluid" v-if="ApprovalWithPageVO != null">
     	
        <div class="row mb-3">
            <h3>기안서 목록</h3>
+       </div>
+       <div class="row mb-2">
+       		<div class="col-5">
+		        <select v-model="ApprovalWithPageVO.paginationVO.size" @change="changeSize">
+		          <option value="10">10</option>
+		          <option value="20">20</option>
+		          <option value="30">30</option>
+		          <option value="40">40</option>
+		          <option value="50">50</option>
+		        </select>
+       		</div>
        </div>
        <div class="row mt-4">
            <div>
                <table class="table table-hover">
                    <thead>
-                       <tr>
-                           <th class="col-xs-1">
+                       <tr class="col-12">
+                           <th class="col-md-1">
 	                           <span class="ms-3">
 	                           	기안일자
 	                           </span>
                            </th>
-                           <th class="col-xs-1">긴급</th>
-                           <th class="col-xs-3">제목</th>
-                           <th class="col-xs-2">기안자</th>
-                           <th class="col-xs-2">현재 결재자</th>
-                           <th class="col-xs-2">최종 결재자</th>
-                           <th class="col-xs-1">결재상태</th>
+                           <th class="col-1">긴급</th>
+                           <th class="col-3">제목</th>
+                           <th class="col-2">기안자</th>
+                           <th class="col-2">현재 결재자</th>
+                           <th class="col-2">최종 결재자</th>
+                           <th class="col-1">결재상태</th>
                        </tr>
                    </thead>
-                   <tbody v-for="(approval, index) in ApprovalWithPageVO.approvalDataVO">
-                       <tr>
+                   <tbody >
+                       <tr v-for="(approval, index) in ApprovalWithPageVO.approvalDataVO">
                            <td>
 	                           <span class="ms-3">
 		                           {{approval.approvalWithDrafterDto.draftDateForm}}
@@ -83,27 +94,27 @@
 		  	<div class="d-flex align-items-center justify-content-center">
 		  		<div class="d-flex">
 				  <ul class="pagination">
-				    <li class="page-item disabled">
+				    <li class="page-item" :class="{ 'disabled': !ApprovalWithPageVO.paginationVO.prev }">
 				      <span class="page-link" >
 						<i class="fa-solid fa-angles-left"></i>
 						</span>
 				    </li>
-				    <li class="page-item disabled">
+				    <li class="page-item" @click="prevMove" :class="{ 'disabled': !ApprovalWithPageVO.paginationVO.prev }">
 				      <span class="page-link" >
 						<i class="fa-solid fa-angle-left"></i>
 						</span>
 				    </li>
 				    
-      <li
-        v-for="page in getViewBlockRange"
-        :key="page"
-        :class="{'page-item': true, 'active': page === ApprovalWithPageVO.paginationVO.page}"
-        @click="move(page)"
-        >
-        <span class="page-link">{{ page }}</span>
-      </li>
+				    <li 
+				      v-for="(page, index) in ApprovalWithPageVO.paginationVO.viewBlock"
+				      :key="index"
+				      :class="{'page-item': true, 'active': ApprovalWithPageVO.paginationVO.startBlock + index === ApprovalWithPageVO.paginationVO.page}"
+				      @click="move(ApprovalWithPageVO.paginationVO.startBlock + index)"
+				      >
+				      <span class="page-link">{{ ApprovalWithPageVO.paginationVO.startBlock + index }}</span>
+				    </li>
 
-				    <li class="page-item">
+				    <li class="page-item" @click="nextMove" :class="{ 'disabled': !ApprovalWithPageVO.paginationVO.next }">
 				      <span class="page-link">
 						<i class="fa-solid fa-angle-right"></i>
 						</span>
@@ -126,24 +137,10 @@
             data(){
                 return {
                     //화면에서 사용할 데이터를 선언
-                	ApprovalWithPageVO : {
-                		
-                	},
+                	ApprovalWithPageVO : null,
                 };
             },
             computed:{
-            	 getViewBlockRange() {
-            	      const viewBlock = this.ApprovalWithPageVO.paginationVO.viewBlock;
-            	      const startBlock = this.ApprovalWithPageVO.paginationVO.startBlock;
-            	      const currentPage = this.ApprovalWithPageVO.paginationVO.page;
-            	      const endBlock = startBlock + viewBlock - 1;
-
-            	      const range = [];
-            	      for (let i = startBlock; i <= endBlock; i++) {
-            	        range.push(i);
-            	      }
-            	      return range;
-            	    }
             	  
             },
             methods:{
@@ -151,20 +148,43 @@
                     const resp = await axios.get("/rest/approval/list");
                     this.ApprovalWithPageVO = resp.data;
                 },
+                
+                //페이지 이동
                 async move(page) {
                 	 this.ApprovalWithPageVO.paginationVO.page = page;
                 	  const resp = await axios.post("/rest/approval/moveList", this.ApprovalWithPageVO.paginationVO);
                 	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
                 	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
                	},
-
+               	
+                //페이지 prev 이동
+                async prevMove() {
+                	 this.ApprovalWithPageVO.paginationVO.page = this.ApprovalWithPageVO.paginationVO.prevPage;
+                	  const resp = await axios.post("/rest/approval/moveList", this.ApprovalWithPageVO.paginationVO);
+                	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
+                	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
+               	},
+               	
+                //페이지 next 이동
+                async nextMove() {
+                	 this.ApprovalWithPageVO.paginationVO.page = this.ApprovalWithPageVO.paginationVO.nextPage;
+                	  const resp = await axios.post("/rest/approval/moveList", this.ApprovalWithPageVO.paginationVO);
+                	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
+                	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
+               	},
+               	
+				//표시 갯수(count) 변경
+               	async changeSize() {
+               		this.ApprovalWithPageVO.paginationVO.page = 1;
+                	  const resp = await axios.post("/rest/approval/moveList", this.ApprovalWithPageVO.paginationVO);
+                	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
+                	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
+               	},
+ 				//상세페이지 이동
                 goToDetail(draftNo) {
                     window.location.href = 'detail?draftNo=' + draftNo;
                 },
-                testObject(list) {
-                	console.log(list[0]);
-                	return "test";
-                }
+                
             },
             created(){
             	this.loadData();

@@ -82,7 +82,7 @@ public class ApprovalRestController {
 		public ApprovalWithPageVO draftList(PaginationVO vo){
 			PaginationVO listPagination = new PaginationVO();
 			listPagination.setPage(1);
-			listPagination.setSize(6);
+			listPagination.setSize(2);
 			listPagination.setCount(approvalRepoImpl.approvalDataCount(vo));
 			
 		    ApprovalWithPageVO approvalWithPageVO = ApprovalWithPageVO.builder()
@@ -96,9 +96,8 @@ public class ApprovalRestController {
 		public ApprovalWithPageVO moveList(@RequestBody PaginationVO vo) {
 			PaginationVO listPagination = new PaginationVO();
 			listPagination.setPage(vo.getPage());
-			listPagination.setSize(6);
+			listPagination.setSize(vo.getSize());
 			listPagination.setCount(approvalRepoImpl.approvalDataCount(vo));
-			
 		    ApprovalWithPageVO approvalWithPageVO = ApprovalWithPageVO.builder()
 		            .approvalDataVO(approvalRepoImpl.selectList(listPagination))
 		            .paginationVO(listPagination)

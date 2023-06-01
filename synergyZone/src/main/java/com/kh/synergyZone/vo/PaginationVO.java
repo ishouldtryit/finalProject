@@ -23,6 +23,9 @@ public class PaginationVO {
   // 페이지 검색 형태
   private String pageStatus;
   
+  // 긴급 문서 우선 조회
+  private boolean isemergency;
+  
   // 정렬 항목
   private String item = "allboard_no";
   

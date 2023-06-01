@@ -154,52 +154,78 @@
 		<select id="approvalDataCount" resultType="int">
 			select count(*) from(
 			select *from approval_with_drafter
-		      <if test="pageStatus == 'ingPage'">
-		        where isemergency = 0
-		      </if>
+			<where>
 		      <if test="pageStatus == 'emergencyPage'">
-		        where isemergency = 1
+		        and isemergency = 1
+		      </if>
+		      <if test="pageStatus == 'ingPage'">
+		        and result_code = 0
 		      </if>
 		      <if test="pageStatus == 'returnPage'">
-        		where result_code = 2	
+        		and result_code = 2	
         	  </if>		      
 		      <if test="pageStatus == 'endPage'">
-        		where result_code = 3	
+        		and result_code = 3	
         	  </if>		      
-			order by case
-			when isemergency = 1 then 0 else 1 end
+        	  </where>
+			)
+		</select>
+		<!-- 페이징 적용 카운트(기안자) -->		
+		<select id="approvalDrafterDataCount" resultType="int">
+			select count(*) from(
+			select *from approval_with_drafter
+			<where>
+		      <if test="pageStatus == 'emergencyPage'">
+		        and isemergency = 1
+		      </if>
+		      <if test="pageStatus == 'ingPage'">
+		        and result_code = 0
+		      </if>
+		      <if test="pageStatus == 'returnPage'">
+        		and result_code = 2	
+        	  </if>		      
+		      <if test="pageStatus == 'endPage'">
+        		and result_code = 3	
+        	  </if>		      
+        	  </where>
 			)
 		</select>
 		<!-- 계층형 조회 메인 구문(관리자) -->
 		
 		<select id="approvalDataSelect" resultMap="ApprovalDataVO">
-			select * from(
-			select TMP.*, rownum RN from(
-			select *from approval_with_drafter
-		      <if test="pageStatus == 'emergencyPage'">
-		        where isemergency = 1
-		      </if>
-		      <if test="pageStatus == 'ingPage'">
-        		where result_code = 0
-        	  </if>
-		      <if test="pageStatus == 'returnPage'">
-        		where result_code = 2
-        	  </if>
-		      <if test="pageStatus == 'endPage'">
-        		where result_code = 3	
-        	  </if>
-			order by case
-			when isemergency = 1 then 0 else 1 end,
-			draft_no desc
-			) TMP 
-			) where RN between #{begin} and #{end}
+		    select * from (
+		        select TMP.*, rownum RN from (
+		            select * from approval_with_drafter
+		            <where>
+		                <if test="pageStatus == 'emergencyPage'">
+		                   and isemergency = 1
+		                </if>
+		                <if test="pageStatus == 'ingPage'">
+		                    and result_code = 0
+		                </if>
+		                <if test="pageStatus == 'returnPage'">
+		                    and result_code = 2
+		                </if>
+		                <if test="pageStatus == 'endPage'">
+		                    and result_code = 3
+		                </if>
+		            </where>
+		            order by 
+		            <if test="isemergency">
+		            	case when isemergency = 1 then 0 else 1 end, 
+		            </if>
+		            draft_date desc
+		        ) TMP
+		    )
+		    where RN between #{begin} and #{end}
 		</select>
+
 		
 		<!-- 계층형 조회 메인 구문(기안자) -->
-		<select id="approvalDataDrafterSelect" resultMap="ApprovalDataVO">
+		<select id="approvalDrafterDataSelect" resultMap="ApprovalDataVO">
 			SELECT * FROM 
 			approval_with_drafter
-			WHERE drafter_no = #{drafterNo}
+			WHERE drafter_no = #{empNo}
 			ORDER BY CASE
 			WHEN isemergency = 1 THEN 0 ELSE 1 END,
 			draft_no DESC

@@ -79,9 +79,10 @@ public class ApprovalRestController {
 	    }
 	    return draftNo;
 	}
-		//목록 첫화면
-		@GetMapping("/list")
-		public ApprovalWithPageVO draftList(PaginationVO vo){
+	
+		//목록 첫화면 (관리자)
+		@GetMapping("/adminList")
+		public ApprovalWithPageVO adminDraftList(PaginationVO vo){
 			PaginationVO listPagination = new PaginationVO();
 			
 			listPagination.setPage(1);
@@ -95,11 +96,13 @@ public class ApprovalRestController {
 			return approvalWithPageVO;
 		}
 		
-		//페이지 이동
-		@PostMapping("/moveList")
-		public ApprovalWithPageVO moveList(@RequestBody PaginationVO vo) {
+		//페이지 이동 (관리자)
+		@PostMapping("/adminMoveList")
+		public ApprovalWithPageVO adminMoveList(@RequestBody PaginationVO vo) {
 			PaginationVO listPagination = new PaginationVO();
 			System.out.println(vo.getPageStatus());
+			listPagination.setPageStatus(vo.getPageStatus());
+			listPagination.setIsemergency(vo.isIsemergency());
 			listPagination.setPage(vo.getPage());
 			listPagination.setSize(vo.getSize());
 			listPagination.setCount(approvalRepoImpl.approvalDataCount(vo));
@@ -107,6 +110,40 @@ public class ApprovalRestController {
 		            .approvalDataVO(approvalRepoImpl.selectList(listPagination))
 		            .paginationVO(listPagination)
 		            .build();
+			return approvalWithPageVO;			
+		}
+		
+		
+		//목록 첫화면 (관리자)
+		@GetMapping("/drafterList")
+		public ApprovalWithPageVO drafterDraftList(PaginationVO vo){
+			PaginationVO listPagination = new PaginationVO();
+			
+			listPagination.setPage(1);
+			listPagination.setSize(10);
+			listPagination.setCount(approvalRepoImpl.approvalDataCount(vo));
+			
+			ApprovalWithPageVO approvalWithPageVO = ApprovalWithPageVO.builder()
+					.approvalDataVO(approvalRepoImpl.selectList(listPagination))
+					.paginationVO(listPagination)
+					.build();
+			return approvalWithPageVO;
+		}
+		
+		//페이지 이동 (관리자)
+		@PostMapping("/drafterMoveList")
+		public ApprovalWithPageVO drafterMoveList(@RequestBody PaginationVO vo) {
+			PaginationVO listPagination = new PaginationVO();
+			System.out.println(vo.getPageStatus());
+			listPagination.setPageStatus(vo.getPageStatus());
+			listPagination.setIsemergency(vo.isIsemergency());
+			listPagination.setPage(vo.getPage());
+			listPagination.setSize(vo.getSize());
+			listPagination.setCount(approvalRepoImpl.approvalDataCount(vo));
+			ApprovalWithPageVO approvalWithPageVO = ApprovalWithPageVO.builder()
+					.approvalDataVO(approvalRepoImpl.selectList(listPagination))
+					.paginationVO(listPagination)
+					.build();
 			return approvalWithPageVO;			
 		}
 		

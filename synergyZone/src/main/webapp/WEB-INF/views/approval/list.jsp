@@ -17,7 +17,7 @@
            <h3>기안서 목록</h3>
        </div>
        <div class="row mb-2">
-       		<div class="col-5">
+       		<div class="col-12">
 		        <select v-model="ApprovalWithPageVO.paginationVO.size" @change="changeSize">
 		          <option value="10">10</option>
 		          <option value="20">20</option>
@@ -29,11 +29,6 @@
 		       	class="btn ms-3" :class="{'btn-secondary': pageStatus != 'allPage', 'btn-info': pageStatus == 'allPage'}"
 		       	@click ="changeAllPage">
 		  		전체
-				</button>
-		       	<button type="button" 
-		       	class="btn ms-3" :class="{'btn-secondary': pageStatus != 'emergencyPage', 'btn-info': pageStatus == 'emergencyPage'}"
-		       	@click ="changeEmergencyPage">
-		  		긴급
 				</button>
 		       	<button type="button" 
 		       	class="btn ms-3" :class="{'btn-secondary': pageStatus != 'ingPage', 'btn-info': pageStatus == 'ingPage'}"
@@ -49,6 +44,11 @@
 		       	class="btn ms-3" :class="{'btn-secondary': pageStatus != 'endPage', 'btn-info': pageStatus == 'endPage'}"
 		       	@click ="changeEndPage">
 		  		완료
+				</button>
+		       	<button type="button" 
+		       	class="btn ms-3" :class="{'btn-secondary': !isemergency, 'btn-info': isemergency }"
+		       	@click ="changeEmergencyPage">
+		  		긴급
 				</button>
        		</div>
        </div>
@@ -163,6 +163,7 @@
                     //화면에서 사용할 데이터를 선언
                 	ApprovalWithPageVO : null,
                 	pageStatus : "allPage",
+                	isemergency : false,
                 	
                 };
             },
@@ -171,7 +172,7 @@
             },
             methods:{
                 async loadData(){
-                    const resp = await axios.get("/rest/approval/list");
+                    const resp = await axios.get("/rest/approval/adminList");
                     this.ApprovalWithPageVO = resp.data;
                 },
                 
@@ -179,7 +180,7 @@
                 async move(page) {
                 	 this.ApprovalWithPageVO.paginationVO.page = page;
                 	 this.ApprovalWithPageVO.paginationVO.pageStatus = this.pageStatus; // pageStatus 추가
-                	  const resp = await axios.post("/rest/approval/moveList", this.ApprovalWithPageVO.paginationVO);
+                	  const resp = await axios.post("/rest/approval/adminMoveList", this.ApprovalWithPageVO.paginationVO);
                 	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
                 	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
                	},
@@ -189,7 +190,7 @@
                		if(!this.ApprovalWithPageVO.paginationVO.prev) return;
                		this.ApprovalWithPageVO.paginationVO.pageStatus = this.pageStatus; // pageStatus 추가
                 	 this.ApprovalWithPageVO.paginationVO.page = this.ApprovalWithPageVO.paginationVO.prevPage;
-                	  const resp = await axios.post("/rest/approval/moveList", this.ApprovalWithPageVO.paginationVO);
+                	  const resp = await axios.post("/rest/approval/adminMoveList", this.ApprovalWithPageVO.paginationVO);
                 	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
                 	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
                	},
@@ -199,7 +200,7 @@
                			if(!this.ApprovalWithPageVO.paginationVO.next) return;
                 	 this.ApprovalWithPageVO.paginationVO.page = this.ApprovalWithPageVO.paginationVO.nextPage;
                 	 this.ApprovalWithPageVO.paginationVO.pageStatus = this.pageStatus; // pageStatus 추가
-                	  const resp = await axios.post("/rest/approval/moveList", this.ApprovalWithPageVO.paginationVO);
+                	  const resp = await axios.post("/rest/approval/adminMoveList", this.ApprovalWithPageVO.paginationVO);
                 	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
                 	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
                	},
@@ -209,7 +210,7 @@
                		if(this.ApprovalWithPageVO.paginationVO.page == 1) return;
                 	 this.ApprovalWithPageVO.paginationVO.page = 1;
                 	 this.ApprovalWithPageVO.paginationVO.pageStatus = this.pageStatus; // pageStatus 추가
-                	  const resp = await axios.post("/rest/approval/moveList", this.ApprovalWithPageVO.paginationVO);
+                	  const resp = await axios.post("/rest/approval/adminMoveList", this.ApprovalWithPageVO.paginationVO);
                 	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
                 	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
                	},
@@ -219,7 +220,7 @@
                			if(this.ApprovalWithPageVO.paginationVO.page == this.ApprovalWithPageVO.paginationVO.totalPage) return;
                 	 this.ApprovalWithPageVO.paginationVO.page = this.ApprovalWithPageVO.paginationVO.totalPage;
                 	 this.ApprovalWithPageVO.paginationVO.pageStatus = this.pageStatus; // pageStatus 추가
-                	  const resp = await axios.post("/rest/approval/moveList", this.ApprovalWithPageVO.paginationVO);
+                	  const resp = await axios.post("/rest/approval/adminMoveList", this.ApprovalWithPageVO.paginationVO);
                 	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
                 	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
                	},
@@ -228,7 +229,7 @@
                	async changeSize() {
              			this.ApprovalWithPageVO.paginationVO.page = 1;
              			this.ApprovalWithPageVO.paginationVO.pageStatus = this.pageStatus; // pageStatus 추가
-                	  const resp = await axios.post("/rest/approval/moveList", this.ApprovalWithPageVO.paginationVO);
+                	  const resp = await axios.post("/rest/approval/adminMoveList", this.ApprovalWithPageVO.paginationVO);
                 	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
                 	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
                	},
@@ -242,18 +243,25 @@
                 async changeAllPage() {
                   if(this.pageStatus === "allPage") return;
                   this.pageStatus = "allPage";
-               	  const resp = await axios.post("/rest/approval/moveList", this.ApprovalWithPageVO.paginationVO);
+               	  this.ApprovalWithPageVO.paginationVO.pageStatus = this.pageStatus; // pageStatus 추가
+               	  this.ApprovalWithPageVO.paginationVO.page = 1;
+               	  const resp = await axios.post("/rest/approval/adminMoveList", this.ApprovalWithPageVO.paginationVO);
                	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
                	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
                 },
                 
-                //긴급 항목만 검색
+                //긴급 항목우선 검색
                 async changeEmergencyPage() {
-                  if(this.pageStatus === "emergencyPage") return;
-                  this.pageStatus = "emergencyPage";
+                  if(this.isemergency) {
+                	  this.isemergency = false;
+                  }
+                  else{
+                  this.isemergency = true;
+                  }
                	  this.ApprovalWithPageVO.paginationVO.pageStatus = this.pageStatus; // pageStatus 추가
+               	  this.ApprovalWithPageVO.paginationVO.isemergency = this.isemergency; // pageStatus 추가
                	  this.ApprovalWithPageVO.paginationVO.page = 1;
-               	  const resp = await axios.post("/rest/approval/moveList", this.ApprovalWithPageVO.paginationVO);
+               	  const resp = await axios.post("/rest/approval/adminMoveList", this.ApprovalWithPageVO.paginationVO);
                	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
                	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
                 },
@@ -264,7 +272,7 @@
                   this.pageStatus = "ingPage";
                	  this.ApprovalWithPageVO.paginationVO.pageStatus = this.pageStatus; // pageStatus 추가
                	  this.ApprovalWithPageVO.paginationVO.page = 1;
-               	  const resp = await axios.post("/rest/approval/moveList", this.ApprovalWithPageVO.paginationVO);
+               	  const resp = await axios.post("/rest/approval/adminMoveList", this.ApprovalWithPageVO.paginationVO);
                	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
                	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
                 },
@@ -275,7 +283,7 @@
                   this.pageStatus = "returnPage";
                	  this.ApprovalWithPageVO.paginationVO.pageStatus = this.pageStatus; // pageStatus 추가
                	  this.ApprovalWithPageVO.paginationVO.page = 1;
-               	  const resp = await axios.post("/rest/approval/moveList", this.ApprovalWithPageVO.paginationVO);
+               	  const resp = await axios.post("/rest/approval/adminMoveList", this.ApprovalWithPageVO.paginationVO);
                	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
                	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
                 },
@@ -286,7 +294,7 @@
                   this.pageStatus = "endPage";
                	  this.ApprovalWithPageVO.paginationVO.pageStatus = this.pageStatus; // pageStatus 추가
                	  this.ApprovalWithPageVO.paginationVO.page = 1;
-               	  const resp = await axios.post("/rest/approval/moveList", this.ApprovalWithPageVO.paginationVO);
+               	  const resp = await axios.post("/rest/approval/adminMoveList", this.ApprovalWithPageVO.paginationVO);
                	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
                	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
                 },

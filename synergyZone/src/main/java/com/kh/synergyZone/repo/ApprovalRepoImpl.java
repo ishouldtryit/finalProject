@@ -71,8 +71,8 @@ public class ApprovalRepoImpl implements ApprovalRepo {
 	}
 	
 	@Override
-	public List<ApprovalDataVO> selectListDrafter() {
-		return sqlSession.selectList("approval.approvalDataDrafterSelect");
+	public List<ApprovalDataVO> selectListDrafter(PaginationVO vo) {
+		return sqlSession.selectList("approval.approvalDrafterDataSelect");
 	}
 
 	@Override

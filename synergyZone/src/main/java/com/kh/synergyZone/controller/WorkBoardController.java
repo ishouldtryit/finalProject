@@ -16,11 +16,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.kh.synergyZone.dto.EmployeeInfoDto;
 import com.kh.synergyZone.dto.WorkBoardDto;
+import com.kh.synergyZone.dto.WorkReportDto;
 import com.kh.synergyZone.repo.DepartmentRepo;
 import com.kh.synergyZone.repo.EmployeeRepo;
 import com.kh.synergyZone.repo.WorkBoardRepo;
 import com.kh.synergyZone.repo.WorkFileRepo;
+import com.kh.synergyZone.repo.WorkReportRepo;
 import com.kh.synergyZone.service.WorkBoardService;
 
 @Controller
@@ -42,9 +45,16 @@ public class WorkBoardController {
 	@Autowired
 	private WorkFileRepo workFileRepo;
 	
+	@Autowired
+	private WorkReportRepo workReportRepo;
+	
 	//업무일지 작성
 	@GetMapping("/write")
 	public String write(Model model) {
+		List<EmployeeInfoDto> employees = employeeRepo.list();
+		
+		model.addAttribute("employees", employees);
+		
 		return "workboard/write";
 	}
 	
@@ -57,6 +67,7 @@ public class WorkBoardController {
 		
 		int workNo = workBoardRepo.sequence();
 		workBoardDto.setWorkNo(workNo);
+		
 		
 //		System.out.println(workBoardDto.getWorkSecret());
 		

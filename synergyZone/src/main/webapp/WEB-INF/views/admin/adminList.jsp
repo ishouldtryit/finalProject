@@ -96,9 +96,6 @@
                   <div class="col-6 text-center">
                     관리자 순서
                   </div>
-                  <div class="col-4 text-center">
-                    순서 변경
-                  </div>
                   <div class="col-2 text-center">
                     제거
                   </div>
@@ -111,9 +108,6 @@
                   </div>
                   <div class="col-2 text-center">
                     <i class="fa-regular fa-circle-up" @click="managerMoveUp(index)"></i>
-                  </div>
-                  <div class="col-2 text-center">
-                    <i class="fa-regular fa-circle-up fa-rotate-180" @click="managerMoveDown(index)"></i>
                   </div>
                   <div class="col-2 text-center">
                     <i class="fa-regular fa-trash-can" @click="removeManager(index)"></i>
@@ -204,13 +198,6 @@
           const temp = this.managerList[index];
           this.managerList.splice(index, 1);
           this.managerList.splice(index - 1, 0, temp);
-        }
-      },
-      managerMoveDown(index) {
-        if (index < this.managerList.length - 1) {
-          const temp = this.managerList[index];
-          this.managerList.splice(index, 1);
-          this.managerList.splice(index + 1, 0, temp);
         }
       },
       hideEmployeeList() {

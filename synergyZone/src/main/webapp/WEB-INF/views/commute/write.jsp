@@ -2,21 +2,9 @@
 	pageEncoding="UTF-8"%>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<style>
-table {
-	border-collapse: collapse;
-}
 
-th, td {
-	border: 1px solid black;
-	padding: 8px;
-}
-</style>
 <script>
 	$(function() {
-		
-		
-		
 		$("#vacationName").change(function() {
 			var selectedValue = $(this).val();
 			var applicationType = "";
@@ -97,15 +85,14 @@ th, td {
 	
 </script>
 <script>
-	$(function() {
-	
-});
+
 </script>
 </head>
 <body>
+<div class="container">
 	<form action="/commute/write" method="post">
 		<h4>*신청정보</h4>
-		<table>
+		<table class="table table-hover">
 			<tr>
 				<th>대상자</th>
 				<td>${one.empName}<br>
@@ -168,14 +155,14 @@ th, td {
 				<td><input type="text" name="reason"></td>
 			</tr>
 		</table>
-		<input type="hidden" id="useCount">
+		<input type="hidden" name="useCount">
 		<button>등록</button>
 	</form>
 	<br>
 	<hr>
 	<br>
 	<h4>*신청내역</h4>
-	<table>
+	<table class="table table-hover">
 		<thead>
 			<tr>
 				<th>이름</th>
@@ -202,5 +189,6 @@ th, td {
 
 		</tbody>
 	</table>
+	</div>
 </body>
 </html>

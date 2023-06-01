@@ -38,7 +38,7 @@ public class VacationUpdaterService {
         	int total=calculateVacation(empNo, empHireDate);
         	dto.setTotal(total);
         	dto.setUsed(0);
-        	dto.setResidual(0);
+        	dto.setResidual(total);
         	dto.setEmpNo(empNo);
         	
             

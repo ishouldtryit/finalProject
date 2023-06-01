@@ -75,21 +75,5 @@ public class HomeController {
 			return "redirect:/";
 		}
 		
-		@PostMapping("/start")
-		public String start(HttpSession session,@ModelAttribute CommuteRecordDto commuteRecordDto,
-				Model model) {
-			
-			String empNo =(String)session.getAttribute("empNo");
-			commuteRecordRepo.insert(empNo);
-			 return "redirect:/";
-		}
-		
-		@PostMapping("/end")
-		public String end(HttpSession session,@ModelAttribute CommuteRecordDto commuteRecordDto) {
-			String empNo =(String)session.getAttribute("empNo");
-			commuteRecordDto.setEmpNo(empNo);
-			commuteRecordRepo.update(empNo);
-			return "redirect:/";
-		}
 	
 } 

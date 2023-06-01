@@ -40,7 +40,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-	<div>
+	<div class="container">
 		<div class="d-flex">
 			<h1>내 연차내역</h1>
 			<h1 id="currentDate"></h1>
@@ -101,11 +101,7 @@
 		<div>
 			<div id="table-container"></div>
 		</div>
-		<p class="mt-50 mb-50">
-		<h2>empNo=${sessionScope.empNo}</h2>
-		<h2>jobNo=${sessionScope.jobNo}</h2>
-		<span> Copyright ©2023 SYNERGYZONE. All Rights Reserved. </span>
-		</p>
+		
 	</div>
 
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

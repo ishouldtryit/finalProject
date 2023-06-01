@@ -95,6 +95,7 @@ $(function () {
         var sendTimeList = response.sendTimeList;
         const pageVo = response.pageVoList[0];
 
+
         // target 비우고 다시 로드
         $(".target").empty();
         for (let i = 0; i < messageList.length; i++) {

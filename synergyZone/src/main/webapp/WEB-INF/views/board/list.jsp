@@ -63,23 +63,40 @@
     </tr>
   </thead>
     <tbody>
-    <c:forEach items="${posts}" var="board">
-        <tr>
-            <td>${board.boardNo}</td>
-            <td>
-	            <a href="detail?boardNo=${board.boardNo}">
-	            <!-- boardDepth가 1 이상일 경우만 답글 표식을 추가 -->
-				<c:if test="${board.boardDepth > 0}">
-					→
-				</c:if>
-	            	${board.boardTitle}
-	            </a>
-            </td>
-            <td>${board.boardWriter}</td>
-            <td>${board.boardTime}</td>
-            <td>${board.boardRead}</td>
-        </tr>
-    </c:forEach>
+    
+	    <c:forEach items="${posts}" var="board">
+  <tr>
+    <td>${board.boardNo}</td>
+    <td>
+      <a href="detail?boardNo=${board.boardNo}">
+        <!-- boardDepth가 1 이상일 경우만 답글 표식을 추가 -->
+        <c:if test="${board.boardDepth > 0}">
+          →
+        </c:if>
+        ${board.boardTitle}
+      </a>
+    </td>
+    <td>
+	      <div class="d-flex align-items-center">
+			  <div class="profile-image employee-name">
+			    <img width="35" height="35" src="<c:choose>
+			      <c:when test="${board.attachmentNo > 0}">
+			        /attachment/download?attachmentNo=${board.attachmentNo}
+			      </c:when>
+			      <c:otherwise>
+		        https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg
+			      </c:otherwise>
+			    </c:choose>" alt="" style="border-radius: 50%;">
+			  </div>
+			  <div style="margin-left: 10px;">${board.empName}</div>
+			</div>
+    </td>
+    <td>${board.boardTime}</td>
+    <td>${board.boardRead}</td>
+  </tr>
+</c:forEach>
+
+
     </tbody>
 </table>
 

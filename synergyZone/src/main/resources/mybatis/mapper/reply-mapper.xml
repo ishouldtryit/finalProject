@@ -3,11 +3,13 @@
 <mapper namespace="reply">
     
     <!-- 댓글 조회 -->
-    <select id="selectList" resultType="ReplyDto">
-        SELECT * FROM REPLY
-        WHERE REPLY_ORIGIN = #{replyOrigin}
-        ORDER BY REPLY_NO ASC
-    </select>
+    <select id="selectList" resultType="ReplyVO">
+    SELECT R.*, S.*
+    FROM reply R
+    JOIN search_info S ON R.reply_writer = S.emp_no
+    WHERE R.reply_origin = #{replyOrigin}
+    ORDER BY R.reply_no ASC
+	</select>
 
     <!-- 댓글 작성 -->
     <insert id="insert">
@@ -27,8 +29,12 @@
     </delete>
 
     <!-- 댓글 번호로 조회 -->
-    <select id="selectOne" resultType="ReplyDto">
-        SELECT * FROM REPLY WHERE REPLY_NO = #{replyNo}
-    </select>
+   <select id="selectOne" resultType="ReplyVO">
+	    SELECT R.*, S.*
+	    FROM reply R
+	    JOIN search_info S ON R.reply_writer = S.emp_no
+	    WHERE R.reply_no = #{replyNo}
+	</select>
+
     
 </mapper>

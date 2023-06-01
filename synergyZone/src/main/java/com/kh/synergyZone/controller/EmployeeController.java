@@ -69,6 +69,7 @@ public class EmployeeController {
 			EmployeeDto findDto = employeeService.login(employeeDto);
 			if(findDto != null){
 				//로그인 시 세션 저장
+				session.setAttribute("empName", findDto.getEmpName());
 				session.setAttribute("empNo", findDto.getEmpNo());
 				session.setAttribute("jobNo", findDto.getJobNo());
 				

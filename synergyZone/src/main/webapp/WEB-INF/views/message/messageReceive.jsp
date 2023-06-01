@@ -9,7 +9,6 @@
 <body>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
-<div class="container">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
     var empNo = "${sessionScope.empNo}";
@@ -19,8 +18,9 @@
   <!-- aside -->
   <jsp:include page="/WEB-INF/views/message/messageAside.jsp"></jsp:include>
 
+<div class="container">
   <div class="mb-3">
-    <h1>받은 쪽지함 
+    <h5>받은 쪽지함 
     <a class="deco-none message-not-read-cnt" href="${pageContext.request.contextPath}/message/receive?mode=new" style="color:#5E78D3">
     ${notReadCnt}</a>
       <c:if test="${param.mode != 'new'}">/<a class="deco-none message-receive-cnt" style="color:black" 
@@ -28,10 +28,10 @@
     </h1>
   </div>
   <div class="row flex">
-    <div class="pocketmonTrade-btn message-delete-btn">
+    <div class="Trade-btn message-delete-btn">
       <i class="fa-solid fa-xmark" style="color: red"></i> 삭제
     </div>
-    <div class="pocketmonTrade-btn ml-auto message-refresh-btn">
+    <div class="Trade-btn ml-auto message-refresh-btn">
       <i class="fa-solid fa-rotate-right" style="color: gray"></i> 새로고침
     </div>
   </div>
@@ -45,26 +45,52 @@
       <div class="flex-align-center">제목</div>
       <div class="flex-align-center">날짜</div>
     </div>
-    <div class="target"></div>
+<div class="target">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">
+          <div class="form-check">
+            <input class="form-check-input message-check-all" type="checkbox">
+          </div>
+        </th>
+        <th scope="col">보낸사람</th>
+        <th scope="col">제목</th>
+        <th scope="col">날짜</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- 여기에 서버에서 받은 데이터로 테이블 내용을 동적으로 추가합니다. -->
+    </tbody>
+  </table>
+</div>
   </div>
+  
   <!-- 페이지네이션 -->
   <div class="mt-3 center pagination"></div>
+  
   <!-- 검색창 -->
-  <div class="row center">
-    <form class="message-receive-search-form" action="/message/receive" method="get" autocomplete="off">
-      <select name="column" class="form-select">
-        <option class="column-option" value="message_title">제목</option>
-        <option class="column-option" value="message_sender_nick">닉네임</option>
-        <option class="column-option" value="message_sender">아이디</option>
-        <option class="column-option" value="message_content">내용</option>
-      </select>
-      <input name="keyword" class="form-control" value="${param.keyword}" placeholder="검색" />
-      <input name="item" type="hidden" value="${param.item}" />
-      <input name="order" type="hidden" value="${param.order}" />
-      <input name="special" type="hidden" value="${param.special}" />
-      <button class="btn btn-primary">검색</button>
-    </form>
-  </div>
+ <div class="row center">
+  <form class="message-receive-search-form" action="/message/receive" method="get" autocomplete="off">
+    <div class="col-12 col-md-8 offset-md-2">
+      <div class="input-group">
+        <select name="column" class="form-select" style="width: 10%;">
+          <option class="column-option" value="message_title">제목</option>
+          <option class="column-option" value="message_sender_nick">닉네임</option>
+          <option class="column-option" value="message_sender">아이디</option>
+          <option class="column-option" value="message_content">내용</option>
+        </select>
+        <input name="keyword" class="form-control search-input" value="${param.keyword}" placeholder="검색" />
+        <input name="item" type="hidden" value="${param.item}" />
+        <input name="order" type="hidden" value="${param.order}" />
+        <input name="special" type="hidden" value="${param.special}" />
+        <button class="btn btn-primary">검색</button>
+     	 </div>
+   	 	</div>
+ 	 </form>
+	</div>
+
+
 </div>
 
 

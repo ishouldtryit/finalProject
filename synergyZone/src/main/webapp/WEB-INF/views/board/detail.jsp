@@ -18,7 +18,12 @@
 		<div class="row mt-4">
 			<div class="col-md-10 offset-md-1">
 				<hr>
-				<h5 class="replyWriter text-dark">?</h5>
+				<div class="d-flex align-items-center">
+					<div class="profile-image employee-name">
+						<!-- 프로필 사진이 들어갈 위치 -->
+					</div>
+					<h5 class="replyWriter text-dark">?</h5>
+				</div>
 				<h6 class="replyTime text-secondary">
 					?분 전
 				</h6>
@@ -27,13 +32,27 @@
 		</div>
 	</div>
 </script>
+
 <div class="container-fluid">
 
 	<!-- 제목 -->
 	<div class="row mt-4">
 		<div class="col-md-10 offset-md-1">
 			<h1>${boardDto.boardTitle}[${boardDto.boardReply}]</h1>
-			<h2 class="text-secondary">${boardDto.boardWriter}</h2>
+			
+			<div class="d-flex align-items-center">
+			  <div class="profile-image employee-name">
+			    <img width="50" height="50" src="<c:choose>
+			      <c:when test="${boardDto.attachmentNo > 0}">
+			        /attachment/download?attachmentNo=${boardDto.attachmentNo}
+			      </c:when>
+			      <c:otherwise>
+			        https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg
+			      </c:otherwise>
+			    </c:choose>" alt="" style="border-radius: 50%;">
+			  </div>
+			  <h2 class="text" style="margin-left: 10px;">작성자 : ${boardDto.empName}</h2>
+			</div>
 		</div>
 	</div>
 	

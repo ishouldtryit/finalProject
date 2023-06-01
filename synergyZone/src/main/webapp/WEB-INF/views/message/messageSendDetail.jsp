@@ -22,18 +22,18 @@
   </div>
   <hr class="mt-0"/>
   <div class="row flex">
-    <div class="pocketmonTrade-btn message-delete-btn">
+    <div class="Trade-btn message-delete-btn">
       <i class="fas fa-times" style="color:red;"></i> 삭제
     </div>
-    <a href="${pageContext.request.contextPath}/message/send" class="pocketmonTrade-btn message-list-btn ml-auto">
+    <a href="${pageContext.request.contextPath}/message/send" class="Trade-btn message-list-btn ml-auto">
       <i class="fas fa-list" style="color: #9DACE4;"></i> 목록
     </a>
   </div>
-  <hr/>
+  <hr>
   <div class="row">
-  <div class="p-2">
+  <div class="d-flex">
     <div class="profile-image employee-name">
-        <img width="50" height="50" src="<c:choose>
+        <img width="40" height="40" src="<c:choose>
             <c:when test="${senderProfile.attachmentNo > 0}">
                 /attachment/download?attachmentNo=${senderProfile.attachmentNo}
             </c:when>
@@ -42,19 +42,18 @@
             </c:otherwise>
         </c:choose>" alt="" style="border-radius: 50%;">
     </div>
-</div>
-    <b>보낸사람</b>
-    ${messageWithNickDto.messageSenderNick} (${messageWithNickDto.messageSender})
-    <c:if test="${messageWithNickDto.getMessageSendTime() != null}">
-      [<fmt:formatDate value="${messageWithNickDto.getMessageSendTime()}" pattern="yyyy.MM.dd. H:m"/>]
-    </c:if>
+    <div class="sender-info">
+      <b>보낸사람</b>
+      ${messageWithNickDto.messageSenderNick} (${messageWithNickDto.messageSender})
+      [<fmt:formatDate value="${messageWithNickDto.messageSendTime}" pattern="yyyy.MM.dd. H:m"/>]
+    </div>
   </div>
   
-  
+  <hr>
   <div class="row">
-  <div class="p-2">
+   <div class="d-flex">
     <div class="profile-image employee-name">
-        <img width="50" height="50" src="<c:choose>
+        <img width="40" height="40" src="<c:choose>
             <c:when test="${recipientProfile.attachmentNo > 0}">
                 /attachment/download?attachmentNo=${recipientProfile.attachmentNo}
             </c:when>
@@ -63,12 +62,10 @@
             </c:otherwise>
         </c:choose>" alt="" style="border-radius: 50%;">
     </div>
-    <b>받은사람</b>
-    ${messageWithNickDto.messageRecipientNick} (${messageWithNickDto.messageRecipient})
-    <c:if test="${messageWithNickDto.getMessageReadTime() != null}">
-      [<fmt:formatDate value="${messageWithNickDto.getMessageReadTime()}" pattern="yyyy.MM.dd. H:m"/>]
-    </c:if>
-  </div>
+  <b>받은사람 </b>
+  ${messageWithNickDto.messageRecipientNick} (${messageWithNickDto.messageRecipient})
+  [<fmt:formatDate value="${messageWithNickDto.messageReadTime}" pattern="yyyy.MM.dd. H:m"/>]
+</div>
   <hr/>
   <div class="row message-content">
     ${messageWithNickDto.getMessageContent()}

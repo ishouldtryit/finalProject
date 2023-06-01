@@ -95,6 +95,7 @@ $(function () {
         var sendTimeList = response.sendTimeList;
         const pageVo = response.pageVoList[0];
 
+
         // target 비우고 다시 로드
         $(".target").empty();
         for (let i = 0; i < messageList.length; i++) {
@@ -165,6 +166,7 @@ $(function () {
           } else {
             $(newReceiveMsgRow).find("a").addClass("blue");
           }
+          
           $(".target").append(newReceiveMsgRow);
         }
 
@@ -283,7 +285,7 @@ $(function () {
     }
   }
 
-  // option 선택
+	  // option 선택
   $(".column-option").each(function () {
     if (column === $(this).val()) {
       $(this).attr("selected", "selected");

@@ -34,19 +34,27 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
    
 	<!-- 사이드바관련 -->
+    <script src="/static/js/jquery.min.js"></script>
+	<script src="/static/js/popper.js"></script>
 	<script src="/static/js/popper.js"></script>
 	<script src="/static/js/main.js"></script>
-    <script src="/static/js/jquery.min.js"></script>
+<!--     <script src="/static/js/jquery.min.js"></script> -->
     <script src="/static/js/bootstrap.min.js"></script>
+	<script src="/static/js/main.js"></script>
 
 
     <script>
     	const contextPath = "${pageContext.request.contextPath}";
+    	const memberId = "${sessionScope.memberId}";
+    	const memberLevel = "${sessionScope.memberLevel}";
     </script>
     
     <style>
       #rogo-img{
         width: 200px;
+        width: 280px;
+        height: 50px;
+        margin-top: 2px;
       }
                   a{
                 text-decoration: none;
@@ -74,7 +82,9 @@
         <div class="container-fluid">
 	      <div class="row">
 	          <div class="col col-7 bg-info text-light">
+	            <a href="http://localhost:8080/">
 	            <img src="/static/img/logo.png" id="rogo-img" class="p-1">
+	            </a>
 	          </div>
 	      
 	          <div class="col bg-info text-light p-2">
@@ -94,10 +104,10 @@
 	     <div class="wrapper d-flex align-items-stretch" >
 	            <nav id="sidebar" class="bg-info">
 	                <div class="p-4 pt-5" style=" min-height: 70vh;">
-	                    <a href="#"><h3 class="text-light mb-5">게시판</h3></a>
+	                    <a href="#"><h3 class="text-light mb-5">그룹웨어</h3></a>
 	                    <ul class="list-unstyled components mb-5">
 	                        <li>
-	                            <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">회사 게시판</a>
+	                            <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">게시판</a>
 	                            <ul class="collapse list-unstyled" id="homeSubmenu">
 	                                <li>
 	                                    <a href="#">공지사항</a>
@@ -105,23 +115,20 @@
 	                                <li>
 	                                    <a href="#">자유게시판</a>
 	                                </li>
-	                                <li>
-	                                    <a href="#">ㅋㅋㅋ</a>
-	                                </li>
 	                            </ul>
 	                        </li>
 	
 	                        <li>
-	                        <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">부서 게시판</a>
+	                        <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">전자결재</a>
 	                        <ul class="collapse list-unstyled" id="pageSubmenu">
 	                                <li>
-	                                <a href="#">공지사항</a>
+	                                <a href="/approval/write">신규 결재</a>
 	                                </li>
 	                                <li>
-	                                    <a href="#">자유게시판</a>
+	                                    <a href="/approval/list">개인 문서함</a>
 	                                </li>
 	                                <li>
-	                                    <a href="#">팀 게시판</a>
+	                                    <a href="#">부서 문서함</a>
 	                                </li>
 	                            </ul>
 	                        </li>
@@ -138,6 +145,18 @@
 									  </li>
 									</c:if>
 	                            </ul>
+	                            
+	                           <c:if test="${empNo != null}">
+	                            <a href="#messageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">쪽지함</a>
+	                            <ul class="collapse list-unstyled" id="messageSubmenu">
+	                                <li>
+	                                    <a href="${pageContext.request.contextPath}/message/receive">받은 쪽지함</a>
+	                                </li>
+									  <li>
+									    <a href="${pageContext.request.contextPath}/message/send">보낸 쪽지함</a>
+									  </li>
+	                            </ul>
+									</c:if>
 	                        </li>
 	
 	                        <li>
@@ -191,4 +210,8 @@
 	                    </div>
 	                </div>
 	            </nav>
-
+	            
+	            <!-- 내용 -->
+	            여기에 작성
+		    
+		    

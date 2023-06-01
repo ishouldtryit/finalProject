@@ -7,6 +7,7 @@
     color: dodgerblue;
   }
 </style>
+
 <div class="container-800" style="margin-left: 5%;">
 		<!-- 검색창 -->
 		<form class="d-flex" action="list" method="get">

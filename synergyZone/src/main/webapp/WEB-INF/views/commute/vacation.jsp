@@ -1,75 +1,245 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+.outer-border {
+	border: 1px solid #eaeaea;
+	padding: 10px;
+	margin-bottom: 20px;
+}
+
+.my-card { /* ë³€ê²½ëœ í´ë˜ìŠ¤ ì´ë¦„ */
+	display: inline-block;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	border-right: 1px solid #eaeaea;
+	padding-right: 10px;
+	width: calc(25% - 15px);
+	box-sizing: border-box;
+}
+
+.my-card-img { /* ë³€ê²½ëœ í´ë˜ìŠ¤ ì´ë¦„ */
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.my-card-body { /* ë³€ê²½ëœ í´ë˜ìŠ¤ ì´ë¦„ */
+	display: inline-block;
+	vertical-align: middle;
+	text-align: center;
+}
+</style>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-  <select name="year" id="year-select"></select>
+	<div>
+		<div class="d-flex">
+			<h1>ë‚´ ì—°ì°¨ë‚´ì—­</h1>
+			<h1 id="currentDate"></h1>
+		</div>
+		<hr>
+		<!-- í•´ë‹¹ í˜ì´ì§€ë„ viewë¡œ ë‹¤ì‹œ ë¬¶ì–´ì„œ í•´ì•¼í•¨ -->
+		<div>
+			<div>
+				<div class="outer-border">
+					<div class="row justify-content-start mt-5">
+						<div class="my-card text-center">
+							<!-- ë³€ê²½ëœ í´ë˜ìŠ¤ ì´ë¦„ -->
+							<img width="50" height="50"
+								src="<c:choose>
+                       <c:when test="${employeeDto.attachmentNo > 0}">
+                         /attachment/download?attachmentNo=${employeeDto.attachmentNo}
+                       </c:when>
+                       <c:otherwise>
+                         https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg
+                       </c:otherwise>
+                            </c:choose>"
+								style="border-radius: 50%;" class="my-card-img">
+							<div class="my-card-body">
+								<!-- ë³€ê²½ëœ í´ë˜ìŠ¤ ì´ë¦„ -->
+								<h5 class="card-title">${one.empName}${one.jobName}</h5>
+							</div>
+						</div>
+						<div class="my-card text-center">
+							<!-- ë³€ê²½ëœ í´ë˜ìŠ¤ ì´ë¦„ -->
+							<div class="my-card-body">
+								<!-- ë³€ê²½ëœ í´ë˜ìŠ¤ ì´ë¦„ -->
+								<h5 class="card-title">ì´ ì—°ì°¨</h5>
+								<p class="card-text">${one.total}</p>
+							</div>
+						</div>
+						<div class="my-card text-center">
+							<!-- ë³€ê²½ëœ í´ë˜ìŠ¤ ì´ë¦„ -->
+							<div class="my-card-body">
+								<!-- ë³€ê²½ëœ í´ë˜ìŠ¤ ì´ë¦„ -->
+								<h5 class="card-title">ì‚¬ìš© ì—°ì°¨</h5>
+								<p class="card-text">${one.uesd}</p>
+							</div>
+						</div>
+						<div class="my-card text-center">
+							<!-- ë³€ê²½ëœ í´ë˜ìŠ¤ ì´ë¦„ -->
+							<div class="my-card-body">
+								<!-- ë³€ê²½ëœ í´ë˜ìŠ¤ ì´ë¦„ -->
+								<h5 class="card-title">ì”ì—¬ ì—°ì°¨</h5>
+								<p class="card-text">${one.residual}</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<hr>
+		<select name="year" id="year-select"></select>
+		<div>
+			<div id="table-container"></div>
+		</div>
+		<p class="mt-50 mb-50">
+		<h2>empNo=${sessionScope.empNo}</h2>
+		<h2>jobNo=${sessionScope.jobNo}</h2>
+		<span> Copyright Â©2023 SYNERGYZONE. All Rights Reserved. </span>
+		</p>
+	</div>
 
-  <script>
-    $(function() {
-      // ÇöÀç ³âµµ¸¦ °¡Á®¿À´Â ÇÔ¼ö
-      function getCurrentYear() {
-        return new Date().getFullYear();
-      }
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script>
+		$(function() {
+					var currentDate = new Date();
+					var year = currentDate.getFullYear();
+					var month = currentDate.getMonth() + 1;
+					var day = currentDate.getDate();
 
-      // ÀÔ»çÀÏ·ÎºÎÅÍÀÇ ³âµµ ¹üÀ§¸¦ »ı¼ºÇÏ´Â ÇÔ¼ö
-      function generateYearRange(startYear, endYear) {
-        var yearRange = [];
+					var formattedDate = year + '-' + ('0' + month).slice(-2)
+							+ '-' + ('0' + day).slice(-2);
+					$('#currentDate').text(formattedDate);
+				});
+	</script>
+	<script>
+		$(function() {
+			//í˜ì´ì§€ ë¡œë”©ì‹œ ê°€ì ¸ì˜´
+			$.ajax({
+				url : "http://localhost:8080/rest/vacation/",
+				type : "GET",
+				data : {
+					selectedValue : getCurrentYear()
+				},
+				success : function(data) {
+					console.log(data);
+					var table = createTable(data);
+					$("#table-container").empty().append(table);
+				}
+			});
 
-        for (var year = startYear; year <= endYear; year++) {
-          yearRange.push(year);
-        }
+			function createTable(data) {
+				  var tableElement = $("<table class='table table-hover'>");
 
-        return yearRange;
-      }
+				  var headerRow = $("<tr>");
+				  headerRow.append($("<th>").text("ì´ë¦„"));
+				  headerRow.append($("<th>").text("ë¶€ì„œëª…"));
+				  headerRow.append($("<th>").text("ì—°ì°¨ì‚¬ìš©ë‚ ì§œ"));
+				  headerRow.append($("<th>").text("íœ´ê°€ ì¢…ë¥˜"));
+				  headerRow.append($("<th>").text("ì‚¬ìœ "));
+				  headerRow.append($("<th>").text("ì‚¬ìš© ì—°ì°¨"));
+				  tableElement.append(headerRow);
 
-      // select ¿ä¼Ò¸¦ »ı¼ºÇÏ´Â ÇÔ¼ö
-      function generateSelectElement() {
-        var selectElement = $("#year-select");
-        var currentYear = getCurrentYear();
-        var startYear = 2020; // ½ÃÀÛ ³âµµ
-        var endYear = currentYear; // ÇöÀç ³âµµ
+				  if (data.length === 0) {
+				    var emptyRow = $("<tr>").append($("<td colspan=''>").text("ëª©ë¡ì´ ì—†ìŠµë‹ˆë‹¤."));
+				    tableElement.append(emptyRow);
+				    var emptyRowContainer = $("<div class='empty-row-container'>").append(tableElement);
+				    return emptyRowContainer;
+				  } else {
+				    for (var i = 0; i < data.length; i++) {
+				      var rowData = data[i];
+				      var row = $("<tr>");
 
-        var yearRange = generateYearRange(startYear, endYear);
+				      row.append($("<td>").text(rowData.empName));
+				      row.append($("<td>").text(rowData.deptName));
+				      row.append($("<td>").text(rowData.startDate + ' ~ ' + rowData.endDate));
+				      row.append($("<td>").text(rowData.vacationName));
+				      row.append($("<td>").text(rowData.reason));
+				      row.append($("<td>").text(rowData.useCount));
 
-        for (var i = yearRange.length - 1; i >= 0; i--) {
-          var option = $("<option>").val(yearRange[i]).text(yearRange[i] + "-01 ~ " + yearRange[i] + "-12");
-          selectElement.append(option);
-        }
-      }
+				      tableElement.append(row);
+				    }
+				    return tableElement;
+				  }
+				}
 
-      // ¼±ÅÃµÈ °ªÀ» ¼­¹ö·Î Àü¼ÛÇÏ´Â ÇÔ¼ö
-      function sendSelectedValue() {
-        var selectElement = $("#year-select");
-        var selectedValue = selectElement.val();
+			// í˜„ì¬ ë…„ë„ë¥¼ ê°€ì ¸ì˜¤ëŠ” í•¨ìˆ˜
+			function getCurrentYear() {
+				return new Date().getFullYear();
+			}
 
-        // AJAX ¿äÃ»
-        $.ajax({
-        	  url: "http://localhost:8080/rest/vacation/",
-        	  type: "GET",
-        	  success: function(data) {
-        	    console.log("¼±ÅÃÇÑ °ªÀÌ ¼º°øÀûÀ¸·Î Àü¼ÛµÇ¾ú½À´Ï´Ù.");
-        	    console.log(data); // ¹ŞÀº µ¥ÀÌÅÍ¸¦ ÄÜ¼Ö¿¡ Ãâ·Â
+			// ì…ì‚¬ì¼ë¡œë¶€í„°ì˜ ë…„ë„ ë²”ìœ„ë¥¼ ìƒì„±í•˜ëŠ” í•¨ìˆ˜
+			function generateYearRange(startYear, endYear) {
+				var yearRange = [];
 
-        	    // ¹ŞÀº µ¥ÀÌÅÍ¸¦ È°¿ëÇÏ¿© ÇÊ¿äÇÑ ÀÛ¾÷ ¼öÇà
-        	    // ¿¹: ¹ŞÀº µ¥ÀÌÅÍ¸¦ DOM ¿ä¼Ò¿¡ Ãß°¡ÇÏ°Å³ª Ã³¸®ÇÏ´Â µîÀÇ ÀÛ¾÷
-        	  }
-        	});
-      }
+				for (var year = startYear; year <= endYear; year++) {
+					yearRange.push(year);
+				}
 
-      // ÀÌº¥Æ® ¸®½º³Ê µî·Ï
-      $("#year-select").on("change", sendSelectedValue);
+				return yearRange;
+			}
 
-      // ÇÔ¼ö È£Ãâ
-      generateSelectElement();
-    });
-  </script>
+			// select ìš”ì†Œë¥¼ ìƒì„±í•˜ëŠ” í•¨ìˆ˜
+			function generateSelectElement() {
+				var selectElement = $("#year-select");
+				var currentYear = getCurrentYear();
+				var startYear = 2020; // ì‹œì‘ ë…„ë„ ******************* ì…ì‚¬ì¼ë¡œ ë³€ê²½
+				var endYear = currentYear; // í˜„ì¬ ë…„ë„
+
+				var yearRange = generateYearRange(startYear, endYear);
+
+				for (var i = yearRange.length - 1; i >= 0; i--) {
+					var option = $("<option>").val(yearRange[i]).text(
+							yearRange[i] + "-01 ~ " + yearRange[i] + "-12");
+					selectElement.append(option);
+				}
+				selectElement.on("change", function() {
+					// ì„ íƒëœ ê°’ì´ ë³€ê²½ë  ë•Œì˜ ë™ì‘ì„ ì •ì˜
+					var selectedValue = $(this).val();
+					// ì„ íƒëœ ê°’ì— ë”°ë¼ ë™ì‘ ìˆ˜í–‰
+				});
+			}
+
+			// ì„ íƒëœ ê°’ì„ ì„œë²„ë¡œ ì „ì†¡í•˜ëŠ” í•¨ìˆ˜
+
+			function sendSelectedValue() {
+				var selectElement = $("#year-select");
+				var selectedValue = selectElement.val();
+				// AJAX ìš”ì²­
+				$.ajax({
+					url : "http://localhost:8080/rest/vacation/",
+					type : "GET",
+					data : {
+						selectedValue : selectedValue
+					},
+					success : function(data) {
+						
+							var table = createTable(data);
+							$("#table-container").empty().append(table);
+						
+					},
+					error : function() {
+						$("#table-container").text("ë°ì´í„°ë¥¼ ê°€ì ¸ì˜¤ëŠ” ë° ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤.");
+					}
+				});
+			}
+
+			// ì´ë²¤íŠ¸ ë¦¬ìŠ¤ë„ˆ ë“±ë¡
+			$("#year-select").on("change", sendSelectedValue);
+
+			// í•¨ìˆ˜ í˜¸ì¶œ
+			generateSelectElement();
+
+		});
+	</script>
 </body>
 </html>

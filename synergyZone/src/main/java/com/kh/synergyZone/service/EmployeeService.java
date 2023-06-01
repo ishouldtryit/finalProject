@@ -10,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.synergyZone.dto.EmployeeDto;
 import com.kh.synergyZone.dto.EmployeeInfoDto;
-import com.kh.synergyZone.repo.BookmarkRepo;
 
 public interface EmployeeService {
 

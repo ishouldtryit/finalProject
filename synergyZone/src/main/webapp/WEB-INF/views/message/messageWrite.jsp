@@ -16,6 +16,7 @@
 
 
 <jsp:include page="/WEB-INF/views/message/messageAside.jsp"></jsp:include>
+<div class="container">
     <div class="mb-30">
             <h1>쪽지 쓰기</h1>
     </div>
@@ -54,4 +55,5 @@
         </form>
     </div>
   </article>
+  </div>
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

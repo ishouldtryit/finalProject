@@ -16,6 +16,7 @@ public interface EmployeeRepo {
 	   void exit(String empNo);
 	   void delete(String empNo);
 	   
+	   //부서별 사원목록
 	   List<DeptEmpListVO> treeSelect();
 	   
 	   //비밀번호 찾기

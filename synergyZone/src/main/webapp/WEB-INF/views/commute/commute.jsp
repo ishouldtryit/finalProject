@@ -81,7 +81,7 @@ $(function () {
 		<h4>근태 신청서</h4>
     <ul>
         <li><a href="/commute/write">휴가 신청</a></li>
-        <li><a href="/commute/trip">출장 신청</a></li>
+        <li><a href="/commute/trip">출장 신청</a></li> 
     </ul>
 	
 	

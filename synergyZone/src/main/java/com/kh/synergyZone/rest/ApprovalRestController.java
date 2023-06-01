@@ -6,6 +6,8 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -77,12 +79,13 @@ public class ApprovalRestController {
 	    }
 	    return draftNo;
 	}
-	
+		//목록 첫화면
 		@GetMapping("/list")
 		public ApprovalWithPageVO draftList(PaginationVO vo){
 			PaginationVO listPagination = new PaginationVO();
+			
 			listPagination.setPage(1);
-			listPagination.setSize(2);
+			listPagination.setSize(10);
 			listPagination.setCount(approvalRepoImpl.approvalDataCount(vo));
 			
 		    ApprovalWithPageVO approvalWithPageVO = ApprovalWithPageVO.builder()
@@ -92,9 +95,11 @@ public class ApprovalRestController {
 			return approvalWithPageVO;
 		}
 		
+		//페이지 이동
 		@PostMapping("/moveList")
 		public ApprovalWithPageVO moveList(@RequestBody PaginationVO vo) {
 			PaginationVO listPagination = new PaginationVO();
+			System.out.println(vo.getPageStatus());
 			listPagination.setPage(vo.getPage());
 			listPagination.setSize(vo.getSize());
 			listPagination.setCount(approvalRepoImpl.approvalDataCount(vo));

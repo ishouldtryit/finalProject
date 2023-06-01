@@ -11,7 +11,6 @@
 </style>
 <div id="app">
 
-	<!-- 강사 임시주석 -->
     <div class="container-fluid" v-if="ApprovalWithPageVO != null">
     	
        <div class="row mb-3">
@@ -26,6 +25,31 @@
 		          <option value="40">40</option>
 		          <option value="50">50</option>
 		        </select>
+		       	<button type="button" 
+		       	class="btn ms-3" :class="{'btn-secondary': pageStatus != 'allPage', 'btn-info': pageStatus == 'allPage'}"
+		       	@click ="changeAllPage">
+		  		전체
+				</button>
+		       	<button type="button" 
+		       	class="btn ms-3" :class="{'btn-secondary': pageStatus != 'emergencyPage', 'btn-info': pageStatus == 'emergencyPage'}"
+		       	@click ="changeEmergencyPage">
+		  		긴급
+				</button>
+		       	<button type="button" 
+		       	class="btn ms-3" :class="{'btn-secondary': pageStatus != 'ingPage', 'btn-info': pageStatus == 'ingPage'}"
+		       	@click ="changeIngPage">
+		  		진행
+				</button>
+		       	<button type="button" 
+		       	class="btn ms-3" :class="{'btn-secondary': pageStatus != 'returnPage', 'btn-info': pageStatus == 'returnPage'}"
+		       	@click ="changeReturnPage">
+		  		반려
+				</button>
+		       	<button type="button" 
+		       	class="btn ms-3" :class="{'btn-secondary': pageStatus != 'endPage', 'btn-info': pageStatus == 'endPage'}"
+		       	@click ="changeEndPage">
+		  		완료
+				</button>
        		</div>
        </div>
        <div class="row mt-4">
@@ -94,7 +118,7 @@
 		  	<div class="d-flex align-items-center justify-content-center">
 		  		<div class="d-flex">
 				  <ul class="pagination">
-				    <li class="page-item" :class="{ 'disabled': !ApprovalWithPageVO.paginationVO.prev }">
+				    <li class="page-item" @click="firstMove"  :class="{ 'disabled': ApprovalWithPageVO.paginationVO.page == 1 }">
 				      <span class="page-link" >
 						<i class="fa-solid fa-angles-left"></i>
 						</span>
@@ -119,7 +143,7 @@
 						<i class="fa-solid fa-angle-right"></i>
 						</span>
 				    </li>
-				    <li class="page-item">
+				    <li class="page-item" @click="finishMove" :class="{ 'disabled': ApprovalWithPageVO.paginationVO.page == ApprovalWithPageVO.paginationVO.totalPage }">
 				      <span class="page-link">
 				      	<i class="fa-solid fa-angles-right"></i>
 						</span>
@@ -138,6 +162,8 @@
                 return {
                     //화면에서 사용할 데이터를 선언
                 	ApprovalWithPageVO : null,
+                	pageStatus : "allPage",
+                	
                 };
             },
             computed:{
@@ -152,6 +178,7 @@
                 //페이지 이동
                 async move(page) {
                 	 this.ApprovalWithPageVO.paginationVO.page = page;
+                	 this.ApprovalWithPageVO.paginationVO.pageStatus = this.pageStatus; // pageStatus 추가
                 	  const resp = await axios.post("/rest/approval/moveList", this.ApprovalWithPageVO.paginationVO);
                 	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
                 	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
@@ -159,6 +186,8 @@
                	
                 //페이지 prev 이동
                 async prevMove() {
+               		if(!this.ApprovalWithPageVO.paginationVO.prev) return;
+               		this.ApprovalWithPageVO.paginationVO.pageStatus = this.pageStatus; // pageStatus 추가
                 	 this.ApprovalWithPageVO.paginationVO.page = this.ApprovalWithPageVO.paginationVO.prevPage;
                 	  const resp = await axios.post("/rest/approval/moveList", this.ApprovalWithPageVO.paginationVO);
                 	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
@@ -167,7 +196,29 @@
                	
                 //페이지 next 이동
                 async nextMove() {
+               			if(!this.ApprovalWithPageVO.paginationVO.next) return;
                 	 this.ApprovalWithPageVO.paginationVO.page = this.ApprovalWithPageVO.paginationVO.nextPage;
+                	 this.ApprovalWithPageVO.paginationVO.pageStatus = this.pageStatus; // pageStatus 추가
+                	  const resp = await axios.post("/rest/approval/moveList", this.ApprovalWithPageVO.paginationVO);
+                	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
+                	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
+               	},
+               	
+                //첫 페이지 이동
+                async firstMove() {
+               		if(this.ApprovalWithPageVO.paginationVO.page == 1) return;
+                	 this.ApprovalWithPageVO.paginationVO.page = 1;
+                	 this.ApprovalWithPageVO.paginationVO.pageStatus = this.pageStatus; // pageStatus 추가
+                	  const resp = await axios.post("/rest/approval/moveList", this.ApprovalWithPageVO.paginationVO);
+                	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
+                	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
+               	},
+               	
+                //마지막 페이지 이동
+                async finishMove() {
+               			if(this.ApprovalWithPageVO.paginationVO.page == this.ApprovalWithPageVO.paginationVO.totalPage) return;
+                	 this.ApprovalWithPageVO.paginationVO.page = this.ApprovalWithPageVO.paginationVO.totalPage;
+                	 this.ApprovalWithPageVO.paginationVO.pageStatus = this.pageStatus; // pageStatus 추가
                 	  const resp = await axios.post("/rest/approval/moveList", this.ApprovalWithPageVO.paginationVO);
                 	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
                 	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
@@ -175,14 +226,69 @@
                	
 				//표시 갯수(count) 변경
                	async changeSize() {
-               		this.ApprovalWithPageVO.paginationVO.page = 1;
+             			this.ApprovalWithPageVO.paginationVO.page = 1;
+             			this.ApprovalWithPageVO.paginationVO.pageStatus = this.pageStatus; // pageStatus 추가
                 	  const resp = await axios.post("/rest/approval/moveList", this.ApprovalWithPageVO.paginationVO);
                 	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
                 	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
                	},
+               	
  				//상세페이지 이동
                 goToDetail(draftNo) {
                     window.location.href = 'detail?draftNo=' + draftNo;
+                },
+                
+                //전체 항목 검색
+                async changeAllPage() {
+                  if(this.pageStatus === "allPage") return;
+                  this.pageStatus = "allPage";
+               	  const resp = await axios.post("/rest/approval/moveList", this.ApprovalWithPageVO.paginationVO);
+               	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
+               	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
+                },
+                
+                //긴급 항목만 검색
+                async changeEmergencyPage() {
+                  if(this.pageStatus === "emergencyPage") return;
+                  this.pageStatus = "emergencyPage";
+               	  this.ApprovalWithPageVO.paginationVO.pageStatus = this.pageStatus; // pageStatus 추가
+               	  this.ApprovalWithPageVO.paginationVO.page = 1;
+               	  const resp = await axios.post("/rest/approval/moveList", this.ApprovalWithPageVO.paginationVO);
+               	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
+               	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
+                },
+                
+                //진행 항목만 검색
+                async changeIngPage() {
+                  if(this.pageStatus === "ingPage") return;
+                  this.pageStatus = "ingPage";
+               	  this.ApprovalWithPageVO.paginationVO.pageStatus = this.pageStatus; // pageStatus 추가
+               	  this.ApprovalWithPageVO.paginationVO.page = 1;
+               	  const resp = await axios.post("/rest/approval/moveList", this.ApprovalWithPageVO.paginationVO);
+               	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
+               	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
+                },
+                
+                //반려 항목만 검색
+                async changeReturnPage() {
+                  if(this.pageStatus === "returnPage") return;
+                  this.pageStatus = "returnPage";
+               	  this.ApprovalWithPageVO.paginationVO.pageStatus = this.pageStatus; // pageStatus 추가
+               	  this.ApprovalWithPageVO.paginationVO.page = 1;
+               	  const resp = await axios.post("/rest/approval/moveList", this.ApprovalWithPageVO.paginationVO);
+               	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
+               	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
+                },
+                
+                //완료 항목만 검색
+                async changeEndPage() {
+                  if(this.pageStatus === "endPage") return;
+                  this.pageStatus = "endPage";
+               	  this.ApprovalWithPageVO.paginationVO.pageStatus = this.pageStatus; // pageStatus 추가
+               	  this.ApprovalWithPageVO.paginationVO.page = 1;
+               	  const resp = await axios.post("/rest/approval/moveList", this.ApprovalWithPageVO.paginationVO);
+               	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
+               	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
                 },
                 
             },

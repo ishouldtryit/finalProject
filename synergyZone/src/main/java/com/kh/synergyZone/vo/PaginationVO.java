@@ -19,6 +19,9 @@ public class PaginationVO {
   
   // 블럭마다 보여줄 숫자 개수
   private int blockSize = 5;
+
+  // 페이지 검색 형태
+  private String pageStatus;
   
   // 정렬 항목
   private String item = "allboard_no";

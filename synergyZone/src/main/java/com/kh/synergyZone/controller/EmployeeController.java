@@ -130,6 +130,8 @@ public class EmployeeController {
 			
 			//이메일 일치 시 임시 비밀번호 생성
 			emailService.sendTemporaryPw(empNo, empEmail);
+			System.out.println(empEmail);
+			System.out.println(empNo);
 			return "redirect:findPwResult";
 		}
 		

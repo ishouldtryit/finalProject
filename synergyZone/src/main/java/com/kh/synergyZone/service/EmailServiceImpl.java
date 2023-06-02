@@ -37,6 +37,7 @@ public class EmailServiceImpl implements EmailService {
 									StandardCharsets.UTF_8.name());
 		
 		EmployeeDto employeeDto = new EmployeeDto();
+		employeeDto.setEmpNo(empNo);
 		
 		//암호화
 		String temporaryPw = randomComponent.generateString();

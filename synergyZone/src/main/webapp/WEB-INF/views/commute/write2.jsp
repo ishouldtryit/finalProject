@@ -18,10 +18,12 @@
         </tr>
         <tr>
             <th>대상자</th>
-            <td><br>
+            <td><button>대상자 추가</button> <button>선택 삭제</button>
+            <br>
                 <table class="table">
                     <thead>
                         <tr>
+                            <td> </td>
                             <td>부서</td>
                             <td>직급</td>
                             <td>이름</td>
@@ -29,6 +31,7 @@
                     </thead>
                     <tbody>
                         <tr>
+                        	<td><input type="checkbox"></td>
                             <td>영업팀</td>
                             <td>사원</td>
                             <td>테스트사원</td>
@@ -88,7 +91,6 @@
     </table>
     <input type="hidden" name="useCount">
     <button>등록</button>
-    </form>
     <br>
     <hr>
     <br>

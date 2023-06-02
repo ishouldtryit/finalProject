@@ -222,5 +222,21 @@
         showAttendance();
     }
 </script>
+
+<script type="text/javascript">
+		function showTooltip(element) {
+		    var tooltipText = $(element).data("tooltip");
+		    var tooltip = $("<span>").addClass("tooltip").text(tooltipText);
+		
+		    $(element).parent().append(tooltip);
+		}
+		
+		function hideTooltip() {
+		    var tooltip = $(".tooltip");
+		    if (tooltip.length > 0) {
+		        tooltip.remove();
+		    }
+		}
+</script>
 </body>
 </html>

@@ -42,7 +42,7 @@ public class HomeController {
 		        return "main"; // 로그인된 사용자는 메인 페이지로 이동
 		    }
 		    
-		    return "login";
+		    return "main";
 		}
 		
 		//로그인

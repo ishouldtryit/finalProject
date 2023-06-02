@@ -1,5 +1,6 @@
 package com.kh.synergyZone.WebSocket;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
@@ -9,9 +10,12 @@ import org.springframework.web.socket.server.support.HttpSessionHandshakeInterce
 @Configuration
 public class WebSocketConfiguration implements WebSocketConfigurer{
 
+	@Autowired
+	private WebSocketServer server;
+	
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-		registry.addHandler(null, "ws/chat")
+		registry.addHandler(server, "ws/chat")
 										.addInterceptors(new HttpSessionHandshakeInterceptor())
 										.withSockJS();
 	}

@@ -24,4 +24,5 @@ public interface EmployeeService {
 	String getBrowser(HttpServletRequest request);
 	
 	List<EmployeeInfoDto> searchEmployees(String column, String keyword);
+	
 }

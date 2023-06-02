@@ -66,12 +66,14 @@ public class EmployeeController {
 		public String login(@ModelAttribute EmployeeDto employeeDto,
 							HttpSession session,
 							HttpServletRequest request) {
+			
 			EmployeeDto findDto = employeeService.login(employeeDto);
 			if(findDto != null){
 				//로그인 시 세션 저장
 				session.setAttribute("empName", findDto.getEmpName());
 				session.setAttribute("empNo", findDto.getEmpNo());
 				session.setAttribute("jobNo", findDto.getJobNo());
+				session.setAttribute("empName", findDto.getEmpName());
 				
 				String ipAddress = employeeService.getLocation(request);
 				String browserAddress = employeeService.getBrowser(request);
@@ -84,7 +86,6 @@ public class EmployeeController {
 				
 				loginRecordRepo.insert(loginRecordDto);
 			}
-			
 			return "redirect:/";
 		}
 		

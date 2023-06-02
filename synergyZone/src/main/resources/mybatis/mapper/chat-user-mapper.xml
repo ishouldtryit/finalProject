@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="chatUser">
+	
+	<insert id="add">
+		insert into chat_user(room_name, emp_no, emp_Name,join_time)
+		values(#{roomName}, #{empNo}, #{empName},sysdate)
+	</insert>
+	
+	<select id="find" resultType="ChatUserDto">
+		select * from chat_user where emp_no = #{empNo}
+	</select>
+	
+	<select id="check" resultType="ChatUserDto">
+		select * from chat_user 
+		where emp_no = #{empNo} and room_name = #{roomName}
+	</select>
+	
+</mapper>
+
+
+
+

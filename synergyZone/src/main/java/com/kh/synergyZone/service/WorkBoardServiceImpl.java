@@ -19,6 +19,7 @@ import com.kh.synergyZone.dto.WorkFileDto;
 import com.kh.synergyZone.repo.AttachmentRepo;
 import com.kh.synergyZone.repo.WorkBoardRepo;
 import com.kh.synergyZone.repo.WorkFileRepo;
+import com.kh.synergyZone.repo.WorkReportRepo;
 
 @Service
 public class WorkBoardServiceImpl implements WorkBoardService{
@@ -35,6 +36,9 @@ public class WorkBoardServiceImpl implements WorkBoardService{
 	@Autowired
 	private CustomFileUploadProperties customFileUploadProperties;
 	
+	@Autowired
+	private WorkReportRepo workReportRepo;
+	
 	private File dir;
 	
 	@PostConstruct
@@ -45,8 +49,9 @@ public class WorkBoardServiceImpl implements WorkBoardService{
 
 	@Override
 	public void write(WorkBoardDto workBoardDto, List<MultipartFile> attachments) throws IllegalStateException, IOException {
+		
 	    workBoardRepo.insert(workBoardDto);
-
+	    
 	    for (MultipartFile attach : attachments) {
 	        if (!attach.isEmpty()) {
 	            // Generate attachment number
@@ -116,16 +121,6 @@ public class WorkBoardServiceImpl implements WorkBoardService{
 	        }
 	    }
 	}
-
-//	@Override
-//	public WorkBoardDto calculateWorkDates(WorkBoardDto workBoardDto) {
-//		String workType = workBoardDto.getWorkType();
-//		Date today = new Date();
-//		
-//		if(workType.equals("일일업무")) {
-//			workBoardDto.setWorkStart(today);
-//		}
-//	}
 
 	
 }

@@ -23,8 +23,6 @@ public class VacationRestController {
 	@Autowired
 	private VacationRepoImpl repo;
 	
-	//*************이거 뷰 만들어서 다시해야함  list만 변경******************** 
-	
 	//사원 연차기록조회
 	@GetMapping("/")
 	public List<VacationVO> list(HttpSession session,@RequestParam("selectedValue") String selectedValue) {

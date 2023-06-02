@@ -18,4 +18,23 @@ public class VacationRepoImpl implements VacationRepo {
 		return sqlSession.selectList("vacation.list",vo);
 	}
 	
+	//관리자
+	@Override
+	public List<VacationVO> adminList(VacationVO vo) {
+		return sqlSession.selectList("vacation.adminList",vo);
+	}
+	
+	//대기열
+	@Override
+	public List<VacationVO> queue(VacationVO vo) {
+		return sqlSession.selectList("vacation.queue",vo);
+	}
+
+	//연차등록
+	@Override
+	public void insert(VacationVO vo) {
+		sqlSession.insert("vacation.add",vo);
+		
+	}
+	
 }

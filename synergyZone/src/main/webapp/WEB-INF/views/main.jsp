@@ -81,7 +81,7 @@
 
         <div class="row">
             <div class="col col-7 bg-info text-light">
-               <img src="img/logo.png" id="img" class="p-1">
+               <img src="static/img/logo.png" id="img" class="p-1">
             </div>
 
             <div class="col bg-info text-light p-2">
@@ -195,7 +195,9 @@
                 </div>
                 
                 <div class="bg-light border" style="height: 315px; width: 348px; margin-top: 320px; margin-left: 102px;">
-                    2
+                    <form action="/logout" method="post" >
+						<button type="submit">로그아웃</button>
+					</form>
                 </div>
             </div>
 
@@ -367,7 +369,6 @@
                         const seconds = Math.floor((timeDiff / 1000) % 60);
 
                         this.remainingTime = hours + `시간` + minutes + `분` + seconds + `초`;
-
                         this.updateProgressBar(timeDiff);
                     }, 1000); // 1초마다 남은 시간 업데이트
                 },

@@ -39,10 +39,10 @@
 </div>
 
 <div class="row flex">
-  <div class="pocketmonTrade-btn message-delete-btn">
+  <div class="Trade-btn message-delete-btn">
     <i class="fas fa-times" style="color:red;"></i> 삭제
   </div>
-  <div class="pocketmonTrade-btn ml-auto message-refresh-btn">
+  <div class="Trade-btn ml-auto message-refresh-btn">
     <i class="fas fa-sync-alt" style="color: gray;"></i> 새로고침
   </div>
 </div>

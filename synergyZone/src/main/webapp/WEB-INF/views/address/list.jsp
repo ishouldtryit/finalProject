@@ -6,6 +6,8 @@
   .employee-name {
     color: dodgerblue;
   }
+  
+  
 </style>
 
 <div class="container-800" style="margin-left: 5%;">
@@ -20,12 +22,9 @@
 		  
 		  <input class="form-control me-sm-2" type="search" placeholder="검색어" name="keyword" value="${param.keyword}" style="width: 13%;">
 		  <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
-        <button type="button" id="selectAllBtn" class="btn btn-primary my-2 my-sm-0">전체 선택</button>
 		  
 		  <!-- My list에 추가 버튼 -->		  
-			<c:if test="${empNo != null}">
 		  <button class="btn btn-success my-2 my-sm-0" type="button" onclick="addToMyList()">My list에 추가</button>
-		</c:if>
 
 		
 		</form>
@@ -37,7 +36,11 @@
 	      <table class="table table-hover mt-2" style="width: 90%;">
 	        <thead>
 	          <tr>
-	            <th></th>
+	            <th>
+	            <div class="p-2">
+                <input type="checkbox" id="selectAllBtn" class="btn btn-primary my-2 my-sm-0">
+              </div>
+              </th>
 	            <th>프로필</th>
 	            <th>사원번호</th>
 	            <th>이름</th>
@@ -71,6 +74,7 @@
 	                    </c:otherwise>
 		                      </c:choose>" alt="" style="border-radius: 50%;">
 	                </div>
+	               
 	              </td>
 	              <td class="align-middle">${employeeDto.empNo}</td>
 	              <td class="align-middle employee-name" data-empno="${employeeDto.empNo}" data-empname="${employeeDto.empName}" 
@@ -240,37 +244,40 @@
     
 <script>
 function addToMyList() {
-	  var selectedEmployees = [];
-	  var checkboxes = document.getElementsByName('selectedEmployees');
-	  
-	  for (var i = 0; i < checkboxes.length; i++) {
-	    if (checkboxes[i].checked) {
-	      selectedEmployees.push(checkboxes[i].value);
-	    }
-	  }
-	  
-	  if (selectedEmployees.length > 0) {
-	    $.ajax({
-	      type: "POST",
-	      url: "/bookmark/addBookmark",
-	      data: JSON.stringify({bookmarkNo: selectedEmployees }),
-	      contentType: "application/json",
-	      success: function(response) {
-	        console.log(response);
-	      },
-	      error: function(xhr, status, error) {
-	        console.log(xhr.responseText);
-	      }
-	    });
-	  } else {
-	    console.log("No employees selected.");
-	  }
-	}
-
+  var selectedEmployees = [];
+  var checkboxes = document.getElementsByName('selectedEmployees');
+  
+  for (var i = 0; i < checkboxes.length; i++) {
+    if (checkboxes[i].checked) {
+      selectedEmployees.push(checkboxes[i].value);
+    }
+  }
+  
+  if (selectedEmployees.length > 0) {
+    var confirmation = confirm("선택한 직원을 나만의 주소록에 추가하시겠습니까?");
+    if (confirmation) {
+      $.ajax({
+        type: "POST",
+        url: "/bookmark/addBookmark",
+        data: JSON.stringify({bookmarkNo: selectedEmployees}),
+        contentType: "application/json",
+        success: function(response) {
+          alert("나만의 주소록에 추가되었습니다!");
+        },
+        error: function(xhr, status, error) {
+        }
+      });
+    }
+  } else {
+    console.log("직원이 선택되지 않았습니다.");
+  }
+}
 </script>
 
+
+
 <script>
- //체크박스 전체선택 기능
+  // 체크박스 전체선택 기능
   $(document).ready(function() {
     const selectAllBtn = $('#selectAllBtn');
     const checkboxes = $('input[name="selectedEmployees"]');

@@ -89,10 +89,10 @@
             </div>
             
             <div class="col bg-info text-light p-1 d-flex justify-content-end">
-                <i class="bi bi-diagram-3 fs-2"></i>
-                <i class="bi bi-bell fs-2 ms-3"></i>
-                <i class="bi bi-person-circle fs-2 ms-3"></i>
-                <i class="bi bi-power fs-2 ms-3 me-2" data-bs-toggle="modal" data-bs-target="#logoutModal"></i>
+                <a href=#><i class="bi bi-diagram-3 fs-2"></i></a>
+                <a href=#><i class="bi bi-bell fs-2 ms-3"></i></a>
+                <a href=#><i class="bi bi-person-circle fs-2 ms-3"></i></a>
+                <a href=#><i class="bi bi-power fs-2 ms-3 me-2" data-bs-toggle="modal" data-bs-target="#logoutModal"></i></a>
             </div>
         </div>
 
@@ -272,6 +272,7 @@
                         <div class="d-flex justify-content-center mt-4">
                                 <h4>남은 시간 <i class="bi bi-stopwatch"></i> {{remainingTime}}</h4>
                         </div>
+                        
                         <div class="progress mt-3" style="height: 23px;">
                             <div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" :style="barStyle"></div>
                         </div>
@@ -329,10 +330,7 @@
                 this.initSwiper();
                 this.updateTime();
                 this.updateRemainingTime();
-                $(this.$refs.datepicker).datepicker({
-                    // DatePicker 옵션 설정
-                    
-                });
+                this.initDatepicker();
                 // this.memoText = localStorage.getItem('memo') || '';
             },
             methods: {
@@ -357,8 +355,9 @@
                         this.currentTime = now.toLocaleTimeString();
                     }, 1000); // 1초마다 시간 업데이트
                 },
+                
                 updateRemainingTime() {
-                    setInterval(() => {
+                    this.remainingTimer = setInterval(() => {
                         const now = new Date();
                         const targetTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 18, 0, 0); // 오늘 오후 6시
                         const timeDiff = targetTime - now;
@@ -367,10 +366,12 @@
                         const minutes = Math.floor((timeDiff / (1000 * 60)) % 60);
                         const seconds = Math.floor((timeDiff / 1000) % 60);
 
-                        this.remainingTime = `${hours}시간 ${minutes}분 ${seconds}초`;
+                        this.remainingTime = hours + `시간` + minutes + `분` + seconds + `초`;
+
                         this.updateProgressBar(timeDiff);
                     }, 1000); // 1초마다 남은 시간 업데이트
                 },
+
                 updateProgressBar(timeDiff) {
                     const totalSeconds = 9 * 60 * 60; // 9시간을 초로 환산
                     const remainingSeconds = timeDiff / 1000;
@@ -381,7 +382,7 @@
                         clearInterval(this.remainingTimer); // 타이머
                     }
 
-                    this.barStyle = `width: ${percentage}%`;
+                    this.barStyle = 'width: ' + percentage + '%';
                 },
                 toggleTextarea() {
                     this.isTextareaEnabled = !this.isTextareaEnabled;

@@ -63,7 +63,7 @@ JOIN search_info S ON B.notice_writer = S.emp_no
 </update>
 
 <!-- updateReadcount -->
-<update id="updateReadcount">
+<update id="updateReadNoticecount">
 	update notice
 	set notice_read = notice_read + 1
 	where notice_no = #{noticeNo}

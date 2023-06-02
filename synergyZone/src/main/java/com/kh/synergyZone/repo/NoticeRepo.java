@@ -2,7 +2,6 @@ package com.kh.synergyZone.repo;
 
 import java.util.List;
 
-import com.kh.synergyZone.dto.NoticeDto;
 import com.kh.synergyZone.vo.NoticeVO;
 import com.kh.synergyZone.vo.PaginationVO;
 
@@ -15,7 +14,7 @@ public interface NoticeRepo {
 	void insert(NoticeVO noticeVO);
 	boolean delete(int noticeNo);
 	boolean update(NoticeVO noticeVO);
-	boolean updateReadcount(int noticeNo);
+	boolean updateNoticeReadcount(int noticeNo);
 	int selectCount(PaginationVO vo);
 	List<NoticeVO> selectList(PaginationVO vo);
 	void updateLikecount(int noticeNo, int count);

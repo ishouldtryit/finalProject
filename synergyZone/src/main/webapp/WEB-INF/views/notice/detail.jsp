@@ -12,7 +12,7 @@
 	var empNo = "${sessionScope.empNo}";
 	var noticeWriter = "${noticeDto.noticeWriter}";
 </script>
-<script src="/static/js/noticeReply.js"></script>
+<script src="/static/js/notice-reply.js"></script>
 <script type="text/template" id="noticeReply-template">
 	<div class="noticeReply-item">
 		<div class="row mt-1">

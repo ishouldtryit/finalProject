@@ -93,7 +93,7 @@ public class NoticeController {
     	  }
     	  
     	  if (!memory.contains(noticeNo)) { // 읽은 적이 없는가 (기억에 없는가)
-    	     noticeRepo.updateReadcount(noticeNo);
+    	     noticeRepo.updateNoticeReadcount(noticeNo);
     	     noticeVO.setNoticeRead(noticeVO.getNoticeRead() + 1); // DTO 조회수 1증가
     	     memory.add(noticeNo); // 저장소에 추가(기억에 추가)
     	  }

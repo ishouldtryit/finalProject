@@ -8,7 +8,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.kh.synergyZone.dto.NoticeDto;
 import com.kh.synergyZone.vo.NoticeVO;
 import com.kh.synergyZone.vo.PaginationVO;
 
@@ -68,8 +67,8 @@ public class NoticeRepoImpl implements NoticeRepo{
 	}
 
 	@Override
-	public boolean updateReadcount(int noticeNo) {
-		int result = sqlSession.update("updateReadcount", noticeNo);
+	public boolean updateNoticeReadcount(int noticeNo) {
+		int result = sqlSession.update("Notice.updateReadNoticecount", noticeNo);
 		return result > 0;
 	}
 	@Override

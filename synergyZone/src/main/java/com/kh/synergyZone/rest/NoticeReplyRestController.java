@@ -46,7 +46,7 @@ public class NoticeReplyRestController {
 		//등록
 		noticeReplyRepo.insert(noticeReplyDto);
 		
-		noticeRepo.updateReadcount(noticeReplyDto.getNoticeReplyOrigin());
+		noticeRepo.updateNoticeReadcount(noticeReplyDto.getNoticeReplyOrigin());
 	}
 	
 	@DeleteMapping("/{noticeReplyNo}")

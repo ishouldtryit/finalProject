@@ -1,11 +1,20 @@
 package com.kh.synergyZone.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+
+import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.kh.synergyZone.dto.BoardDto;
+import com.kh.synergyZone.configuration.CustomFileUploadProperties;
+import com.kh.synergyZone.dto.AttachmentDto;
+import com.kh.synergyZone.dto.BoardFileDto;
+import com.kh.synergyZone.repo.AttachmentRepo;
+import com.kh.synergyZone.repo.BoardFileRepo;
 import com.kh.synergyZone.repo.BoardRepo;
 import com.kh.synergyZone.vo.BoardVO;
 
@@ -21,10 +30,27 @@ public class BoardService {
 	@Autowired
 	private BoardRepo boardRepo;
 	
+	@Autowired
+	private AttachmentRepo attachmentRepo;
+	
+	@Autowired
+	private BoardFileRepo boardFileRepo;
+	
+	@Autowired
+	private CustomFileUploadProperties customFileUploadProperties;
+	
+	private File dir;
+	
+	@PostConstruct
+	public void init() {
+		dir = new File(customFileUploadProperties.getPath());
+		dir.mkdirs();
+	}
+	
 	//게시글 등록 서비스
 	//- 컨트롤러에게서 게시글 정보를 받는다
 	//- 컨트롤러에게 등록된 게시글 번호를 반환한다
-	public int write(BoardVO boardVO, List<Integer> attachmentNo) {
+	public int write(BoardVO boardVO, List<MultipartFile> attachments) throws IllegalStateException, IOException {
 		//boardDto의 정보를 새글과 답글로 구분하여 처리 후 등록
 		//- 새글일 경우 boardParent가 null이다.
 		//		- 그룹번호(boardGroup)는 글번호와 동일하게 처리
@@ -57,12 +83,29 @@ public class BoardService {
 		//등록
 		boardRepo.insert(boardVO);
 		
-		//글에 사용된 첨부파일번호(attachmentNo)와 글번호(boardNo)를 연결
-		if(attachmentNo != null) {
-			for(int no : attachmentNo) {
-				boardRepo.connect(boardNo, no);
-			}
-		}
+		for (MultipartFile attach : attachments) {
+	        if (!attach.isEmpty()) {
+	            // Generate attachment number
+	            int attachmentNo = attachmentRepo.sequence();
+
+	            // Save file
+	            File target = new File(dir, String.valueOf(attachmentNo));
+	            attach.transferTo(target);
+
+	            // Store in the database
+	            attachmentRepo.insert(AttachmentDto.builder()
+	                    .attachmentNo(attachmentNo)
+	                    .attachmentName(attach.getOriginalFilename())
+	                    .attachmentType(attach.getContentType())
+	                    .attachmentSize(attach.getSize())
+	                    .build());
+	            
+	            boardFileRepo.insert(BoardFileDto.builder()
+	            		.boardNo(boardVO.getBoardNo())
+	            		.attachmentNo(attachmentNo)
+	            		.build());
+	        }
+	    }
 		
 		return boardNo;
 	}

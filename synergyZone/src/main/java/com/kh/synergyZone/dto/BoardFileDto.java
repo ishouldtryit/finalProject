@@ -6,7 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
-public class WorkReportDto {
-	private int workNo;
-	private String workSup;
+public class BoardFileDto {
+	private int boardNo;
+	private int attachmentNo;
+
 }

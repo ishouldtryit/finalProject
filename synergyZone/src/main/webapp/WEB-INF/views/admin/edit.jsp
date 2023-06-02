@@ -20,12 +20,12 @@
                         </div>
                     </div>
 
-                    <div class="row mt-4">
-                        <div class="col">
-                            <label class="form-label">비밀번호</label>
-                            <input class="form-control rounded" type="text" name="empPassword" placeholder="비밀번호" value="${employeeDto.empPassword}">
-                        </div>
-                    </div>
+<!--                     <div class="row mt-4"> -->
+<!--                         <div class="col"> -->
+<!--                             <label class="form-label">비밀번호</label> -->
+<%--                             <input class="form-control rounded" type="text" name="empPassword" placeholder="비밀번호" value="${employeeDto.empPassword}"> --%>
+<!--                         </div> -->
+<!--                     </div> -->
 
                     <div class="row mt-4">
                         <div class="col">

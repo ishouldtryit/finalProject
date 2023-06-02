@@ -1,5 +1,6 @@
 package com.kh.synergyZone.controller;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.synergyZone.dto.BoardDto;
@@ -155,8 +157,8 @@ public class BoardController {
    
    @PostMapping("/write")
    public String write(@ModelAttribute BoardVO boardVO,
-         @RequestParam(required=false) List<Integer> attachmentNo,
-         HttpSession session, RedirectAttributes attr) {
+		   @RequestParam("attachments") List<MultipartFile> attachments,
+         HttpSession session, RedirectAttributes attr) throws IllegalStateException, IOException {
       //컨트롤러에서만 가능한 작업은 컨트롤러에서 처리
       //- 사용자의 요청을 처리하는 것
       //- 세션 사용
@@ -166,7 +168,7 @@ public class BoardController {
       boardVO.setBoardWriter(empNo);
       
       //나머지 일반 프로그래밍 코드는 서비스를 호출하여 처리
-      int boardNo = boardService.write(boardVO, attachmentNo);
+      int boardNo = boardService.write(boardVO, attachments);
       
       //상세 페이지로 redirect
       attr.addAttribute("boardNo", boardNo);

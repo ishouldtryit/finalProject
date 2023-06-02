@@ -119,8 +119,8 @@ public class EmployeeController {
 		}
 		
 		@PostMapping("/findPw")
-		public String findPw(@RequestParam String empNo,
-							 @RequestParam String empEmail,
+		public String findPw(@RequestParam("empNo") String empNo,
+							 @RequestParam("empEmail") String empEmail,
 							 RedirectAttributes attr) throws MessagingException {
 			EmployeeDto employeeDto = employeeRepo.selectOne(empNo);
 			if(employeeDto == null || !employeeDto.getEmpEmail().equals(empEmail)) {

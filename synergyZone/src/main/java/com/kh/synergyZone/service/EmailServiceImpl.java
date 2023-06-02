@@ -8,6 +8,7 @@ import javax.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.kh.synergyZone.component.RandomComponent;
@@ -20,10 +21,14 @@ public class EmailServiceImpl implements EmailService {
 	@Autowired
 	private RandomComponent randomComponent;
 	
+	@Autowired
 	private EmployeeRepo employeeRepo;
 	
 	@Autowired
 	private JavaMailSender sender;
+	
+	@Autowired
+	private PasswordEncoder encoder;
 
 	@Override
 	public void sendTemporaryPw(String empNo, String empEmail) throws MessagingException {
@@ -33,10 +38,11 @@ public class EmailServiceImpl implements EmailService {
 		
 		EmployeeDto employeeDto = new EmployeeDto();
 		
+		//암호화
 		String temporaryPw = randomComponent.generateString();
-		employeeDto.setEmpPassword(temporaryPw);
+		String encrypt = encoder.encode(temporaryPw);
 		
-		
+		employeeDto.setEmpPassword(encrypt);
 		
 		employeeRepo.changePw(employeeDto);
 		

@@ -19,7 +19,7 @@
 <c:if test="${sessionScope.empNo != null}">
 	<a href="${pageContext.request.contextPath}/employee/mypage">내 정보</a>
 </c:if>
-<form action="/logout" method="post" >
+<form action="/logout" method="post">
 	<button type="submit">로그아웃</button>
 </form>
 

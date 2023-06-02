@@ -8,23 +8,23 @@
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
     
     <style>
-	  .custom-list-item {
-	    list-style-type: none; /* 리스트 스타일 제거 */
-	  }
-	  .duplicate-alert-container {
-	    position: fixed;
-	    top: 50%;
-	    left: 50%;
-	    transform: translate(-50%, -50%);
-	    z-index: 9999;
-	  }
-	  .btn {
-	    width: 120px;
-	  }
-	</style>
+     .custom-list-item {
+       list-style-type: none; /* 리스트 스타일 제거 */
+     }
+     .duplicate-alert-container {
+       position: fixed;
+       top: 50%;
+       left: 50%;
+       transform: translate(-50%, -50%);
+       z-index: 9999;
+     }
+     .btn {
+       width: 120px;
+     }
+   </style>
 
 
-	<div id="app">
+   <div id="app">
   <div>
     <button type="button" class="btn btn-primary" v-on:click="showSupModal">참조자 추가</button>
   </div>
@@ -104,7 +104,7 @@
   </div>
   
   <form action="report" method="post" enctype="multipart/form-data">
-	    <div class="container-fluid mt-4">
+       <div class="container-fluid mt-4">
     
             <div class="row">
                 <div class="offset-md-2 col-md-8">
@@ -120,10 +120,10 @@
                         <div class="col">
                             <label class="form-label">작성자</label>
                              <c:forEach var="employeeDto" items="${employees}">
-			                      <c:if test="${employeeDto.empNo == workBoardDto.empNo}">
-			                         ${employeeDto.empName}
-			                      </c:if>
-			                   </c:forEach>
+                               <c:if test="${employeeDto.empNo == workBoardDto.empNo}">
+                                  ${employeeDto.empName}
+                               </c:if>
+                            </c:forEach>
                         </div>
                     </div>
                     
@@ -131,8 +131,8 @@
                         <div class="col">
                             <label class="form-label">첨부파일</label>
                             <c:forEach var="file" items="${files}">
-						    <a href="/attachment/download?attachmentNo=${file.attachmentNo}">${file.attachmentNo}</a>                
-						</c:forEach>
+                      <a href="/attachment/download?attachmentNo=${file.attachmentNo}">${file.attachmentNo}</a>                
+                  </c:forEach>
                         </div>
                     </div>
                 
@@ -142,27 +142,28 @@
                         </div>
                   </div>
                   
-				<div class="row mt-4">
+            <div class="row mt-4">
                       <div class="col">
                         ${workBoardDto.workContent}
                       </div>
                   </div>
                   
                  <div class="row mt-4">
-				    <div class="col">
-				        <div v-for="(sup, index) in supList" :key="index">
-					    {{ index + 1 }}. {{ sup.department.deptName }} : {{ sup.supList.empNo }}
-					    <input type="hidden" name="supList" v-for="(sup, index) in supList" :key="index" :value="sup.supList.empNo">
-					  </div>
-				    </div>
-				</div>
+                <div class="col">
+                <label class="form-label">참조자 목록</label>
+                   <div v-for="(sup, index) in supList" :key="index">
+                    {{ index + 1 }}. {{ sup.department.deptName }} : {{ sup.supList.empName }}
+                    <input type="hidden" name="supList" :key="index" :value="sup.supList.empNo">
+                  </div>
+                </div>
+            </div>
 
                   
                 <div class="row mt-4">
                     <div class="col">
-                        <input type="hidden" name="workNo" value="${workNo}">
-					    <!-- 나머지 입력 필드들 -->
-					    <button type="submit" class="btn btn-primary">보고</button>
+                        <input type="hidden" name="workNo" id="workNo" value="${workBoardDto.workNo}">
+                   <!-- 나머지 입력 필드들 -->
+                   <button type="submit" class="btn btn-primary">보고</button>
                     </div>
                 </div>
                    
@@ -248,6 +249,5 @@
     },
   }).mount("#app");
 </script>
-
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

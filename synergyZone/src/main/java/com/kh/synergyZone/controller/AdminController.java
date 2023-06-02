@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -60,6 +61,9 @@ public class AdminController {
 
 	@Autowired
 	private EmployeeProfileRepo employeeProfileRepo;
+	
+	@Autowired
+	private PasswordEncoder encoder;
 	
 	
 	//회원가입
@@ -144,6 +148,9 @@ public class AdminController {
 		EmployeeDto employeeDto = employeeRepo.selectOne(empNo);
 		List<DepartmentDto> departments = departmentRepo.list();
 	    List<JobDto> jobs = jobRepo.list();
+	    
+	    String encrypt = encoder.encode(employeeDto.getEmpPassword());
+		employeeDto.setEmpPassword(encrypt);
 	
 		model.addAttribute("employeeDto", employeeDto);
 		model.addAttribute("departments", departments);

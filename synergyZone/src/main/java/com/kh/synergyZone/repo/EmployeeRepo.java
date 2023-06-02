@@ -2,6 +2,8 @@ package com.kh.synergyZone.repo;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.kh.synergyZone.dto.EmployeeDto;
 import com.kh.synergyZone.dto.EmployeeInfoDto;
 import com.kh.synergyZone.vo.DeptEmpListVO;
@@ -20,7 +22,7 @@ public interface EmployeeRepo {
 	   List<DeptEmpListVO> treeSelect();
 	   
 	   //비밀번호 찾기
-	   EmployeeDto findPw(String empNo, String empEmail);
+	   EmployeeDto findPw(@Param("empNo") String empNo, @Param("empEmail") String empEmail);
 	   
 	   //비밀번호 변경
 	   void changePw(EmployeeDto employeeDto);

@@ -32,7 +32,7 @@ public interface EmployeeRepo {
 	   List<EmployeeDto> waitingList();
 	   
 	   //관리자 권한 부여
-	   void authorityAdmin(String empNo);
+	   boolean authorityAdmin(String empNo);
 	   
 	   //관리자 목록
 	   List<EmployeeDto> adminList();

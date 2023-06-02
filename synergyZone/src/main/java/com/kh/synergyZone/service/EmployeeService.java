@@ -25,4 +25,5 @@ public interface EmployeeService {
 	
 	List<EmployeeInfoDto> searchEmployees(String column, String keyword);
 	
+	boolean encoder(EmployeeDto employeeDto);
 }

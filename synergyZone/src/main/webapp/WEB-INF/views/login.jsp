@@ -19,7 +19,7 @@
 
 </head>
  <body>
-    <form>
+    <form action="login" method="post">
 
         <div id="app" style="background: linear-gradient(#7ba9ff6c 27%,#8a8eff65,#ddc7ff93,#f8c7ff6b)">
             
@@ -32,14 +32,14 @@
                     </div>
                 <div class="row mt-5">
                     <div class="col">
-                        <label class="form-label">아이디</label>
-                        <input class="form-control rounded" type="text">
+                        <label class="form-label">사원번호</label>
+                        <input class="form-control rounded" type="text" name="empNo">
                     </div>
                 </div>
                 <div class="row mt-4">
                     <div class="col">
                         <label class="form-label">비밀번호</label>
-                        <input class="form-control rounded" type="password">
+                        <input class="form-control rounded" type="password" name="empPassword">
                     </div>
                 </div>
                 
@@ -53,9 +53,8 @@
                 
                 <div class="row mt-1">
                     <div class="col text-center">
-                        <a href="#">아이디 찾기</a>
                         <label class="ms-1 me-1">/</label>
-                        <a href="#">비밀번호 찾기</a>
+                        <a href="employee/findPw">비밀번호 찾기</a>
                     </div>
                 </div>
                 

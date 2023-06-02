@@ -27,7 +27,10 @@
 		                    </c:if>
 		                </c:forEach>
 		            </td>
-		            <td><a href="detail?workNo=${workBoardDto.workNo}">상세보기</a></td>
+		            <td>
+		            <a href="detail?workNo=${workBoardDto.workNo}">상세보기</a>
+		            <a href="report?workNo=${workBoardDto.workNo}">보고</a>
+		            </td>
 				</tr>
 			</c:forEach>
 		</tbody>

@@ -39,12 +39,36 @@ public class MessageRestController {
   @Autowired
   private MessageWithNickDao messageWithNickDao;
 
+  
+  @GetMapping("/{recipient}")
+  public String checkRecipientExists(@PathVariable String recipient) {
+      // 실제 DB에 있는지 조회하는 로직을 구현합니다.
+      // 예를 들어, 해당 recipient를 이용하여 DB에서 검색하고 결과에 따라 "Y" 또는 "N"을 반환합니다.
+      // 이 예제에서는 임의로 "Y"를 반환하도록 하겠습니다.
+      return "Y";
+  }
+
   // 비동기 메세지 보내기(받는사람, 보내는사람, 제목, 내용을 입력받아 새로운 Message 생성)
   @PostMapping("/write")
   public void insert(MessageDto messageDto,@RequestParam("recipients") List<String> recipients) {
-    messageService.insert(messageDto, recipients);
-  }
+	// 메세지 보내는 대상자 확인
+	    boolean result = true;
+	    for (String recipient : recipients) {
+	        String response = checkRecipientExists(recipient);
+	        result &= response.equals("Y");
+	    }
 
+	    if (!result) {
+	        // 대상자가 유효하지 않은 경우 처리
+	        // 예를 들어, 예외를 던지거나 실패 메시지를 반환하도록 구현합니다.
+	        // 여기에서는 단순히 콘솔에 오류 메시지를 출력하도록 하겠습니다.
+	        System.out.println("쪽지를 보낼 수 없습니다\n받는 주소를 확인해주세요");
+	        return;
+	    }
+
+	    // 대상자가 유효한 경우 메시지 전송 처리
+	    messageService.insert(messageDto, recipients);
+	}
   // S 받은메세지 + 보낸시간List
   @GetMapping("/receive")
   public Map<String, List<? extends Object>> selectReceiveMessageTest(PaginationVO pageVo,

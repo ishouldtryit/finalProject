@@ -53,6 +53,7 @@ public class BoardController {
       //게시글
       List<BoardVO> list = boardRepo.selectList(vo);
       model.addAttribute("posts", list);
+    
       // 프로필 사진 조회
       EmployeeProfileDto profile = employeeProfileRepo.find(empNo); // 프로필 정보 조회
       if (profile != null && profile.getAttachmentNo() > 0) {

@@ -19,6 +19,12 @@ public class PaginationVO {
   
   // 블럭마다 보여줄 숫자 개수
   private int blockSize = 5;
+
+  // 페이지 검색 형태
+  private String pageStatus;
+  
+  // 긴급 문서 우선 조회
+  private boolean isemergency;
   
   // 정렬 항목
   private String item = "allboard_no";
@@ -101,11 +107,15 @@ public class PaginationVO {
   public int getStartBlock() {
     return (page - 1) / blockSize * blockSize + 1;
   }
-
+  
   // 끝 블록 번호(번호판 끝)
   public int getFinishBlock() {
     int value = (page - 1) / blockSize * blockSize + blockSize;
     return Math.min(getTotalPage(), value);
+  }
+  // 보이는 블록 수
+  public int getViewBlock() {
+	  return getFinishBlock() - getStartBlock()+1;
   }
 
   // 첫 페이지인가?

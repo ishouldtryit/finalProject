@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="empInfo">
+
+    <resultMap id="employeeInfoResultMap" type="com.kh.synergyZone.dto.EmployeeInfoDto">
+        <id column="empNo" property="empNo" />
+        <result column="empName" property="empName" />
+        <result column="empEmail" property="empEmail" />
+        <result column="empPhone" property="empPhone" />
+        <result column="empAddress" property="empAddress" />
+        <result column="empDetailAddress" property="empDetailAddress" />
+        <result column="empPostcode" property="empPostcode" />
+        <result column="empHireDate" property="empHireDate" />
+        <result column="isLeave" property="isLeave" />
+        <result column="cpNumber" property="cpNumber" />
+        <result column="deptNo" property="deptNo" />
+        <result column="attachmentNo" property="attachmentNo" />
+        <result column="jobNo" property="jobNo" />
+        <result column="jobName" property="jobName" />
+        <result column="deptName" property="deptName" />
+    </resultMap>
+
+    <select id="findAll" resultType="SearchInfoDto">
+        SELECT * FROM SEARCH_INFO where emp_no = #{empNo}
+    </select>
+
+    <select id="findByEmpNo" resultMap="employeeInfoResultMap" parameterType="String">
+        SELECT * FROM SEARCH_INFO WHERE EMP_NO = #{empNo}
+    </select>
+
+    <insert id="save" parameterType="com.kh.synergyZone.dto.EmployeeInfoDto">
+        <!-- Define your INSERT query here -->
+    </insert>
+
+    <update id="update" parameterType="com.kh.synergyZone.dto.EmployeeInfoDto">
+        <!-- Define your UPDATE query here -->
+    </update>
+
+    <delete id="deleteByEmpNo" parameterType="String">
+        <!-- Define your DELETE query here -->
+    </delete>
+
+</mapper>

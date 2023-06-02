@@ -30,9 +30,6 @@
    <select id="empRecordList" resultType="CommuteRecordDto">
       select * from commute_record where emp_no= #{empNo}
    </select>
-   
-   
-
 
  
 </mapper>

@@ -50,12 +50,12 @@ $(function(){
 				//response에는 result와 count가 들어있다
 				if(response.result) {//좋아요 된것
 					$(".fa-heart").removeClass("fa-solid fa-regular")
-										.addClass("fa-solid fa-shake");
+										.addClass("fa-solid fa-beat");
 					//1초뒤에 .fa-shake를 제거(setTimeout 함수)
 					//- setTimeout(함수, 시간); 지정한 시간 이후에 함수 실행
 					//- setInterval(함수, 시간); 지정한 시간 간격으로 함수 실행
 					setTimeout(function(){
-						$(".fa-heart").removeClass("fa-shake");
+						$(".fa-heart").removeClass("fa-beat");
 					}, 800);
 				
 					$(".heart-count").text(response.count);

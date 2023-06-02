@@ -32,13 +32,9 @@ public class HomeController {
 		@GetMapping("/")
 		public String home(Model model, HttpSession session, @ModelAttribute CommuteRecordDto commuteRecordDto) {
 			String empNo = (String) session.getAttribute("empNo");
-		    if (empNo != null) {
-		        CommuteRecordDto today = commuteRecordRepo.today(empNo);
-		        System.out.println(today);
-		        if (today != null) {
-		            CommuteRecordDto w = today;
-		            model.addAttribute("work", w);
-		        }
+		    if (empNo != null) {				
+				//오늘 근무정보
+				model.addAttribute("w",commuteRecordRepo.today(empNo));
 		        return "main"; // 로그인된 사용자는 메인 페이지로 이동
 		    }
 		    

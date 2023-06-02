@@ -36,7 +36,7 @@ public class CommuteController {
 	
 	//근태관리 메인
 	@GetMapping("/")
-	public String commute(Model model, HttpSession session, @ModelAttribute CommuteRecordDto commuteRecordDto) {
+	public String commute(Model model, HttpSession session,CommuteRecordDto commuteRecordDto) {
 		//사원번호
 		String empNo = (String) session.getAttribute("empNo");
 		//오늘 근무정보
@@ -72,7 +72,7 @@ public class CommuteController {
 			commuteRecordRepo.update(dto);
 		}
 		
-		return "redirect:/commute/";
+		return "redirect:/";
 	}
 	
 	@GetMapping("/record")

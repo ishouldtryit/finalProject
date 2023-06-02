@@ -1,8 +1,5 @@
 package com.kh.synergyZone.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +10,18 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.kh.synergyZone.dto.CommuteRecordDto;
+import com.kh.synergyZone.dto.EmployeeProfileDto;
 import com.kh.synergyZone.repo.CommuteRecordRepo;
+import com.kh.synergyZone.repo.EmployeeProfileRepo;
 
 @Controller
 public class HomeController {
 
 		@Autowired
 		private CommuteRecordRepo commuteRecordRepo;
+		
+		@Autowired
+		private EmployeeProfileRepo employeeProfileRepo;
 		
 		@GetMapping("/")
 		public String home(Model model, HttpSession session, @ModelAttribute CommuteRecordDto commuteRecordDto) {
@@ -33,7 +35,11 @@ public class HomeController {
 //		        }
 //		    }
 		    
-		    return "login";
+		 // 프로필 사진 조회
+		       EmployeeProfileDto profile = employeeProfileRepo.find(empNo); // 프로필 정보 조회
+		       model.addAttribute("profile", profile);
+
+		    return "main";
 		}
 		
 		@PostMapping("/testuser1")

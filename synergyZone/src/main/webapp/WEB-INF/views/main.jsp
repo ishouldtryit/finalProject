@@ -351,7 +351,6 @@ html, body {
                 barStyle: '',
                 swiper: null,
                 isTextareaEnabled: false,
-<<<<<<< HEAD
                 memoText: localStorage.getItem('memo') || '',
                 employeeInfo: null,
             };
@@ -369,64 +368,6 @@ html, body {
                     },
                     pagination:{
                         el:'.swiper-pagination',
-=======
-                memoText: localStorage.getItem('memo') || '', // 이전에 저장된 메모 불러오기
-            },
-            mounted() {
-                this.initSwiper();
-                this.updateTime();
-                this.updateRemainingTime();
-                $(this.$refs.datepicker).datepicker({
-                    // DatePicker 옵션 설정
-                    
-                });
-                // this.memoText = localStorage.getItem('memo') || '';
-            },
-            methods: {
-                initSwiper() {
-                    this.swiper = new Swiper('.swiper-container', {
-                        autoplay: true,
-                        loop: true,
-                        allowTouchMove: false,
-                        slidesPerView: 1,
-                        navigation: {
-                            nextEl: ".swiper-button-next",
-                            prevEl: ".swiper-button-prev",
-                        },
-                        pagination:{
-                            el:'.swiper-pagination',
-                        }
-                    });
-                },
-                updateTime() {
-                    setInterval(() => {
-                        const now = new Date();
-                        this.currentTime = now.toLocaleTimeString();
-                    }, 1000); // 1초마다 시간 업데이트
-                },
-                updateRemainingTime() {
-                    setInterval(() => {
-                        const now = new Date();
-                        const targetTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 18, 0, 0); // 오늘 오후 6시
-                        const timeDiff = targetTime - now;
-
-                        const hours = Math.floor(timeDiff / (1000 * 60 * 60));
-                        const minutes = Math.floor((timeDiff / (1000 * 60)) % 60);
-                        const seconds = Math.floor((timeDiff / 1000) % 60);
-
-                        this.remainingTime = hours + `시간` + minutes + `분` + seconds + `초`;
-                        this.updateProgressBar(timeDiff);
-                    }, 1000); // 1초마다 남은 시간 업데이트
-                },
-                updateProgressBar(timeDiff) {
-                    const totalSeconds = 9 * 60 * 60; // 9시간을 초로 환산
-                    const remainingSeconds = timeDiff / 1000;
-                    const percentage = 100 - (remainingSeconds / totalSeconds) * 100;
-
-                    if (percentage < 0) {
-                        percentage = 0;
-                        clearInterval(this.remainingTimer); // 타이머
->>>>>>> refs/remotes/origin/main
                     }
                 });
             },

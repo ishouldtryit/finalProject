@@ -302,8 +302,7 @@ html, body {
                </div>
                <hr>
                <div>
-                  <vue-datepicker style="margin-left: 35px;"
-                     :current-date="currentDate"></vue-datepicker>
+                  <div v-model="selectedDate" ref="datepicker" style="margin-left: 38px;"></div>
                   <hr>
                   <div>
                      <div>
@@ -450,7 +449,7 @@ html, body {
                     clearInterval(this.remainingTimer); // 타이머
                 }
 
-                this.barStyle = `width: ${percentage}%`;
+                this.barStyle = 'width: ' + percentage + '%';
             },
              toggleTextarea() {
                 this.isTextareaEnabled = !this.isTextareaEnabled;
@@ -489,6 +488,30 @@ html, body {
             this.fetchEmployeeInfo();
         },
     }).mount("#app");
+    app.component('datepicker', {
+        mounted() {
+            const datepicker = this.$refs.datepicker;
+            $(datepicker).datepicker({
+            format: 'yyyy-mm-dd',
+            beforShowday:(date)=>{ 
+                // const currentDate = new Date().toISOString().split('T')[0];
+                const now = new Date();
+                const dateStr = $.datepicker.formatDate('yy-mm-dd', date);
+                if (dateStr === currentDate) {
+                    return [true, 'highlight', ''];
+                }
+                return [true, '', ''];
+            },
+            onSelect: (date) => {   
+                this.$emit('update:selectedDate', date);
+            },
+            });
+        },
+        template: `
+            <div v-model="selectedDate" ref="datepicker"></div> 
+        `,
+        props: ['selectedDate'],
+    });
 </script>
 
 </body>

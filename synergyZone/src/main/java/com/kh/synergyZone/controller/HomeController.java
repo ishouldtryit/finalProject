@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.kh.synergyZone.dto.CommuteRecordDto;
+import com.kh.synergyZone.dto.EmployeeProfileDto;
 import com.kh.synergyZone.dto.EmployeeDto;
 import com.kh.synergyZone.dto.LoginRecordDto;
 import com.kh.synergyZone.repo.CommuteRecordRepo;
+import com.kh.synergyZone.repo.EmployeeProfileRepo;
 import com.kh.synergyZone.repo.LoginRecordRepo;
 import com.kh.synergyZone.service.EmployeeService;
 
@@ -24,6 +26,8 @@ public class HomeController {
 		private CommuteRecordRepo commuteRecordRepo;
 		
 		@Autowired
+		private EmployeeProfileRepo employeeProfileRepo;
+		@Autowired
 		private EmployeeService employeeService;
 		
 		@Autowired
@@ -31,15 +35,20 @@ public class HomeController {
 		
 		@GetMapping("/")
 		public String home(Model model, HttpSession session, @ModelAttribute CommuteRecordDto commuteRecordDto) {
-			String empNo = (String) session.getAttribute("empNo");
-		    if (empNo != null) {				
-				//오늘 근무정보
-				model.addAttribute("w",commuteRecordRepo.today(empNo));
-		        return "main"; // 로그인된 사용자는 메인 페이지로 이동
-		    }
-		    
-		    return "login";
-		}
+	         String empNo = (String) session.getAttribute("empNo");
+	          if (empNo != null) {            
+	            //오늘 근무정보
+	        	  model.addAttribute("w",commuteRecordRepo.today(empNo));
+	     
+	            // 프로필 사진 조회
+	            EmployeeProfileDto profile = employeeProfileRepo.find(empNo); // 프로필 정보 조회
+	            model.addAttribute("profile", profile);
+	              return "main"; // 로그인된 사용자는 메인 페이지로 이동
+	          }
+	          
+	          return "login";
+	      }
+
 		
 		//로그인
 				@GetMapping("/login")

@@ -5,33 +5,34 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
 <mapper namespace="commuteRecord">
-	<!-- 출근시간 -->
-	<insert id="start">
-			INSERT INTO COMMUTE_RECORD(emp_no, start_time, work_date,start_ip) 
-			VALUES (#{empNo}, SYSDATE, CURRENT_DATE,#{startIp})
-	</insert>
-	<!-- 퇴근시간 업데이트 -->
-	<update id="end">
-			UPDATE COMMUTE_RECORD
-			SET end_time = SYSDATE, work_time = (SYSDATE - start_time) ,end_ip = #{endIp}
-			WHERE emp_no = #{empNo} AND end_time IS NULL AND start_time >= TRUNC(SYSDATE)
-	</update>
 
-	
-	<!-- 특정 사원 오늘날짜 출퇴근 조회 -->
-	<select id="today" resultType="CommuteRecordDto">
-		SELECT * FROM COMMUTE_RECORD
-		WHERE TO_CHAR(work_date, 'YY/MM/DD') = TO_CHAR(CURRENT_DATE, 'YY/MM/DD')
-  		AND emp_no = #{empNo}
-	</select>
-	
-		<!-- 특정 사원 출퇴근 전체 조회 -->
-	<select id="empRecordList" resultType="CommuteRecordDto">
-		select * from commute_record where emp_no= #{empNo}
-	</select>
-	
-	
+   <!-- 출근시간 -->
+   <insert id="start">
+         INSERT INTO COMMUTE_RECORD(emp_no, start_time, work_date,start_ip) 
+         VALUES (#{empNo}, SYSDATE, CURRENT_DATE,#{startIp})
+   </insert>
+   <!-- 퇴근시간 업데이트 -->
+   <update id="end">
+         UPDATE COMMUTE_RECORD
+         SET end_time = SYSDATE, work_time = (SYSDATE - start_time) ,end_ip = #{endIp}
+         WHERE emp_no = #{empNo} AND end_time IS NULL AND start_time >= TRUNC(SYSDATE)
+   </update>
+
+   
+   <!-- 특정 사원 오늘날짜 출퇴근 조회 -->
+   <select id="today" resultType="CommuteRecordDto">
+      SELECT * FROM COMMUTE_RECORD
+      WHERE TO_CHAR(work_date, 'YY/MM/DD') = TO_CHAR(CURRENT_DATE, 'YY/MM/DD')
+        AND emp_no = #{empNo}
+   </select>
+   
+      <!-- 특정 사원 출퇴근 전체 조회 -->
+   <select id="empRecordList" resultType="CommuteRecordDto">
+      select * from commute_record where emp_no= #{empNo}
+   </select>
+   
+   
 
 
-	
+ 
 </mapper>

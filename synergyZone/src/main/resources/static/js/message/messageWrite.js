@@ -271,8 +271,8 @@ $(function () {
     // 메세지 보내는 대상자 확인
 	let result = true;
 	$(".message-recipient-ele").each(function () {
+	console.log($(this).find("[name=messageRecipient]").val());
 	  $.ajax({	 
-
 	   url: "/rest/message/" + $(this).find("[name=messageRecipient]").val(),
 	    method: "get",
 	    async: false,

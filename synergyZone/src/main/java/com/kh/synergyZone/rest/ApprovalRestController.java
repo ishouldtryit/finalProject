@@ -84,7 +84,8 @@ public class ApprovalRestController {
 		@GetMapping("/adminList")
 		public ApprovalWithPageVO adminDraftList(PaginationVO vo){
 			PaginationVO listPagination = new PaginationVO();
-			
+			String column = "draft_title";
+			listPagination.setColumn(column);
 			listPagination.setPage(1);
 			listPagination.setSize(10);
 			listPagination.setCount(approvalRepoImpl.approvalDataCount(vo));
@@ -100,7 +101,8 @@ public class ApprovalRestController {
 		@PostMapping("/adminMoveList")
 		public ApprovalWithPageVO adminMoveList(@RequestBody PaginationVO vo) {
 			PaginationVO listPagination = new PaginationVO();
-			System.out.println(vo.getPageStatus());
+			listPagination.setColumn(vo.getColumn());
+			listPagination.setKeyword(vo.getKeyword());
 			listPagination.setPageStatus(vo.getPageStatus());
 			listPagination.setIsemergency(vo.isIsemergency());
 			listPagination.setPage(vo.getPage());
@@ -113,12 +115,32 @@ public class ApprovalRestController {
 			return approvalWithPageVO;			
 		}
 		
+		//검색 (관리자)
+		@PostMapping("/adminSearchList")
+		public ApprovalWithPageVO adminSearchList(@RequestBody PaginationVO vo) {
+			PaginationVO listPagination = new PaginationVO();
+			listPagination.setColumn(vo.getColumn());
+			listPagination.setKeyword(vo.getKeyword());
+			listPagination.setPageStatus(vo.getPageStatus());
+			listPagination.setIsemergency(vo.isIsemergency());
+			listPagination.setPage(vo.getPage());
+			listPagination.setSize(vo.getSize());
+			listPagination.setCount(approvalRepoImpl.searchListCount(vo));
+			ApprovalWithPageVO approvalWithPageVO = ApprovalWithPageVO.builder()
+					.approvalDataVO(approvalRepoImpl.searchList(listPagination))
+					.paginationVO(listPagination)
+					.build();
+			System.out.println(listPagination);
+			return approvalWithPageVO;			
+		}
 		
-		//목록 첫화면 (관리자)
+		
+		//목록 첫화면 (기안자)
 		@GetMapping("/drafterList")
 		public ApprovalWithPageVO drafterDraftList(PaginationVO vo){
 			PaginationVO listPagination = new PaginationVO();
-			
+			String column = "draftTitle";
+			listPagination.setColumn(column);
 			listPagination.setPage(1);
 			listPagination.setSize(10);
 			listPagination.setCount(approvalRepoImpl.approvalDataCount(vo));
@@ -130,11 +152,12 @@ public class ApprovalRestController {
 			return approvalWithPageVO;
 		}
 		
-		//페이지 이동 (관리자)
+		//페이지 이동 (기안자)
 		@PostMapping("/drafterMoveList")
 		public ApprovalWithPageVO drafterMoveList(@RequestBody PaginationVO vo) {
 			PaginationVO listPagination = new PaginationVO();
-			System.out.println(vo.getPageStatus());
+			listPagination.setColumn(vo.getColumn());
+			listPagination.setKeyword(vo.getKeyword());
 			listPagination.setPageStatus(vo.getPageStatus());
 			listPagination.setIsemergency(vo.isIsemergency());
 			listPagination.setPage(vo.getPage());

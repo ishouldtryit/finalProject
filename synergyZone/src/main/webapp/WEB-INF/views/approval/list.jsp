@@ -16,42 +16,58 @@
        <div class="row mb-3">
            <h3>기안서 목록</h3>
        </div>
-       <div class="row mb-2">
-       		<div class="col-12">
-		        <select v-model="ApprovalWithPageVO.paginationVO.size" @change="changeSize">
-		          <option value="10">10</option>
-		          <option value="20">20</option>
-		          <option value="30">30</option>
-		          <option value="40">40</option>
-		          <option value="50">50</option>
-		        </select>
-		       	<button type="button" 
-		       	class="btn ms-3" :class="{'btn-secondary': pageStatus != 'allPage', 'btn-info': pageStatus == 'allPage'}"
-		       	@click ="changeAllPage">
-		  		전체
-				</button>
-		       	<button type="button" 
-		       	class="btn ms-3" :class="{'btn-secondary': pageStatus != 'ingPage', 'btn-info': pageStatus == 'ingPage'}"
-		       	@click ="changeIngPage">
-		  		진행
-				</button>
-		       	<button type="button" 
-		       	class="btn ms-3" :class="{'btn-secondary': pageStatus != 'returnPage', 'btn-info': pageStatus == 'returnPage'}"
-		       	@click ="changeReturnPage">
-		  		반려
-				</button>
-		       	<button type="button" 
-		       	class="btn ms-3" :class="{'btn-secondary': pageStatus != 'endPage', 'btn-info': pageStatus == 'endPage'}"
-		       	@click ="changeEndPage">
-		  		완료
-				</button>
-		       	<button type="button" 
-		       	class="btn ms-3" :class="{'btn-secondary': !isemergency, 'btn-info': isemergency }"
-		       	@click ="changeEmergencyPage">
-		  		긴급
-				</button>
+       <div class="row mb-3 ">
+       		<div class="col-2" style=" width:150px;">
+	       		<select class="form-select" style="width:150px;" v-model="ApprovalWithPageVO.paginationVO.column">
+		          	<option value="draft_title">제목</option>
+	       			<option value="emp_name">기안자</option>
+	       		</select>
        		</div>
+		    <div class="input-group mb-3 ms-3" style="width:300px;">
+		      <input type="text" class="form-control" placeholder="검색어" v-model="ApprovalWithPageVO.paginationVO.keyword">
+		      <button class="btn btn-info" type="button" @click="changeSearchPage">검색</button>
+		    </div>
        </div>
+       <div class="row mb-2 d-flex align-items-center">
+			    <div class="col-11 d-flex">
+				    <div class="btn-group" role="group">
+				       	<button type="button" 
+				       	class="btn" :class="{'btn-secondary': pageStatus != 'allPage', 'btn-info': pageStatus == 'allPage'}"
+				       	@click ="changeAllPage">
+				  		전체
+						</button>
+				       	<button type="button" 
+				       	class="btn" :class="{'btn-secondary': pageStatus != 'ingPage', 'btn-info': pageStatus == 'ingPage'}"
+				       	@click ="changeIngPage">
+				  		진행
+						</button>
+				       	<button type="button" 
+				       	class="btn" :class="{'btn-secondary': pageStatus != 'returnPage', 'btn-info': pageStatus == 'returnPage'}"
+				       	@click ="changeReturnPage">
+				  		반려
+						</button>
+				       	<button type="button" 
+				       	class="btn" :class="{'btn-secondary': pageStatus != 'endPage', 'btn-info': pageStatus == 'endPage'}"
+				       	@click ="changeEndPage">
+				  		완료
+						</button>
+					</div>	
+				       	<button type="button" 
+				       	class="btn ms-3" :class="{'btn-secondary': !isemergency, 'btn-info': isemergency }"
+				       	@click ="changeEmergencyPage">
+				  		긴급
+						</button>
+					</div>		
+		       		<div class="col-1 d-flex">
+				        <select class="form-select" style="width:100px;" v-model="ApprovalWithPageVO.paginationVO.size" @change="changeSize">
+				          <option value="10">10</option>
+				          <option value="20">20</option>
+				          <option value="30">30</option>
+				          <option value="40">40</option>
+				          <option value="50">50</option>
+				        </select>
+				    </div>    
+       		</div>
        <div class="row mt-4">
            <div>
                <table class="table table-hover">
@@ -239,7 +255,7 @@
                     window.location.href = 'detail?draftNo=' + draftNo;
                 },
                 
-                //전체 항목 검색
+                //전체 항목 조회
                 async changeAllPage() {
                   if(this.pageStatus === "allPage") return;
                   this.pageStatus = "allPage";
@@ -250,7 +266,7 @@
                	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
                 },
                 
-                //긴급 항목우선 검색
+                //긴급 항목우선 조회
                 async changeEmergencyPage() {
                   if(this.isemergency) {
                 	  this.isemergency = false;
@@ -266,7 +282,7 @@
                	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
                 },
                 
-                //진행 항목만 검색
+                //진행 항목만 조회
                 async changeIngPage() {
                   if(this.pageStatus === "ingPage") return;
                   this.pageStatus = "ingPage";
@@ -277,7 +293,7 @@
                	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
                 },
                 
-                //반려 항목만 검색
+                //반려 항목만 조회
                 async changeReturnPage() {
                   if(this.pageStatus === "returnPage") return;
                   this.pageStatus = "returnPage";
@@ -288,13 +304,22 @@
                	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
                 },
                 
-                //완료 항목만 검색
+                //완료 항목만 조회
                 async changeEndPage() {
                   if(this.pageStatus === "endPage") return;
                   this.pageStatus = "endPage";
                	  this.ApprovalWithPageVO.paginationVO.pageStatus = this.pageStatus; // pageStatus 추가
                	  this.ApprovalWithPageVO.paginationVO.page = 1;
                	  const resp = await axios.post("/rest/approval/adminMoveList", this.ApprovalWithPageVO.paginationVO);
+               	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
+               	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
+                },
+                
+                // 검색 조회
+                async changeSearchPage() {
+               	  this.ApprovalWithPageVO.paginationVO.pageStatus = this.pageStatus; // pageStatus 추가
+               	  this.ApprovalWithPageVO.paginationVO.page = 1;
+               	  const resp = await axios.post("/rest/approval/adminSearchList", this.ApprovalWithPageVO.paginationVO);
                	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
                	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
                 },

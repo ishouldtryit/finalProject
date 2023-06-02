@@ -80,6 +80,16 @@ public class ApprovalRepoImpl implements ApprovalRepo {
 		return sqlSession.selectOne("approval.approvalDataCount", vo);
 	}
 
+	@Override
+	public List<ApprovalDataVO> searchList(PaginationVO vo) {
+		return sqlSession.selectList("approval.approvalDataSearch", vo);
+	}
+
+	@Override
+	public int searchListCount(PaginationVO vo) {
+		return sqlSession.selectOne("approval.searchListCount", vo);
+	}
+
 
 
 }

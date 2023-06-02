@@ -38,7 +38,7 @@ public class HomeController {
 	         String empNo = (String) session.getAttribute("empNo");
 	          if (empNo != null) {            
 	            //오늘 근무정보
-	            model.addAttribute("w",commuteRecordRepo.today(empNo));
+	            
 	     
 	            // 프로필 사진 조회
 	            EmployeeProfileDto profile = employeeProfileRepo.find(empNo); // 프로필 정보 조회

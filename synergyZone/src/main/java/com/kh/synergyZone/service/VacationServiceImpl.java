@@ -1,8 +1,12 @@
 package com.kh.synergyZone.service;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -26,6 +30,44 @@ public class VacationServiceImpl implements VacationService {
 
         return monthDifference;
     }
+
+	@Override
+	public String getLocation(HttpServletRequest request) {
+        String ipAddress = request.getHeader("X-Forwarded-For");
+         
+         if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
+             ipAddress = request.getHeader("Proxy-Client-IP");
+         }
+         
+         if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
+             ipAddress = request.getHeader("WL-Proxy-Client-IP");
+         }
+         
+         if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
+             ipAddress = request.getHeader("HTTP_CLIENT_IP");
+         }
+         
+         if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
+             ipAddress = request.getHeader("HTTP_X_FORWARDED_FOR");
+         }
+         
+         if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
+             ipAddress = request.getRemoteAddr();
+             
+             // Loopback Address 처리
+             if (ipAddress.equals("127.0.0.1") || ipAddress.equals("0:0:0:0:0:0:0:1")) {
+                 InetAddress inetAddress = null;
+                 try {
+                     inetAddress = InetAddress.getLocalHost();
+                     ipAddress = inetAddress.getHostAddress();
+                 } catch (UnknownHostException e) {
+                     e.printStackTrace();
+                 }
+             }
+         }
+
+         return ipAddress;
+     }
 
     
     

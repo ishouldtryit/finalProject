@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import com.kh.synergyZone.dto.EmployeeDto;
@@ -19,9 +21,15 @@ public class EmployeeRepoImpl implements EmployeeRepo {
    @Autowired
    private SqlSession sqlSession;
    
+   @Autowired
+   private PasswordEncoder encoder;
+   
    //사원
    @Override
     public void insert(EmployeeDto employeeDto) {
+	    String empPassword = "synergyZone12345";
+		String encrypt = encoder.encode(empPassword);
+		employeeDto.setEmpPassword(encrypt);
         sqlSession.insert("employee.save", employeeDto);
     }
 
@@ -102,11 +110,11 @@ public class EmployeeRepoImpl implements EmployeeRepo {
    
     //관리자 권한 부여
 	@Override
-	public void authorityAdmin(String empNo) {
+	public boolean authorityAdmin(String empNo) {
 		EmployeeDto employeeDto = new EmployeeDto();
 		employeeDto.setEmpNo(empNo);
 		employeeDto.setJobNo(80);
-		sqlSession.update("employee.authorityAdmin", employeeDto);
+		return sqlSession.update("employee.authorityAdmin", employeeDto) > 0;
 	}
 	
 	//관리자 목록

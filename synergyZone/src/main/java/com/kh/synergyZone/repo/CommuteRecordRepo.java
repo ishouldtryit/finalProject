@@ -6,8 +6,8 @@ import com.kh.synergyZone.dto.CommuteRecordDto;
 
 public interface CommuteRecordRepo {
 	//출퇴근 등록
-	void insert(String empNo);
-	boolean update(String empNo);
+	void insert(CommuteRecordDto dto);
+	boolean update(CommuteRecordDto dto);
 	
 	//조회
 	 CommuteRecordDto today(String empNo);

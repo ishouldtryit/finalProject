@@ -20,7 +20,6 @@
 
         <input class="form-control me-sm-2" type="search" placeholder="검색어" name="keyword" value="${param.keyword}" style="width: 13%;">
         <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
-        <button type="button" id="selectAllBtn" class="btn btn-primary">전체 선택</button>
     <button type="button" id="deleteBtn" class="btn btn-danger">선택된 사원 삭제</button>
     </form>
     
@@ -31,7 +30,11 @@
 		      <table class="table table-hover mt-2" style="width: 90%;">
 		        <thead>
 		          <tr>
-		            <th></th>
+		            <th>
+		            <div class="p-2">
+		                <input type="checkbox" id="selectAllBtn" class="btn btn-primary my-2 my-sm-0">
+		             </div>
+		            </th>
 		            <th>프로필</th>
 		            <th>사원번호</th>
 		            <th>이름</th>
@@ -305,7 +308,13 @@
 
     // 선택된 북마크가 없는 경우 알림 메시지 표시
     if (selectedBookmarkNoList.length === 0) {
-      alert("삭제할 북마크를 선택해주세요.");
+      alert("삭제할 사원들을 선택해주세요.");
+      return;
+    }
+
+    // 삭제 여부 확인
+    var confirmation = confirm("선택한 주소록을 삭제하시겠습니까?");
+    if (!confirmation) {
       return;
     }
 
@@ -317,15 +326,17 @@
       data: JSON.stringify({ bookmarkNo: selectedBookmarkNoList }),
       success: function() {
         // 삭제 성공한 경우 처리할 로직 작성
+        alert("주소록이 삭제되었습니다.");
         location.reload(); // 페이지 새로고침
       },
       error: function() {
         // 삭제 실패한 경우 처리할 로직 작성
-        alert("북마크 삭제 실패");
+        alert("주소록 삭제 실패");
       }
     });
   });
 </script>
+
 
   <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
     

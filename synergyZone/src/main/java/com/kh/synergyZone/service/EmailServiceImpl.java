@@ -36,6 +36,8 @@ public class EmailServiceImpl implements EmailService {
 		String temporaryPw = randomComponent.generateString();
 		employeeDto.setEmpPassword(temporaryPw);
 		
+		
+		
 		employeeRepo.changePw(employeeDto);
 		
 		EmployeeDto dto = employeeRepo.selectOne(empNo);

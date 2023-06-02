@@ -12,17 +12,17 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.synergyZone.configuration.CustomFileUploadProperties;
 import com.kh.synergyZone.dto.AttachmentDto;
-import com.kh.synergyZone.dto.BookmarkDto;
 import com.kh.synergyZone.dto.EmployeeDto;
 import com.kh.synergyZone.dto.EmployeeInfoDto;
 import com.kh.synergyZone.dto.EmployeeProfileDto;
 import com.kh.synergyZone.repo.AttachmentRepo;
-import com.kh.synergyZone.repo.BookmarkRepo;
 import com.kh.synergyZone.repo.EmployeeProfileRepo;
 import com.kh.synergyZone.repo.EmployeeRepo;
 
@@ -42,6 +42,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 	
 	@Autowired
 	private CustomFileUploadProperties customFileUploadProperties;
+	
+	@Autowired
+	private PasswordEncoder encoder;
 	
 	private File dir;
 	
@@ -86,10 +89,19 @@ public class EmployeeServiceImpl implements EmployeeService {
 		
 		if(findDto == null) return null;
 		
-		if(findDto.getEmpPassword().equals(employeeDto.getEmpPassword())) {
+		if(encoder.matches(employeeDto.getEmpPassword(), findDto.getEmpPassword())) {
 			return findDto;
 		}
 		return null;
+	}
+	
+	@Override
+	public boolean encoder(EmployeeDto employeeDto) {
+		EmployeeDto findDto = employeeRepo.selectOne(employeeDto.getEmpNo());
+		if(encoder.matches(employeeDto.getEmpPassword(), findDto.getEmpPassword())) {
+			return true;
+		}
+		return false;
 	}
 	
 	

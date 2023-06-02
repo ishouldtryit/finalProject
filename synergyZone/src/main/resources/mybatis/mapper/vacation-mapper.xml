@@ -6,13 +6,23 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
     <mapper namespace="vacation">
-    <!-- 사원 연차사용 기록 -->
+    <!-- 사원 연차사용 기록 승인만 보여줌 -->
      <select id="list" resultType="VacationVO">
      	SELECT * FROM EMP_VACATION_VIEW WHERE emp_no = #{empNo} AND status = 1 AND EXTRACT(YEAR FROM used_date) = #{selectedValue}
      </select>
      
+     <!-- 관리자 연차조회 -->
+     <select id="adminList" resultType="VacationVO">
+		SELECT * FROM EMP_VACATION_VIEW WHERE status = 0     
+     </select>
+     
+     <!-- 연차 대기열 대기 / 반려만 보여줌-->
+     <select id="queue" resultType="VacationVO">
+     	SELECT * FROM EMP_VACATION_VIEW WHERE emp_no = #{empNo} AND (status = 0 or status = 2)
+     </select>
+     
      <!-- 연차사용  결재완료시 만들어야함-->
      <insert id="add">
-     	
+     	insert into vacation values(vacation_seq.nextval,#{empNo},#{vacationName},#{startDate},#{endDate},#{useCount},#{reason},0,sysdate)
      </insert>
     </mapper>

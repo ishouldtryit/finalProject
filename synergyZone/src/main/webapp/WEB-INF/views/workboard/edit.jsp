@@ -9,18 +9,22 @@
     
     <script type="text/javascript">
     $(function(){
-        $('[name=workContent]').summernote({
-            placeholder: '내용 작성',
-            tabsize: 4,//탭키를 누르면 띄어쓰기 몇 번 할지
-            height: 250,//최초 표시될 높이(px)
-            toolbar: [//메뉴 설정
-                ['style', ['style']],
-                ['font', ['bold', 'underline', 'clear']],
-                ['color', ['color']],
-                ['para', ['ul', 'ol', 'paragraph']],
-                ['table', ['table']],
-            ]
-        });
+    	var workContent = $("#workContent").val(); // Get the previously entered content
+
+    	  $('[name=workContent]').summernote({
+    	    placeholder: '내용 작성',
+    	    tabsize: 4,
+    	    height: 250,
+    	    toolbar: [
+    	      ['style', ['style']],
+    	      ['font', ['bold', 'underline', 'clear']],
+    	      ['color', ['color']],
+    	      ['para', ['ul', 'ol', 'paragraph']],
+    	      ['table', ['table']],
+    	    ]
+    	  });
+
+    	  $('[name=workContent]').summernote('code', workContent);
         
     
     });
@@ -34,28 +38,6 @@
         return true;
     }
     
-    $(document).ready(function() {
-        $('.delete-attachment').click(function() {
-            var attachmentId = $(this).data('attachment-id');
-            deleteAttachment(attachmentId);
-        });
-    });
-
-    function deleteAttachment(attachmentId) {
-        $.ajax({
-            url: '/attachment/delete',
-            type: 'POST',
-            data: { attachmentId: attachmentId },
-            success: function(response) {
-                // Handle the success response, such as removing the deleted attachment from the UI
-                console.log('Attachment deleted successfully');
-            },
-            error: function(xhr, status, error) {
-                // Handle the error response
-                console.error('Error deleting attachment:', error);
-            }
-        });
-    }
        
     </script>
 
@@ -109,10 +91,10 @@
                   </div>
                   
                   <div class="row mt-4">
-                      <div class="col">
-                        <textarea name="workContent" value="${workBoardDto.workContent}"></textarea>
-                      </div>
-                  </div>
+					  <div class="col">
+					    <textarea name="workContent" id="workContent">${workBoardDto.workContent}</textarea>
+					  </div>
+				  </div>
                   
                   <div class="col">
 					    <label class="form-label">파일첨부</label>

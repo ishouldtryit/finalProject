@@ -12,13 +12,14 @@ public interface BoardRepo {
 	List<BoardVO> selectList(String column, String keyword);
 	BoardVO selectOne(int boardNo);
 	int sequence();
-	void insert(BoardVO BoardVO);
+	void insert(BoardVO boardVO);
 	boolean delete(int boardNo);
-	boolean update(BoardVO BoardVO);
+	boolean update(BoardVO boardVO);
 	boolean updateReadcount(int boardNo);
 	int selectCount(PaginationVO vo);
 	List<BoardVO> selectList(PaginationVO vo);
 	void updateLikecount(int boardNo, int count);
 	void updateReplycount(int boardNo);
 	void connect(int boardNo, int attachmentNo);
+	List<BoardVO> selectListByPaging(PaginationVO vo);
 }

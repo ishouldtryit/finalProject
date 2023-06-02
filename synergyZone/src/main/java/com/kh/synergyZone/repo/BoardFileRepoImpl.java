@@ -8,13 +8,13 @@ import com.kh.synergyZone.dto.BoardFileDto;
 
 @Repository
 public class BoardFileRepoImpl implements BoardFileRepo{
-	@Autowired
-	private SqlSession sqlSession;
+   @Autowired
+   private SqlSession sqlSession;
 
-	@Override
-	public void insert(BoardFileDto boardFileDto) {
-		sqlSession.insert("boardFile.insert", boardFileDto);
-	}
-	
-	
+   @Override
+   public void insert(BoardFileDto boardFileDto) {
+      sqlSession.insert("boardFile.insert", boardFileDto);
+   }
+   
+   
 }

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
 public class BoardFileDto {
-	private int boardNo;
-	private int attachmentNo;
+   private int boardNo;
+   private int attachmentNo;
 
 }

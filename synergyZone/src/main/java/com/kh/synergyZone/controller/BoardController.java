@@ -53,7 +53,6 @@ public class BoardController {
       //게시글
       List<BoardVO> list = boardRepo.selectList(vo);
       model.addAttribute("posts", list);
-    
       // 프로필 사진 조회
       EmployeeProfileDto profile = employeeProfileRepo.find(empNo); // 프로필 정보 조회
       if (profile != null && profile.getAttachmentNo() > 0) {
@@ -89,19 +88,19 @@ public class BoardController {
       //조회수 증가
       if(!owner) {//내가 작성한 글이 아니라면(시나리오 1번)
          
-    	  // 시나리오 2번 진행
-    	  Set<Integer> memory = (Set<Integer>) session.getAttribute("memory");
-    	  if (memory == null) {
-    	     memory = new HashSet<>();
-    	  }
-    	  
-    	  if (!memory.contains(boardNo)) { // 읽은 적이 없는가 (기억에 없는가)
-    	     boardRepo.updateReadcount(boardNo);
-    	     boardVO.setBoardRead(boardVO.getBoardRead() + 1); // DTO 조회수 1증가
-    	     memory.add(boardNo); // 저장소에 추가(기억에 추가)
-    	  }
-    	  
-    	  session.setAttribute("memory", memory); // 저장소 갱신
+         // 시나리오 2번 진행
+         Set<Integer> memory = (Set<Integer>) session.getAttribute("memory");
+         if (memory == null) {
+            memory = new HashSet<>();
+         }
+         
+         if (!memory.contains(boardNo)) { // 읽은 적이 없는가 (기억에 없는가)
+            boardRepo.updateReadcount(boardNo);
+            boardVO.setBoardRead(boardVO.getBoardRead() + 1); // DTO 조회수 1증가
+            memory.add(boardNo); // 저장소에 추가(기억에 추가)
+         }
+         
+         session.setAttribute("memory", memory); // 저장소 갱신
 
          
       }
@@ -158,7 +157,7 @@ public class BoardController {
    
    @PostMapping("/write")
    public String write(@ModelAttribute BoardVO boardVO,
-		   @RequestParam("attachments") List<MultipartFile> attachments,
+         @RequestParam("attachments") List<MultipartFile> attachments,
          HttpSession session, RedirectAttributes attr) throws IllegalStateException, IOException {
       //컨트롤러에서만 가능한 작업은 컨트롤러에서 처리
       //- 사용자의 요청을 처리하는 것

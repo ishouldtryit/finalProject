@@ -56,26 +56,26 @@
 
         // Delete a specific file
         const deleteFile = (fileName) => {
- 	    const fileListContainer = document.getElementById('fileList');
- 	    const listItem = Array.from(fileListContainer.querySelectorAll('li')).find(item => {
- 	        const span = item.querySelector('span');
- 	        return span.innerText === fileName;
- 	    });
- 	    if (listItem) {
- 	        fileListContainer.removeChild(listItem);
- 	
- 	        // Remove the file from the dataTransfer object
- 	        for (let i = 0; i < dataTransfer.files.length; i++) {
- 	            if (dataTransfer.files[i].name === fileName) {
- 	                dataTransfer.items.remove(i);
- 	                break;
- 	            }
- 	        }
- 	        document.getElementById("attachments").files = dataTransfer.files;
- 	        console.log("dataTransfer after deletion =>", dataTransfer.files);
- 	        console.log("input Files after deletion =>", document.getElementById("attachments").files);
- 	    }
- 	}
+        const fileListContainer = document.getElementById('fileList');
+        const listItem = Array.from(fileListContainer.querySelectorAll('li')).find(item => {
+            const span = item.querySelector('span');
+            return span.innerText === fileName;
+        });
+        if (listItem) {
+            fileListContainer.removeChild(listItem);
+    
+            // Remove the file from the dataTransfer object
+            for (let i = 0; i < dataTransfer.files.length; i++) {
+                if (dataTransfer.files[i].name === fileName) {
+                    dataTransfer.items.remove(i);
+                    break;
+                }
+            }
+            document.getElementById("attachments").files = dataTransfer.files;
+            console.log("dataTransfer after deletion =>", dataTransfer.files);
+            console.log("input Files after deletion =>", document.getElementById("attachments").files);
+        }
+    }
 
 
         // Display file list
@@ -174,29 +174,29 @@
 
 <div class="container">
 
-	<!-- 제목 -->
-	<div class="row center">
-		<c:choose>
-			<c:when test="${boardParent == null}">
-				<h2>새글 작성</h2>
-			</c:when>
-			<c:otherwise>
-				<h2>답글 작성</h2>
-			</c:otherwise>
-		</c:choose>
-	</div>
-	
-	 <div class="row p-3" >
-	      <label for="draftTitle" class="form-label">제목</label>
-	      <input type="text" id="draftTitle" name="boardTitle" v-model="boardlVO.boardDto.boardTitle" class="form-control" v-on:input="boardVO.boardDto.boardTitle = $event.target.value">
-	    </div>
-	    
-	    <div class="row p-3">
-	      <label for="draftContent" class="form-label">내용</label>
-	      <textarea id="draftContent" name="boardContent" required style="min-height: 300px;" v-model="boardVO.boardDto.boardContent" class="form-control" v-on:input="boardVO.boardDto.boardContent = $event.target.value"></textarea>
-	    </div>
-	    
-	    <div class="row mt-4">
+   <!-- 제목 -->
+   <div class="row center">
+      <c:choose>
+         <c:when test="${boardParent == null}">
+            <h2>새글 작성</h2>
+         </c:when>
+         <c:otherwise>
+            <h2>답글 작성</h2>
+         </c:otherwise>
+      </c:choose>
+   </div>
+   
+    <div class="row p-3" >
+         <label for="draftTitle" class="form-label">제목</label>
+         <input type="text" id="draftTitle" name="boardTitle" v-model="boardlVO.boardDto.boardTitle" class="form-control" v-on:input="boardVO.boardDto.boardTitle = $event.target.value">
+       </div>
+       
+       <div class="row p-3">
+         <label for="draftContent" class="form-label">내용</label>
+         <textarea id="draftContent" name="boardContent" required style="min-height: 300px;" v-model="boardVO.boardDto.boardContent" class="form-control" v-on:input="boardVO.boardDto.boardContent = $event.target.value"></textarea>
+       </div>
+       
+       <div class="row mt-4">
                 <div class="col">
                     <label class="form-label">파일첨부</label>
                     <input class="form-control rounded" type="file" id="attachments" name="attachments" multiple="multiple">
@@ -212,9 +212,9 @@
                 </div>
             </div>
             
-	<div class="row">
-		<button type="submit" class="btn btn-info w-80 mt-3 reply-insert-btn">등록</button>
-	</div>
+   <div class="row">
+      <button type="submit" class="btn btn-info w-80 mt-3 reply-insert-btn">등록</button>
+   </div>
 </div>
 
 </form>

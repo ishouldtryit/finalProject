@@ -238,7 +238,6 @@
           </tr>
         </thead>
         <tbody class="target">
-          <!-- 여기에 서버에서 받은 데이터로 테이블 내용을 동적으로 추가합니다. -->
         </tbody>
       </table>
     </div>

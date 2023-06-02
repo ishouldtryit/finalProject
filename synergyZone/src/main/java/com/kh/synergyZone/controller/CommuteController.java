@@ -16,6 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.kh.synergyZone.dto.CommuteRecordDto;
 import com.kh.synergyZone.repo.CommuteRecordRepoImpl;
 import com.kh.synergyZone.repo.VacationInfoRepoImpl;
+import com.kh.synergyZone.repo.VacationRepoImpl;
+import com.kh.synergyZone.service.EmployeeService;
+
+import com.kh.synergyZone.vo.VacationVO;
 
 @Controller
 @RequestMapping("/commute")
@@ -23,7 +27,13 @@ public class CommuteController {
 	@Autowired
 	private CommuteRecordRepoImpl commuteRecordRepo;
 	@Autowired
-	private VacationInfoRepoImpl vacationInfo;
+	private VacationInfoRepoImpl vacationInfoRepo;
+	@Autowired
+	private VacationRepoImpl vacationRepo;
+	@Autowired
+	private EmployeeService employeeService;
+	
+	
 	//근태관리 메인
 	@GetMapping("/")
 	public String commute(Model model, HttpSession session, @ModelAttribute CommuteRecordDto commuteRecordDto) {
@@ -46,11 +56,20 @@ public class CommuteController {
 		//출근처리
 		//출근버튼 1
 		if(status==1) {
-			commuteRecordRepo.insert(empNo);
+			String ipAddress = employeeService.getLocation(request);
+			CommuteRecordDto dto=new CommuteRecordDto();
+			dto.setEmpNo(empNo);
+			dto.setStartIp(ipAddress);
+			commuteRecordRepo.insert(dto);
 		}
 		//퇴근버튼 2
 		else if(status==2) {
-			commuteRecordRepo.update(empNo);
+			String ipAddress = employeeService.getLocation(request);
+			CommuteRecordDto dto=new CommuteRecordDto();
+			dto.setEmpNo(empNo);
+			dto.setEndIp(ipAddress);
+			
+			commuteRecordRepo.update(dto);
 		}
 		
 		return "redirect:/commute/";
@@ -59,6 +78,7 @@ public class CommuteController {
 	@GetMapping("/record")
 	public String record(Model model,HttpSession session) {
 		String empNo = (String) session.getAttribute("empNo");
+		//사원 연차기록
 		List<CommuteRecordDto> list=commuteRecordRepo.allList(empNo);
 		model.addAttribute("list",list);
 		return "/commute/record";
@@ -68,8 +88,35 @@ public class CommuteController {
 	@GetMapping("/vacation")
 	public String vacation(Model model,HttpSession session) {
 		String empNo = (String) session.getAttribute("empNo");
-		model.addAttribute("one",vacationInfo.one(empNo));
+		model.addAttribute("one",vacationInfoRepo.one(empNo));
 		return "/commute/vacation";		
 		
+	}
+	
+	@GetMapping("/write")
+	public String write(Model model,HttpSession session) {
+		String empNo=(String) session.getAttribute("empNo");
+		model.addAttribute("one",vacationInfoRepo.one(empNo));
+		VacationVO vo =new VacationVO();
+		vo.setEmpNo(empNo);
+		List<VacationVO> list=vacationRepo.queue(vo);
+		model.addAttribute("list",list);
+
+
+		return "/commute/write";
+	}
+	
+	@PostMapping("/write")
+	public String add(@ModelAttribute VacationVO vo,HttpSession session) {
+		String empNo=(String) session.getAttribute("empNo");
+		vo.setEmpNo(empNo);
+		//등록
+		vacationRepo.insert(vo);
+		return "redirect:/commute/write";
+	}
+	
+	@GetMapping("/trip")
+	public String trip() {
+		return "/commute/write2";
 	}
 }

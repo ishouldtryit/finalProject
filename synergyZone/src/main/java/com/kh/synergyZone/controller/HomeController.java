@@ -1,5 +1,6 @@
 package com.kh.synergyZone.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +12,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.kh.synergyZone.dto.CommuteRecordDto;
 import com.kh.synergyZone.dto.EmployeeProfileDto;
+import com.kh.synergyZone.dto.EmployeeDto;
+import com.kh.synergyZone.dto.LoginRecordDto;
 import com.kh.synergyZone.repo.CommuteRecordRepo;
 import com.kh.synergyZone.repo.EmployeeProfileRepo;
+import com.kh.synergyZone.repo.LoginRecordRepo;
+import com.kh.synergyZone.service.EmployeeService;
 
 @Controller
 public class HomeController {
@@ -22,25 +27,62 @@ public class HomeController {
 		
 		@Autowired
 		private EmployeeProfileRepo employeeProfileRepo;
+		@Autowired
+		private EmployeeService employeeService;
+		
+		@Autowired
+		private LoginRecordRepo loginRecordRepo;
 		
 		@GetMapping("/")
-		public String home(Model model, HttpSession session, @ModelAttribute CommuteRecordDto commuteRecordDto) {
-		    String empNo = (String) session.getAttribute("empNo");
-//		    if (empNo != null) {
-//		        CommuteRecordDto today = commuteRecordRepo.today(empNo);
-//		        System.out.println(today);
-//		        if (today!=null) {
-//		            CommuteRecordDto w = today;
-//		            model.addAttribute("work", w);
-//		        }
-//		    }
+	      public String home(Model model, HttpSession session, @ModelAttribute CommuteRecordDto commuteRecordDto) {
+	         String empNo = (String) session.getAttribute("empNo");
+	          if (empNo != null) {            
+	            //오늘 근무정보
+	            model.addAttribute("w",commuteRecordRepo.today(empNo));
+	     
+	            // 프로필 사진 조회
+	            EmployeeProfileDto profile = employeeProfileRepo.find(empNo); // 프로필 정보 조회
+	            model.addAttribute("profile", profile);
+	              return "main"; // 로그인된 사용자는 메인 페이지로 이동
+	          }
+	          
+	          return "login";
+	      }
 		    
-		 // 프로필 사진 조회
-		       EmployeeProfileDto profile = employeeProfileRepo.find(empNo); // 프로필 정보 조회
-		       model.addAttribute("profile", profile);
+		
+		//로그인
+				@GetMapping("/login")
+				public String login() {
+					return "login";
+				}
+				
+				@PostMapping("/login")
+				public String login(@ModelAttribute EmployeeDto employeeDto,
+									HttpSession session,
+									HttpServletRequest request) {
+					EmployeeDto findDto = employeeService.login(employeeDto);
+					
+					if(findDto != null){
+						//로그인 시 세션 저장
+						session.setAttribute("empName", findDto.getEmpName());
+						session.setAttribute("empNo", findDto.getEmpNo());
+						session.setAttribute("jobNo", findDto.getJobNo());
+						
+						String ipAddress = employeeService.getLocation(request);
+						String browserAddress = employeeService.getBrowser(request);
 
-		    return "main";
-		}
+						//로그인 접속 시간
+						LoginRecordDto loginRecordDto = new LoginRecordDto();
+						loginRecordDto.setEmpNo(findDto.getEmpNo());
+						loginRecordDto.setLogIp(ipAddress);
+						loginRecordDto.setLogBrowser(browserAddress);
+						
+						loginRecordRepo.insert(loginRecordDto);
+					}
+					
+					return "redirect:/";
+				}
+		
 		
 		@PostMapping("/testuser1")
 		public String loginTestuser1(
@@ -81,21 +123,5 @@ public class HomeController {
 			return "redirect:/";
 		}
 		
-		@PostMapping("/start")
-		public String start(HttpSession session,@ModelAttribute CommuteRecordDto commuteRecordDto,
-				Model model) {
-			
-			String empNo =(String)session.getAttribute("empNo");
-			commuteRecordRepo.insert(empNo);
-			 return "redirect:/";
-		}
-		
-		@PostMapping("/end")
-		public String end(HttpSession session,@ModelAttribute CommuteRecordDto commuteRecordDto) {
-			String empNo =(String)session.getAttribute("empNo");
-			commuteRecordDto.setEmpNo(empNo);
-			commuteRecordRepo.update(empNo);
-			return "redirect:/";
-		}
 	
 } 

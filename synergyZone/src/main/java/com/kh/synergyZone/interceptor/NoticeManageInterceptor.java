@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import com.kh.synergyZone.dto.NoticeDto;
 import com.kh.synergyZone.dto.EmployeeDto;
 import com.kh.synergyZone.repo.NoticeRepo;
 import com.kh.synergyZone.repo.EmployeeRepo;
+import com.kh.synergyZone.vo.NoticeVO;
 
 
 
@@ -37,8 +37,8 @@ public class NoticeManageInterceptor implements HandlerInterceptor{
 		
 		//게시글 작성자 확인 코드
 		int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
-		NoticeDto noticeDto = noticeRepo.selectOne(noticeNo);
-		String writerId = noticeDto.getNoticeWriter();
+		NoticeVO noticeVO = noticeRepo.selectOne(noticeNo);
+		String writerId = noticeVO.getNoticeWriter();
 		
 		//현재 로그인 회원 확인 코드
 		HttpSession session = request.getSession();
@@ -49,10 +49,10 @@ public class NoticeManageInterceptor implements HandlerInterceptor{
 		boolean isOwner = writer.equals(writerId);
 		
 		//현재 로그인 회원의 등급 확인 코드
-		String jobName = (String)session.getAttribute("jobName");
+		String jobName = (String)session.getAttribute("jobNo");
 		
 
-		boolean isAdmin = jobName.equals("관리자");
+		boolean isAdmin = jobName.equals("80");
 		
 		if(isAdmin) {//관리자
 			//삭제 페이지로 이동한다면

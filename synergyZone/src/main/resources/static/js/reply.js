@@ -46,13 +46,13 @@ $(function(){
 		        var template = $("#reply-template").html(); // 템플릿 불러와서
 		        var html = $.parseHTML(template); // 사용할 수 있게 변환하고
 		
-		        $(html).find(".replyWriter").text(response[i].empName);
+		        $(html).find(".replyWriter").text(response[i].empName + " " + response[i].jobName);
 		
 		        // 프로필 사진 추가
 		        var profileImage = $("<img>")
 		          .attr("src", getProfileImage(response[i].attachmentNo))
-		          .attr("width", "40")
-		          .attr("height", "40")
+		          .attr("width", "32")
+		          .attr("height", "32")
 		          .css("border-radius", "50%");
 		
 		        $(html).find(".profile-image.employee-name").append(profileImage);
@@ -63,20 +63,20 @@ $(function(){
 		        // 작성자 본인의 댓글에는 태그를 생성해서 추가 표시
 		        // -> boardWriter == response[i].replyWriter
 		        if (boardWriter == response[i].replyWriter) {
-		          var author = $("<span>").addClass("author ms-10").text("작성자");
+		          var author = $("<span>").addClass("author ms-2 rounded-pill badge bg-info").text("작성자");
 		          $(html).find(".replyWriter").append(author);
 		        }
 		
 		        // 내가 쓴 댓글에는 수정/삭제 버튼을 추가 표시
 		        if (empNo == response[i].replyWriter) {
 		          var editButton = $("<i>")
-		            .addClass("fa-solid fa-edit ms-30")
+		            .addClass("fa-solid fa-edit ms-2")
 		            .attr("data-reply-no", response[i].replyNo)
 		            .attr("data-reply-content", response[i].replyContent)
 		            .click(editReply);
 		
 		          var deleteButton = $("<i>")
-		            .addClass("fa-solid fa-trash ms-10")
+		            .addClass("fa-solid fa-trash ms-1")
 		            .attr("data-reply-no", response[i].replyNo)
 		            .click(deleteReply);
 		

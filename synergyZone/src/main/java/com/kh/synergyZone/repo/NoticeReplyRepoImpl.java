@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.synergyZone.dto.NoticeReplyDto;
+import com.kh.synergyZone.vo.NoticeReplyVO;
+import com.kh.synergyZone.vo.ReplyVO;
 
 
 @Repository
@@ -28,7 +30,7 @@ public class NoticeReplyRepoImpl implements NoticeReplyRepo {
     }
 
     @Override
-    public List<NoticeReplyDto> selectList(int noticeReplyOrigin) {
+    public List<NoticeReplyVO> selectList(int noticeReplyOrigin) {
         return sqlSession.selectList("noticeReply.selectList", noticeReplyOrigin);
     }
 
@@ -43,7 +45,7 @@ public class NoticeReplyRepoImpl implements NoticeReplyRepo {
     }
 
     @Override
-    public NoticeReplyDto selectOne(int noticeReplyNo) {
+    public NoticeReplyVO selectOne(int noticeReplyNo) {
         return sqlSession.selectOne("noticeReply.selectOne", noticeReplyNo);
     }
 }

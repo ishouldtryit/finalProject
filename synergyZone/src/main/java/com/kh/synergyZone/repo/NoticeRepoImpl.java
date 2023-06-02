@@ -8,7 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.kh.synergyZone.dto.NoticeDto;
+import com.kh.synergyZone.vo.NoticeVO;
 import com.kh.synergyZone.vo.PaginationVO;
 
 
@@ -19,12 +19,20 @@ public class NoticeRepoImpl implements NoticeRepo{
 	private SqlSession sqlSession;
 	
 	@Override
-	public List<NoticeDto> selectList() {
+	public List<NoticeVO> selectNoticeList(int begin, int end) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("begin", begin);
+		param.put("end", end);
+		return sqlSession.selectList("Notice.selectNoticeList", param);
+	}
+
+	@Override
+	public List<NoticeVO> selectList() {
 		return sqlSession.selectList("Notice.selectList");
 	}
 
 	@Override
-	public List<NoticeDto> selectList(String column, String keyword) {
+	public List<NoticeVO> selectList(String column, String keyword) {
 		Map<String, Object> param = new HashMap<>();
 		param.put("column", column);
 		param.put("keyword", keyword);
@@ -32,7 +40,7 @@ public class NoticeRepoImpl implements NoticeRepo{
 	}
 
 	@Override
-	public NoticeDto selectOne(int noticeNo) {
+	public NoticeVO selectOne(int noticeNo) {
 		return sqlSession.selectOne("Notice.selectOne",noticeNo);
 	}
 
@@ -42,8 +50,8 @@ public class NoticeRepoImpl implements NoticeRepo{
 	}
 
 	@Override
-	public void insert(NoticeDto noticeDto) {
-		sqlSession.insert("Notice.insert", noticeDto);
+	public void insert(NoticeVO noticeVO) {
+		sqlSession.insert("Notice.insert", noticeVO);
 	}
 
 	@Override
@@ -53,18 +61,18 @@ public class NoticeRepoImpl implements NoticeRepo{
 	}
 
 	@Override
-	public boolean update(NoticeDto noticeDto) {
-		int result = sqlSession.update("Notice.update",noticeDto);
+	public boolean update(NoticeVO noticeVO) {
+		int result = sqlSession.update("Notice.update",noticeVO);
 		return result > 0;
 	}
 
 	@Override
 	public boolean updateNoticeReadcount(int noticeNo) {
-		int result = sqlSession.update("updateNoticeReadcount", noticeNo);
+		int result = sqlSession.update("Notice.updateReadNoticecount", noticeNo);
 		return result > 0;
 	}
 	@Override
-	public void updateNoticeLikecount(int noticeNo, int count) {
+	public void updateLikecount(int noticeNo, int count) {
 		Map<String, Object> param = new HashMap<>();
 		param.put("noticeNo", noticeNo);
 		param.put("count", count);
@@ -73,8 +81,8 @@ public class NoticeRepoImpl implements NoticeRepo{
 
 
 	@Override
-	public void updateNoticeReplycount(int noticeNo) {
-		sqlSession.update("Notice.updateNoticeReplycount", noticeNo);
+	public void updateReplycount(int noticeNo) {
+		sqlSession.update("Notice.updateReplycount", noticeNo);
 	}
 
 	@Override
@@ -91,8 +99,13 @@ public class NoticeRepoImpl implements NoticeRepo{
 	}
 
 	@Override
-	public List<NoticeDto> selectList(PaginationVO vo) {
+	public List<NoticeVO> selectList(PaginationVO vo) {
 		return sqlSession.selectList("Notice.selectList", vo);
+	}
+
+	@Override
+	public List<NoticeVO> selectListByPaging(PaginationVO vo) {
+		return sqlSession.selectList("Notice.selectListByPaging", vo);
 	}
 	
 

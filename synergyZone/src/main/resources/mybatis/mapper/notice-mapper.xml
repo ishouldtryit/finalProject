@@ -4,15 +4,19 @@
 <mapper namespace="Notice">
 
 <!-- selectList -->
-<select id="selectList" resultType="NoticeDto">
-	select *
-	from notice order by notice_no asc
+<select id="selectList" resultType="NoticeVO">
+SELECT B.*, S.*
+FROM notice B
+JOIN search_info S ON B.notice_writer = S.emp_no
+   connect by prior notice_no=notice_parent 	
+                  start with notice_parent is null 
+                  order siblings by notice_group desc, notice_no asc
 </select>
 
 <!-- selectListByColumn -->
-<select id="selectListByColumn" resultType="NoticeDto">
+<select id="selectListByColumn" resultType="NoticeVO">
 	select *
-	from notice
+	from notice 
 	where instr(#{column}, #{keyword}) > 0
 	connect by prior notice_no = notice_parent
 	start with notice_parent is null
@@ -20,9 +24,10 @@
 </select>
 
 <!-- selectOne -->
-<select id="selectOne" resultType="NoticeDto">
-	select *
-	from notice
+<select id="selectOne" resultType="NoticeVO">
+	SELECT B.*, S.*
+	FROM notice B
+	JOIN SEARCH_INFO S ON B.notice_writer = S.emp_no
 	where notice_no = #{noticeNo}
 </select>
 
@@ -58,35 +63,38 @@
 </update>
 
 <!-- updateReadcount -->
-<update id="updateNoticeReadcount">
+<update id="updateReadNoticecount">
 	update notice
 	set notice_read = notice_read + 1
 	where notice_no = #{noticeNo}
 </update>
 
 <!-- selectCount -->
-<select id="selectCount" resultType="int">
+<select id="selectCount" parameterType="PaginationVO" resultType="int">
 	<if test="search">
 		select count(*)
-		from notice
-		where instr(#{column}, #{keyword}) > 0
+		from notice B
+		JOIN search_info S ON B.notice_writer = S.emp_no
+		where instr(${column}, #{keyword}) > 0
 	</if>
-	<if test="not search">
+	<if test="!search">
 		select count(*)
 		from notice
 	</if>
 </select>
 
+
 <!-- selectListByPaging -->
-<select id="selectListByPaging" resultType="NoticeDto">
+<select id="selectListByPaging" parameterType="PaginationVO" resultType="NoticeVO">
 	<if test="search">
 		select *
 		from (
 			select rownum rn, TMP.*
 			from (
-				select *
-				from notice
-				where instr(#{column}, #{keyword}) > 0
+				SELECT B.*, S.*
+				FROM notice B
+				JOIN search_info S ON B.notice_writer = S.emp_no
+				where instr(${column}, #{keyword}) > 0
 				connect by prior notice_no = notice_parent
 				start with notice_parent is null
 				order siblings by notice_group desc, notice_no asc
@@ -94,13 +102,14 @@
 		)
 		where rn between #{begin} and #{end}
 	</if>
-	<if test="not search">
+	<if test="!search">
 		select *
 		from (
 			select rownum rn, TMP.*
 			from (
-				select *
-				from notice
+				SELECT B.*, S.*
+				FROM notice B
+				JOIN search_info S ON B.notice_writer = S.emp_no
 				connect by prior notice_no = notice_parent
 				start with notice_parent is null
 				order siblings by notice_group desc, notice_no asc
@@ -122,8 +131,8 @@
 	update notice
 	set notice_reply = (
 		select count(*)
-		from reply
-		where reply_origin = #{noticeNo}
+		from noticeReply
+		where noticeReply_origin = #{noticeNo}
 	)
 	where notice_no = #{noticeNo}
 </update>

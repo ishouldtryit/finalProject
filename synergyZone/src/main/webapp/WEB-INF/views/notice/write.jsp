@@ -69,7 +69,7 @@
 <input type="hidden" name="noticeParent" value="${noticeParent}">
 </c:if>
 
-<div class="container-800">
+<div class="container">
 
 	<!-- 제목 -->
 	<div class="row center">
@@ -83,25 +83,17 @@
 		</c:choose>
 	</div>
 	
+	 <div class="row p-3" >
+	      <label for="draftTitle" class="form-label">제목</label>
+	      <input type="text" id="draftTitle" name="noticeTitle" v-model="noticelVO.noticeDto.noticeTitle" class="form-control" v-on:input="noticeVO.noticeDto.noticeTitle = $event.target.value">
+	    </div>
+	    
+	    <div class="row p-3">
+	      <label for="draftContent" class="form-label">내용</label>
+	      <textarea id="draftContent" name="noticeContent" required style="min-height: 300px;" v-model="noticeVO.noticeDto.noticeContent" class="form-control" v-on:input="noticeVO.noticeDto.noticeContent = $event.target.value"></textarea>
+	    </div>
 	<div class="row">
-		<label>제목<i class="fa-solid fa-asterisk"></i></label>
-		<c:choose>
-			<c:when test="${noticeParent == null}">
-				<input type="text" name="noticeTitle" required class="form-input w-100">
-			</c:when>
-			<c:otherwise>
-				<input type="text" name="noticeTitle" required value="RE: " class="form-input w-100">
-			</c:otherwise>
-		</c:choose>
-	</div>
-	
-	<div class="row">
-		<label>내용<i class="fa-solid fa-asterisk"></i></label>
-		<textarea name="noticeContent" required class="form-input w-100" style="min-height: 300px;"></textarea>
-	</div>
-	
-	<div class="row">
-		<button type="submit" class="form-btn positive w-100">등록</button>
+		<button type="submit" class="btn btn-info w-80 mt-3 noticeReply-insert-btn">등록</button>
 	</div>
 </div>
 

@@ -18,7 +18,7 @@ public class ChatUserVO {
 	
 	//회원여부 판별
 	public boolean isMember() {
-		return this.empNo != null && this.empName!=null;
+		return this.empNo != null;
 	}
 	
 	//메세지 전송
@@ -30,7 +30,7 @@ public class ChatUserVO {
 	public ChatUserVO(WebSocketSession session) {
 		this.session = session;
 		Map<String, Object> attr = session.getAttributes();
-		this.empNo = (String)attr.get("memberId");
-		this.empName = (String)attr.get("memberLevel");
+		this.empNo = (String)attr.get("empNo");
+		this.empName= (String)attr.get("empName");
 	}
 }

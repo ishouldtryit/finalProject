@@ -14,5 +14,7 @@ public class CommuteRecordDto {
 	private String endTime;
 	private Object workTime;
 	private Date workDate;
+	private String startIp;
+	private String endIp;
 	
 }

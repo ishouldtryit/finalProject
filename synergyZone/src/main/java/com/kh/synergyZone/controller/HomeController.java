@@ -36,6 +36,7 @@ public class HomeController {
 		@GetMapping("/")
 	      public String home(Model model, HttpSession session, @ModelAttribute CommuteRecordDto commuteRecordDto) {
 	         String empNo = (String) session.getAttribute("empNo");
+	         System.out.println(empNo);
 	          if (empNo != null) {            
 	            //오늘 근무정보
 	            

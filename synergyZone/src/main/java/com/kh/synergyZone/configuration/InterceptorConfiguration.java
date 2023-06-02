@@ -23,7 +23,14 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
 								.addPathPatterns("/admin/job/register");
 		
 		registry.addInterceptor(employeeInterceptor)
-								.addPathPatterns("/");
+								.addPathPatterns(
+										"/",
+										"/admin/**",
+										"/employee/**",
+										"/workboard/**"
+										
+								);
+								
 	}
 	
 	

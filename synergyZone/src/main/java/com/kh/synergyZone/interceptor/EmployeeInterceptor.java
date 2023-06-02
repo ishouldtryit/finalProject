@@ -7,8 +7,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import com.kh.synergyZone.advice.RequireLoginException;
-
 //비회원이 회원 기능에 접근하는 것을 차단하기 위한 인터셉터
 @Service
 public class EmployeeInterceptor implements HandlerInterceptor {
@@ -28,9 +26,11 @@ public class EmployeeInterceptor implements HandlerInterceptor {
 		else {//비회원이라면 - 로그인 페이지로 이동시키면서 차단
 			//리다이렉트 코드
 			//response.sendRedirect("/member/login");//return "redirect:/member/login"
+			response.sendRedirect("/login");
+			return false;
 			//response.sendError(401);
 			//return false;
-			throw new RequireLoginException("로그인 후 이용 가능합니다");
+//			throw new RequireLoginException("로그인 후 이용 가능합니다");
 		}
 	}
 }

@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.kh.synergyZone.dto.NoticeDto;
 import com.kh.synergyZone.repo.NoticeRepo;
+import com.kh.synergyZone.repo.NoticeRepo;
+import com.kh.synergyZone.vo.NoticeVO;
 
 
 
@@ -23,7 +25,7 @@ public class NoticeService {
 	//게시글 등록 서비스
 	//- 컨트롤러에게서 게시글 정보를 받는다
 	//- 컨트롤러에게 등록된 게시글 번호를 반환한다
-	public int write(NoticeDto noticeDto, List<Integer> attachmentNo) {
+	public int write(NoticeVO noticeVO, List<Integer> attachmentNo) {
 		//noticeDto의 정보를 새글과 답글로 구분하여 처리 후 등록
 		//- 새글일 경우 noticeParent가 null이다.
 		//		- 그룹번호(noticeGroup)는 글번호와 동일하게 처리
@@ -37,24 +39,24 @@ public class NoticeService {
 		
 		//글 번호와 회원 아이디 구하기(새글/답글 공통)
 		int noticeNo = noticeRepo.sequence();
-		noticeDto.setNoticeNo(noticeNo);
+		noticeVO.setNoticeNo(noticeNo);
 		
 		//새글일 경우와 답글일 경우에 따른 추가 계산 작업
 		//if(noticeDto.getNoticeParent() == null) {
-		if(noticeDto.isNew()) {
-			noticeDto.setNoticeGroup(noticeNo);//그룹번호를 글번호로 설정
+		if(noticeVO.isNew()) {
+			noticeVO.setNoticeGroup(noticeNo);//그룹번호를 글번호로 설정
 			//noticeDto.setNoticeParent(null);//대상글번호를 null로 설정
 			//noticeDto.setNoticeDepth(0);//차수를 0으로 설정
 		}
 		else {
 			//전달받은 대상글번호의 모든 정보 조회
-			NoticeDto parentDto = noticeRepo.selectOne(noticeDto.getNoticeParent());
-			noticeDto.setNoticeGroup(parentDto.getNoticeGroup());//대상글 그룹번호
-			noticeDto.setNoticeDepth(parentDto.getNoticeDepth()+1);//대상글 차수+1
+			NoticeVO parentDto = noticeRepo.selectOne(noticeVO.getNoticeParent());
+			noticeVO.setNoticeGroup(parentDto.getNoticeGroup());//대상글 그룹번호
+			noticeVO.setNoticeDepth(parentDto.getNoticeDepth()+1);//대상글 차수+1
 		}
 		
 		//등록
-		noticeRepo.insert(noticeDto);
+		noticeRepo.insert(noticeVO);
 		
 		//글에 사용된 첨부파일번호(attachmentNo)와 글번호(noticeNo)를 연결
 		if(attachmentNo != null) {
@@ -66,7 +68,5 @@ public class NoticeService {
 		return noticeNo;
 	}
 }
-
-
 
 

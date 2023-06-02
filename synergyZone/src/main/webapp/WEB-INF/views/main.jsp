@@ -302,7 +302,7 @@ html, body {
                </div>
                <hr>
                <div>
-                   <div v-model="selectedDate" ref="datepicker" style="margin-left: 38px;"></div>
+                  <div v-model="selectedDate" ref="datepicker" style="margin-left: 38px;"></div>
                   <hr>
                   <div>
                      <div>
@@ -393,7 +393,6 @@ html, body {
     Vue.createApp({
         data() {
             return {
-            	selectedDate: '',
                 currentTime: '',
                 currentDate: '',
                 remainingTime: '',
@@ -489,7 +488,6 @@ html, body {
             this.fetchEmployeeInfo();
         },
     }).mount("#app");
-    
     app.component('datepicker', {
         mounted() {
             const datepicker = this.$refs.datepicker;

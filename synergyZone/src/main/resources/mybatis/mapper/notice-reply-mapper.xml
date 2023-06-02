@@ -3,11 +3,13 @@
 <mapper namespace="noticeReply">
     
     <!-- 댓글 조회 -->
-    <select id="selectList" resultType="NoticeReplyDto">
-        SELECT * FROM NOTICE_REPLY
-        WHERE NOTICE_REPLY_ORIGIN = #{noticeReplyOrigin}
-        ORDER BY NOTICE_REPLY_NO ASC
-    </select>
+    <select id="selectList" resultType="NoticeReplyVO">
+    SELECT R.*, S.*
+    FROM noticeReply R
+    JOIN search_info S ON R.noticeReply_writer = S.emp_no
+    WHERE R.noticeReply_origin = #{noticeReplyOrigin}
+    ORDER BY R.noticeReply_no ASC
+	</select>
 
     <!-- 댓글 작성 -->
     <insert id="insert">
@@ -27,8 +29,12 @@
     </delete>
 
     <!-- 댓글 번호로 조회 -->
-    <select id="selectOne" resultType="NoticeReplyDto">
-        SELECT * FROM NOTICE_REPLY WHERE NOTICE_REPLY_NO = #{noticeReplyNo}
-    </select>
+   <select id="selectOne" resultType="NoticeReplyVO">
+	    SELECT R.*, S.*
+	    FROM noticeReply R
+	    JOIN search_info S ON R.noticeReply_writer = S.emp_no
+	    WHERE R.noticeReply_no = #{noticeReplyNo}
+	</select>
+
     
 </mapper>

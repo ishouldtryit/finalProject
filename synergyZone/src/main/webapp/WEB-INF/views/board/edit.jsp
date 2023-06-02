@@ -29,25 +29,22 @@
 <form action="edit" method="post">
 <input type="hidden" name="boardNo" value="${boardDto.boardNo}">
 
-<div class="container-800">
+<div class="container">
 
 	<!-- 제목 -->
 	<div class="row center">
 		<h2>${boardDto.boardNo}번 게시글 수정</h2>
 	</div>
-	
+	 <div class="row p-3" >
+	      <label for="draftTitle" class="form-label">제목</label>
+	      <input type="text" id="draftTitle" name="boardTitle" v-model="boardlVO.boardDto.boardTitle" class="form-control" v-on:input="boardVO.boardDto.boardTitle = $event.target.value">
+	    </div>
+	    <div class="row p-3">
+	      <label for="draftContent" class="form-label">내용</label>
+	      <textarea id="draftContent" name="boardContent" required style="min-height: 300px;" v-model="boardVO.boardDto.boardContent" class="form-control" v-on:input="boardVO.boardDto.boardContent = $event.target.value"></textarea>
+	    </div>
 	<div class="row">
-		<label>제목<i class="fa-solid fa-asterisk"></i></label>
-		<input type="text" name="boardTitle" required class="form-input w-100" value="${boardDto.boardTitle}">
-	</div>
-	
-	<div class="row">
-		<label>내용<i class="fa-solid fa-asterisk"></i></label>
-		<textarea name="boardContent" required class="form-input w-100" style="min-height: 300px;">${boardDto.boardContent}</textarea>
-	</div>
-	
-	<div class="row">
-		<button type="submit" class="form-btn positive w-100">변경</button>
+		<button type="submit" class="btn btn-info w-80 mt-3 reply-insert-btn">변경</button>
 	</div>
 </div>
  

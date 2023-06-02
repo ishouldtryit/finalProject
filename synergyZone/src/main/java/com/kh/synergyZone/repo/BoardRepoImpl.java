@@ -103,6 +103,11 @@ public class BoardRepoImpl implements BoardRepo{
 	public List<BoardVO> selectList(PaginationVO vo) {
 		return sqlSession.selectList("Board.selectList", vo);
 	}
+
+	@Override
+	public List<BoardVO> selectListByPaging(PaginationVO vo) {
+		return sqlSession.selectList("Board.selectListByPaging", vo);
+	}
 	
 
 }

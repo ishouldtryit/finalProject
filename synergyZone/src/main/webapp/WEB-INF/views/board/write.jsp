@@ -39,7 +39,7 @@
 						processData:false,
 						contentType:false,
 						success:function(response){
-							//console.log(response);
+							console.log(response);
 							
 							//서버로 전송할 이미지 번호 정보 생성
 							var input = $("<input>").attr("type", "hidden")
@@ -48,7 +48,7 @@
 							$("form").prepend(input);
 							
 							//에디터에 추가할 이미지 생성
-							var imgNode = $("<img>").attr("src", "/rest/attachment/download/"+response.attachmentNo);
+							var imgNode = $("<img>").attr("src", "/rest/attachment/download/"+ response.attachmentNo);
 							//var imgNode = $("<img>").attr("src", "/rest/attachment/download?attachmentNo="+response.attachmentNo);
 							$("[name=boardContent]").summernote('insertNode', imgNode.get(0));
 						},
@@ -69,7 +69,7 @@
 <input type="hidden" name="boardParent" value="${boardParent}">
 </c:if>
 
-<div class="container-800">
+<div class="container">
 
 	<!-- 제목 -->
 	<div class="row center">
@@ -83,25 +83,17 @@
 		</c:choose>
 	</div>
 	
+	 <div class="row p-3" >
+	      <label for="draftTitle" class="form-label">제목</label>
+	      <input type="text" id="draftTitle" name="boardTitle" v-model="boardlVO.boardDto.boardTitle" class="form-control" v-on:input="boardVO.boardDto.boardTitle = $event.target.value">
+	    </div>
+	    
+	    <div class="row p-3">
+	      <label for="draftContent" class="form-label">내용</label>
+	      <textarea id="draftContent" name="boardContent" required style="min-height: 300px;" v-model="boardVO.boardDto.boardContent" class="form-control" v-on:input="boardVO.boardDto.boardContent = $event.target.value"></textarea>
+	    </div>
 	<div class="row">
-		<label>제목<i class="fa-solid fa-asterisk"></i></label>
-		<c:choose>
-			<c:when test="${boardParent == null}">
-				<input type="text" name="boardTitle" required class="form-input w-100">
-			</c:when>
-			<c:otherwise>
-				<input type="text" name="boardTitle" required value="RE: " class="form-input w-100">
-			</c:otherwise>
-		</c:choose>
-	</div>
-	
-	<div class="row">
-		<label>내용<i class="fa-solid fa-asterisk"></i></label>
-		<textarea name="boardContent" required class="form-input w-100" style="min-height: 300px;"></textarea>
-	</div>
-	
-	<div class="row">
-		<button type="submit" class="form-btn positive w-100">등록</button>
+		<button type="submit" class="btn btn-info w-80 mt-3 reply-insert-btn">등록</button>
 	</div>
 </div>
 

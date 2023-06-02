@@ -16,7 +16,7 @@ JOIN search_info S ON B.board_writer = S.emp_no
 <!-- selectListByColumn -->
 <select id="selectListByColumn" resultType="BoardVO">
 	select *
-	from board
+	from board 
 	where instr(#{column}, #{keyword}) > 0
 	connect by prior board_no = board_parent
 	start with board_parent is null
@@ -70,28 +70,31 @@ JOIN search_info S ON B.board_writer = S.emp_no
 </update>
 
 <!-- selectCount -->
-<select id="selectCount" resultType="int">
+<select id="selectCount" parameterType="PaginationVO" resultType="int">
 	<if test="search">
 		select count(*)
-		from board
-		where instr(#{column}, #{keyword}) > 0
+		from board B
+		JOIN search_info S ON B.board_writer = S.emp_no
+		where instr(${column}, #{keyword}) > 0
 	</if>
-	<if test="not search">
+	<if test="!search">
 		select count(*)
 		from board
 	</if>
 </select>
 
+
 <!-- selectListByPaging -->
-<select id="selectListByPaging" resultType="BoardVO">
+<select id="selectListByPaging" parameterType="PaginationVO" resultType="BoardVO">
 	<if test="search">
 		select *
 		from (
 			select rownum rn, TMP.*
 			from (
-				select *
-				from board
-				where instr(#{column}, #{keyword}) > 0
+				SELECT B.*, S.*
+				FROM board B
+				JOIN search_info S ON B.board_writer = S.emp_no
+				where instr(${column}, #{keyword}) > 0
 				connect by prior board_no = board_parent
 				start with board_parent is null
 				order siblings by board_group desc, board_no asc
@@ -99,13 +102,14 @@ JOIN search_info S ON B.board_writer = S.emp_no
 		)
 		where rn between #{begin} and #{end}
 	</if>
-	<if test="not search">
+	<if test="!search">
 		select *
 		from (
 			select rownum rn, TMP.*
 			from (
-				select *
-				from board
+				SELECT B.*, S.*
+				FROM board B
+				JOIN search_info S ON B.board_writer = S.emp_no
 				connect by prior board_no = board_parent
 				start with board_parent is null
 				order siblings by board_group desc, board_no asc
@@ -137,8 +141,6 @@ JOIN search_info S ON B.board_writer = S.emp_no
 <insert id="connect">
 	insert into board_attachment (board_no, attachment_no) values (#{boardNo}, #{attachmentNo})
 </insert>
-
-
 
 
 </mapper>

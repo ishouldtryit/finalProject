@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.kh.synergyZone.dto.BoardDto;
 import com.kh.synergyZone.dto.EmployeeProfileDto;
 import com.kh.synergyZone.repo.BoardRepo;
 import com.kh.synergyZone.repo.EmployeeProfileRepo;
 import com.kh.synergyZone.service.BoardService;
 import com.kh.synergyZone.vo.BoardVO;
 import com.kh.synergyZone.vo.PaginationVO;
+
 
 @Controller
 @RequestMapping("/board")
@@ -47,16 +47,14 @@ public class BoardController {
       //vo에 딱 한 가지 없는 데이터가 게시글 개수(목록/검색이 다름)
       int totalCount = boardRepo.selectCount(vo);
       vo.setCount(totalCount);
-      
       //게시글
-      List<BoardVO> list = boardRepo.selectList(vo);
+      List<BoardVO> list = boardRepo.selectListByPaging(vo);
       model.addAttribute("posts", list);
       // 프로필 사진 조회
       EmployeeProfileDto profile = employeeProfileRepo.find(empNo); // 프로필 정보 조회
       if (profile != null && profile.getAttachmentNo() > 0) {
           model.addAttribute("employeeDto", profile);
       }
-
       return "board/list";
    }
    

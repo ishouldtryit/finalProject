@@ -45,7 +45,7 @@ public class NoticeRestController {
 		int count = noticeLikeRepo.count(noticeLikeDto.getNoticeNo());
 		
 		//게시글의 좋아요 개수를 업데이트
-		noticeRepo.updateNoticeLikecount(noticeLikeDto.getNoticeNo(), count);
+		noticeRepo.updateLikecount(noticeLikeDto.getNoticeNo(), count);
 		
 		return NoticeLikeVO.builder()
 					.result(!current)

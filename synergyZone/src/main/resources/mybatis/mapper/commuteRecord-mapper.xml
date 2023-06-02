@@ -7,13 +7,13 @@
 <mapper namespace="commuteRecord">
 	<!-- 출근시간 -->
 	<insert id="start">
-			INSERT INTO COMMUTE_RECORD(emp_no, start_time, work_date) 
-			VALUES (#{empNo}, SYSDATE, CURRENT_DATE)
+			INSERT INTO COMMUTE_RECORD(emp_no, start_time, work_date,start_ip) 
+			VALUES (#{empNo}, SYSDATE, CURRENT_DATE,#{startIp})
 	</insert>
 	<!-- 퇴근시간 업데이트 -->
 	<update id="end">
 			UPDATE COMMUTE_RECORD
-			SET end_time = SYSDATE, work_time = (SYSDATE - start_time)
+			SET end_time = SYSDATE, work_time = (SYSDATE - start_time) ,end_ip = #{endIp}
 			WHERE emp_no = #{empNo} AND end_time IS NULL AND start_time >= TRUNC(SYSDATE)
 	</update>
 
@@ -30,9 +30,7 @@
 		select * from commute_record where emp_no= #{empNo}
 	</select>
 	
-	<select id="">
 	
-	</select>
 
 
 	

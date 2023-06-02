@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -54,39 +55,43 @@ public class EmployeeController {
 		
 		@Autowired
 		private EmployeeService employeeService;
-	
-	
-		//로그인
-		@GetMapping("/login")
-		public String login() {
-			return "employee/login";
-		}
 		
-		@PostMapping("/login")
-		public String login(@ModelAttribute EmployeeDto employeeDto,
-							HttpSession session,
-							HttpServletRequest request) {
-			EmployeeDto findDto = employeeService.login(employeeDto);
-			if(findDto != null){
-				//로그인 시 세션 저장
-				session.setAttribute("empName", findDto.getEmpName());
-				session.setAttribute("empNo", findDto.getEmpNo());
-				session.setAttribute("jobNo", findDto.getJobNo());
-				
-				String ipAddress = employeeService.getLocation(request);
-				String browserAddress = employeeService.getBrowser(request);
-
-				//로그인 접속 시간
-				LoginRecordDto loginRecordDto = new LoginRecordDto();
-				loginRecordDto.setEmpNo(findDto.getEmpNo());
-				loginRecordDto.setLogIp(ipAddress);
-				loginRecordDto.setLogBrowser(browserAddress);
-				
-				loginRecordRepo.insert(loginRecordDto);
-			}
-			
-			return "redirect:/";
-		}
+		@Autowired
+		private PasswordEncoder encoder;
+	
+	
+//		//로그인
+//		@GetMapping("/login")
+//		public String login() {
+//			return "employee/login";
+//		}
+//		
+//		@PostMapping("/login")
+//		public String login(@ModelAttribute EmployeeDto employeeDto,
+//							HttpSession session,
+//							HttpServletRequest request) {
+//			EmployeeDto findDto = employeeService.login(employeeDto);
+//			
+//			if(findDto != null){
+//				//로그인 시 세션 저장
+//				session.setAttribute("empName", findDto.getEmpName());
+//				session.setAttribute("empNo", findDto.getEmpNo());
+//				session.setAttribute("jobNo", findDto.getJobNo());
+//				
+//				String ipAddress = employeeService.getLocation(request);
+//				String browserAddress = employeeService.getBrowser(request);
+//
+//				//로그인 접속 시간
+//				LoginRecordDto loginRecordDto = new LoginRecordDto();
+//				loginRecordDto.setEmpNo(findDto.getEmpNo());
+//				loginRecordDto.setLogIp(ipAddress);
+//				loginRecordDto.setLogBrowser(browserAddress);
+//				
+//				loginRecordRepo.insert(loginRecordDto);
+//			}
+//			
+//			return "redirect:/";
+//		}
 		
 		//로그아웃
 		@GetMapping("/logout")
@@ -142,21 +147,25 @@ public class EmployeeController {
 		
 		@PostMapping("/password")
 		public String password(HttpSession session,
-							   @RequestParam String currentPw,
-							   @RequestParam String changePw,
-							   RedirectAttributes attr) {
-			String empNo = (String) session.getAttribute("empNo");
-			EmployeeDto employeeDto = employeeRepo.selectOne(empNo);
-			
-			if(!employeeDto.getEmpPassword().equals(currentPw)) {
-				attr.addAttribute("mode", "error");
-				return "redirect:password";
-			}
-			
-			employeeDto.setEmpNo(empNo);
-			employeeDto.setEmpPassword(changePw);
-			employeeRepo.changePw(employeeDto);
-			return "redirect:passwordFinish";
+		                       @RequestParam String currentPw,
+		                       @RequestParam String changePw,
+		                       RedirectAttributes attr) {
+		    String empNo = (String) session.getAttribute("empNo");
+		    EmployeeDto employeeDto = employeeRepo.selectOne(empNo);
+		    
+		    if (!encoder.matches(currentPw, employeeDto.getEmpPassword())) {
+		        attr.addAttribute("mode", "error");
+		        return "redirect:password";
+		    }
+		    
+		    employeeDto.setEmpNo(empNo);
+		    employeeDto.setEmpPassword(changePw);
+
+		    String encrypt = encoder.encode(employeeDto.getEmpPassword());
+		    employeeDto.setEmpPassword(encrypt);
+		    
+		    employeeRepo.changePw(employeeDto);
+		    return "redirect:passwordFinish";
 		}
 		
 		@GetMapping("/passwordFinish") 

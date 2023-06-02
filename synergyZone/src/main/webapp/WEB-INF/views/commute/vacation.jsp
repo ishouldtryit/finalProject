@@ -40,7 +40,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-	<div>
+	<div class="container">
 		<div class="d-flex">
 			<h1>내 연차내역</h1>
 			<h1 id="currentDate"></h1>
@@ -55,8 +55,8 @@
 							<!-- 변경된 클래스 이름 -->
 							<img width="50" height="50"
 								src="<c:choose>
-                       <c:when test="${employeeDto.attachmentNo > 0}">
-                         /attachment/download?attachmentNo=${employeeDto.attachmentNo}
+                       <c:when test="${one.attachmentNo > 0}">
+                         /attachment/download?attachmentNo=${one.attachmentNo}
                        </c:when>
                        <c:otherwise>
                          https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg
@@ -81,7 +81,7 @@
 							<div class="my-card-body">
 								<!-- 변경된 클래스 이름 -->
 								<h5 class="card-title">사용 연차</h5>
-								<p class="card-text">${one.uesd}</p>
+								<p class="card-text">${one.used}</p>
 							</div>
 						</div>
 						<div class="my-card text-center">
@@ -91,6 +91,7 @@
 								<h5 class="card-title">잔여 연차</h5>
 								<p class="card-text">${one.residual}</p>
 							</div>
+							<input class="empDate" type="hidden" value="${one.empHireDate}">
 						</div>
 					</div>
 				</div>
@@ -101,11 +102,7 @@
 		<div>
 			<div id="table-container"></div>
 		</div>
-		<p class="mt-50 mb-50">
-		<h2>empNo=${sessionScope.empNo}</h2>
-		<h2>jobNo=${sessionScope.jobNo}</h2>
-		<span> Copyright ©2023 SYNERGYZONE. All Rights Reserved. </span>
-		</p>
+		
 	</div>
 
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -192,7 +189,7 @@
 			function generateSelectElement() {
 				var selectElement = $("#year-select");
 				var currentYear = getCurrentYear();
-				var startYear = 2020; // 시작 년도 ******************* 입사일로 변경
+				var startYear = new Date($('.empDate').val()).getFullYear();
 				var endYear = currentYear; // 현재 년도
 
 				var yearRange = generateYearRange(startYear, endYear);
@@ -222,7 +219,7 @@
 						selectedValue : selectedValue
 					},
 					success : function(data) {
-						
+							console.log(data);
 							var table = createTable(data);
 							$("#table-container").empty().append(table);
 						

@@ -14,7 +14,7 @@
 			emp_hire_date, is_leave, cp_number, job_no, dept_no
 		)
 		values(
-			#{empNo}, #{empName}, 'synergyZone12345' , #{empEmail},
+			#{empNo}, #{empName}, #{empPassword} , #{empEmail},
 			#{empPhone}, #{empAddress}, #{empDetailAddress}, #{empPostcode},
 			#{empHireDate}, 'N', #{cpNumber}, #{jobNo}, #{deptNo}
 		)

@@ -110,10 +110,10 @@
 	                            <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">게시판</a>
 	                            <ul class="collapse list-unstyled" id="homeSubmenu">
 	                                <li>
-	                                    <a href="#">공지사항</a>
+	                                    <a href="/notice/list">공지사항</a>
 	                                </li>
 	                                <li>
-	                                    <a href="#">자유게시판</a>
+	                                    <a href="/board/list">자유게시판</a>
 	                                </li>
 	                            </ul>
 	                        </li>

@@ -1,6 +1,7 @@
 package com.kh.synergyZone.dto;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,6 +36,10 @@ public class ApprovalWithDrafterDto {
     private String jobName;
     private String deptName;
     
-    
+    public String getDraftDateForm() {
+    	SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd0-HH:mm");
+    	java.util.Date date = new java.util.Date(draftDate.getTime());
+    	return f.format(date).substring(2,10);
+    }
     
 }

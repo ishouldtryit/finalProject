@@ -454,7 +454,7 @@ html, body {
                         const minutes = Math.floor((timeDiff / (1000 * 60)) % 60);
                         const seconds = Math.floor((timeDiff / 1000) % 60);
 
-                        this.remainingTime = `${hours}시간 ${minutes}분 ${seconds}초`;
+                        this.remainingTime = hours + `시간` + minutes + `분` + seconds + `초`;
                         this.updateProgressBar(timeDiff);
                     }, 1000); // 1초마다 남은 시간 업데이트
                 },

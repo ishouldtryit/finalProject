@@ -50,12 +50,12 @@
 	  </div>
 	  
 	    <div class="row p-3" >
-	      <label for="draftTitle" clas="form-label">제목</label>
+	      <label for="draftTitle" class="form-label">제목</label>
 	      <input type="text" id="draftTitle" name="draftTitle" v-model="approvalVO.approvalDto.draftTitle" class="form-control" v-on:input="approvalVO.approvalDto.draftTitle = $event.target.value">
 	    </div>
 	    
 	    <div class="row p-3">
-	      <label for="draftContent" clas="form-label">내용</label>
+	      <label for="draftContent" class="form-label">내용</label>
 	      <textarea id="draftContent" name="draftContent" required style="min-height: 300px;" v-model="approvalVO.approvalDto.draftContent" class="form-control" v-on:input="approvalVO.approvalDto.draftContent = $event.target.value"></textarea>
 	    </div>
 

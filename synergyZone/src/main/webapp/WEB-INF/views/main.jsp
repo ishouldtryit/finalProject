@@ -114,7 +114,7 @@ html, body {
 				<a href="#"> <i
 					class="bi bi-house fs-3 d-flex justify-content-center mt-3"></i>
 					<p class="text-center">홈</p>
-				</a> <a href="#"> <i
+				</a>   <a href="${pageContext.request.contextPath}/calendar/calendar"
 					class="bi bi-calendar-check fs-3 d-flex justify-content-center mt-4"></i>
 					<p class="text-center">일정</p>
 				</a> 
@@ -440,6 +440,7 @@ html, body {
             this.fetchEmployeeInfo();
         },
     }).mount("#app");
+
 </script>
 
 </body>

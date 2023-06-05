@@ -125,7 +125,22 @@
 	                                <a href="/approval/write">신규 결재</a>
 	                                </li>
 	                                <li>
-	                                    <a href="/approval/list">개인 문서함</a>
+	                                    <a href="/approval/adminList">전체 문서함 (관리자)</a>
+	                                </li>
+	                                <li>
+	                                    <a href="/approval/myList">나의 기안 문서함</a>
+	                                </li>
+	                                <li>
+	                                    <a href="/approval/waitApproverList">결재 대기 문서함</a>
+	                                </li>
+	                                <li>
+	                                    <a href="/approval/waitAgreeorList">합의 대기 문서함</a>
+	                                </li>
+	                                <li>
+	                                    <a href="/approval/recipientList">참조 문서함</a>
+	                                </li>
+	                                <li>
+	                                    <a href="/approval/readerList">열람 문서함</a>
 	                                </li>
 	                                <li>
 	                                    <a href="#">부서 문서함</a>

@@ -12,10 +12,6 @@
       	  select approval_seq.nextval from dual
     	</select>
     	
-    	<select id="selectList" resultType="ApprovalDto">
-    		select * from approval order by draft_no
-    	</select>
-    	
     	<select id="selectOne" resultType="ApprovalDto">
     		select * from approval where draft_no=#{draftNo}
     	</select>
@@ -148,16 +144,23 @@
 				<result column="draft_no" property="draftNo"/>
 			</collection>
 		</resultMap>
+		
 		<!-- 페이징 적용 카운트(관리자) -->		
 		<select id="approvalDataCount" resultType="int">
 			select count(*) from(
 			select *from approval_with_drafter
 			<where>
+		    <if test="search">
+				and instr(${column}, #{keyword}) >0
+			  </if>
 		      <if test="pageStatus == 'emergencyPage'">
 		        and isemergency = 1
 		      </if>
 		      <if test="pageStatus == 'ingPage'">
 		        and result_code = 0
+		      </if>
+		      <if test="pageStatus == 'recallPage'">
+		        and result_code = 1
 		      </if>
 		      <if test="pageStatus == 'returnPage'">
         		and result_code = 2	
@@ -168,57 +171,162 @@
         	  </where>
 			)
 		</select>
-		<!-- 페이징 적용 카운트(관리자) -->		
-		<select id="searchListCount" resultType="int">
-			select count(*) from(
-			select *from approval_with_drafter
-			where instr(${column}, #{keyword}) >0
-		      <if test="pageStatus == 'emergencyPage'">
-		        and isemergency = 1
-		      </if>
-		      <if test="pageStatus == 'ingPage'">
-		        and result_code = 0
-		      </if>
-		      <if test="pageStatus == 'returnPage'">
-        		and result_code = 2	
-        	  </if>		      
-		      <if test="pageStatus == 'endPage'">
-        		and result_code = 3	
-        	  </if>		      
-			)
-		</select>
-		<!-- 페이징 적용 카운트(기안자) -->		
-		<select id="approvalDrafterDataCount" resultType="int">
-			select count(*) from(
-			select *from approval_with_drafter
-			<where>
-		      <if test="pageStatus == 'emergencyPage'">
-		        and isemergency = 1
-		      </if>
-		      <if test="pageStatus == 'ingPage'">
-		        and result_code = 0
-		      </if>
-		      <if test="pageStatus == 'returnPage'">
-        		and result_code = 2	
-        	  </if>		      
-		      <if test="pageStatus == 'endPage'">
-        		and result_code = 3	
-        	  </if>		      
-        	  </where>
-			)
-		</select>
-		<!-- 계층형 조회 메인 구문(관리자) -->
 		
-		<select id="approvalDataSelect" resultMap="ApprovalDataVO">
+		<!-- 페이징 적용 카운트(기안자) -->		
+		<select id="myApprovalDataCount" resultType="int">
+			select count(*) from(
+			select *from approval_with_drafter
+			where drafter_no = #{loginUser}
+		    <if test="search">
+				and instr(${column}, #{keyword}) >0
+			  </if>
+		      <if test="pageStatus == 'emergencyPage'">
+		        and isemergency = 1
+		      </if>
+		      <if test="pageStatus == 'ingPage'">
+		        and result_code = 0
+		      </if>
+		      <if test="pageStatus == 'recallPage'">
+		        and result_code = 1
+		      </if>
+		      <if test="pageStatus == 'returnPage'">
+        		and result_code = 2	
+        	  </if>		      
+		      <if test="pageStatus == 'endPage'">
+        		and result_code = 3	
+        	  </if>		      
+			)
+		</select>
+		
+		<!-- 페이징 적용 카운트(결재대기자) -->		
+		<select id="waitApproverApprovalDataCount" resultType="int">
+			select count(*) from(
+			select *from approval_with_drafter AWD
+			join approver on AWD.draft_no = approver.draft_no
+			where approver.approver_no = #{loginUser}
+			and result_code != 1
+		    <if test="search">
+				and instr(${column}, #{keyword}) >0
+			  </if>
+		      <if test="pageStatus == 'emergencyPage'">
+		        and isemergency = 1
+		      </if>
+		      <if test="pageStatus == 'ingPage'">
+		        and result_code = 0
+		      </if>
+		      <if test="pageStatus == 'recallPage'">
+		        and result_code = 1
+		      </if>
+		      <if test="pageStatus == 'returnPage'">
+        		and result_code = 2	
+        	  </if>		      
+		      <if test="pageStatus == 'endPage'">
+        		and result_code = 3	
+        	  </if>		      
+			)
+		</select>
+		
+		<!-- 페이징 적용 카운트(합의대기자) -->		
+		<select id="waitAgreeorApprovalDataCount" resultType="int">
+			select count(*) from(
+			select *from approval_with_drafter AWD
+			join agreeor on AWD.draft_no = agreeor.draft_no
+			where agreeor.agreeor_no = #{loginUser}
+			and result_code != 1
+		    <if test="search">
+				and instr(${column}, #{keyword}) >0
+			  </if>
+		      <if test="pageStatus == 'emergencyPage'">
+		        and isemergency = 1
+		      </if>
+		      <if test="pageStatus == 'ingPage'">
+		        and result_code = 0
+		      </if>
+		      <if test="pageStatus == 'recallPage'">
+		        and result_code = 1
+		      </if>
+		      <if test="pageStatus == 'returnPage'">
+        		and result_code = 2	
+        	  </if>		      
+		      <if test="pageStatus == 'endPage'">
+        		and result_code = 3	
+        	  </if>		      
+			)
+		</select>
+		
+		<!-- 페이징 적용 카운트(참조자) -->		
+		<select id="recipientApprovalDataCount" resultType="int">
+			select count(*) from(
+			select *from approval_with_drafter AWD
+			join recipient on AWD.draft_no = recipient.draft_no
+			where recipient.recipient_no = #{loginUser}
+			and result_code != 1
+		    <if test="search">
+				and instr(${column}, #{keyword}) >0
+			  </if>
+		      <if test="pageStatus == 'emergencyPage'">
+		        and isemergency = 1
+		      </if>
+		      <if test="pageStatus == 'ingPage'">
+		        and result_code = 0
+		      </if>
+		      <if test="pageStatus == 'recallPage'">
+		        and result_code = 1
+		      </if>
+		      <if test="pageStatus == 'returnPage'">
+        		and result_code = 2	
+        	  </if>		      
+		      <if test="pageStatus == 'endPage'">
+        		and result_code = 3	
+        	  </if>		      
+			)
+		</select>
+		
+		<!-- 페이징 적용 카운트(열람자) -->		
+		<select id="readerApprovalDataCount" resultType="int">
+			select count(*) from(
+			select *from approval_with_drafter AWD
+			join reader on AWD.draft_no = reader.draft_no
+			where reader.reader_no = #{loginUser}
+			and result_code = 3
+		    <if test="search">
+				and instr(${column}, #{keyword}) >0
+			  </if>
+		      <if test="pageStatus == 'emergencyPage'">
+		        and isemergency = 1
+		      </if>
+		      <if test="pageStatus == 'ingPage'">
+		        and result_code = 0
+		      </if>
+		      <if test="pageStatus == 'recallPage'">
+		        and result_code = 1
+		      </if>
+		      <if test="pageStatus == 'returnPage'">
+        		and result_code = 2	
+        	  </if>		      
+		      <if test="pageStatus == 'endPage'">
+        		and result_code = 3	
+        	  </if>		      
+			)
+		</select>
+		
+		<!-- 계층형 조회 메인 구문(관리자) -->
+		<select id="approvalDataSelectList" resultMap="ApprovalDataVO">
 		    select * from (
 		        select TMP.*, rownum RN from (
 		            select * from approval_with_drafter
 		            <where>
+		             <if test="search">
+						and instr(${column}, #{keyword}) >0
+					  </if>
 		                <if test="pageStatus == 'emergencyPage'">
 		                   and isemergency = 1
 		                </if>
 		                <if test="pageStatus == 'ingPage'">
 		                    and result_code = 0
+		                </if>
+		                <if test="pageStatus == 'recallPage'">
+		                    and result_code = 1
 		                </if>
 		                <if test="pageStatus == 'returnPage'">
 		                    and result_code = 2
@@ -236,18 +344,168 @@
 		    )
 		    where RN between #{begin} and #{end}
 		</select>
-		<!-- 계층형 조회 메인 검색 구문(관리자) -->
 		
-		<select id="approvalDataSearch" resultMap="ApprovalDataVO">
+		<!-- 계층형 조회 메인 구문(기안자) -->
+		<select id="myApprovalDataSelectList" resultMap="ApprovalDataVO">
 		    select * from (
 		        select TMP.*, rownum RN from (
 		            select * from approval_with_drafter
-		            where instr(${column}, #{keyword}) >0
+		            where drafter_no = #{loginUser}
+		             <if test="search">
+						and instr(${column}, #{keyword}) >0
+					  </if>
 		                <if test="pageStatus == 'emergencyPage'">
 		                   and isemergency = 1
 		                </if>
 		                <if test="pageStatus == 'ingPage'">
 		                    and result_code = 0
+		                </if>
+		                <if test="pageStatus == 'recallPage'">
+		                    and result_code = 1
+		                </if>
+		                <if test="pageStatus == 'returnPage'">
+		                    and result_code = 2
+		                </if>
+		                <if test="pageStatus == 'endPage'">
+		                    and result_code = 3
+		                </if>
+		            order by 
+		            <if test="isemergency">
+		            	case when isemergency = 1 then 0 else 1 end, 
+		            </if>
+		            draft_date desc
+		        ) TMP
+		    )
+		    where RN between #{begin} and #{end}
+		</select>
+		
+		<!-- 계층형 조회 메인 구문(결재대기자) -->
+		<select id="waitApproverApprovalDataSelectList" resultMap="ApprovalDataVO">
+		    select * from (
+		        select TMP.*, rownum RN from (
+					select *from approval_with_drafter AWD
+					join approver on AWD.draft_no = approver.draft_no
+					where approver.approver_no = #{loginUser}
+					and result_code != 1
+		             <if test="search">
+						and instr(${column}, #{keyword}) >0
+					  </if>
+		                <if test="pageStatus == 'emergencyPage'">
+		                   and isemergency = 1
+		                </if>
+		                <if test="pageStatus == 'ingPage'">
+		                    and result_code = 0
+		                </if>
+		                <if test="pageStatus == 'recallPage'">
+		                    and result_code = 1
+		                </if>
+		                <if test="pageStatus == 'returnPage'">
+		                    and result_code = 2
+		                </if>
+		                <if test="pageStatus == 'endPage'">
+		                    and result_code = 3
+		                </if>
+		            order by 
+		            <if test="isemergency">
+		            	case when isemergency = 1 then 0 else 1 end, 
+		            </if>
+		            draft_date desc
+		        ) TMP
+		    )
+		    where RN between #{begin} and #{end}
+		</select>
+		
+		<!-- 계층형 조회 메인 구문(합의대기자) -->
+		<select id="waitAgreeorApprovalDataSelectList" resultMap="ApprovalDataVO">
+		    select * from (
+		        select TMP.*, rownum RN from (
+					select *from approval_with_drafter AWD
+					join agreeor on AWD.draft_no = agreeor.draft_no
+					where agreeor.agreeor_no = #{loginUser}
+					and result_code != 1
+		             <if test="search">
+						and instr(${column}, #{keyword}) >0
+					  </if>
+		                <if test="pageStatus == 'emergencyPage'">
+		                   and isemergency = 1
+		                </if>
+		                <if test="pageStatus == 'ingPage'">
+		                    and result_code = 0
+		                </if>
+		                <if test="pageStatus == 'recallPage'">
+		                    and result_code = 1
+		                </if>
+		                <if test="pageStatus == 'returnPage'">
+		                    and result_code = 2
+		                </if>
+		                <if test="pageStatus == 'endPage'">
+		                    and result_code = 3
+		                </if>
+		            order by 
+		            <if test="isemergency">
+		            	case when isemergency = 1 then 0 else 1 end, 
+		            </if>
+		            draft_date desc
+		        ) TMP
+		    )
+		    where RN between #{begin} and #{end}
+		</select>
+		
+		<!-- 계층형 조회 메인 구문(참조 문서) -->
+		<select id="recipientApprovalDataSelectList" resultMap="ApprovalDataVO">
+		    select * from (
+		        select TMP.*, rownum RN from (
+					select *from approval_with_drafter AWD
+					join recipient on AWD.draft_no = recipient.draft_no
+					where recipient.recipient_no = #{loginUser}
+					and result_code != 1
+		             <if test="search">
+						and instr(${column}, #{keyword}) >0
+					  </if>
+		                <if test="pageStatus == 'emergencyPage'">
+		                   and isemergency = 1
+		                </if>
+		                <if test="pageStatus == 'ingPage'">
+		                    and result_code = 0
+		                </if>
+		                <if test="pageStatus == 'recallPage'">
+		                    and result_code = 1
+		                </if>
+		                <if test="pageStatus == 'returnPage'">
+		                    and result_code = 2
+		                </if>
+		                <if test="pageStatus == 'endPage'">
+		                    and result_code = 3
+		                </if>
+		            order by 
+		            <if test="isemergency">
+		            	case when isemergency = 1 then 0 else 1 end, 
+		            </if>
+		            draft_date desc
+		        ) TMP
+		    )
+		    where RN between #{begin} and #{end}
+		</select>
+		
+		<!-- 계층형 조회 메인 구문(열람 문서) -->
+		<select id="readerApprovalDataSelectList" resultMap="ApprovalDataVO">
+		    select * from (
+		        select TMP.*, rownum RN from (
+					select *from approval_with_drafter AWD
+					join reader on AWD.draft_no = reader.draft_no
+					where reader.reader_no = #{loginUser}
+					and result_code = 3
+		             <if test="search">
+						and instr(${column}, #{keyword}) >0
+					  </if>
+		                <if test="pageStatus == 'emergencyPage'">
+		                   and isemergency = 1
+		                </if>
+		                <if test="pageStatus == 'ingPage'">
+		                    and result_code = 0
+		                </if>
+		                <if test="pageStatus == 'recallPage'">
+		                    and result_code = 1
 		                </if>
 		                <if test="pageStatus == 'returnPage'">
 		                    and result_code = 2
@@ -265,17 +523,6 @@
 		    where RN between #{begin} and #{end}
 		</select>
 
-		
-		<!-- 계층형 조회 메인 구문(기안자) -->
-		<select id="approvalDrafterDataSelect" resultMap="ApprovalDataVO">
-			SELECT * FROM 
-			approval_with_drafter
-			WHERE drafter_no = #{empNo}
-			ORDER BY CASE
-			WHEN isemergency = 1 THEN 0 ELSE 1 END,
-			draft_no DESC
-		</select>
-		
 		<!-- 계층형 조회 서브 구문 (결재자) -->
 		<select id="approverDataSelect" resultType="approverVO">
 			select * from 

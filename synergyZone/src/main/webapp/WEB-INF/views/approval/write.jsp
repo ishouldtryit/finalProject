@@ -59,12 +59,6 @@
 	      <textarea id="draftContent" name="draftContent" required style="min-height: 300px;" v-model="approvalVO.approvalDto.draftContent" class="form-control" v-on:input="approvalVO.approvalDto.draftContent = $event.target.value"></textarea>
 	    </div>
 
-<!-- 		<input v-for="(approver, i) in approverList" :name="'approver['+i+'].approverNo'" type="hidden" :value="approver.approverList.empNo"  :key="i" >	 -->
-	      
-<!-- 	    <input v-for="(approver, i) in approverList" name="approverNo" type="hidden" :value="approver.approverList.empNo"  :key="i" > -->
-<!-- 	    <input v-for="(agreeor, i) in agreeorList" name="agreeorNo" type="hidden" :value="agreeor.agreeorList.empNo"  :key="i" > -->
-<!-- 	    <input v-for="(recipient, i) in recipientList" name="recipientNo" type="hidden" :value="recipient.recipientList.empNo"  :key="i" > -->
-<!-- 	    <input v-for="(reader, i) in readerList" name="readerNo" type="hidden" :value="reader.readerList.empNo"  :key="i" > -->
 	    <div class="row">
 	    	<div class="col-10"></div>
 	    	<div class="col-2">
@@ -105,6 +99,21 @@
                     <div class="container-fluid">
       						<div class="row">
           						<div class="col-4" style="overflow-y: scroll; height:400px;">
+          						<div class="row mb-3 d-flex justify-content-center align-items-center">
+	          						<div class="col-8 p-1" >
+								      <input type="text" class="form-control " placeholder="이름" v-model="searchName">
+	          						</div>
+	          						<div class="col-2 border rounded" >
+								      <span @click="search" style="cursor: pointer;" title="검색" class="d-flex justify-content-center align-items-center">
+								      	<i class="fa-solid fa-magnifying-glass p-2"></i>
+								      </span>
+	          						</div>
+	          						<div class="col-2 border rounded" >
+								      <span @click="searchAll" style="cursor: pointer;" title="전체 목록" class="d-flex justify-content-center align-items-center">
+								      	<i class="fa-solid fa-list p-2" ></i>
+								      </span>
+	          						</div>
+          						</div>
 			                      <ul style="margin:0; padding:0;">
 							        <li v-for="(department, index) in deptEmpList" class="custom-list-item"> 
 							        	<span v-on:click="toggleEmployeeList(index)">
@@ -114,8 +123,8 @@
 							          <ul  v-show="department.showEmployeeList">
 							            <li v-for="(employee, index) in department.employeeList" class="custom-list-item">
 							             <span @click="addToAppoverList(employee, department)">
-							              <i class="fa-regular fa-circle-user"></i>
-							              {{ employee.empName }}
+							              <img width="25" height="25"  class="rounded-circle" :src="getAttachmentUrl(employee.attachmentNo)" >
+							              {{ employee.empName }}.{{ employee.jobName }}
 							            </span>
 							            </li>
 							          </ul>
@@ -146,7 +155,7 @@
        								<div class="row" v-for="(approver, index) in approverList">
 	       									<div class="col-6">
 				       							<div class="badge bg-danger w-100">
-				       								{{index+1}}.{{approver.department.deptName}} : {{approver.approverList.empName}}
+				       								{{index+1}}.{{approver.department.deptName}} : {{approver.approverList.empName}}.{{ approver.approverList.jobName }}
 				       							</div>
 	       									</div>
 	       									<div class="col-2 text-center" >
@@ -202,6 +211,21 @@
                     <div class="container-fluid">
       						<div class="row">
           						<div class="col-4" style="overflow-y: scroll; height:400px;">
+          						<div class="row mb-3 d-flex justify-content-center align-items-center">
+	          						<div class="col-8 p-1" >
+								      <input type="text" class="form-control " placeholder="이름" v-model="searchName">
+	          						</div>
+	          						<div class="col-2 border rounded" >
+								      <span @click="search" style="cursor: pointer;" title="검색" class="d-flex justify-content-center align-items-center">
+								      	<i class="fa-solid fa-magnifying-glass p-2"></i>
+								      </span>
+	          						</div>
+	          						<div class="col-2 border rounded" >
+								      <span @click="searchAll" style="cursor: pointer;" title="전체 목록" class="d-flex justify-content-center align-items-center">
+								      	<i class="fa-solid fa-list p-2" ></i>
+								      </span>
+	          						</div>
+          						</div>
 			                      <ul style="margin:0; padding:0;">
 							        <li v-for="(department, index) in deptEmpList" class="custom-list-item"> 
 							        	<span v-on:click="toggleEmployeeList(index)">
@@ -211,8 +235,8 @@
 							          <ul  v-show="department.showEmployeeList">
 							            <li v-for="(employee, index) in department.employeeList" class="custom-list-item">
 							             <span @click="addToAgreeorList(employee,department)">
-							              <i class="fa-regular fa-circle-user"></i>
-							              {{ employee.empName }}
+							              <img width="25" height="25"  class="rounded-circle" :src="getAttachmentUrl(employee.attachmentNo)" >
+							              {{ employee.empName }}.{{ employee.jobName }}
 							            </span>
 							            </li>
 							          </ul>
@@ -243,7 +267,7 @@
        								<div class="row" v-for="(agreeor, index) in agreeorList">
 	       									<div class="col-6">
 				       							<div class="badge bg-danger w-100">
-				       								{{index+1}}.{{agreeor.department.deptName}} : {{agreeor.agreeorList.empName}}
+				       								{{index+1}}.{{agreeor.department.deptName}} : {{agreeor.agreeorList.empName}}.{{agreeor.agreeorList.jobName}}
 				       							</div>
 	       									</div>
 	       									<div class="col-4 text-center" >
@@ -294,6 +318,21 @@
                     <div class="container-fluid">
       						<div class="row">
           						<div class="col-4" style="overflow-y: scroll; height:400px;">
+          						<div class="row mb-3 d-flex justify-content-center align-items-center">
+	          						<div class="col-8 p-1" >
+								      <input type="text" class="form-control " placeholder="이름" v-model="searchName">
+	          						</div>
+	          						<div class="col-2 border rounded" >
+								      <span @click="search" style="cursor: pointer;" title="검색" class="d-flex justify-content-center align-items-center">
+								      	<i class="fa-solid fa-magnifying-glass p-2"></i>
+								      </span>
+	          						</div>
+	          						<div class="col-2 border rounded" >
+								      <span @click="searchAll" style="cursor: pointer;" title="전체 목록" class="d-flex justify-content-center align-items-center">
+								      	<i class="fa-solid fa-list p-2" ></i>
+								      </span>
+	          						</div>
+          						</div>
 			                      <ul style="margin:0; padding:0;">
 							        <li v-for="(department, index) in deptEmpList" class="custom-list-item"> 
 							        	<span v-on:click="toggleEmployeeList(index)">
@@ -303,8 +342,8 @@
 							          <ul  v-show="department.showEmployeeList">
 							            <li v-for="(employee, index) in department.employeeList" class="custom-list-item">
 							             <span @click="addToRecipientList(employee,department)">
-							              <i class="fa-regular fa-circle-user"></i>
-							              {{ employee.empName }}
+							              <img width="25" height="25"  class="rounded-circle" :src="getAttachmentUrl(employee.attachmentNo)" >
+							              {{ employee.empName }}.{{ employee.jobName }}
 							            </span>
 							            </li>
 							          </ul>
@@ -335,7 +374,7 @@
        								<div class="row" v-for="(recipient, index) in recipientList">
 	       									<div class="col-6">
 				       							<div class="badge bg-danger w-100">
-				       								{{index+1}}.{{recipient.department.deptName}} : {{recipient.recipientList.empName}}
+				       								{{index+1}}.{{recipient.department.deptName}} : {{recipient.recipientList.empName}}.{{recipient.recipientList.jobName}}
 				       							</div>
 	       									</div>
 	       									<div class="col-4 text-center" >
@@ -386,6 +425,21 @@
                     <div class="container-fluid">
       						<div class="row">
           						<div class="col-4" style="overflow-y: scroll; height:400px;">
+          						<div class="row mb-3 d-flex justify-content-center align-items-center">
+	          						<div class="col-8 p-1" >
+								      <input type="text" class="form-control " placeholder="이름" v-model="searchName">
+	          						</div>
+	          						<div class="col-2 border rounded" >
+								      <span @click="search" style="cursor: pointer;" title="검색" class="d-flex justify-content-center align-items-center">
+								      	<i class="fa-solid fa-magnifying-glass p-2"></i>
+								      </span>
+	          						</div>
+	          						<div class="col-2 border rounded" >
+								      <span @click="searchAll" style="cursor: pointer;" title="전체 목록" class="d-flex justify-content-center align-items-center">
+								      	<i class="fa-solid fa-list p-2" ></i>
+								      </span>
+	          						</div>
+          						</div>
 			                      <ul style="margin:0; padding:0;">
 							        <li v-for="(department, index) in deptEmpList" class="custom-list-item"> 
 							        	<span v-on:click="toggleEmployeeList(index)">
@@ -395,8 +449,8 @@
 							          <ul  v-show="department.showEmployeeList">
 							            <li v-for="(employee, index) in department.employeeList" class="custom-list-item">
 							             <span @click="addToReaderList(employee,department)">
-							              <i class="fa-regular fa-circle-user"></i>
-							              {{ employee.empName }}
+							               <img width="25" height="25"  class="rounded-circle" :src="getAttachmentUrl(employee.attachmentNo)" >
+							              {{ employee.empName }}.{{ employee.jobName }}
 							            </span>
 							            </li>
 							          </ul>
@@ -426,7 +480,7 @@
        								<div class="row" v-for="(reader, index) in readerList">
 	       									<div class="col-6">
 				       							<div class="badge bg-danger w-100">
-				       								{{index+1}}.{{reader.department.deptName}} : {{reader.readerList.empName}}
+				       								{{index+1}}.{{reader.department.deptName}} : {{reader.readerList.empName}}.{{reader.readerList.jobName}}
 				       							</div>
 	       									</div>
 	       									<div class="col-4 text-center" >
@@ -458,6 +512,9 @@
   Vue.createApp({
     data() {
       return {
+    	  
+    	searchName : "",
+    	  
         deptEmpList: [],
         approverList: [],  	
         agreeorList : [],
@@ -512,10 +569,30 @@
     methods: {
     	
       async loadData() { //데이터 호출(로드)
-    	  const resp = await axios.get("/rest/approval/");
+    	  const resp = await axios.get("/rest/approval/",{ 
+    			  params :{
+    		  		searchName : this.searchName
+    			  }
+    	  });
           this.deptEmpList.push(...resp.data);
       },
       
+      searchAll() {	//이름 검색
+    	  	this.searchName ="";
+    	  	this.deptEmpList = [];
+    	    this.loadData();
+    	},
+      search() {	//이름 검색
+    	  	this.deptEmpList = [];
+    	    this.loadData();
+    	},
+   	getAttachmentUrl(attachmentNo) { //프로필 사진 주소
+   	      if (attachmentNo === null) {
+   	        return "/static/img/dummydog.jpg";
+   	      } else {
+   	        return "/attachment/download?attachmentNo=" + attachmentNo;
+   	      }
+   	    },
       async sendData(){	//데이터 전송
     	  if (!this.isDataComplete) { //결재정보, 제목, 내용 누락 시 동작
     	  		this.showApprovalNoDataAlert = true;
@@ -556,6 +633,10 @@
           this.approverList = [...this.tempApproverList]; //임시 데이터로 덮기
           this.approverModal.hide();
           this.hideEmployeeList();
+  	  	
+          this.searchName = "";
+          this.deptEmpList = [];
+          this.loadData();
       },
       
       hideAgreeorModal(){	//합의자 모달 숨기기
@@ -563,6 +644,9 @@
           this.agreeorList = [...this.tempAgreeorList]; //임시 데이터로 덮기
           this.agreeorModal.hide();
           this.hideEmployeeList();
+          this.searchName = "";
+          this.deptEmpList = [];
+          this.loadData();
       },
       
       hideRecipientModal(){	//참조자 모달 숨기기
@@ -570,6 +654,9 @@
           this.recipientList = [...this.tempRecipientList]; //임시 데이터로 덮기
           this.recipientModal.hide();
           this.hideEmployeeList();
+          this.searchName = "";
+          this.deptEmpList = [];
+          this.loadData();
       },
       
       hideReaderModal(){	//열람자 모달 숨기기
@@ -577,6 +664,9 @@
           this.readerList = [...this.tempReaderList]; //임시 데이터로 덮기
           this.readerModal.hide();
      	  this.hideEmployeeList();
+     	 this.searchName = "";
+         this.deptEmpList = [];
+         this.loadData();
       },
       
       toggleEmployeeList(index) {	//부서별 사원 목록 접었다 펴기

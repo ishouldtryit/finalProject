@@ -95,9 +95,9 @@
           <div class="row">
             <button type="button" class="btn btn-secondary ml-auto" data-bs-dismiss="modal" @click="hideEmployeeList">닫기</button>
           </div>
-          <div class="row">
-            <button type="button" class="btn btn-secondary ml-auto" data-bs-dismiss="modal" @click="addSup">추가</button>
-          </div>
+<!--           <div class="row"> -->
+<!--             <button type="button" class="btn btn-secondary ml-auto" data-bs-dismiss="modal" @click="addSup">추가</button> -->
+<!--           </div> -->
         </div>
       </div>
     </div>
@@ -131,8 +131,8 @@
                         <div class="col">
                             <label class="form-label">첨부파일</label>
                             <c:forEach var="file" items="${files}">
-                      <a href="/attachment/download?attachmentNo=${file.attachmentNo}">${file.attachmentNo}</a>                
-                  </c:forEach>
+		                      <a href="/attachment/download?attachmentNo=${file.attachmentNo}">${file.attachmentNo}</a>                
+		                    </c:forEach>
                         </div>
                     </div>
                 
@@ -239,9 +239,9 @@
           }, 1000);
         }
       },
-      addSup() {
-        // 추가 버튼을 클릭했을 때 실행되는 로직
-      },
+//       addSup() {
+//         // 추가 버튼을 클릭했을 때 실행되는 로직
+//       },
     },
     mounted() {
       this.loadData();

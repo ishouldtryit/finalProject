@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
@@ -52,7 +51,8 @@ public class EmployeeRepoImpl implements EmployeeRepo {
    public void update(EmployeeDto employeeDto) {
       sqlSession.update("employee.edit", employeeDto);
    }
-
+   
+   //퇴사
    @Override
    public void exit(String empNo) {
       EmployeeDto employeeDto = new EmployeeDto();
@@ -60,6 +60,15 @@ public class EmployeeRepoImpl implements EmployeeRepo {
       employeeDto.setIsLeave("Y");
       sqlSession.update("employee.exit", employeeDto);
    }
+   
+   //퇴사 취소
+   @Override
+	public void cancelExit(String empNo) {
+		EmployeeDto employeeDto = new EmployeeDto();
+		employeeDto.setEmpNo(empNo);
+		employeeDto.setIsLeave("N");
+		sqlSession.update("employee.exit", employeeDto);
+	}
    
    //비밀번호 찾기
    @Override
@@ -84,7 +93,7 @@ public class EmployeeRepoImpl implements EmployeeRepo {
    
    //퇴사 대기목록
    @Override
-   public List<EmployeeDto> waitingList() {
+   public List<EmployeeInfoDto> waitingList() {
       return sqlSession.selectList("employee.waitingList");
    }
    
@@ -107,6 +116,39 @@ public class EmployeeRepoImpl implements EmployeeRepo {
       return sqlSession.selectList("employee.getEmployeeList", params);
    }
 
+   @Override
+   public List<EmployeeInfoDto> searchEmployees(String column, String keyword) {
+	   Map<String, Object> params = new HashMap<>();
+	   params.put("column", column);
+	   params.put("keyword", keyword);
+	   return sqlSession.selectList("searchEmployees", params);
+   }
+   
+   //퇴사대기자 목록
+   @Override
+   public int waitingEmployeesCount() {
+	   return sqlSession.selectOne("employee.waitingEmployeesCount");
+   }
+   
+   @Override
+   public List<EmployeeInfoDto> WaitingEmployeeList(PaginationVO vo) {
+	   	  int begin = vo.getBegin();
+	      int end = vo.getEnd();
+
+	      Map<String, Object> params = new HashMap<>();
+	      params.put("begin", begin);
+	      params.put("end", end);
+
+	      return sqlSession.selectList("employee.getWaitingList", params);
+   }
+   
+   @Override
+   public List<EmployeeInfoDto> searchWaitingEmployees(String column, String keyword) {
+	   Map<String, Object> params = new HashMap<>();
+	   params.put("column", column);
+	   params.put("keyword", keyword);
+	   return sqlSession.selectList("searchWaitingEmployees", params);
+   }
    
     //관리자 권한 부여
 	@Override
@@ -129,12 +171,6 @@ public class EmployeeRepoImpl implements EmployeeRepo {
 		return sqlSession.selectList("employee.treeSelect");
 	}
 
-	@Override
-	public List<EmployeeInfoDto> searchEmployees(String column, String keyword) {
-		  Map<String, Object> params = new HashMap<>();
-	      params.put("column", column);
-	      params.put("keyword", keyword);
-	      return sqlSession.selectList("searchEmployees", params);
-	   }
+
 
 }

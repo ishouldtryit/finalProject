@@ -25,9 +25,14 @@ import com.kh.synergyZone.repo.WorkBoardRepo;
 import com.kh.synergyZone.repo.WorkFileRepo;
 import com.kh.synergyZone.repo.WorkReportRepo;
 import com.kh.synergyZone.service.WorkBoardService;
+import com.kh.synergyZone.vo.ReportWithWorkBoardVO;
+import com.kh.synergyZone.vo.WorkBoardVO;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/workboard")
+@Slf4j
 public class WorkBoardController {
    
    @Autowired
@@ -61,26 +66,30 @@ public class WorkBoardController {
    @PostMapping("/write")
    public String write(@ModelAttribute WorkBoardDto workBoardDto,
                   HttpSession session,
-                  @RequestParam("attachments") List<MultipartFile> attachments) throws IllegalStateException, IOException {
+                  WorkBoardVO workBoardVO,
+                  RedirectAttributes rttr) throws IllegalStateException, IOException {
       String empNo = (String) session.getAttribute("empNo");
       workBoardDto.setEmpNo(empNo);
       
       int workNo = workBoardRepo.sequence();
       workBoardDto.setWorkNo(workNo);
       
-      
-//      System.out.println(workBoardDto.getWorkSecret());
-      
-      workBoardService.write(workBoardDto, attachments);
+      if(workBoardVO.getAttachList() != null) {
+    	  workBoardVO.getAttachList().forEach(attach -> System.out.print(attach));
+      }
+      workBoardService.write(workBoardDto, workBoardVO);
+      rttr.addFlashAttribute("result", workBoardVO.getWorkNo());
       
       
       return "redirect:/";
    }
    
+   //업무일지 보고
    @GetMapping("/report")
    public String report(@RequestParam int workNo,
                    Model model) {
       model.addAttribute("workBoardDto", workBoardRepo.selectOne(workNo));
+      model.addAttribute("files", workFileRepo.selectAll(workNo));
       
       return "workboard/report";
    }
@@ -100,6 +109,27 @@ public class WorkBoardController {
        }
        return "redirect:/";
    }
+   
+   @GetMapping("/supList")
+   public String supList(HttpSession session, Model model) {
+       String workSup = (String) session.getAttribute("empNo");
+       
+       model.addAttribute("supList", workReportRepo.supList(workSup));
+       
+       return "workboard/supList";
+   }
+
+   
+   @GetMapping("/reportList")
+   public String reportList(HttpSession session,
+		   				 Model model) {
+	   String workSup = (String) session.getAttribute("empNo");
+	   
+	   List<ReportWithWorkBoardVO> reportList = workReportRepo.reportList(workSup);
+	   model.addAttribute("reportList", reportList);
+	   return "workboard/reportList";
+   }
+   
    
    //업무일지 목록
    @GetMapping("/list")

@@ -6,7 +6,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.synergyZone.dto.SupWithWorkDto;
 import com.kh.synergyZone.dto.WorkReportDto;
+import com.kh.synergyZone.vo.ReportWithWorkBoardVO;
 
 @Repository
 public class WorkReportRepoImpl implements WorkReportRepo {
@@ -24,5 +26,17 @@ public class WorkReportRepoImpl implements WorkReportRepo {
 		return sqlSession.selectList("workReport.list");
 	}
 	
-	
+	//보고받은 업무일지
+	@Override
+	public List<SupWithWorkDto> supList(String workSup) {
+		return sqlSession.selectList("workReport.supList", workSup);
+	}
+
+	//내 업무일지
+	@Override
+	public List<ReportWithWorkBoardVO> reportList(String workSup) {
+		return sqlSession.selectList("workReport.reportWithWorkBoard", workSup);
+	}
+
+
 }

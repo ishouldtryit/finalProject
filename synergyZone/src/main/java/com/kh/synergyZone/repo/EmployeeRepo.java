@@ -16,6 +16,7 @@ public interface EmployeeRepo {
 	   List<EmployeeInfoDto> list();
 	   void update(EmployeeDto employeeDto);
 	   void exit(String empNo);
+	   void cancelExit(String empNo);
 	   void delete(String empNo);
 	   
 	   //부서별 사원목록
@@ -31,7 +32,7 @@ public interface EmployeeRepo {
 	   String lastEmpNoOfYear(String year);
 	   
 	   //퇴사 대기목록
-	   List<EmployeeDto> waitingList();
+	   List<EmployeeInfoDto> waitingList();
 	   
 	   //관리자 권한 부여
 	   boolean authorityAdmin(String empNo);
@@ -43,6 +44,11 @@ public interface EmployeeRepo {
 	   int getCount();
 	   List<EmployeeDto> getEmployeeList(PaginationVO vo);
 	   List<EmployeeInfoDto> searchEmployees(String column, String keyword);
+	   
+	   //퇴사자 목록 검색
+	   int waitingEmployeesCount();
+	   List<EmployeeInfoDto> WaitingEmployeeList(PaginationVO vo);
+	   List<EmployeeInfoDto> searchWaitingEmployees(String column, String keyword);
 	   
 	   
 	

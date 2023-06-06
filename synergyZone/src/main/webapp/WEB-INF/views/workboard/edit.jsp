@@ -7,39 +7,172 @@
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
     
-    <script type="text/javascript">
-    $(function(){
-    	var workContent = $("#workContent").val(); // Get the previously entered content
+     <script type="text/javascript">
+  $(function() {
+     $('[name=workContent]').summernote({
+           placeholder: '내용 작성',
+           tabsize: 4,
+           height: 250,
+           toolbar: [
+               ['style', ['style']],
+               ['font', ['bold', 'underline', 'clear']],
+               ['color', ['color']],
+               ['para', ['ul', 'ol', 'paragraph']],
+               ['table', ['table']],
+           ]
+       });
 
-    	  $('[name=workContent]').summernote({
-    	    placeholder: '내용 작성',
-    	    tabsize: 4,
-    	    height: 250,
-    	    toolbar: [
-    	      ['style', ['style']],
-    	      ['font', ['bold', 'underline', 'clear']],
-    	      ['color', ['color']],
-    	      ['para', ['ul', 'ol', 'paragraph']],
-    	      ['table', ['table']],
-    	    ]
-    	  });
+       // 파일 선택 시 파일 목록 표시
+       $(document).on('change', '#attachments', function() {
+           const fileListContainer = document.getElementById('fileList');
+           const existingFiles = Array.from(document.querySelectorAll('#fileList li'));
+           const newFiles = Array.from(this.files);
 
-    	  $('[name=workContent]').summernote('code', workContent);
-        
-    
-    });
-       
-    function validateForm() {
-        if ($('#workSecretCheck').is(':checked')) {
-            $("#workSecret").val("Y");
-        } else {
-            $("#workSecret").val("N");
-        }
-        return true;
+           const mergedFiles = existingFiles.map(fileItem => {
+               const fileName = fileItem.querySelector('span').innerText;
+               return {
+                   name: fileName,
+                   file: null
+               };
+           });
+
+           newFiles.forEach(file => {
+               mergedFiles.push({
+                   name: file.name,
+                   file: file
+               });
+           });
+
+           displayFileList(mergedFiles);
+       });
+
+       // Delete all files
+       const deleteAll = () => {
+//            $('#attachments').val('');
+           $('#fileList').empty();
+       }
+
+       // Delete a specific file
+       const deleteFile = (fileName) => {
+	    const fileListContainer = document.getElementById('fileList');
+	    const listItem = Array.from(fileListContainer.querySelectorAll('li')).find(item => {
+	        const span = item.querySelector('span');
+	        return span.innerText === fileName;
+	    });
+	    if (listItem) {
+	        fileListContainer.removeChild(listItem);
+	
+	        // Remove the file from the dataTransfer object
+	        for (let i = 0; i < dataTransfer.files.length; i++) {
+	            if (dataTransfer.files[i].name === fileName) {
+	                dataTransfer.items.remove(i);
+	                break;
+	            }
+	        }
+	        document.getElementById("attachments").files = dataTransfer.files;
+	        console.log("dataTransfer after deletion =>", dataTransfer.files);
+	        console.log("input Files after deletion =>", document.getElementById("attachments").files);
+	    }
+	}
+
+
+       // Display file list
+       function displayFileList(files) {
+           const fileListContainer = document.getElementById('fileList');
+           fileListContainer.innerHTML = '';
+
+           for (let i = 0; i < files.length; i++) {
+               const file = files[i];
+               const fileId = `file-${i}`;
+               const listItem = document.createElement('li');
+               listItem.id = fileId;
+
+               const fileName = document.createElement('span');
+               fileName.innerText = file.name;
+
+               const removeButton = document.createElement('button');
+               removeButton.type = 'button';
+               removeButton.className = 'remove_button';
+               removeButton.dataset.fileName = file.name;
+               removeButton.innerText = 'X';
+               removeButton.addEventListener('click', () => deleteFile(file.name));
+
+               listItem.appendChild(removeButton);
+               listItem.appendChild(fileName);
+               fileListContainer.appendChild(listItem);
+           }
+       }
+
+       // FileListWrapper class definition
+       function FileListWrapper(files) {
+           const dataTransfer = new DataTransfer();
+           for (let i = 0; i < files.length; i++) {
+               dataTransfer.items.add(files[i]);
+           }
+           return dataTransfer.files;
+       }
+
+       // New code for managing file uploads
+       const dataTransfer = new DataTransfer();
+
+       $("#attachments").change(function() {
+           let fileArr = document.getElementById("attachments").files;
+
+           if (fileArr != null && fileArr.length > 0) {
+              deleteAll();
+              
+               // =====DataTransfer 파일 관리========
+               for (var i = 0; i < fileArr.length; i++) {
+                   dataTransfer.items.add(fileArr[i]);
+               }
+               document.getElementById("attachments").files = dataTransfer.files;
+               console.log("dataTransfer =>", dataTransfer.files);
+               console.log("input FIles =>", document.getElementById("attachments").files);
+               // ==========================================
+           }
+       });
+
+       $("#fileList").click(function(event) {
+           let fileArr = document.getElementById("attachments").files;
+           if (event.target.className == 'remove_button') {
+               targetFile = event.target.dataset.fileName;
+
+               // ============DataTransfer================
+               for (var i = 0; i < dataTransfer.files.length; i++) {
+                   if (dataTransfer.files[i].name == targetFile) {
+                       // 총용량에서 삭제
+                       total_file_size -= dataTransfer.files[i].size;
+
+                       dataTransfer.items.remove(i);
+                       break;
+                   }
+               }
+               document.getElementById("attachments").files = dataTransfer.files;
+
+//                const removeTarget = document.getElementById(targetFile);
+//                removeTarget.remove();
+
+               console.log("dataTransfer 삭제후=>", dataTransfer.files);
+               console.log('input FIles 삭제후=>', document.getElementById("attachments").files);
+           }
+           
+           
+       });
+
+  });
+  
+  
+
+  function validateForm() {
+    if ($('#workSecretCheck').is(':checked')) {
+      $("#workSecret").val("Y");
+    } else {
+      $("#workSecret").val("N");
     }
     
-       
-    </script>
+    return true;
+  }
+</script>
 
 <form action="edit" method="post" enctype="multipart/form-data">
 
@@ -104,9 +237,6 @@
 					            <a href="/attachment/download?attachmentNo=${file.attachmentNo}">
 					                ${file.attachmentNo}
 					            </a>
-					            <button class="btn btn-sm btn-danger delete-attachment" data-attachment-id="${file.attachmentNo}">
-					                X
-					            </button>
 					        </div>
 					    </c:forEach>
 					</div>

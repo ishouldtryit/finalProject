@@ -63,17 +63,17 @@ public class ApprovalController {
 		return "/approval/readerList";
 	}
 	
+	//기안서 상세 페이지
 	@GetMapping("/detail")
-	public String detail(Model model, @RequestParam int draftNo) {
-		model.addAttribute("approvalDto", approvalRepoImpl.selectOne(draftNo));
+	public String detail(@RequestParam int draftNo) {
 		return "/approval/detail";
 	}
 	
-	@GetMapping("/edit")
-	public String edit(Model model, @RequestParam int draftNo) {
-		model.addAttribute("approvalDto", approvalRepoImpl.selectOne(draftNo));
-		return "/approval/edit";
-	}
+//	@GetMapping("/edit")
+//	public String edit(Model model, @RequestParam int draftNo) {
+//		model.addAttribute("approvalDto", approvalRepoImpl.selectOne(draftNo));
+//		return "/approval/edit";
+//	}
 	
 	@PostMapping("/edit")
 	public String edit(@ModelAttribute ApprovalDto approvalDto) {

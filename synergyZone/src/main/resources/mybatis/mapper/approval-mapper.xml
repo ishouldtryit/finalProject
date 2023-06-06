@@ -12,10 +12,7 @@
       	  select approval_seq.nextval from dual
     	</select>
     	
-    	<select id="selectOne" resultType="ApprovalDto">
-    		select * from approval where draft_no=#{draftNo}
-    	</select>
-    	
+    	<!-- 기안서 작성 -->
     	<insert id="insert" >
     		insert into approval( 
     		draft_no,draft_title,draft_content,
@@ -27,8 +24,6 @@
     		)
     	</insert>
     	
-    	
-
 		<update id="editAllInOne">
 			update approval
 			<set>
@@ -42,6 +37,7 @@
 			where draft_no=#{draftNo}
 		</update>    	
 		
+		<!-- 기안서 삭제 -->
 		<delete id="remove">
 			delete approval where draft_no = #{draftNo}
 		</delete>
@@ -521,6 +517,11 @@
 		        ) TMP
 		    )
 		    where RN between #{begin} and #{end}
+		</select>
+		
+		<!-- 계층형 조회 메인 구문(상세페이지) -->
+		<select id="approvalDataSelectOne" resultMap="ApprovalDataVO">
+			select * from approval_with_drafter where draft_no=#{draftNo}
 		</select>
 
 		<!-- 계층형 조회 서브 구문 (결재자) -->

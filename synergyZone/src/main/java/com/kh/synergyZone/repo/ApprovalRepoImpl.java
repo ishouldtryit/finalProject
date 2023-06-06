@@ -26,8 +26,8 @@ public class ApprovalRepoImpl implements ApprovalRepo {
 	}
 
 	@Override
-	public ApprovalDto selectOne(int draftNo) {
-		return sqlSession.selectOne("approval.selectOne", draftNo);
+	public ApprovalDataVO approvalDataSelectOne(int draftNo) {
+		return sqlSession.selectOne("approval.approvalDataSelectOne", draftNo);
 	}
 
 	@Override

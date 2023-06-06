@@ -25,7 +25,7 @@ public interface ApprovalRepo {
 	List<ApprovalDataVO> recipientApprovalDataSelectList(ApprovalPaginationVO vo);	//전체 목록(참조문서)
 	int readerApprovalDataCount(ApprovalPaginationVO vo); // 전체 카운트(열람문서)
 	List<ApprovalDataVO> readerApprovalDataSelectList(ApprovalPaginationVO vo);	//전체 목록(열람문서)
-	ApprovalDto selectOne(int draftNo);	//상세
+	ApprovalDataVO approvalDataSelectOne(int draftNo); //상세 페이지
 	void delete(int draftNo);	//삭제
 	void edit(ApprovalDto approvalDto);	//수정
 	void approverInsert(ApproverDto approverDto);	//결재자 등록

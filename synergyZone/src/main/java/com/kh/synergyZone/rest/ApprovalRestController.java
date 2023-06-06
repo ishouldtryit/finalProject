@@ -19,6 +19,7 @@ import com.kh.synergyZone.dto.ReaderDto;
 import com.kh.synergyZone.dto.RecipientDto;
 import com.kh.synergyZone.repo.ApprovalRepoImpl;
 import com.kh.synergyZone.repo.EmployeeRepoImpl;
+import com.kh.synergyZone.vo.ApprovalDataVO;
 import com.kh.synergyZone.vo.ApprovalPaginationVO;
 import com.kh.synergyZone.vo.ApprovalVO;
 import com.kh.synergyZone.vo.ApprovalWithPageVO;
@@ -40,6 +41,7 @@ public class ApprovalRestController {
 		return employeeRepoImpl.treeSelect(empName);
 	}
 	
+	// 기안서 작성
 	@PostMapping("/write")
 	public int write(@RequestBody ApprovalVO approvalVO, HttpSession session) {
 		
@@ -290,7 +292,14 @@ public class ApprovalRestController {
 			return approvalWithPageVO;			
 		}
 		
-		
+		//상세 페이지
+		@GetMapping("/detail/{draftNo}")
+		public ApprovalDataVO approvalDetail(@PathVariable int draftNo, HttpSession session) {
+			String empNo = session.getAttribute("empNo") == null ? null : (String) session.getAttribute("empNo");
+			ApprovalDataVO approvalDataVO = approvalRepoImpl.approvalDataSelectOne(draftNo);
+			approvalDataVO.setLoginUser(empNo);
+			return approvalDataVO;
+		}
 
 		
 	

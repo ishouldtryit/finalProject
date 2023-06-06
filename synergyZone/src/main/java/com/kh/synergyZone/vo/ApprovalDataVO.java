@@ -21,5 +21,6 @@ public class ApprovalDataVO {
 	private List<AgreeorVO> agreeorList ;		//합의자 데이터 리스트
 	private List<RecipientVO> recipientList ;		//참조자 데이터 리스트
 	private List<ReaderVO> readerList ;		//열람자 데이터 리스트
+	private String loginUser; //로그인 유저아이디
 
 }

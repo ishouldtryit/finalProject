@@ -12,7 +12,6 @@
  <script src="./datepicker/js/datepicker.js"></script> <!-- Air datepicker js -->
     <script src="./datepicker/js/datepicker.ko.js"></script> <!-- 달력 한글 추가를 위해 커스텀 -->
 <script type="text/javascript">
-
 $(document).ready(function() {
     $('#insertDate').submit(function() {
         if ($('#start_dtm').val() == '' || $('#end_dtm').val() =='' ) {
@@ -20,8 +19,16 @@ $(document).ready(function() {
             return false;
         }
     }); // end submit()
-}); // end ready()
+    // 수정으로 들어왔으면 등록버튼 hide
+   if('${result}'!= undefined  && '${result}'!=null && '${result}'!=''){
+        $('#doinsert').hide();
+      $("#insertDate").attr("action", "updateDate");
 
+    } else {
+     $("#insertDate").attr("action", "insertDate");
+           $('#doupdate').hide();
+    }
+}); // end ready()
 </script>
 
 <%-- 이미지를 첨부하면 첨부한 이미지의 번호를 hidden으로 추가 --%>
@@ -32,28 +39,29 @@ $(document).ready(function() {
 </c:if>
 
 <div class="container">
-<form action="insertDate" method="post" autocomplete="off" id ="insertDate">
+<form method="post" autocomplete="off" id ="insertDate">
    <!-- 제목 -->
    <div class="row center">
             <h2>일정 등록 </h2>
    </div>
-
+   <input type="hidden" id="seq" name="seq"  value= "${result.SEQ}">
     <div class="row p-3" >
          <label for="draftTitle" class="form-label">제목</label>
-         <input type="text" id="title" name="title"  class="form-control">
+         <input type="text" id="title" name="title"  value= "${result.TITLE}" class="form-control">
        </div>
 
        <div class="row p-3">
          <label for="content" class="form-label" v-model="CalendarVO.content">내용</label>
-         <textarea id="content" name="content" required style="min-height: 300px;" class="form-control"></textarea>
+         <textarea id="content" name="content" required style="min-height: 300px;" class="form-control" > ${result.CONTENT} </textarea>
        </div>
-          시작일    <input type="date"  id ="start_dtm" name="start_dtm" size="10"/>
-          종료일    <input type="date"  id= "end_dtm" name="end_dtm" size="10"/>
+          시작일    <input type="date"  value= "${result.START_DTM}" id ="start_dtm" name="start_dtm" size="10"/ >
+          종료일    <input type="date"  value= "${result.END_DTM}" id= "end_dtm" name="end_dtm" size="10"/>
        <div class="row mt-4">
 
 
    <div class="row">
-      <button type="submit" class="btn btn-info w-80 mt-3 reply-insert-btn" >등록</button>
+      <button type="submit" class="btn btn-info w-80 mt-3 reply-insert-btn" id ="doinsert">등록</button>
+       <button type="submit" class="btn btn-info w-80 mt-3 reply-insert-btn" id ="doupdate">수정</button>
    </div>
 </div>
 </form>

@@ -44,6 +44,18 @@ public class CalendarService {
     public List<Map<String,Object>> getDate(CalendarVO vo) {
         return calendarRepo.getDate(vo);
     }
+
+    public int deleteDate(CalendarVO vo) {
+        return calendarRepo.deleteDate(vo);
+    }
+
+    public Map<String, Object> detailView(CalendarVO vo) {
+        return calendarRepo.detailView(vo);
+    }
+
+    public void updateDate(CalendarVO vo) {
+        calendarRepo.updateDate(vo);
+    }
 }
 
 

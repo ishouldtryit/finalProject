@@ -26,9 +26,27 @@ public class CalendarRepoImpl implements CalendarRepo{
 	}
 
 	@Override
+	public void updateDate(CalendarVO calendarVO) {
+		sqlSession.update("Calendar.updateDate", calendarVO);
+	}
+
+	@Override
+	public int deleteDate(CalendarVO calendarVO) {
+		int rs = sqlSession.delete("Calendar.deleteDate", calendarVO);
+		return rs ;
+	}
+
+	@Override
 	public List<Map<String,Object>> getDate(CalendarVO calendarVO) {
 		//sqlSession.insert("Calendar.getDate", calendarVO);
 		return sqlSession.selectList("Calendar.getDate", calendarVO);
+	}
+
+
+	@Override
+	public Map<String,Object> detailView(CalendarVO calendarVO) {
+		Map<String,Object> test = sqlSession.selectOne("Calendar.detailView", calendarVO);
+		return sqlSession.selectOne("Calendar.detailView", calendarVO);
 	}
 
 }

@@ -11,4 +11,10 @@ public interface CalendarRepo {
 	int insert(CalendarVO vo);
 
 	List<Map<String,Object>> getDate(CalendarVO vo);
+
+	int deleteDate(CalendarVO vo);
+
+	Map<String, Object> detailView(CalendarVO vo);
+
+	void updateDate(CalendarVO vo);
 }

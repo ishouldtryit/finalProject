@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <meta charset='utf-8' />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/ko.js"></script>
 
@@ -19,10 +19,13 @@
                   start: '${item.START_DTM}',
                   constraint: 'availableForMeeting',
                   end: '${item.END_DTM}',
-                  color: '#85d0ed'
+                  color: '#85d0ed',
+                  seq : '${item.SEQ}',
+                  empno : '${item.EMP_NO}'
+
                 });
 </c:forEach>
-
+console.log(events)
   document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -45,9 +48,16 @@
     editable: true,
     // 선택 가능한 일정
     selectable: true,
-      events : events
+      events : events,
+      eventClick: function(event) {
+          let seq = event.event.extendedProps.seq // 테이블 seq 값
+          let empno = event.event.extendedProps.empno // 저장되있는 사번
+
+          console.log(JSON.stringify(event))
+          location.href='${pageContext.request.contextPath}/calendar/insertPage?seq='+seq;
+      }
     });
-    locale: 'ko' // 'ko'는 한국어를 의미합니다.,
+    locale: 'ko',
 
     calendar.render();
   });

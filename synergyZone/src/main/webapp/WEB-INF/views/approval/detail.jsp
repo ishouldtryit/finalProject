@@ -15,25 +15,10 @@
 <div id="app">
 	<div class="container-fluid" v-if="ApprovalDataVO != null">
 		<div class="row mb-3 d-flex align-items-center"> 
-			<div class="col-3">
+			<div class="col">
 			  <h3 style="margin:0;">기안서 상세 보기</h3>
 			  </div>
-			  <div class="col-9">
-			  <span v-if="ApprovalDataVO.approvalWithDrafterDto.resultCode === 0" class="badge bg-success">
-			    진행중
-			    {{ ApprovalDataVO.approvalWithDrafterDto.statusCode }}/{{ ApprovalDataVO.approverList.length }}
-			  </span>
-			  <span v-else-if="ApprovalDataVO.approvalWithDrafterDto.resultCode === 1" class="badge bg-info">
-			    회수
-			  </span>
-			  <span v-else-if="ApprovalDataVO.approvalWithDrafterDto.resultCode === 2" class="badge bg-danger">
-			    반려
-			  </span>
-			  <span v-else-if="ApprovalDataVO.approvalWithDrafterDto.resultCode === 3" class="badge bg-secondary">
-			    완료
-			  </span>
-			  
-			</div>
+
 		</div>
 		<div class="row mb-3">
 			<div class="col">

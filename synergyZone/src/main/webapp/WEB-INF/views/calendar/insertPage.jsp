@@ -3,7 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
-
 <!-- summernote cdn -->
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
@@ -13,21 +12,15 @@
  <script src="./datepicker/js/datepicker.js"></script> <!-- Air datepicker js -->
     <script src="./datepicker/js/datepicker.ko.js"></script> <!-- 달력 한글 추가를 위해 커스텀 -->
 <script type="text/javascript">
-function insertCalendar () {
-        $.ajax({
-            type: "POST",
-            url: "/calander/insertDate",
-            data:  {
 
-            }
-            contentType: "application/json",
-            success: function() {
-              alert("나만의 주소록에 추가되었습니다!");
-            },
-            error: function(xhr, status, error) {
-            }
-          });
-}
+$(document).ready(function() {
+    $('#insertDate').submit(function() {
+        if ($('#start_dtm').val() == '' || $('#end_dtm').val() =='' ) {
+            alert('시작일,종료일을 선택해주세요  ');
+            return false;
+        }
+    }); // end submit()
+}); // end ready()
 
 </script>
 
@@ -39,37 +32,30 @@ function insertCalendar () {
 </c:if>
 
 <div class="container">
-
+<form action="insertDate" method="post" autocomplete="off" id ="insertDate">
    <!-- 제목 -->
    <div class="row center">
-      <c:choose>
-         <c:when test="${boardParent == null}">
             <h2>일정 등록 </h2>
-         </c:when>
-         <c:otherwise>
-            <h2>답글 작성</h2>
-         </c:otherwise>
-      </c:choose>
    </div>
 
     <div class="row p-3" >
          <label for="draftTitle" class="form-label">제목</label>
-         <input type="text" id="draftTitle" name="boardTitle" v-model="boardlVO.boardDto.boardTitle" class="form-control" v-on:input="boardVO.boardDto.boardTitle = $event.target.value">
+         <input type="text" id="title" name="title"  class="form-control">
        </div>
 
        <div class="row p-3">
-         <label for="draftContent" class="form-label">내용</label>
-         <textarea id="draftContent" name="boardContent" required style="min-height: 300px;" v-model="boardVO.boardDto.boardContent" class="form-control" v-on:input="boardVO.boardDto.boardContent = $event.target.value"></textarea>
+         <label for="content" class="form-label" v-model="CalendarVO.content">내용</label>
+         <textarea id="content" name="content" required style="min-height: 300px;" class="form-control"></textarea>
        </div>
-              <input type="date" id="sdate" size="10"/>
-
+          시작일    <input type="date"  id ="start_dtm" name="start_dtm" size="10"/>
+          종료일    <input type="date"  id= "end_dtm" name="end_dtm" size="10"/>
        <div class="row mt-4">
 
 
    <div class="row">
-      <button type="button" class="btn btn-info w-80 mt-3 reply-insert-btn" oncclick = "insertCalendar">등록</button>
+      <button type="submit" class="btn btn-info w-80 mt-3 reply-insert-btn" >등록</button>
    </div>
 </div>
-
+</form>
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

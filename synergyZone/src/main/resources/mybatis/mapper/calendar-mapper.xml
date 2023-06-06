@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="Calendar">
+	
+	<insert id="insertDate">
+		insert into CALENDAR(
+			SEQ ,CONTENT,TITLE,EMP_NO,EMP_NAME,START_DTM,END_DTM
+		)
+		values(
+		CALENDAR_SEQ.NEXTVAL,#{content},#{title},#{emp_no},#{emp_name},#{start_dtm},#{end_dtm}
+		)
+	</insert>
+	
+	<select id="getDate"  resultType="map" >
+		select * from CALENDAR
+	</select>
+	
+
+</mapper>

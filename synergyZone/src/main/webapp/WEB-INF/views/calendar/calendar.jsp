@@ -4,14 +4,27 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset='utf-8' />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/ko.js"></script>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script src='../dist/index.global.js'></script>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/index.global.min.js"></script>
 <script>
+ let events = [];
+<c:forEach items="${result}" var="item">
+              events.push({
+                  title: '${item.TITLE}',
+                  start: '${item.START_DTM}',
+                  constraint: 'availableForMeeting',
+                  end: '${item.END_DTM}',
+                  color: '#85d0ed'
+                });
+</c:forEach>
 
   document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
-
     var calendar = new FullCalendar.Calendar(calendarEl, {
       headerToolbar: {
         left: 'prev,next today',
@@ -25,80 +38,20 @@
       	day : "일간",
       	list : "목록"
       },
-      initialDate: '2023-01-12',
-      navLinks: true, // can click day/week names to navigate views
-      businessHours: true, // display business hours
-      editable: true,
-      selectable: true,
-      events: [
-        {
-          title: 'Business Lunch',
-          start: '2023-01-03T13:00:00',
-          constraint: 'businessHours'
-        },
-        {
-          title: 'Meeting',
-          start: '2023-01-13T11:00:00',
-          constraint: 'availableForMeeting', // defined below
-          color: '#257e4a'
-        },
-        {
-          title: 'Conference',
-          start: '2023-01-18',
-          end: '2023-01-20'
-        },
-        {
-          title: 'Party',
-          start: '2023-01-29T20:00:00'
-        },
-
-        // areas where "Meeting" must be dropped
-        {
-          groupId: 'availableForMeeting',
-          start: '2023-01-11T10:00:00',
-          end: '2023-01-11T16:00:00',
-          display: 'background'
-        },
-        {
-          groupId: 'availableForMeeting',
-          start: '2023-01-13T10:00:00',
-          end: '2023-01-13T16:00:00',
-          display: 'background'
-        },
-
-        // red areas where no events can be dropped
-        {
-          start: '2023-01-24',
-          end: '2023-01-28',
-          overlap: false,
-          display: 'background',
-          color: '#ff9f89'
-        },
-        {
-          start: '2023-01-06',
-          end: '2023-01-08',
-          overlap: false,
-          display: 'background',
-          color: '#ff9f89'
-        }
-      ]
+    navLinks: true,
+    // 업무 시간 표시
+    businessHours: true,
+    // 편집 가능한 일정
+    editable: true,
+    // 선택 가능한 일정
+    selectable: true,
+      events : events
     });
+    locale: 'ko' // 'ko'는 한국어를 의미합니다.,
 
     calendar.render();
   });
-function insertCalendar () {
-        $.ajax({
-            type: "POST",
-            url: "/bookmark/addBookmark",
-            data: JSON.stringify({bookmarkNo: selectedEmployees}),
-            contentType: "application/json",
-            success: function() {
-              alert("나만의 주소록에 추가되었습니다!");
-            },
-            error: function(xhr, status, error) {
-            }
-          });
-}
+
 
 </script>
 <style>

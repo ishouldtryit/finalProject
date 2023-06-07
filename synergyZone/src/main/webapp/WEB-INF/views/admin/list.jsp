@@ -23,7 +23,7 @@
 		  
 		  <input class="form-control me-sm-2" type="search" placeholder="검색어" name="keyword" value="${param.keyword}" style="width: 13%;">
 		  <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
-		
+		  
 		</form>
 		
     	<!-- 사원 목록 테이블 -->
@@ -38,7 +38,7 @@
                 <input type="checkbox" id="selectAllBtn" class="btn btn-primary my-2 my-sm-0">
               </div>
               </th>
-                <th>프로필</th>
+	              <th>프로필</th>
                 <th>사원번호</th>
                 <th>이름</th>
                 <th>전화번호</th>
@@ -52,58 +52,54 @@
 	          </tr>
 	        </thead>
 	        <tbody>
-	          <c:forEach var="employeeDto" items="${employees}">
+            <c:forEach var="employeeDto" items="${employees}">
 	            <tr>
-                    <td class="align-middle">
-<!-- 		                <div class="p-2"> -->
-<%-- 		                  <input type="checkbox" name="selectedEmployees" value="${employeeDto.empNo}"> --%>
-<!-- 		                </div> -->
-		              </td>
-		              <td class="align-middle">
-		                <div class="profile-image employee-name" data-empno="${employeeDto.empNo}" 
-			                    data-empname="${employeeDto.empName}" data-empphone="${employeeDto.empPhone}" 
-			                    data-empemail="${employeeDto.empEmail}" data-empaddress="${employeeDto.empAddress}" 
-			                    data-empdetailaddress="${employeeDto.empDetailAddress}" data-attachmentno="${employeeDto.attachmentNo}">
-		                  <img width="50" height="50" src="<c:choose>
-		                    <c:when test="${employeeDto.attachmentNo > 0}">
-		                      /attachment/download?attachmentNo=${employeeDto.attachmentNo}
-		                    </c:when>
-		                    <c:otherwise>
-		                      https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg
-		                    </c:otherwise>
-			                      </c:choose>" alt="" style="border-radius: 50%;">
-		                </div>
-		               
-		              </td>
-		              <td class="align-middle emp-no">${employeeDto.empNo}</td>
-		              <td class="align-middle employee-name" data-empno="${employeeDto.empNo}" data-empname="${employeeDto.empName}" 
-		                data-empphone="${employeeDto.empPhone}" data-empemail="${employeeDto.empEmail}" 
-		                data-empaddress="${employeeDto.empAddress}" data-empdetailaddress="${employeeDto.empDetailAddress}"
-		                data-attachmentno="${employeeDto.attachmentNo}">
-		                ${employeeDto.empName}
-		              </td>
-		              <td class="align-middle">${employeeDto.empPhone}</td>
-		              <td class="align-middle">${employeeDto.empEmail}</td>
-		              <td class="align-middle">${employeeDto.empAddress}</td>
-		              <td class="align-middle">${employeeDto.empDetailAddress}</td>
-		              <td class="align-middle">
-		                <c:forEach var="departmentDto" items="${departments}">
-		                  <c:if test="${departmentDto.deptNo == employeeDto.deptNo}">
-		                    ${departmentDto.deptName}
-		                  </c:if>
-		                </c:forEach>
-		              </td>
-		              <td class="align-middle">
-		                <c:forEach var="jobDto" items="${jobs}">
-		                  <c:if test="${jobDto.jobNo == employeeDto.jobNo}">
-		                    ${jobDto.jobName}
-		                  </c:if>
-		                </c:forEach>
-		              </td>
-	                  <td class="align-middle">${employeeDto.isLeave}</td>
-	                  <td class="align-middle">
-	                    <a href="exit?empNo=${employeeDto.empNo}" class="exit-button">퇴사처리</a>
-	                  </td>
+	              <td class="align-middle">
+	                <div class="p-2">
+	                  <input type="checkbox" name="selectedEmployees" value="${employeeDto.empNo}">
+	                </div>
+	              </td>
+	              <td class="align-middle">
+	                <div class="profile-image employee-name" data-empno="${employeeDto.empNo}" 
+		                    data-empname="${employeeDto.empName}" data-empphone="${employeeDto.empPhone}" 
+		                    data-empemail="${employeeDto.empEmail}" data-empaddress="${employeeDto.empAddress}" 
+		                    data-empdetailaddress="${employeeDto.empDetailAddress}" data-attachmentno="${employeeDto.attachmentNo}">
+	                  <img width="50" height="50" src="<c:choose>
+	                    <c:when test="${employeeDto.attachmentNo > 0}">
+	                      /attachment/download?attachmentNo=${employeeDto.attachmentNo}
+	                    </c:when>
+	                    <c:otherwise>
+	                      https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg
+	                    </c:otherwise>
+		                      </c:choose>" alt="" style="border-radius: 50%;">
+	                </div>
+	               
+	              </td>
+	              <td class="align-middle">${employeeDto.empNo}</td>
+	              <td class="align-middle employee-name" data-empno="${employeeDto.empNo}" data-empname="${employeeDto.empName}" 
+	                data-empphone="${employeeDto.empPhone}" data-empemail="${employeeDto.empEmail}" 
+	                data-empaddress="${employeeDto.empAddress}" data-empdetailaddress="${employeeDto.empDetailAddress}"
+	                data-attachmentno="${employeeDto.attachmentNo}">
+	                ${employeeDto.empName}
+	              </td>
+	              <td class="align-middle">${employeeDto.empPhone}</td>
+	              <td class="align-middle">${employeeDto.empEmail}</td>
+	              <td class="align-middle">${employeeDto.empAddress}</td>
+	              <td class="align-middle">${employeeDto.empDetailAddress}</td>
+	              <td class="align-middle">
+	                <c:forEach var="departmentDto" items="${departments}">
+	                  <c:if test="${departmentDto.deptNo == employeeDto.deptNo}">
+	                    ${departmentDto.deptName}
+	                  </c:if>
+	                </c:forEach>
+	              </td>
+	              <td class="align-middle">
+	                <c:forEach var="jobDto" items="${jobs}">
+	                  <c:if test="${jobDto.jobNo == employeeDto.jobNo}">
+	                    ${jobDto.jobName}
+	                  </c:if>
+	                </c:forEach>
+	              </td>
 	            </tr>
 	          </c:forEach>
 	        </tbody>
@@ -244,6 +240,21 @@
     $('select[name="column"] option[value="' + selectedColumn + '"]').prop('selected', true);
   });
 </script>
+
+<script>
+  // 체크박스 전체선택 기능
+  $(document).ready(function() {
+    const selectAllBtn = $('#selectAllBtn');
+    const checkboxes = $('input[name="selectedEmployees"]');
+
+    let selectAll = false;
+
+    selectAllBtn.on('click', function() {
+      selectAll = !selectAll;
+
+      checkboxes.prop('checked', selectAll);
+    });
+  });
+</script>
     
   <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
-    

@@ -21,8 +21,13 @@
      	SELECT * FROM EMP_VACATION_VIEW WHERE emp_no = #{empNo} AND (status = 0 or status = 2)
      </select>
      
-     <!-- 연차사용  결재완료시 만들어야함-->
+     <!-- 연차사용 -->
      <insert id="add">
      	insert into vacation values(vacation_seq.nextval,#{empNo},#{vacationName},#{startDate},#{endDate},#{useCount},#{reason},0,sysdate)
      </insert>
+     
+     <!-- 관리자페이지 사원 연차 사용조회 -->
+     <select id="oneList" resultType="VacationVO">
+          	select * from emp_vacation_view where vacation_no= #{vacationNo}
+     </select>
     </mapper>

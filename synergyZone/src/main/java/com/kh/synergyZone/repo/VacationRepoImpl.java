@@ -6,6 +6,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.synergyZone.dto.VacationDto;
+import com.kh.synergyZone.dto.VacationInfoDto;
 import com.kh.synergyZone.vo.VacationVO;
 
 @Repository
@@ -35,6 +37,12 @@ public class VacationRepoImpl implements VacationRepo {
 	public void insert(VacationVO vo) {
 		sqlSession.insert("vacation.add",vo);
 		
+	}
+	
+	
+	@Override
+	public VacationVO oneList(int vacationNo) {
+		return sqlSession.selectOne("vacation.oneList",vacationNo);
 	}
 	
 }

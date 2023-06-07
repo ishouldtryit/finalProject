@@ -17,5 +17,6 @@ public interface VacationInfoRepo {
 	
 	//사원 연차 전체조회
 	List<VacationInfoDto> list();
+
 	
 }

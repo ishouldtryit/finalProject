@@ -114,9 +114,7 @@ public class WorkBoardController {
    @GetMapping("/supList")
    public String supList(HttpSession session, Model model) {
        String workSup = (String) session.getAttribute("empNo");
-       
        model.addAttribute("supList", workReportRepo.supList(workSup));
-       
        return "workboard/supList";
    }
 

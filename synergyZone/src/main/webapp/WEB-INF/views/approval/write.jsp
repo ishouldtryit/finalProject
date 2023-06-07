@@ -582,11 +582,17 @@
     	  	this.deptEmpList = [];
     	    this.loadData();
     	},
-      search() {	//이름 검색
+      async search() {	//이름 검색
     	  	this.deptEmpList = [];
-    	    this.loadData();
+    	    await this.loadData();
+    	    for(let i=0; i<this.deptEmpList.length; i++){
+	    	    if (this.deptEmpList[i].employeeList.length > 0) { //검색 결과가 있는 항목 펼치기
+	    	        this.deptEmpList[i].showEmployeeList = true;
+	    	      }
+    	    }
+    	    
     	},
-   	getAttachmentUrl(attachmentNo) { //프로필 사진 주소
+		getAttachmentUrl(attachmentNo) { //프로필 사진 주소
    	      if (attachmentNo === null) {
    	        return "/static/img/dummydog.jpg";
    	      } else {

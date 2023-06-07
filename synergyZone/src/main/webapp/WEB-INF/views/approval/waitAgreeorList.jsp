@@ -23,9 +23,15 @@
 	       			<option value="emp_name">기안자</option>
 	       		</select>
        		</div>
-		    <div class="input-group mb-3 ms-3" style="width:300px;">
+		    <div class="input-group mb-3 ms-3 col-1" style="width:300px;">
 		      <input type="text" class="form-control" placeholder="검색어" v-model="ApprovalWithPageVO.paginationVO.keyword">
 		      <button class="btn btn-info" type="button" @click="changeSearchPage">검색</button>
+		    </div>
+		    <div class="ms-3 col">
+		      <button class="btn btn-info" type="button" @click="loadData">
+		      <i class="fa-solid fa-list-ul"></i>
+		       전체 목록
+		      </button>
 		    </div>
        </div>
        <div class="row mb-2 d-flex align-items-center">

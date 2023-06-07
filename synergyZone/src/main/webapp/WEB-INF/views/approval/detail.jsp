@@ -85,7 +85,13 @@
         	  const loginUser = this.ApprovalDataVO.loginUser; //로그인 유저
         	  const waitApproval = this.ApprovalDataVO.approvalWithDrafterDto.resultCode == 0; //결재 대기 중
         	  return drafterNo === loginUser && waitApproval;
-          }
+          },
+          isDrafterAndIsRecall(){//작성자인지, 결재진행중인지 검사
+        	  const drafterNo = this.ApprovalDataVO.approvalWithDrafterDto.drafterNo; //작성자 아이디
+        	  const loginUser = this.ApprovalDataVO.loginUser; //로그인 유저
+        	  const isRecall = this.ApprovalDataVO.approvalWithDrafterDto.statusCode == 1; //회수 상태
+        	  return drafterNo === loginUser && isRecall;
+          },
     },
     
     methods: {
@@ -94,7 +100,7 @@
             const draftNo = urlParams.get("draftNo");
             
             const resp = await axios.get("/rest/approval/detail/"+draftNo);
-            this.ApprovalDataVO = resp.data;
+            this.ApprovalDataVO = Vue.readonly(resp.data); //개발툴에서 조작 금지
         },
         
 

@@ -70,6 +70,7 @@ public class BookmarkController {
    // 즐겨찾기한 사원 목록
    @GetMapping("/mylist")
    public String myList(Model model, @ModelAttribute("vo") PaginationVO vo, HttpSession session,
+		   			@RequestParam(required = false, defaultValue = "") String empNo,
                         @RequestParam(required = false, defaultValue = "1") int page,
                         @RequestParam(required = false, defaultValue = "") String sort,
                         @RequestParam(required = false, defaultValue = "") String column,
@@ -84,10 +85,15 @@ public class BookmarkController {
 
        // 검색
        if (!column.isEmpty() && !keyword.isEmpty()) {
-           employees = employeeService.searchEmployees(column, keyword);
+    	   employees = employeeService.searchEmployees(column, keyword);
        } else {
            employees = employeeRepo.list();
        }
+       if (empNo != null) {
+    	    model.addAttribute("profile", employeeProfileRepo.find(empNo));
+    	}
+       
+       
 
        // 페이징 처리
        int totalCount = bookmarkRepo.checkOwnerCount(ownerNo); // 전체 데이터 개수
@@ -97,7 +103,7 @@ public class BookmarkController {
        int startIndex = (page - 1) * size; // 데이터의 시작 인덱스
        int endIndex = Math.min(startIndex + size, totalCount); // 데이터의 종료 인덱스
 
-       List<EmployeeInfoDto> pagedEmployees = employees.subList(startIndex, endIndex); // 페이지에 해당하는 데이터만 추출
+       List<EmployeeInfoDto> pagedEmployees = employees.subList(startIndex, Math.min(endIndex, employees.size()));
 
        // 직위, 부서별 조회
        List<DepartmentDto> departments = departmentRepo.list();

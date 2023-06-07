@@ -10,19 +10,27 @@
 
 <div class="container-800" style="margin-left: 5%;">
     <!-- 검색창 -->
-    <form class="d-flex" action="mylist" method="get">
-        <select name="column" class="form-input me-sm-2">
-            <option value="emp_name" ${column eq 'emp_name' ? 'selected' : ''}>이름</option>
-            <option value="emp_no" ${column eq 'emp_no' ? 'selected' : ''}>사원번호</option>
-            <option value="dept_name" ${column eq 'dept_name' ? 'selected' : ''}>부서</option>
-            <option value="job_name" ${column eq 'job_name' ? 'selected' : ''}>직위</option>
-        </select>
+		<form class="d-flex" action="mylist" method="get">
+	    <select name="column" class="form-input me-sm-2">
+	        <option value="emp_name" ${column eq 'emp_name' ? 'selected' : ''}>이름</option>
+	        <option value="emp_no" ${column eq 'emp_no' ? 'selected' : ''}>사원번호</option>
+	        <option value="dept_name" ${column eq 'dept_name' ? 'selected' : ''}>부서</option>
+	        <option value="job_name" ${column eq 'job_name' ? 'selected' : ''}>직위</option>
+	    </select>
+	
+	    <input class="form-control me-sm-2" type="search" placeholder="검색어" name="keyword" value="${param.keyword}" style="width: 13%;">
+	    <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
+	    <button type="button" id="deleteBtn" class="btn btn-danger">선택된 사원 삭제</button>
+	</form>
+	
+	<!-- 데이터 없음 알림 -->
+	<c:if test="${empty employees}">
+	    <div class="alert alert-warning mt-3" role="alert">
+	        알맞은 검색 결과가 없습니다.
+	    </div>
+	</c:if>
 
-        <input class="form-control me-sm-2" type="search" placeholder="검색어" name="keyword" value="${param.keyword}" style="width: 13%;">
-        <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
-    <button type="button" id="deleteBtn" class="btn btn-danger">선택된 사원 삭제</button>
-    </form>
-    
+
 		<!-- 사원 목록 테이블 -->
 		<div class="row">
 		  <div class="col" style="margin: 0 auto;">
@@ -158,25 +166,25 @@
 
 
 		<!-- 페이징 영역 -->
-		<div style="display: flex; justify-content: center;">
-		  <ul class="pagination" style="width: 20%;">
-		    <li class="page-item ${vo.isFirst() ? 'disabled' : ''}">
-		      <a class="page-link" href="${vo.isFirst() ? '#' : pageContext.request.contextPath}/bookmark/mylist?page=${vo.getPrevPage()}">&laquo;</a>
-		    </li>
-		    <c:forEach var="i" begin="${vo.getStartBlock()}" end="${vo.getFinishBlock()}">
-		      <li class="page-item">
-		        <a class="page-link ${vo.getPage() eq i ? 'active' : ''}" href="${pageContext.request.contextPath}/bookmark/mylist?page=${i}&sort=${param.sort}">
-		          <span class="text-info">${i}</span>
-		        </a>
-		      </li>
-		    </c:forEach> 
-		    <li class="page-item ${vo.isLast() ? 'disabled' : ''}">
-		      <a class="page-link" href="${vo.isLast() ? '#' : pageContext.request.contextPath}/bookmark/mylist?page=${vo.getNextPage()}&sort=${param.sort}">
-		        <span class="text-info">&raquo;</span>
-		      </a>
-		    </li>
-		  </ul>
-		</div>
+<div style="display: flex; justify-content: center;">
+    <ul class="pagination" style="width: 20%;">
+        <li class="page-item ${vo.isFirst() ? 'disabled' : ''}">
+            <a class="page-link" href="${vo.isFirst() ? '#' : pageContext.request.contextPath}/bookmark/mylist?page=${vo.getPrevPage()}">&laquo;</a>
+        </li>
+        <c:forEach var="i" begin="${vo.getStartBlock()}" end="${vo.getFinishBlock()}">
+            <li class="page-item">
+                <a class="page-link ${vo.getPage() eq i ? 'active' : ''}" href="${pageContext.request.contextPath}/bookmark/mylist?page=${i}&sort=${param.sort}">
+                    <span class="text-info">${i}</span>
+                </a>
+            </li>
+        </c:forEach>
+        <li class="page-item ${vo.isLast() ? 'disabled' : ''}">
+            <a class="page-link" href="${vo.isLast() ? '#' : pageContext.request.contextPath}/bookmark/mylist?page=${vo.getNextPage()}&sort=${param.sort}">
+                <span class="text-info">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</div>
 
 </div>
 

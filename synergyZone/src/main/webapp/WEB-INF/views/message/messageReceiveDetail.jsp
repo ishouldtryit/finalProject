@@ -5,26 +5,107 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/message.css">
+  <style>
+    .message-detail {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #F8F8F8;
+      border: 1px solid #DDD;
+      border-radius: 5px;
+    }
+  
+    .message-detail h1 {
+      font-size: 24px;
+      margin: 0;
+      margin-bottom: 20px;
+    }
+  
+    .message-actions {
+      margin-bottom: 20px;
+    }
+  
+    .message-actions button,
+    .message-actions a {
+      display: inline-block;
+      margin-right: 10px;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 4px;
+      color: #FFF;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+  
+    .message-actions button.message-delete-btn {
+      background-color: #E74C3C;
+    }
+  
+    .message-actions button.message-reply-btn {
+      background-color: #9DACE4;
+    }
+  
+    .message-actions a.message-list-btn {
+      background-color: #9DACE4;
+      text-decoration: none;
+    }
+  
+    .message-actions button,
+    .message-actions a {
+      font-size: 14px;
+    }
+  
+    .message-info {
+      margin-bottom: 20px;
+    }
+  
+    .message-info .d-flex {
+      align-items: center;
+    }
+  
+    .message-info .d-flex .profile-image {
+      margin-right: 10px;
+    }
+  
+    .message-info .d-flex .profile-image img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+  
+    .message-info .sender-info,
+    .message-info .recipient-info {
+      font-size: 14px;
+      font-weight: bold;
+    }
+  
+    .message-content {
+      font-size: 16px;
+    }
+  </style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
-
+<script>
+  var messageNo = parseInt("${messageWithNickDto.getMessageNo()}");
+  var messageSender = "${messageWithNickDto.getMessageSender()}";
+</script>
 <div class="container">
   <script src="${pageContext.request.contextPath}/static/js/message/messageReceiveDetail.js"></script>
-  <jsp:include page="/WEB-INF/views/message/messageAside.jsp"></jsp:include>
+  <jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/message/messageAside.jsp"></jsp:include>
 
   <div class="message-detail">
-    <h1>제목 : ${messageWithNickDto.messageTitle}</h1>
+    <h1>제목: ${messageWithNickDto.messageTitle}</h1>
     <div class="message-actions">
       <button class="message-delete-btn">
-        <i class="fa-solid fa-xmark" style="color:red;"></i> 삭제
+        <i class="fa-solid fa-xmark" style="color:white;"></i> 삭제
       </button>
       <button class="message-reply-btn">
-        <i class="fa-solid fa-reply" style="color: #9DACE4;"></i> 답장
-      </button>
+      <i class="fa-solid fa-reply" style="color: white;"></i> 답장
+    </button>
       <a href="${pageContext.request.contextPath}/message/receive" class="message-list-btn">
-        <i class="fa-solid fa-list" style="color: #9DACE4;"></i> 목록
+        <i class="fa-solid fa-list" style="color: white;"></i> 목록
       </a>
     </div>
     <div class="message-info">
@@ -39,12 +120,11 @@
               </c:otherwise>
           </c:choose>" alt="" style="border-radius: 50%;">
         </div>
-          <div class="sender-info mt-2">
-			    <b class="mt-2 ml-2">보낸사람:</b>
-			    ${messageWithNickDto.messageSenderNick} (${messageWithNickDto.messageSender})
-			    [<fmt:formatDate value="${messageWithNickDto.messageSendTime}" pattern="yyyy.MM.dd. H:m"/>]
-		</div>
-
+        <div class="sender-info mt-2">
+          <b class="mt-2 ml-2">보낸사람:</b>
+          ${messageWithNickDto.messageSenderNick} (${messageWithNickDto.messageSender})
+          [<fmt:formatDate value="${messageWithNickDto.messageSendTime}" pattern="yyyy.MM.dd. H:m"/>]
+        </div>
       </div>
       <hr>
       <div class="d-flex">
@@ -59,7 +139,7 @@
           </c:choose>" alt="" style="border-radius: 50%;">
         </div>
         <div class="recipient-info mt-2">
-          <b class="mt-2 ml-2">받은사람 :</b>
+          <b class="mt-2 ml-2">받은사람:</b>
           ${messageWithNickDto.messageRecipientNick} (${messageWithNickDto.messageRecipient})
           [<fmt:formatDate value="${messageWithNickDto.messageReadTime}" pattern="yyyy.MM.dd. H:m"/>]
         </div>

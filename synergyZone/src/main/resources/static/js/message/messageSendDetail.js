@@ -14,6 +14,7 @@ $(function () {
       error: function () {
         console.log("받은 메세지 삭제 통신 에러!!!!");
       },
-    });
-  });
+    })
+    })
+    
 });

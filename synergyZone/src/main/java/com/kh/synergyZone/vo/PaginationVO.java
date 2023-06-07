@@ -151,19 +151,24 @@ public class PaginationVO {
 	}
   
   // 정렬 항목
-  private String sort = "member_regdate desc";
+	private String sort = "member_regdate desc";
 
   // sort 정의 
-  public String getSort() {
-    return sort;
-  }
+	public String getSort() {
+	    return sort;
+	}
 
-  public void setSort(String sort) {
-    this.sort = sort;
-  }
+	public void setSort(String sort) {
+	    this.sort = sort;
+	}
   
-  // 쿼리스트링(column + keyword) 생성
-  public String getQueryString() {
-    return this.keyword.equals("") ? "" : "&column=" + this.column + "&keyword=" + this.keyword;
-  }
+	// 쿼리스트링(column + keyword) 생성
+	public String getQueryString() {
+	    if (this.keyword.equals("")) {
+	        return "";
+	    } else {
+	        return "&column=" + this.column + "&keyword=" + this.keyword + "&sort=" + this.sort;
+	    }
+	}
+
 }

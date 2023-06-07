@@ -58,7 +58,6 @@
 					  </div>
 					  <div class="card-body">
 					    	{{ApprovalDataVO.approvalWithDrafterDto.draftContent}}
-					    	
 					  </div>
 			  </div>
 		  </div>

@@ -527,7 +527,7 @@
 		<!-- 계층형 조회 서브 구문 (결재자) -->
 		<select id="approverDataSelect" resultType="approverVO">
 			select * from 
-			approver AP inner join employee EMP on AP.approver_no = EMP.emp_no 
+			approver AP inner join search_info EMP on AP.approver_no = EMP.emp_no 
 			where draft_no = #{draftNo}
 			order by approver_order asc
 		</select>
@@ -535,21 +535,21 @@
 		<!-- 계층형 조회 서브 구문 (합의자) -->
 		<select id="agreeorDataSelect" resultType="agreeorVO">
 			select * from 
-			agreeor AG inner join employee EMP on AG.agreeor_no = EMP.emp_no
+			agreeor AG inner join search_info EMP on AG.agreeor_no = EMP.emp_no
 			where draft_no = #{draftNo}
 		</select>
 		
 		<!-- 계층형 조회 서브 구문 (참조자) -->
 		<select id="recipientDataSelect" resultType="recipientVO">
 			select * from 
-			recipient RECP inner join employee EMP on RECP.recipient_no = EMP.emp_no
+			recipient RECP inner join search_info EMP on RECP.recipient_no = EMP.emp_no
 			where draft_no = #{draftNo}
 		</select>
 		
 		<!-- 계층형 조회 서브 구문 (열람자)-->
 		<select id="readerDataSelect" resultType="readerVO">
 			select * from 
-			reader RD inner join employee EMP on RD.reader_no = EMP.emp_no
+			reader RD inner join search_info EMP on RD.reader_no = EMP.emp_no
 			where draft_no = #{draftNo}
 		</select>
     	

@@ -27,22 +27,53 @@ public class ApprovalController {
 		return "/approval/write";
 	}
 	
-	@GetMapping("/list")
-	public String list() {
-		return "/approval/list";
+	//관리자 페이지
+	@GetMapping("/adminList")
+	public String adminList() {
+		return "/admin/approval/adminList";
 	}
 	
+	//내 기안서 목록
+	@GetMapping("/myList")
+	public String myList() {
+		return "/approval/myList";
+	}
+	
+	//결재자 대기 목록
+	@GetMapping("/waitApproverList")
+	public String waitApproverList() {
+		return "/approval/waitApproverList";
+	}
+	
+	//합의자 대기 목록
+	@GetMapping("/waitAgreeorList")
+	public String waitAgreeorList() {
+		return "/approval/waitAgreeorList";
+	}
+	
+	//참조 문서 목록
+	@GetMapping("/recipientList")
+	public String recipientList() {
+		return "/approval/recipientList";
+	}
+	
+	//열람 문서 목록
+	@GetMapping("/readerList")
+	public String readerList() {
+		return "/approval/readerList";
+	}
+	
+	//기안서 상세 페이지
 	@GetMapping("/detail")
-	public String detail(Model model, @RequestParam int draftNo) {
-		model.addAttribute("approvalDto", approvalRepoImpl.selectOne(draftNo));
+	public String detail(@RequestParam int draftNo) {
 		return "/approval/detail";
 	}
 	
-	@GetMapping("/edit")
-	public String edit(Model model, @RequestParam int draftNo) {
-		model.addAttribute("approvalDto", approvalRepoImpl.selectOne(draftNo));
-		return "/approval/edit";
-	}
+//	@GetMapping("/edit")
+//	public String edit(Model model, @RequestParam int draftNo) {
+//		model.addAttribute("approvalDto", approvalRepoImpl.selectOne(draftNo));
+//		return "/approval/edit";
+//	}
 	
 	@PostMapping("/edit")
 	public String edit(@ModelAttribute ApprovalDto approvalDto) {

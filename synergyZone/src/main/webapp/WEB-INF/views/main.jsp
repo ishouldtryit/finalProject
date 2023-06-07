@@ -305,7 +305,10 @@ html, body {
                </div>
                <hr>
                <div>
+                  <vue-datepicker style="margin-left: 35px;"
+                     :current-date="currentDate"></vue-datepicker>
                   <div v-model="selectedDate" ref="datepicker" style="margin-left: 38px;"></div>
+
                   <hr>
                   <div>
                      <div>

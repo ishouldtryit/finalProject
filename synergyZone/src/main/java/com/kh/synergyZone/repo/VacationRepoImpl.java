@@ -20,8 +20,8 @@ public class VacationRepoImpl implements VacationRepo {
 	
 	//관리자
 	@Override
-	public List<VacationVO> adminList(VacationVO vo) {
-		return sqlSession.selectList("vacation.adminList",vo);
+	public List<VacationVO> adminList() {
+		return sqlSession.selectList("vacation.adminList");
 	}
 	
 	//대기열

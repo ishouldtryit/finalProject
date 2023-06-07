@@ -134,7 +134,7 @@ html, body {
                class="bi bi-pencil-square fs-3 d-flex justify-content-center mt-4"></i>
                <p class="text-center">업무</p>
             </a> 
-            <a href="board.html"> <i
+            <a href="${pageContext.request.contextPath}/board/list"> <i
                class="bi bi-clipboard fs-3 d-flex justify-content-center mt-4"></i>
                <p class="text-center">게시판</p>
             </a> 
@@ -307,7 +307,10 @@ html, body {
                </div>
                <hr>
                <div>
+                  <vue-datepicker style="margin-left: 35px;"
+                     :current-date="currentDate"></vue-datepicker>
                   <div v-model="selectedDate" ref="datepicker" style="margin-left: 38px;"></div>
+
                   <hr>
                   <div class="fw-bold p-2 ms-2">
                      <div class="mb-1">

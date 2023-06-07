@@ -12,8 +12,8 @@ public class VacationVO {
 	private Date startDate;
 	private Date endDate;
 	private Date usedDate;
-	private int useCount;
-	private int stauts;
+	private double useCount;
+	private int status;
 	private String reason;
 	
 	private String empName;

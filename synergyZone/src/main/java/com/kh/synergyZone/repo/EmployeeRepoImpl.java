@@ -125,8 +125,24 @@ public class EmployeeRepoImpl implements EmployeeRepo {
 
 	//부서별 사원목록
 	@Override
-	public List<DeptEmpListVO> treeSelect() {
-		return sqlSession.selectList("employee.treeSelect");
+	public List<DeptEmpListVO> treeSelect(String empName) {
+		  List<DeptEmpListVO> resultList = sqlSession.selectList("employee.treeSelect");
+		  
+		  for (DeptEmpListVO deptEmpListVO : resultList) {
+		    List<EmployeeInfoDto> employeeList = sqlSession.selectList("employee.treeSelectSub", 
+                            new HashMap<String, Object>() {/**
+								 * 
+								 */
+								private static final long serialVersionUID = 1L;
+
+							{
+                                put("deptNo", deptEmpListVO.getDepartmentDto().getDeptNo());
+                                put("empName", empName);
+                            }});
+		    deptEmpListVO.setEmployeeList(employeeList);
+		  }
+		  
+		  return resultList;
 	}
 
 	@Override

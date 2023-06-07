@@ -34,11 +34,11 @@ public class HomeController {
 		private LoginRecordRepo loginRecordRepo;
 		
 		@GetMapping("/")
-	      public String home(Model model, HttpSession session, @ModelAttribute CommuteRecordDto commuteRecordDto) {
+		public String home(Model model, HttpSession session, @ModelAttribute CommuteRecordDto commuteRecordDto) {
 	         String empNo = (String) session.getAttribute("empNo");
 	          if (empNo != null) {            
 	            //오늘 근무정보
-	            
+	        	  model.addAttribute("w",commuteRecordRepo.today(empNo));
 	     
 	            // 프로필 사진 조회
 	            EmployeeProfileDto profile = employeeProfileRepo.find(empNo); // 프로필 정보 조회
@@ -48,7 +48,7 @@ public class HomeController {
 	          
 	          return "login";
 	      }
-		    
+
 		
 		//로그인
 				@GetMapping("/login")
@@ -83,6 +83,11 @@ public class HomeController {
 					return "redirect:/";
 				}
 		
+			@GetMapping("/testHome")	
+			public String testHome() {
+				return "/home";
+			}
+				
 		
 		@PostMapping("/testuser1")
 		public String loginTestuser1(

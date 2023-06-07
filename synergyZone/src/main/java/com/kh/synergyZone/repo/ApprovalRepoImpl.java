@@ -12,7 +12,7 @@ import com.kh.synergyZone.dto.ApproverDto;
 import com.kh.synergyZone.dto.ReaderDto;
 import com.kh.synergyZone.dto.RecipientDto;
 import com.kh.synergyZone.vo.ApprovalDataVO;
-import com.kh.synergyZone.vo.PaginationVO;
+import com.kh.synergyZone.vo.ApprovalPaginationVO;
 
 @Repository
 public class ApprovalRepoImpl implements ApprovalRepo {
@@ -26,13 +26,8 @@ public class ApprovalRepoImpl implements ApprovalRepo {
 	}
 
 	@Override
-	public List<ApprovalDataVO> selectList(PaginationVO vo) {
-		return sqlSession.selectList("approval.approvalDataSelect", vo);
-	}
-
-	@Override
-	public ApprovalDto selectOne(int draftNo) {
-		return sqlSession.selectOne("approval.selectOne", draftNo);
+	public ApprovalDataVO approvalDataSelectOne(int draftNo) {
+		return sqlSession.selectOne("approval.approvalDataSelectOne", draftNo);
 	}
 
 	@Override
@@ -71,24 +66,65 @@ public class ApprovalRepoImpl implements ApprovalRepo {
 	}
 	
 	@Override
-	public List<ApprovalDataVO> selectListDrafter(PaginationVO vo) {
-		return sqlSession.selectList("approval.approvalDrafterDataSelect");
-	}
-
-	@Override
-	public int approvalDataCount(PaginationVO vo) {
+	public int approvalDataCount(ApprovalPaginationVO vo) {
 		return sqlSession.selectOne("approval.approvalDataCount", vo);
 	}
-
+	
 	@Override
-	public List<ApprovalDataVO> searchList(PaginationVO vo) {
-		return sqlSession.selectList("approval.approvalDataSearch", vo);
+	public List<ApprovalDataVO> approvalDataSelectList(ApprovalPaginationVO vo) {
+		return sqlSession.selectList("approval.approvalDataSelectList", vo);
+	}
+	
+	@Override
+	public int myApprovalDataCount(ApprovalPaginationVO vo) {
+		return sqlSession.selectOne("approval.myApprovalDataCount", vo);
 	}
 
 	@Override
-	public int searchListCount(PaginationVO vo) {
-		return sqlSession.selectOne("approval.searchListCount", vo);
+	public List<ApprovalDataVO> myApprovalDataSelectList(ApprovalPaginationVO vo) {
+		return sqlSession.selectList("approval.myApprovalDataSelectList", vo);
 	}
+
+	@Override
+	public int waitApproverApprovalDataCount(ApprovalPaginationVO vo) {
+		 return sqlSession.selectOne("approval.waitApproverApprovalDataCount", vo);
+	}
+
+	@Override
+	public List<ApprovalDataVO> waitApproverApprovalDataSelectList(ApprovalPaginationVO vo) {
+		return sqlSession.selectList("approval.waitApproverApprovalDataSelectList", vo);
+	}
+
+	@Override
+	public int waitAgreeorApprovalDataCount(ApprovalPaginationVO vo) {
+		return sqlSession.selectOne("approval.waitAgreeorApprovalDataCount", vo);
+	}
+
+	@Override
+	public List<ApprovalDataVO> waitAgreeorApprovalDataSelectList(ApprovalPaginationVO vo) {
+		return sqlSession.selectList("approval.waitAgreeorApprovalDataSelectList", vo);
+	}
+
+	@Override
+	public int recipientApprovalDataCount(ApprovalPaginationVO vo) {
+		return sqlSession.selectOne("approval.recipientApprovalDataCount", vo);
+	}
+
+	@Override
+	public List<ApprovalDataVO> recipientApprovalDataSelectList(ApprovalPaginationVO vo) {
+		return sqlSession.selectList("approval.recipientApprovalDataSelectList", vo);
+	}
+
+	@Override
+	public int readerApprovalDataCount(ApprovalPaginationVO vo) {
+		return sqlSession.selectOne("approval.readerApprovalDataCount", vo);
+	}
+
+	@Override
+	public List<ApprovalDataVO> readerApprovalDataSelectList(ApprovalPaginationVO vo) {
+		return sqlSession.selectList("approval.readerApprovalDataSelectList", vo);
+	}
+
 
 
 

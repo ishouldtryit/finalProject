@@ -76,7 +76,6 @@ public class WorkBoardServiceImpl implements WorkBoardService{
 	        }
 	    }
 	    
-	    System.out.println("Selected file count: " + attachments.size());
 	 }
 
 	@Override

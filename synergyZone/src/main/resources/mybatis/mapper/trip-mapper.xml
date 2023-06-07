@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="trip">
+	<!-- 출장/외근 추가 -->
+	<insert id="insert">
+		insert into trip(TRIP_NO,EMP_NO,START_PLACE,MIDDLE_PLACE,END_PLACE,
+				PLACE,WORK,PURPOSE,NOTES,STARTDate,ENDDATE,STATUS,NAME) values (
+					trip_seq.nextval,#{empNo},#{startPlace},#{middlePlace},#{endPlace},#{place}
+					,#{work},#{purpose},#{notes},#{startDate},#{endDate},0,#{name}
+				)
+	</insert>
+	<!-- 출장 대상자 추가 -->
+	<insert id="personInsert">
+		insert into trip_person values (#{empNo},#{tripNo}) 
+	</insert>
+	
+	
+	<!-- 개인출장 리스트조회 -->
+	<select id="tripList" resultType="TripDto">
+		select * from trip where emp_no = #{emp_no} where status=0
+	</select>
+	
+	<!-- 출장대상자 리스트 조회 -->
+	<select id="personList" resultType="TripPersonDto">
+		select * from trip_person where trip_no= #{tripNo}
+	</select>
+
+</mapper>

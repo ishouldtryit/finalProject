@@ -8,7 +8,7 @@ public interface VacationRepo {
 	//연차사용 리스트
 	List<VacationVO> selectList(VacationVO vo);
 	//관리자 사용
-	List<VacationVO> adminList(VacationVO vo);
+	List<VacationVO> adminList();
 	//대기열 
 	List<VacationVO> queue(VacationVO vo);
 	

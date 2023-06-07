@@ -13,6 +13,10 @@ public class ApproverVO {
 	private String approverNo;	//결재자 사원번호
 	private int draftNo;	//기안서 번호
 	private int approverOrder;	//결재 순서
+	private int approved;	//결재 여부
+	private int returned;	//반려 여부
+	private String returnReason;	//반려 사유
+	private String approvalReason;	//결재 사유
 	private String empName;
     private String empEmail;
     private String empPhone;

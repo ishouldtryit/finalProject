@@ -303,15 +303,41 @@ public class ApprovalRestController {
 		}
 
 		//문서 회수
-		@PatchMapping("/detail/recall/{draftNo}")
+		@PatchMapping("/recall/{draftNo}")
 		public void approvalRecall(@PathVariable int draftNo) {
 			approvalRepoImpl.recallApproval(draftNo);
 		}
 		
 		//재기안
-		@PatchMapping("/detail/reApproval/{draftNo}")
+		@PatchMapping("/reApproval/{draftNo}")
 		public void reApproval(@PathVariable int draftNo) {
 			approvalRepoImpl.reApproval(draftNo);
+		}
+		
+		//결재
+		@PatchMapping("/draftApproval/{draftNo}")
+		public void approved (@PathVariable int draftNo, @RequestBody ApproverDto dto, HttpSession session) {
+			String empNo = session.getAttribute("empNo") == null ? null : (String) session.getAttribute("empNo");
+			dto.setApproverNo(empNo);
+			dto.setDraftNo(draftNo);
+			approvalRepoImpl.draftApproval(dto);	//결재 승인
+			approvalRepoImpl.draftApprovalReason(dto);	//결재 의견
+			
+			int statusCode = approvalRepoImpl.draftSelectOne(draftNo).getStatusCode();
+			int approverCount = approvalRepoImpl.approverCount(draftNo);
+			if(statusCode==approverCount) {	//결재 완료
+				approvalRepoImpl.approved(dto);
+			}
+		}
+		
+		//반려
+		@PatchMapping("/draftReturn/{draftNo}")
+		public void returned (@PathVariable int draftNo, @RequestBody ApproverDto dto, HttpSession session) {
+			String empNo = session.getAttribute("empNo") == null ? null : (String) session.getAttribute("empNo");
+			dto.setApproverNo(empNo);
+			dto.setDraftNo(draftNo);
+			approvalRepoImpl.draftReturn(dto);	//결재 승인
+			approvalRepoImpl.draftReturnReason(dto);	//결재 의견
 		}
 	
 }

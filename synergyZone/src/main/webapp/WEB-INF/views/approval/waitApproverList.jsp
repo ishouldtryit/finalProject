@@ -15,7 +15,7 @@
     	<div class="row">
     	<div class="col-10 offset-sm-1">  
        <div class="row mb-3">
-           <h3>결재 대기 목록</h3>
+           <h3>결재 수신 문서함</h3>
        </div>
        <div class="row mb-3 ">
        		<div class="col-2" style=" width:150px;">
@@ -29,7 +29,7 @@
 		      <button class="btn btn-info" type="button" @click="changeSearchPage">검색</button>
 		    </div>
 		    <div class="ms-3 col">
-		      <button class="btn btn-info" type="button" @click="loadData">
+		      <button class="btn btn-info" type="button" @click="allList">
 		      <i class="fa-solid fa-list-ul"></i>
 		       전체 목록
 		      </button>
@@ -212,6 +212,12 @@
                 async loadData(){
                     const resp = await axios.get("/rest/approval/waitApproverList");
                     this.ApprovalWithPageVO = resp.data;
+                },
+                
+                
+                async allList(){ //전체 목록 호출
+                	await this.loadData();	
+                	this.pageStatus = "allPage";
                 },
                 
                 //페이지 이동

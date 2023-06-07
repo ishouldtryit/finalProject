@@ -29,7 +29,7 @@
 		      <button class="btn btn-info" type="button" @click="changeSearchPage">검색</button>
 		    </div>
 		    <div class="ms-3 col">
-		      <button class="btn btn-info" type="button" @click="loadData">
+		      <button class="btn btn-info" type="button" @click="allList">
 		      <i class="fa-solid fa-list-ul"></i>
 		       전체 목록
 		      </button>
@@ -209,6 +209,12 @@
                 async loadData(){
                     const resp = await axios.get("/rest/approval/readerList");
                     this.ApprovalWithPageVO = resp.data;
+                },
+                
+                
+                async allList(){ //전체 목록 호출
+                	await this.loadData();	
+                	this.pageStatus = "allPage";
                 },
                 
                 //페이지 이동

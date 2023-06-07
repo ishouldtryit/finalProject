@@ -27,11 +27,11 @@
 	       		</select>
        		</div>
 		    <div class="input-group mb-3 ms-3 col-3" style="width:300px;">
-		      <input type="search" class="form-control" placeholder="검색어" v-model="ApprovalWithPageVO.paginationVO.keyword">
+		      <input type="search" class="form-control" placeholder="검색어" v-model="ApprovalWithPageVO.paginationVO.keyword" @keyup.enter="changeSearchPage">
 		      <button class="btn btn-info" type="button" @click="changeSearchPage">검색</button>
 		    </div>
 		    <div class="ms-3 col-3">
-		      <button class="btn btn-info" type="button" @click="loadData">
+		      <button class="btn btn-info" type="button" @click="allList">
 		      <i class="fa-solid fa-list-ul"></i>
 		       전체 목록
 		      </button>
@@ -211,6 +211,11 @@
                 async loadData(){
                     const resp = await axios.get("/rest/approval/adminList");
                     this.ApprovalWithPageVO = resp.data;
+                },
+                
+                async allList(){ //전체 목록 호출
+                	await this.loadData();	
+                	this.pageStatus = "allPage";
                 },
                 
                 //페이지 이동

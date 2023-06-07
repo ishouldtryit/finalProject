@@ -219,7 +219,6 @@
 						selectedValue : selectedValue
 					},
 					success : function(data) {
-							console.log(data);
 							var table = createTable(data);
 							$("#table-container").empty().append(table);
 						

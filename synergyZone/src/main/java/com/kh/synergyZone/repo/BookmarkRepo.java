@@ -10,4 +10,5 @@ public interface BookmarkRepo {
 	void removeFromBookmark(String bookmarkNo);
 	List<BookmarkDto> getMyList(String ownerNo);
 	boolean existsBookmark(String ownerNo, String bookmarkNo);
+	int checkOwnerCount(String ownerNo);
 }

@@ -2,7 +2,8 @@ $(function () {
   // 쿼리스트링으로 전달받은 대상 처리
   const queryString = new URLSearchParams(location.search);
   const promiseRecipient = queryString.get("recipient");
-  const empNo = queryString.get("empNo");
+  
+	console.log("empNO : " +empNo);
 
   // 메세지 입력창
   const recipientInput = $("#message-recipient-input");
@@ -191,15 +192,17 @@ $(function () {
     $(".message-recipient-ele").remove();
     countRecipient();
   }
+
   // 내게 쓰기 (체인지 이벤트)
-  messageToMeBtn.change(function () {
-    if ($(this).prop("checked")) {
-      toMeFn();
-    } else {
-      removeRecipientEle();
-      $("[name=messageRecipient]").val("").removeAttr("disabled");
-    }
-  });
+messageToMeBtn.change(function () {
+  if ($(this).prop("checked")) {
+    toMeFn();
+    $("#message-recipient-input").val(empNo);
+  } else {
+    removeRecipientEle();
+    $("[name=messageRecipient]").val("").removeAttr("disabled");
+  }
+});
   // 받는 사람 숫자 class적용
   function countRecipient() {
     const recipientEleCnt = $(".message-recipient-ele").length;

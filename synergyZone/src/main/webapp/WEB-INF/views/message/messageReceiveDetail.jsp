@@ -5,9 +5,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/message.css">
   <style>
-    /* 추가된 스타일 */
     .message-detail {
       max-width: 800px;
       margin: 0 auto;
@@ -89,7 +87,10 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
-
+<script>
+  var messageNo = parseInt("${messageWithNickDto.getMessageNo()}");
+  var messageSender = "${messageWithNickDto.getMessageSender()}";
+</script>
 <div class="container">
   <script src="${pageContext.request.contextPath}/static/js/message/messageReceiveDetail.js"></script>
   <jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/message/messageAside.jsp"></jsp:include>
@@ -101,8 +102,8 @@
         <i class="fa-solid fa-xmark" style="color:white;"></i> 삭제
       </button>
       <button class="message-reply-btn">
-        <i class="fa-solid fa-reply" style="color: white;"></i> 답장
-      </button>
+      <i class="fa-solid fa-reply" style="color: white;"></i> 답장
+    </button>
       <a href="${pageContext.request.contextPath}/message/receive" class="message-list-btn">
         <i class="fa-solid fa-list" style="color: white;"></i> 목록
       </a>

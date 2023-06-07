@@ -28,6 +28,10 @@
 	<select id="checkBookmarkNo" parameterType="String" resultType="int">
 		SELECT COUNT(*) FROM bookmark WHERE bookmark_no = #{bookmarkNo}
 	</select>
+	
+	<select id="checkOwnerCount" resultType="int">
+		select count(*) from bookmark where owner_no =#{ownerNo}
+	</select>
 
 	<select id="getMyList" parameterType="String" resultType="BookmarkDto">
 		SELECT *

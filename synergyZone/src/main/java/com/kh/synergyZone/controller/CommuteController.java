@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.synergyZone.dto.CommuteRecordDto;
 import com.kh.synergyZone.dto.TripDto;
@@ -106,7 +107,7 @@ public class CommuteController {
 		VacationVO vo =new VacationVO();
 		vo.setEmpNo(empNo);
 		List<VacationVO> list=vacationRepo.queue(vo);
-		model.addAttribute("list",list);
+			model.addAttribute("list",list);
 
 
 		return "/commute/write";
@@ -149,5 +150,11 @@ public class CommuteController {
 		model.addAttribute("list",list);
 	
 		return "/commute/vacationList";
+	}
+	
+	@GetMapping("/detail")
+	public String detail(@RequestParam int vacationNo,Model model) {
+		
+		return "/commute/detail";
 	}
 }

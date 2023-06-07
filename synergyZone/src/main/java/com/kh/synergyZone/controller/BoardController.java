@@ -1,12 +1,8 @@
 package com.kh.synergyZone.controller;
-
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,10 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.kh.synergyZone.dto.BoardDto;
 import com.kh.synergyZone.dto.EmployeeProfileDto;
 import com.kh.synergyZone.repo.BoardRepo;
 import com.kh.synergyZone.repo.EmployeeProfileRepo;
@@ -27,10 +21,10 @@ import com.kh.synergyZone.service.BoardService;
 import com.kh.synergyZone.vo.BoardVO;
 import com.kh.synergyZone.vo.PaginationVO;
 
+
 @Controller
 @RequestMapping("/board")
 public class BoardController {
-
    @Autowired
    private BoardRepo boardRepo;
     
@@ -39,7 +33,6 @@ public class BoardController {
    
    @Autowired
    private EmployeeProfileRepo employeeProfileRepo;
-
    
    @GetMapping("/list")
    public String list(
@@ -49,20 +42,17 @@ public class BoardController {
       //vo에 딱 한 가지 없는 데이터가 게시글 개수(목록/검색이 다름)
       int totalCount = boardRepo.selectCount(vo);
       vo.setCount(totalCount);
-      
       //게시글
-      List<BoardVO> list = boardRepo.selectList(vo);
+      List<BoardVO> list = boardRepo.selectListByPaging(vo);
       model.addAttribute("posts", list);
-    
       // 프로필 사진 조회
       EmployeeProfileDto profile = employeeProfileRepo.find(empNo); // 프로필 정보 조회
       if (profile != null && profile.getAttachmentNo() > 0) {
           model.addAttribute("employeeDto", profile);
       }
-
       return "board/list";
    }
-   
+
 //   조회수 중복 방지 시나리오
 //   1. 작성자 본인은 조회수 증가를 하지 않는다
 //   2. 한 번 이상 본 글은 조회수 증가를 하지 않는다
@@ -89,20 +79,19 @@ public class BoardController {
       //조회수 증가
       if(!owner) {//내가 작성한 글이 아니라면(시나리오 1번)
          
-         // 시나리오 2번 진행
-         Set<Integer> memory = (Set<Integer>) session.getAttribute("memory");
-         if (memory == null) {
-            memory = new HashSet<>();
-         }
-         
-         if (!memory.contains(boardNo)) { // 읽은 적이 없는가 (기억에 없는가)
-            boardRepo.updateReadcount(boardNo);
-            boardVO.setBoardRead(boardVO.getBoardRead() + 1); // DTO 조회수 1증가
-            memory.add(boardNo); // 저장소에 추가(기억에 추가)
-         }
-         
-         session.setAttribute("memory", memory); // 저장소 갱신
-
+    	  // 시나리오 2번 진행
+    	  Set<Integer> memory = (Set<Integer>) session.getAttribute("memory");
+    	  if (memory == null) {
+    	     memory = new HashSet<>();
+    	  }
+    	  
+    	  if (!memory.contains(boardNo)) { // 읽은 적이 없는가 (기억에 없는가)
+    	     boardRepo.updateReadcount(boardNo);
+    	     boardVO.setBoardRead(boardVO.getBoardRead() + 1); // DTO 조회수 1증가
+    	     memory.add(boardNo); // 저장소에 추가(기억에 추가)
+    	  }
+    	  
+    	  session.setAttribute("memory", memory); // 저장소 갱신
          
       }
      
@@ -158,13 +147,18 @@ public class BoardController {
    
    @PostMapping("/write")
    public String write(@ModelAttribute BoardVO boardVO,
-         @RequestParam("attachments") List<MultipartFile> attachments,
-         HttpSession session, RedirectAttributes attr) throws IllegalStateException, IOException {
+         @RequestParam(required=false) List<Integer> attachmentNo,
+         HttpSession session, RedirectAttributes attr) {
+      //컨트롤러에서만 가능한 작업은 컨트롤러에서 처리
+      //- 사용자의 요청을 처리하는 것
+      //- 세션 사용
+      //- 리다이렉트 관련 처리
+      //- 그 외 사용자 요청 처리 관련 도구 사용
       String empNo = (String)session.getAttribute("empNo");
       boardVO.setBoardWriter(empNo);
       
       //나머지 일반 프로그래밍 코드는 서비스를 호출하여 처리
-      int boardNo = boardService.write(boardVO, attachments);
+      int boardNo = boardService.write(boardVO, attachmentNo);
       
       //상세 페이지로 redirect
       attr.addAttribute("boardNo", boardNo);

@@ -1,21 +1,9 @@
 package com.kh.synergyZone.service;
 
-import com.kh.synergyZone.configuration.CustomFileUploadProperties;
-import com.kh.synergyZone.dto.AttachmentDto;
-import com.kh.synergyZone.dto.BoardFileDto;
-import com.kh.synergyZone.repo.AttachmentRepo;
-import com.kh.synergyZone.repo.BoardFileRepo;
-import com.kh.synergyZone.repo.BoardRepo;
 import com.kh.synergyZone.repo.CalendarRepo;
-import com.kh.synergyZone.vo.BoardVO;
 import com.kh.synergyZone.vo.CalendarVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.annotation.PostConstruct;
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 

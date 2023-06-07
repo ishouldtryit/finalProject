@@ -1,14 +1,11 @@
 package com.kh.synergyZone.controller;
 
-import com.kh.synergyZone.repo.*;
 import com.kh.synergyZone.service.CalendarService;
 import com.kh.synergyZone.vo.CalendarVO;
-import com.kh.synergyZone.vo.PaginationVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -18,9 +15,6 @@ import java.util.Map;
 @Controller
 @RequestMapping("/calendar")
 public class CalendarController {
-
-   @Autowired
-   private EmployeeRepo employeeRepo;
 
    @Autowired
    private CalendarService calendarService;

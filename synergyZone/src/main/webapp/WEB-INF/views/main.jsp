@@ -116,7 +116,8 @@ html, body {
 				<a href="#"> <i
 					class="bi bi-house fs-3 d-flex justify-content-center mt-3"></i>
 					<p class="text-center">홈</p>
-				</a>   <a href="${pageContext.request.contextPath}/calendar/calendar"
+				</a>   
+				<a href="${pageContext.request.contextPath}/calendar/calendar"><i
 					class="bi bi-calendar-check fs-3 d-flex justify-content-center mt-4"></i>
 					<p class="text-center">일정</p>
 				</a> 
@@ -130,10 +131,10 @@ html, body {
 					class="bi bi-pencil-square fs-3 d-flex justify-content-center mt-4"></i>
 					<p class="text-center">업무</p>
 				</a> 
-				<a href="board.html"> <i
-					class="bi bi-clipboard fs-3 d-flex justify-content-center mt-4"></i>
-					<p class="text-center">게시판</p>
-				</a> 
+				<a href="${pageContext.request.contextPath}/board/list"> <i
+               class="bi bi-clipboard fs-3 d-flex justify-content-center mt-4"></i>
+               <p class="text-center">게시판</p>
+            </a>
 	            <a href="${pageContext.request.contextPath}/address/list">
 				<i class="bi bi-journals fs-3 d-flex justify-content-center mt-4"></i>
 					<p class="text-center">주소록</p>

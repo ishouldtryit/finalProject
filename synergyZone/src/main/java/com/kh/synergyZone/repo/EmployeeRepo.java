@@ -20,7 +20,7 @@ public interface EmployeeRepo {
 	   void delete(String empNo);
 	   
 	   //부서별 사원목록
-	   List<DeptEmpListVO> treeSelect();
+	   List<DeptEmpListVO> treeSelect(String empName);
 	   
 	   //비밀번호 찾기
 	   EmployeeDto findPw(@Param("empNo") String empNo, @Param("empEmail") String empEmail);

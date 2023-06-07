@@ -6,11 +6,12 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.synergyZone.dto.AgreeorDto;
@@ -20,10 +21,10 @@ import com.kh.synergyZone.dto.RecipientDto;
 import com.kh.synergyZone.repo.ApprovalRepoImpl;
 import com.kh.synergyZone.repo.EmployeeRepoImpl;
 import com.kh.synergyZone.vo.ApprovalDataVO;
+import com.kh.synergyZone.vo.ApprovalPaginationVO;
 import com.kh.synergyZone.vo.ApprovalVO;
 import com.kh.synergyZone.vo.ApprovalWithPageVO;
 import com.kh.synergyZone.vo.DeptEmpListVO;
-import com.kh.synergyZone.vo.PaginationVO;
 
 @RestController
 @RequestMapping("/rest/approval")
@@ -34,12 +35,14 @@ public class ApprovalRestController {
 	@Autowired
 	private ApprovalRepoImpl approvalRepoImpl;
 	
-	
+	// 부서별 사원 목록
 	@GetMapping("/")
-	public List<DeptEmpListVO> list(){
-		return employeeRepoImpl.treeSelect();
+	public List<DeptEmpListVO> list(@RequestParam String searchName){
+		String empName = searchName;
+		return employeeRepoImpl.treeSelect(empName);
 	}
 	
+	// 기안서 작성
 	@PostMapping("/write")
 	public int write(@RequestBody ApprovalVO approvalVO, HttpSession session) {
 		
@@ -51,15 +54,15 @@ public class ApprovalRestController {
 		List<ReaderDto> readerList = approvalVO.getReaderList();
 		
 		int draftNo = approvalRepoImpl.approvalSequence();
-	    int order = 1;
+	    int approverOrder = 1;
 	    approvalVO.getApprovalDto().setDrafterNo(empNo);
 	    approvalVO.getApprovalDto().setDraftNo(draftNo);
 	    approvalRepoImpl.insert(approvalVO.getApprovalDto());	//기안서 등록
 	    
 	    for (ApproverDto approver : approverList) {	//결재자 등록
 	        approver.setDraftNo(draftNo);
-	        approver.setApproverOrder(order);
-	        order++;
+	        approver.setApproverOrder(approverOrder);
+	        approverOrder++;
 	        approvalRepoImpl.approverInsert(approver);
 	    }
 	    
@@ -82,25 +85,20 @@ public class ApprovalRestController {
 	
 		//목록 첫화면 (관리자)
 		@GetMapping("/adminList")
-		public ApprovalWithPageVO adminDraftList(PaginationVO vo){
-			PaginationVO listPagination = new PaginationVO();
-			String column = "draft_title";
-			listPagination.setColumn(column);
-			listPagination.setPage(1);
-			listPagination.setSize(10);
+		public ApprovalWithPageVO adminDraftList(ApprovalPaginationVO vo){
+			ApprovalPaginationVO listPagination = new ApprovalPaginationVO();
 			listPagination.setCount(approvalRepoImpl.approvalDataCount(vo));
-			
 		    ApprovalWithPageVO approvalWithPageVO = ApprovalWithPageVO.builder()
-		            .approvalDataVO(approvalRepoImpl.selectList(listPagination))
+		            .approvalDataVO(approvalRepoImpl.approvalDataSelectList(listPagination))
 		            .paginationVO(listPagination)
 		            .build();
 			return approvalWithPageVO;
 		}
 		
-		//페이지 이동 (관리자)
+		//페이지 이동&검색 (관리자)
 		@PostMapping("/adminMoveList")
-		public ApprovalWithPageVO adminMoveList(@RequestBody PaginationVO vo) {
-			PaginationVO listPagination = new PaginationVO();
+		public ApprovalWithPageVO adminMoveList(@RequestBody ApprovalPaginationVO vo) {
+			ApprovalPaginationVO listPagination = new ApprovalPaginationVO();
 			listPagination.setColumn(vo.getColumn());
 			listPagination.setKeyword(vo.getKeyword());
 			listPagination.setPageStatus(vo.getPageStatus());
@@ -109,66 +107,204 @@ public class ApprovalRestController {
 			listPagination.setSize(vo.getSize());
 			listPagination.setCount(approvalRepoImpl.approvalDataCount(vo));
 		    ApprovalWithPageVO approvalWithPageVO = ApprovalWithPageVO.builder()
-		            .approvalDataVO(approvalRepoImpl.selectList(listPagination))
+		            .approvalDataVO(approvalRepoImpl.approvalDataSelectList(listPagination))
 		            .paginationVO(listPagination)
 		            .build();
 			return approvalWithPageVO;			
 		}
-		
-		//검색 (관리자)
-		@PostMapping("/adminSearchList")
-		public ApprovalWithPageVO adminSearchList(@RequestBody PaginationVO vo) {
-			PaginationVO listPagination = new PaginationVO();
-			listPagination.setColumn(vo.getColumn());
-			listPagination.setKeyword(vo.getKeyword());
-			listPagination.setPageStatus(vo.getPageStatus());
-			listPagination.setIsemergency(vo.isIsemergency());
-			listPagination.setPage(vo.getPage());
-			listPagination.setSize(vo.getSize());
-			listPagination.setCount(approvalRepoImpl.searchListCount(vo));
-			ApprovalWithPageVO approvalWithPageVO = ApprovalWithPageVO.builder()
-					.approvalDataVO(approvalRepoImpl.searchList(listPagination))
-					.paginationVO(listPagination)
-					.build();
-			System.out.println(listPagination);
-			return approvalWithPageVO;			
-		}
-		
 		
 		//목록 첫화면 (기안자)
-		@GetMapping("/drafterList")
-		public ApprovalWithPageVO drafterDraftList(PaginationVO vo){
-			PaginationVO listPagination = new PaginationVO();
-			String column = "draftTitle";
-			listPagination.setColumn(column);
-			listPagination.setPage(1);
-			listPagination.setSize(10);
-			listPagination.setCount(approvalRepoImpl.approvalDataCount(vo));
-			
+		@GetMapping("/myList")
+		public ApprovalWithPageVO myDraftList(ApprovalPaginationVO vo, HttpSession session){
+			String empNo = session.getAttribute("empNo") == null ? null : (String) session.getAttribute("empNo");
+			vo.setLoginUser(empNo);
+			ApprovalPaginationVO listPagination = new ApprovalPaginationVO();
+			listPagination.setLoginUser(empNo);
+			listPagination.setCount(approvalRepoImpl.myApprovalDataCount(vo));
 			ApprovalWithPageVO approvalWithPageVO = ApprovalWithPageVO.builder()
-					.approvalDataVO(approvalRepoImpl.selectList(listPagination))
+					.approvalDataVO(approvalRepoImpl.myApprovalDataSelectList(listPagination))
 					.paginationVO(listPagination)
 					.build();
 			return approvalWithPageVO;
 		}
 		
-		//페이지 이동 (기안자)
-		@PostMapping("/drafterMoveList")
-		public ApprovalWithPageVO drafterMoveList(@RequestBody PaginationVO vo) {
-			PaginationVO listPagination = new PaginationVO();
+		//페이지 이동&검색 (기안자)
+		@PostMapping("/myMoveList")
+		public ApprovalWithPageVO myMoveList(@RequestBody ApprovalPaginationVO vo, HttpSession session) {
+			String empNo = session.getAttribute("empNo") == null ? null : (String) session.getAttribute("empNo");
+			vo.setLoginUser(empNo);
+			ApprovalPaginationVO listPagination = new ApprovalPaginationVO();
+			listPagination.setLoginUser(empNo);
 			listPagination.setColumn(vo.getColumn());
 			listPagination.setKeyword(vo.getKeyword());
 			listPagination.setPageStatus(vo.getPageStatus());
 			listPagination.setIsemergency(vo.isIsemergency());
 			listPagination.setPage(vo.getPage());
 			listPagination.setSize(vo.getSize());
-			listPagination.setCount(approvalRepoImpl.approvalDataCount(vo));
+			listPagination.setCount(approvalRepoImpl.myApprovalDataCount(vo));
 			ApprovalWithPageVO approvalWithPageVO = ApprovalWithPageVO.builder()
-					.approvalDataVO(approvalRepoImpl.selectList(listPagination))
+					.approvalDataVO(approvalRepoImpl.myApprovalDataSelectList(listPagination))
 					.paginationVO(listPagination)
 					.build();
 			return approvalWithPageVO;			
 		}
 		
+		//목록 첫화면 (결재대기자)
+		@GetMapping("/waitApproverList")
+		public ApprovalWithPageVO waitApproverList(ApprovalPaginationVO vo, HttpSession session){
+			String empNo = session.getAttribute("empNo") == null ? null : (String) session.getAttribute("empNo");
+			vo.setLoginUser(empNo);
+			ApprovalPaginationVO listPagination = new ApprovalPaginationVO();
+			listPagination.setLoginUser(empNo);
+			listPagination.setCount(approvalRepoImpl.waitApproverApprovalDataCount(vo));
+			ApprovalWithPageVO approvalWithPageVO = ApprovalWithPageVO.builder()
+					.approvalDataVO(approvalRepoImpl.waitApproverApprovalDataSelectList(listPagination))
+					.paginationVO(listPagination)
+					.build();
+			return approvalWithPageVO;
+		}
+		
+		//페이지 이동&검색 (결재대기자)
+		@PostMapping("/waitApproverMoveList")
+		public ApprovalWithPageVO waitApproverMoveList(@RequestBody ApprovalPaginationVO vo, HttpSession session) {
+			String empNo = session.getAttribute("empNo") == null ? null : (String) session.getAttribute("empNo");
+			vo.setLoginUser(empNo);
+			ApprovalPaginationVO listPagination = new ApprovalPaginationVO();
+			listPagination.setLoginUser(empNo);
+			listPagination.setColumn(vo.getColumn());
+			listPagination.setKeyword(vo.getKeyword());
+			listPagination.setPageStatus(vo.getPageStatus());
+			listPagination.setIsemergency(vo.isIsemergency());
+			listPagination.setPage(vo.getPage());
+			listPagination.setSize(vo.getSize());
+			listPagination.setCount(approvalRepoImpl.waitApproverApprovalDataCount(vo));
+			ApprovalWithPageVO approvalWithPageVO = ApprovalWithPageVO.builder()
+					.approvalDataVO(approvalRepoImpl.waitApproverApprovalDataSelectList(listPagination))
+					.paginationVO(listPagination)
+					.build();
+			return approvalWithPageVO;			
+		}
+		
+		//목록 첫화면 (합의대기자)
+		@GetMapping("/waitAgreeorList")
+		public ApprovalWithPageVO waitAgreeorList(ApprovalPaginationVO vo, HttpSession session){
+			String empNo = session.getAttribute("empNo") == null ? null : (String) session.getAttribute("empNo");
+			vo.setLoginUser(empNo);
+			ApprovalPaginationVO listPagination = new ApprovalPaginationVO();
+			listPagination.setLoginUser(empNo);
+			listPagination.setCount(approvalRepoImpl.waitAgreeorApprovalDataCount(vo));
+			ApprovalWithPageVO approvalWithPageVO = ApprovalWithPageVO.builder()
+					.approvalDataVO(approvalRepoImpl.waitAgreeorApprovalDataSelectList(listPagination))
+					.paginationVO(listPagination)
+					.build();
+			return approvalWithPageVO;
+		}
+		
+		//페이지 이동&검색 (합의대기자)
+		@PostMapping("/waitAgreeorMoveList")
+		public ApprovalWithPageVO waitAgreeorMoveList(@RequestBody ApprovalPaginationVO vo, HttpSession session) {
+			String empNo = session.getAttribute("empNo") == null ? null : (String) session.getAttribute("empNo");
+			vo.setLoginUser(empNo);
+			ApprovalPaginationVO listPagination = new ApprovalPaginationVO();
+			listPagination.setLoginUser(empNo);
+			listPagination.setColumn(vo.getColumn());
+			listPagination.setKeyword(vo.getKeyword());
+			listPagination.setPageStatus(vo.getPageStatus());
+			listPagination.setIsemergency(vo.isIsemergency());
+			listPagination.setPage(vo.getPage());
+			listPagination.setSize(vo.getSize());
+			listPagination.setCount(approvalRepoImpl.waitAgreeorApprovalDataCount(vo));
+			ApprovalWithPageVO approvalWithPageVO = ApprovalWithPageVO.builder()
+					.approvalDataVO(approvalRepoImpl.waitAgreeorApprovalDataSelectList(listPagination))
+					.paginationVO(listPagination)
+					.build();
+			return approvalWithPageVO;			
+		}
+		
+		//목록 첫화면 (참조문서)
+		@GetMapping("/recipientList")
+		public ApprovalWithPageVO recipientList(ApprovalPaginationVO vo, HttpSession session){
+			String empNo = session.getAttribute("empNo") == null ? null : (String) session.getAttribute("empNo");
+			vo.setLoginUser(empNo);
+			ApprovalPaginationVO listPagination = new ApprovalPaginationVO();
+			listPagination.setLoginUser(empNo);
+			listPagination.setCount(approvalRepoImpl.recipientApprovalDataCount(vo));
+			ApprovalWithPageVO approvalWithPageVO = ApprovalWithPageVO.builder()
+					.approvalDataVO(approvalRepoImpl.recipientApprovalDataSelectList(listPagination))
+					.paginationVO(listPagination)
+					.build();
+			return approvalWithPageVO;
+		}
+		
+		//페이지 이동&검색 (참조문서)
+		@PostMapping("/recipientMoveList")
+		public ApprovalWithPageVO recipientMoveList(@RequestBody ApprovalPaginationVO vo, HttpSession session) {
+			String empNo = session.getAttribute("empNo") == null ? null : (String) session.getAttribute("empNo");
+			vo.setLoginUser(empNo);
+			ApprovalPaginationVO listPagination = new ApprovalPaginationVO();
+			listPagination.setLoginUser(empNo);
+			listPagination.setColumn(vo.getColumn());
+			listPagination.setKeyword(vo.getKeyword());
+			listPagination.setPageStatus(vo.getPageStatus());
+			listPagination.setIsemergency(vo.isIsemergency());
+			listPagination.setPage(vo.getPage());
+			listPagination.setSize(vo.getSize());
+			listPagination.setCount(approvalRepoImpl.recipientApprovalDataCount(vo));
+			ApprovalWithPageVO approvalWithPageVO = ApprovalWithPageVO.builder()
+					.approvalDataVO(approvalRepoImpl.recipientApprovalDataSelectList(listPagination))
+					.paginationVO(listPagination)
+					.build();
+			return approvalWithPageVO;			
+		}
+		
+		//목록 첫화면 (열람문서)
+		@GetMapping("/readerList")
+		public ApprovalWithPageVO readerList(ApprovalPaginationVO vo, HttpSession session){
+			String empNo = session.getAttribute("empNo") == null ? null : (String) session.getAttribute("empNo");
+			vo.setLoginUser(empNo);
+			ApprovalPaginationVO listPagination = new ApprovalPaginationVO();
+			listPagination.setLoginUser(empNo);
+			listPagination.setCount(approvalRepoImpl.readerApprovalDataCount(vo));
+			ApprovalWithPageVO approvalWithPageVO = ApprovalWithPageVO.builder()
+					.approvalDataVO(approvalRepoImpl.readerApprovalDataSelectList(listPagination))
+					.paginationVO(listPagination)
+					.build();
+			return approvalWithPageVO;
+		}
+		
+		//페이지 이동&검색 (열람문서)
+		@PostMapping("/readerMoveList")
+		public ApprovalWithPageVO readerMoveList(@RequestBody ApprovalPaginationVO vo, HttpSession session) {
+			String empNo = session.getAttribute("empNo") == null ? null : (String) session.getAttribute("empNo");
+			vo.setLoginUser(empNo);
+			ApprovalPaginationVO listPagination = new ApprovalPaginationVO();
+			listPagination.setLoginUser(empNo);
+			listPagination.setColumn(vo.getColumn());
+			listPagination.setKeyword(vo.getKeyword());
+			listPagination.setPageStatus(vo.getPageStatus());
+			listPagination.setIsemergency(vo.isIsemergency());
+			listPagination.setPage(vo.getPage());
+			listPagination.setSize(vo.getSize());
+			listPagination.setCount(approvalRepoImpl.readerApprovalDataCount(vo));
+			ApprovalWithPageVO approvalWithPageVO = ApprovalWithPageVO.builder()
+					.approvalDataVO(approvalRepoImpl.readerApprovalDataSelectList(listPagination))
+					.paginationVO(listPagination)
+					.build();
+			return approvalWithPageVO;			
+		}
+		
+		//상세 페이지
+		@GetMapping("/detail/{draftNo}")
+		public ApprovalDataVO approvalDetail(@PathVariable int draftNo, HttpSession session) {
+			String empNo = session.getAttribute("empNo") == null ? null : (String) session.getAttribute("empNo");
+			ApprovalDataVO approvalDataVO = approvalRepoImpl.approvalDataSelectOne(draftNo);
+			approvalDataVO.setLoginUser(empNo);
+			return approvalDataVO;
+		}
+
+		@PatchMapping("/detail/recall/{draftNo}")
+		public void approvalRecall(@PathVariable int draftNo) {
+			System.out.println("동작?"+draftNo);
+		}
 	
 }

@@ -106,6 +106,9 @@
 	                <div class="p-4 pt-5" style=" min-height: 70vh;">
 	                    <a href="#"><h3 class="text-light mb-5">그룹웨어</h3></a>
 	                    <ul class="list-unstyled components mb-5">
+	                     <li>
+	                            <a href="${pageContext.request.contextPath}/calendar/calendar">일정</a>
+	                        </li>
 	                        <li>
 	                            <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">게시판</a>
 	                            <ul class="collapse list-unstyled" id="homeSubmenu">
@@ -125,15 +128,57 @@
 	                                <a href="/approval/write">신규 결재</a>
 	                                </li>
 	                                <li>
-	                                    <a href="/approval/list">개인 문서함</a>
+	                                    <a href="/approval/adminList">전체 문서함 (관리자)</a>
+	                                </li>
+	                                <li>
+	                                    <a href="/approval/myList">나의 기안 문서함</a>
+	                                </li>
+	                                <li>
+	                                    <a href="/approval/waitApproverList">결재 대기 문서함</a>
+	                                </li>
+	                                <li>
+	                                    <a href="/approval/waitAgreeorList">합의 대기 문서함</a>
+	                                </li>
+	                                <li>
+	                                    <a href="/approval/recipientList">참조 문서함</a>
+	                                </li>
+	                                <li>
+	                                    <a href="/approval/readerList">열람 문서함</a>
 	                                </li>
 	                                <li>
 	                                    <a href="#">부서 문서함</a>
 	                                </li>
 	                            </ul>
 	                        </li>
+	
+	 <li>
+	                            <a href="#addressSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">주소록</a>
+	                            <ul class="collapse list-unstyled" id="addressSubmenu">
+	                                <li>
+	                                    <a href="${pageContext.request.contextPath}/address/list">전체 주소록</a>
+	                                </li>
+	                                <c:if test="${empNo != null}">
+									  <li>
+									    <a href="${pageContext.request.contextPath}/bookmark/mylist">개인 주소록</a>
+									  </li>
+									</c:if>
+	                            </ul>
+	                            
+	                           <c:if test="${empNo != null}">
+	                            <a href="#messageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">쪽지함</a>
+	                            <ul class="collapse list-unstyled" id="messageSubmenu">
+	                                <li>
+	                                    <a href="${pageContext.request.contextPath}/message/receive">받은 쪽지함</a>
+	                                </li>
+									  <li>
+									    <a href="${pageContext.request.contextPath}/message/send">보낸 쪽지함</a>
+									  </li>
+	                            </ul>
+									</c:if>
+									
+	                        </li>
 	                        
-	                         <li>
+	                            <li>
 	                        <a href="#workSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">업무</a>
 	                        <ul class="collapse list-unstyled" id="workSubmenu">
 	                                <li>
@@ -177,32 +222,6 @@
 		                                </li>
 		                            </ul>
 		                        </li>
-	
-	 <li>
-	                            <a href="#addressSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">주소록</a>
-	                            <ul class="collapse list-unstyled" id="addressSubmenu">
-	                                <li>
-	                                    <a href="${pageContext.request.contextPath}/address/list">전체 주소록</a>
-	                                </li>
-	                                <c:if test="${empNo != null}">
-									  <li>
-									    <a href="${pageContext.request.contextPath}/bookmark/mylist">개인 주소록</a>
-									  </li>
-									</c:if>
-	                            </ul>
-	                            
-	                           <c:if test="${empNo != null}">
-	                            <a href="#messageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">쪽지함</a>
-	                            <ul class="collapse list-unstyled" id="messageSubmenu">
-	                                <li>
-	                                    <a href="${pageContext.request.contextPath}/message/receive">받은 쪽지함</a>
-	                                </li>
-									  <li>
-									    <a href="${pageContext.request.contextPath}/message/send">보낸 쪽지함</a>
-									  </li>
-	                            </ul>
-									</c:if>
-	                        </li>
 	
 	                        <li>
 	                            <a href="#">공지사항</a>

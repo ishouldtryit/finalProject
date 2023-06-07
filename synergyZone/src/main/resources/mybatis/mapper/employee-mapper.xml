@@ -76,7 +76,7 @@
 		<collection property="employeeList"
 			javaType="java.util.List" ofType="EmployeeInfoDto "
 			select="treeSelectSub"
-			column="dept_no">
+			column="dept_no" >
 			<result column="emp_no" property="empNo"/>
 			<result column="emp_name" property="empName"/>
 			<result column="emp_password" property="empPassword"/>
@@ -90,7 +90,9 @@
 			<result column="cp_number" property="cpNumber"/>
 			<result column="job_no" property="jobNo"/>
 			<result column="dept_no" property="deptNo"/>
-			<result column="wt_code" property="wtCode"/>
+			<result column="dept_name" property="deptName"/>
+			<result column="job_name" property="jobName"/>
+			
 		</collection>
 	</resultMap>
 	
@@ -101,8 +103,12 @@
 	</select>
 	
 	<!-- 계층형 조회 서브 구문 -->
-	<select id="treeSelectSub" resultType="employeeDto">
-		select * from employee where dept_no = #{deptNo}
+	<select id="treeSelectSub" resultType="employeeInfoDto">
+		select * from search_info 
+		where dept_no = #{deptNo} and is_leave = 'N'
+		<if test="empName != '' ">
+			and instr(emp_name, #{empName}) >0
+		</if>
 		order by job_no desc
 	</select>
 	

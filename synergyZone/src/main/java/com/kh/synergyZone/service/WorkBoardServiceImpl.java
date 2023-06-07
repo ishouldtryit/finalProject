@@ -61,7 +61,6 @@ public class WorkBoardServiceImpl implements WorkBoardService{
 	    	System.out.print("error");
 	    	return;
 	    }
-	    
 	    workBoardVO.getAttachList().forEach(attach ->{
 	    	attach.setWorkNo(workBoardDto.getWorkNo());
 	    	workAttachRepo.insert(attach);

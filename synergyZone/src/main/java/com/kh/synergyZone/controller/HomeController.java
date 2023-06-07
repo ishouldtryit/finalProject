@@ -83,6 +83,11 @@ public class HomeController {
 					return "redirect:/";
 				}
 		
+			@GetMapping("/testHome")	
+			public String testHome() {
+				return "/home";
+			}
+				
 		
 		@PostMapping("/testuser1")
 		public String loginTestuser1(

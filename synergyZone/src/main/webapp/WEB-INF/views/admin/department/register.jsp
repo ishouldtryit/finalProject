@@ -3,7 +3,7 @@
 	<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
   
   <body>
-    <form action="${pageContext.request.contextPath}/employee/department/register" method="post" autocomplete="off">
+    <form action="${pageContext.request.contextPath}/admin/department/register" method="post" autocomplete="off">
         <div class="container-fluid mt-4">
     
             <div class="row">

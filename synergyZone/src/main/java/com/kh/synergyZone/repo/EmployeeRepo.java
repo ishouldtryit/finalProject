@@ -2,6 +2,8 @@ package com.kh.synergyZone.repo;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.kh.synergyZone.dto.EmployeeDto;
 import com.kh.synergyZone.dto.EmployeeInfoDto;
 import com.kh.synergyZone.vo.DeptEmpListVO;
@@ -14,13 +16,14 @@ public interface EmployeeRepo {
 	   List<EmployeeInfoDto> list();
 	   void update(EmployeeDto employeeDto);
 	   void exit(String empNo);
+	   void cancelExit(String empNo);
 	   void delete(String empNo);
 	   
 	   //부서별 사원목록
 	   List<DeptEmpListVO> treeSelect(String empName);
 	   
 	   //비밀번호 찾기
-	   EmployeeDto findPw(String empNo, String empEmail);
+	   EmployeeDto findPw(@Param("empNo") String empNo, @Param("empEmail") String empEmail);
 	   
 	   //비밀번호 변경
 	   void changePw(EmployeeDto employeeDto);
@@ -29,7 +32,7 @@ public interface EmployeeRepo {
 	   String lastEmpNoOfYear(String year);
 	   
 	   //퇴사 대기목록
-	   List<EmployeeDto> waitingList();
+	   List<EmployeeInfoDto> waitingList();
 	   
 	   //관리자 권한 부여
 	   boolean authorityAdmin(String empNo);
@@ -41,6 +44,11 @@ public interface EmployeeRepo {
 	   int getCount();
 	   List<EmployeeDto> getEmployeeList(PaginationVO vo);
 	   List<EmployeeInfoDto> searchEmployees(String column, String keyword);
+	   
+	   //퇴사자 목록 검색
+	   int waitingEmployeesCount();
+	   List<EmployeeInfoDto> WaitingEmployeeList(PaginationVO vo);
+	   List<EmployeeInfoDto> searchWaitingEmployees(String column, String keyword);
 	   
 	   
 	

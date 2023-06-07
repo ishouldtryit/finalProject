@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
@@ -177,6 +178,51 @@
 									</c:if>
 									
 	                        </li>
+	                        
+	                            <li>
+	                        <a href="#workSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">업무</a>
+	                        <ul class="collapse list-unstyled" id="workSubmenu">
+	                                <li>
+	                                <a href="/workboard/write">일지 작성</a>
+	                                </li>
+	                                <li>
+	                                    <a href="/workboard/list">부서 업무일지</a>
+	                                </li>
+	                                <li>
+	                                    <a href="/workboard/reportList">내 업무일지</a>
+	                                </li>
+	                                 <li>
+	                                    <a href="/workboard/supList">공유받은 업무일지</a>
+	                                </li>
+	                            </ul>
+	                        </li>
+	                        
+		                        <li>
+		                        <a href="#adminSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">관리자 페이지</a>
+		                        <ul class="collapse list-unstyled" id="adminSubmenu">
+		                                <li>
+		                                <a href="/admin/join">사원 등록</a>
+		                                </li>
+		                                <li>
+		                                    <a href="/admin/list">사원 통합관리</a>
+		                                </li>
+		                                <li>
+		                                    <a href="/admin/waitingList">사원 퇴사관리</a>
+		                                </li>
+		                                <li>
+		                                    <a href="/admin/adminList">관리자 통합관리</a>
+		                                </li>
+		                                <li>
+		                                    <a href="/admin/log/list">사원 접근로그</a>
+		                                </li>
+		                                <li>
+		                                    <a href="/admin/department/list">부서</a>
+		                                </li>
+		                                <li>
+		                                    <a href="/admin/job/list">직위</a>
+		                                </li>
+		                            </ul>
+		                        </li>
 	
 	                        <li>
 	                            <a href="#">공지사항</a>
@@ -231,5 +277,3 @@
 	            </nav>
 	            
 	            <!-- 내용 -->
-		    
-		    

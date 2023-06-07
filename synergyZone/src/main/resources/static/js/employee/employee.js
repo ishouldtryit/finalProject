@@ -1,23 +1,28 @@
-$(function(){
-  $("[name=attach]").change(function(){
-    if(this.files && this.files[0]){
-      const reader = new FileReader();
-      
-      reader.onload = function(e){
-        $(".target").html("<img src='" + e.target.result + " alt='Image Preview'>");
-      };
-      
-      reader.readAsDataURL(this.files[0]);
-    }
-    
-  });
-  
+$(function() {
   $("[name=attach]").change(function() {
     if (this.files && this.files[0]) {
       const reader = new FileReader();
+      const fileExtension = this.files[0].name.split('.').pop().toLowerCase();
 
       reader.onload = function(e) {
-        $(".profilePreview").attr("src", e.target.result);
+        if (fileExtension === 'jpg' || fileExtension === 'jpeg' || fileExtension === 'png') {
+            $(".file-preview").attr("src", e.target.result);
+        }
+      };
+
+      reader.readAsDataURL(this.files[0]);
+    }
+  });
+
+  $("[name=attach]").change(function() {
+    if (this.files && this.files[0]) {
+      const reader = new FileReader();
+      const fileExtension = this.files[0].name.split('.').pop().toLowerCase();
+
+      reader.onload = function(e) {
+        if (fileExtension === 'jpg' || fileExtension === 'jpeg' || fileExtension === 'png') {
+          $(".profilePreview").attr("src", e.target.result);
+        }
       };
 
       reader.readAsDataURL(this.files[0]);

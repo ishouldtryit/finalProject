@@ -11,12 +11,12 @@
 		insert into employee(
 			emp_no, emp_name, emp_password, emp_email,
 			emp_phone, emp_address, emp_detail_address, emp_postcode,
-			emp_hire_date, is_leave, cp_number, job_no, dept_no
+			emp_hire_date, is_leave, cp_number, job_no, dept_no, emp_admin
 		)
 		values(
 			#{empNo}, #{empName}, #{empPassword} , #{empEmail},
 			#{empPhone}, #{empAddress}, #{empDetailAddress}, #{empPostcode},
-			#{empHireDate}, 'N', #{cpNumber}, #{jobNo}, #{deptNo}
+			#{empHireDate}, 'N', #{cpNumber}, #{jobNo}, #{deptNo}, 'N'
 		)
 	</insert>
 	
@@ -56,6 +56,7 @@
 		where emp_no = #{empNo}
 	</update>
 	
+	<!-- 퇴사 -->
 	<update id="exit">
 		update employee set
 		is_leave = #{isLeave}
@@ -118,10 +119,6 @@
 		where emp_no like concat(#{year}, '%')
 	</select>
 	
-	<!-- 대기 목록 -->
-	<select id="waitingList" resultType="employeeDto">
-		select * from employee where is_leave = 'Y'
-	</select>
 	
 	<!-- 비밀번호 찾기 -->
 	<select id="findPw" resultType="employeeDto">
@@ -138,12 +135,44 @@
 	<!-- 관리자 권한 부여 -->
 	<update id="authorityAdmin">
 		update employee
-		set job_no = #{jobNo}
+		set emp_admin = #{empAdmin}
 		where emp_no = #{empNo}
 	</update>
 	
 	<!-- 관리자 목록 -->
 	<select id="adminList" resultType="employeeDto">
-		select * from employee where job_no = 80
+		select * from employee where emp_admin = 'Y'
 	</select>
+	
+	<!--퇴사 대기 목록 -->
+	<select id="waitingList" resultType="employeeInfoDto">
+		select * from employee where is_leave = 'Y'
+	</select>
+	
+	<select id="waitingEmployeesCount" resultType="int">
+	 	 SELECT COUNT(*) FROM employee where is_leave = 'Y'
+	</select>
+	
+	<select id="searchWaitingEmployees" resultType="EmployeeInfoDto">
+	    SELECT *
+	    FROM employee
+	    WHERE is_leave = 'Y'
+	      AND instr(${column}, #{keyword}) > 0
+	    ORDER BY ${column} ASC
+	</select>
+
+	
+	<select id="getWaitingList" resultType="employeeInfoDto" parameterType="com.kh.synergyZone.vo.PaginationVO">
+	  <![CDATA[
+	  SELECT *
+	  FROM (
+	    SELECT e.*, ROWNUM AS rn
+	    FROM employee e
+	    WHERE is_leave = 'Y' AND ROWNUM <= #{end}
+	  )
+	  WHERE rn >= #{begin}
+	  ]]>
+	</select>
+	
+
 </mapper>

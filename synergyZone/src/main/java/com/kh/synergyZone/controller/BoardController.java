@@ -53,7 +53,6 @@ public class BoardController {
       //게시글
       List<BoardVO> list = boardRepo.selectList(vo);
       model.addAttribute("posts", list);
-    
       // 프로필 사진 조회
       EmployeeProfileDto profile = employeeProfileRepo.find(empNo); // 프로필 정보 조회
       if (profile != null && profile.getAttachmentNo() > 0) {
@@ -160,6 +159,11 @@ public class BoardController {
    public String write(@ModelAttribute BoardVO boardVO,
          @RequestParam("attachments") List<MultipartFile> attachments,
          HttpSession session, RedirectAttributes attr) throws IllegalStateException, IOException {
+      //컨트롤러에서만 가능한 작업은 컨트롤러에서 처리
+      //- 사용자의 요청을 처리하는 것
+      //- 세션 사용
+      //- 리다이렉트 관련 처리
+      //- 그 외 사용자 요청 처리 관련 도구 사용
       String empNo = (String)session.getAttribute("empNo");
       boardVO.setBoardWriter(empNo);
       

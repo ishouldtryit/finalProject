@@ -88,7 +88,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 		EmployeeDto findDto = employeeRepo.selectOne(empNo);
 		
 		if(findDto == null) return null;
-		
+		String test1 = employeeDto.getEmpPassword();
+		String test2 = findDto.getEmpPassword();
+
 		if(encoder.matches(employeeDto.getEmpPassword(), findDto.getEmpPassword())) {
 			return findDto;
 		}

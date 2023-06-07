@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -301,6 +302,9 @@ public class ApprovalRestController {
 			return approvalDataVO;
 		}
 
-		
+		@PatchMapping("/detail/recall/{draftNo}")
+		public void approvalRecall(@PathVariable int draftNo) {
+			System.out.println("동작?"+draftNo);
+		}
 	
 }

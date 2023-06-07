@@ -256,7 +256,7 @@ $(function () {
       alert("쪽지 제목을 입력해주세요");
       return;
     } else {
-      const titleRegex = /^[-!@#$%^&*()_a-zA-Z0-9가-힣]{1,100}$/;
+      const titleRegex = /^[-!@#$%^&*()_a-zA-Z0-9가-힣\s]{1,100}$/;
       if(!titleRegex.test(messageTitle)){
         alert("쪽지는 일부의 특수문자, 숫자, 영어 대소문자, 한글로 이루어진 1~100자 이어야 합니다");
         return;
@@ -269,48 +269,48 @@ $(function () {
     }
 
     // 메세지 보내는 대상자 확인
-	let result = true;
-	$(".message-recipient-ele").each(function () {
-	console.log($(this).find("[name=messageRecipient]").val());
-	  $.ajax({	 
-	   url: "/rest/message/" + $(this).find("[name=messageRecipient]").val(),
-	    method: "get",
-	    async: false,
-	    success: function (response) {
-	      result &&= response === "N";
-	    },
-	    error: function () {
-	      console.log("멤버 확인 통신오류!!!!");
-	    },
-	  });
-	});
-	if (!result) {
-	  alert("쪽지를 보낼 수 없습니다\n받는 주소를 확인해주세요");
-	  return;
-	}
-
+    let result = true;
+    $(".message-recipient-ele").each(function () {
+      $.ajax({	 
+        url: "/rest/message/" + $(this).find("[name=messageRecipient]").val(),
+        method: "get",
+        async: false,
+        success: function (response) {
+          result &&= response === "N";
+        },
+        error: function () {
+        },
+      });
+    });
+    if (!result) {
+      alert("쪽지를 보낼 수 없습니다\n받는 주소를 확인해주세요");
+      return;
+    }
 
     // 다수 쪽지 보내기 처리
-	const test = [];
-	$(".message-recipient-ele").each(function () {
-	  test.push($(this).find("[name=messageRecipient]").val());
-	});
-	$.ajax({
-	  url: "/rest/message/write",
-	  method: "post",
-	  data:
-	    messageSendForm.serialize() +
-	    "&recipients=" +
-	    test.join("&recipients="),
-	  success: function () {
-	    alert("쪽지를 성공적으로 보냈습니다");
-	    console.log(messageSendForm.serialize());
-	    messageSendForm[0].reset();
-	    removeRecipientEle();
-	  },
-	  error: function () {
-	    console.log("메세지 전송 통신오류");
-	  },
-	});
+    const test = [];
+    $(".message-recipient-ele").each(function () {
+      test.push($(this).find("[name=messageRecipient]").val());
+    });
+    $.ajax({
+      url: "/rest/message/write",
+      method: "post",
+      data:
+        messageSendForm.serialize() +
+        "&recipients=" +
+        test.join("&recipients="),
+      success: function () {
+        alert("쪽지를 성공적으로 보냈습니다");
+        console.log(messageSendForm.serialize());
+        messageSendForm[0].reset();
+        removeRecipientEle();
+        
+	    // 페이지 이동
+	    window.location.href = "/message/send";
+      },
+      error: function () {
+        alert("메세지 전송 중 오류가 발생했습니다.\n받는 사람의 사번이 정확한지 확인해주세요.");
+      },
+    });
   });
 });

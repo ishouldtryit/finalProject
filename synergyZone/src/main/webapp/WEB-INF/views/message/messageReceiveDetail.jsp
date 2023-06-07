@@ -12,7 +12,7 @@
 
 <div class="container">
   <script src="${pageContext.request.contextPath}/static/js/message/messageReceiveDetail.js"></script>
-  <jsp:include page="/WEB-INF/views/message/messageAside.jsp"></jsp:include>
+  <jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/message/messageAside.jsp"></jsp:include>
 
   <div class="message-detail">
     <h1>제목 : ${messageWithNickDto.messageTitle}</h1>

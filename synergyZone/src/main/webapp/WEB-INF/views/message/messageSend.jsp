@@ -6,60 +6,107 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  
+    <style>
+    a {
+      color: black;
+    }
+  </style>
 </head>
 <body>
 
 <script>
   var empNo = "${sessionScope.empNo}";
 </script>
-<script type="text/template" id="send-message-row">
-  <hr class="mg-0"/>
-  <div class="flex-row-grow message-row">
-    <div class="flex-all-center message-check-column">
-      <input class="message-check-one" type="checkbox"/>
-    </div>
-    <div>
-      <a class="link message-recipient-col">받은사람</a>
-    </div>
-    <a class="link message-title-col">메세지 제목</a>
-    <a class="link message-send-time-col">보낸시간</a>
-    <a class="link message-read-time-col">받은시간</a>
-    <div class="message-send-cancle-btn message-cancle-col">발송취소</div>
-  </div>
+  
+<script type="text/html" id="send-message-row">
+	 <tr>
+      <td>
+        <div class="form-check">
+          <input class="form-check-input message-check-one" type="checkbox" value="">
+        </div>
+      </td>
+      <td>
+        <a class="message-recipient-col" href=""></a>
+      </td>
+      <td>
+        <a class="message-title-col" href=""></a>
+      </td>
+      <td>
+        <a class="message-send-time-col" href=""></a>
+      </td>
+
+      <td>
+        <a class="message-read-time-col" href=""></a>
+      </td>
+      <td>
+           <a class="message-send-cancle-btn message-cancle-col" href=""></a>
+      </td>
+    </tr>
 </script>
+
 <script src="${pageContext.request.contextPath}/static/js/message/messageSend.js"></script>
 
 <!-- aside -->
 <jsp:include page="/WEB-INF/views/message/messageAside.jsp"></jsp:include>
 <div class="container">
 
-<div class="mb-30">
-  <h1>보낸 쪽지함 <a class="deco-none message-send-cnt" style="color:black" href="${pageContext.request.contextPath}/message/send"></a></h1>
-</div>
+	<div class="message-header">
+	  <h5>보낸 쪽지함 
+	    <a class="message-count" style="color:black" href="${pageContext.request.contextPath}/message/send"></a>
+	  </h5>
+	  <div class="row flex">
+	    <div class="Trade-btn message-delete-btn">
+	      <i class="fas fa-times" style="color:red;"></i> 삭제
+	    </div>
+			<div class="action-btn ml-auto message-refresh-btn">
+			  <i class="fas fa-sync-alt custom-spin" style="color: gray;"></i> 새로고침
+			</div>
+	  </div>
+	</div>
 
-<div class="row flex">
-  <div class="Trade-btn message-delete-btn">
-    <i class="fas fa-times" style="color:red;"></i> 삭제
-  </div>
-  <div class="Trade-btn ml-auto message-refresh-btn">
-    <i class="fas fa-sync-alt" style="color: gray;"></i> 새로고침
-  </div>
-</div>
 
-<div class="row">
-  <div class="flex-row-grow message-row message-head">
-    <div class="flex-all-center message-check-column">
-      <input class="message-check-all" type="checkbox">
+<div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">
+              <div class="form-check">
+                <input class="form-check-input message-check-all" type="checkbox">
+              </div>
+            </th>
+            <th scope="col">받은사람</th>
+            <th scope="col">제목</th>
+            <th scope="col">보낸시간</th>
+            <th scope="col">읽은시간</th>
+            <th class="flex-align-center message-cancle-col">발송취소</th>
+          </tr>
+        </thead>
+        <tbody class="target">
+            <tr>
+              <td>
+                <div class="form-check">
+                  <input class="form-check-input message-check-one" type="checkbox" value="">
+                </div>
+              </td>
+              <td>
+                <a class="message-recipient-col" href="" style="color: black;"></a>
+              </td>
+              <td>
+                <a class="message-title-col" href=""></a>
+              </td>
+              <td>
+                <a class="message-send-time-col" href=""></a>
+              </td>
+              <td>
+                <a class="message-read-time-col" href=""></a>
+              </td>
+              <td>
+                <a class="message-send-cancle-btn message-cancle-col" href=""></a>
+              </td>
+            </tr>
+        </tbody>
+      </table>
     </div>
-    <div class="flex-align-center">받은사람</div>
-    <div class="flex-align-center">제목</div>
-    <div class="flex-align-center">보낸시간</div>
-    <div class="flex-align-center">읽은시간</div>
-    <div class="flex-align-center message-cancle-col">발송취소</div>
-  </div>
-  <div class="target"></div>
-</div>
 
 <!-- 페이지네이션 -->
 <div class="mt-50 center pagination"></div>
@@ -79,6 +126,7 @@
 </div>
 </div>
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
+
 
 </body>
 </html>

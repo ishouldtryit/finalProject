@@ -129,8 +129,8 @@ html, body {
                class="bi bi-pencil-square fs-3 d-flex justify-content-center mt-4"></i>
                <p class="text-center">업무</p>
             </a> 
-            <a href="board.html"> <i
-               class="bi bi-clipboard fs-3 d-flex justify-content-center mt-4"></i>
+               <a href="${pageContext.request.contextPath}/board/list">
+            <i class="bi bi-clipboard fs-3 d-flex justify-content-center mt-4"></i>
                <p class="text-center">게시판</p>
             </a> 
                <a href="${pageContext.request.contextPath}/address/list">

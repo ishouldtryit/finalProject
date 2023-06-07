@@ -62,7 +62,7 @@ public class MessageRestController {
 	        // 대상자가 유효하지 않은 경우 처리
 	        // 예를 들어, 예외를 던지거나 실패 메시지를 반환하도록 구현합니다.
 	        // 여기에서는 단순히 콘솔에 오류 메시지를 출력하도록 하겠습니다.
-	        System.out.println("쪽지를 보낼 수 없습니다\n받는 주소를 확인해주세요");
+//	        System.out.println("쪽지를 보낼 수 없습니다\n받는 주소를 확인해주세요");
 	        return;
 	    }
 

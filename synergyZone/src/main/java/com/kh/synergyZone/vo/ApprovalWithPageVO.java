@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 @Data @Builder @AllArgsConstructor @NoArgsConstructor
 public class ApprovalWithPageVO {
 	private List<ApprovalDataVO> approvalDataVO;
-	private PaginationVO paginationVO;
+	private ApprovalPaginationVO paginationVO;
 }

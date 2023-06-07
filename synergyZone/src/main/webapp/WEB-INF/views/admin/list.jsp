@@ -24,7 +24,8 @@
 		  <input class="form-control me-sm-2" type="search" placeholder="검색어" name="keyword" value="${param.keyword}" style="width: 13%;">
 		  <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
 		  
-
+<!-- 		  관리자 추가 버튼		   -->
+<!-- 		  <button class="btn btn-success my-2 my-sm-0" type="button" onclick="addToMyList()">관리자 추가</button> -->
 		
 		</form>
 		

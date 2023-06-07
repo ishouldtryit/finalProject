@@ -27,8 +27,8 @@
        $(document).ready(function(e){
     	   var formObj = $("form[role='form']");
     		$("button[type='submit']").on("click", function(e){
-    			e.preventDefault();
-    			console.log("submit clicked");
+//     			e.preventDefault();
+//     			console.log("submit clicked");
     			
     			var str = "";
     			

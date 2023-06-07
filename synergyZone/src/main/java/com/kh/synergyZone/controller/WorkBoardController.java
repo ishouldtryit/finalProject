@@ -110,6 +110,7 @@ public class WorkBoardController {
        return "redirect:/";
    }
    
+   //참조자 보관함
    @GetMapping("/supList")
    public String supList(HttpSession session, Model model) {
        String workSup = (String) session.getAttribute("empNo");
@@ -119,7 +120,7 @@ public class WorkBoardController {
        return "workboard/supList";
    }
 
-   
+   //내 보관함
    @GetMapping("/reportList")
    public String reportList(HttpSession session,
 		   				 Model model) {

@@ -155,7 +155,7 @@ public class EmployeeRepoImpl implements EmployeeRepo {
 	public boolean authorityAdmin(String empNo) {
 		EmployeeDto employeeDto = new EmployeeDto();
 		employeeDto.setEmpNo(empNo);
-		employeeDto.setJobNo(80);
+		employeeDto.setEmpAdmin("Y");
 		return sqlSession.update("employee.authorityAdmin", employeeDto) > 0;
 	}
 	

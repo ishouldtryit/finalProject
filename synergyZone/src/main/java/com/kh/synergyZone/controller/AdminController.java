@@ -369,26 +369,18 @@ public class AdminController {
 		
 		return "admin/log/list";
 	}
+
 	
-	
-	//관리자 등록
-	@GetMapping("/authorityAdmin")
-	public String authorityAdmin(@RequestParam String empNo,
-								 Model model) {
-		employeeRepo.authorityAdmin(empNo);
-		return "redirect:list";
-	}
-	
-	//관리자 목록
-	@GetMapping("/adminList")
-	public String adminList(Model model) throws IOException {
-		List<EmployeeDto> adminList = employeeRepo.adminList();
-		    
-		model.addAttribute("adminList" ,adminList);
-		    
-		    
-		return "admin/adminList";
-	}
+//	//관리자 목록
+//	@GetMapping("/adminList")
+//	public String adminList(Model model) throws IOException {
+//		List<EmployeeDto> adminList = employeeRepo.adminList();
+//		    
+//		model.addAttribute("adminList" ,adminList);
+//		    
+//		    
+//		return "admin/adminList";
+//	}
 	
 	
 }

@@ -7,7 +7,7 @@
 
 <c:if test="${sessionScope.empNo != null}"></c:if>
 <script src="/static/js/notice-like.js"></script>
-
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
 	var empNo = "${sessionScope.empNo}";
 	var noticeWriter = "${noticeDto.noticeWriter}";

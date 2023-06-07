@@ -12,6 +12,7 @@
 
 <div class="container-800" style="margin-left: 5%;">
 		<!-- 검색창 -->
+
 		<form class="d-flex" action="list" method="get">
 		  <select name="column" class="form-input me-sm-2">
 		    <option value="emp_name" ${column eq 'emp_name' ? 'selected' : ''}>이름</option>

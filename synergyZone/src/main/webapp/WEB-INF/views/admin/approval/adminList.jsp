@@ -14,7 +14,7 @@
     <div class="container-fluid" v-if="ApprovalWithPageVO != null">
     	
        <div class="row mb-3">
-           <h3>기안서 목록</h3>
+           <h3>기안서 목록 (관리자)</h3>
        </div>
        <div class="row mb-3 ">
        		<div class="col-2" style=" width:150px;">
@@ -23,9 +23,15 @@
 	       			<option value="emp_name">기안자</option>
 	       		</select>
        		</div>
-		    <div class="input-group mb-3 ms-3" style="width:300px;">
+		    <div class="input-group mb-3 ms-3 col-1" style="width:300px;">
 		      <input type="text" class="form-control" placeholder="검색어" v-model="ApprovalWithPageVO.paginationVO.keyword">
 		      <button class="btn btn-info" type="button" @click="changeSearchPage">검색</button>
+		    </div>
+		    <div class="ms-3 col">
+		      <button class="btn btn-info" type="button" @click="loadData">
+		      <i class="fa-solid fa-list-ul"></i>
+		       전체 목록
+		      </button>
 		    </div>
        </div>
        <div class="row mb-2 d-flex align-items-center">
@@ -40,6 +46,11 @@
 				       	class="btn" :class="{'btn-secondary': pageStatus != 'ingPage', 'btn-info': pageStatus == 'ingPage'}"
 				       	@click ="changeIngPage">
 				  		진행
+						</button>
+				       	<button type="button" 
+				       	class="btn" :class="{'btn-secondary': pageStatus != 'recallPage', 'btn-info': pageStatus == 'recallPage'}"
+				       	@click ="changeRecallPage">
+				  		회수
 						</button>
 				       	<button type="button" 
 				       	class="btn" :class="{'btn-secondary': pageStatus != 'returnPage', 'btn-info': pageStatus == 'returnPage'}"
@@ -86,7 +97,12 @@
                            <th class="col-1">결재상태</th>
                        </tr>
                    </thead>
-                   <tbody >
+                   <tbody v-if="ApprovalWithPageVO.approvalDataVO.length === 0">
+					  <tr>
+					    <td colspan="7" class="text-center">문서가 없습니다.</td>
+					  </tr>
+					</tbody>
+					<tbody v-else>
                        <tr v-for="(approval, index) in ApprovalWithPageVO.approvalDataVO">
                            <td>
 	                           <span class="ms-3">
@@ -293,6 +309,17 @@
                	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
                 },
                 
+                //회수 항목만 조회
+                async changeRecallPage() {
+                  if(this.pageStatus === "recallPage") return;
+                  this.pageStatus = "recallPage";
+               	  this.ApprovalWithPageVO.paginationVO.pageStatus = this.pageStatus; // pageStatus 추가
+               	  this.ApprovalWithPageVO.paginationVO.page = 1;
+               	  const resp = await axios.post("/rest/approval/adminMoveList", this.ApprovalWithPageVO.paginationVO);
+               	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
+               	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
+                },
+                
                 //반려 항목만 조회
                 async changeReturnPage() {
                   if(this.pageStatus === "returnPage") return;
@@ -319,7 +346,7 @@
                 async changeSearchPage() {
                	  this.ApprovalWithPageVO.paginationVO.pageStatus = this.pageStatus; // pageStatus 추가
                	  this.ApprovalWithPageVO.paginationVO.page = 1;
-               	  const resp = await axios.post("/rest/approval/adminSearchList", this.ApprovalWithPageVO.paginationVO);
+               	  const resp = await axios.post("/rest/approval/adminMoveList", this.ApprovalWithPageVO.paginationVO);
                	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
                	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
                 },

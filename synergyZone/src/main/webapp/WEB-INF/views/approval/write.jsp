@@ -21,16 +21,17 @@
 
 <div id="app">
 	<div class="container-fluid">
+	     	<div class="row">
+    	<div class="col-10 offset-sm-1">  
 		<div class="row mb-3"> 
-		  <h3>신규 결재</h3>
+			<div class="col">
+			  <h3>신규 결재</h3>
+			</div>
 		</div>
 	  <div class="row mb-2">
-	  	<div class="col-5">
-		   	<button type="button" class="btn ms-3 mb-2" :class="approvalVO.approverList.length ? 'btn-info' : 'btn-secondary'" @click="showApproverModal">
+	  	<div class="col-4">
+		   	<button type="button" class="btn mb-2" :class="approvalVO.approverList.length ? 'btn-info' : 'btn-secondary'" @click="showApproverModal">
 		  		{{ approvalVO.approverList.length ? '결재자 정보' : '결재자 추가' }}
-			</button>
-		   	<button type="button" class="btn ms-3 mb-2" :class="approvalVO.agreeorList.length ? 'btn-info' : 'btn-secondary'" @click="showAgreeorModal">
-		  		{{ approvalVO.agreeorList.length ? '합의자 정보' : '합의자 추가' }}
 			</button>
 		   	<button type="button" class="btn ms-3 mb-2" :class="approvalVO.recipientList.length ? 'btn-info' : 'btn-secondary'" @click="showRecipientModal">
 		  		{{ approvalVO.recipientList.length ? '참조자 정보' : '참조자 추가' }}
@@ -45,8 +46,6 @@
 			  <label class="form-check-label" for="flexSwitchCheckDefault">긴급 문서</label>
 			</div>
 	  	</div>
-	  	<div class="col-4">
-		</div>
 	  </div>
 	  
 	    <div class="row p-3" >
@@ -70,10 +69,12 @@
 	        <span>결재정보, 제목, 내용을 입력하세요</span>
 	      </div>
 	    </div>
+	    </div>
+	    </div>
   </div>
   
 <!-- 결재자 선택 modal -->
-	<div class="modal" tabindex="-1" role="dialog" data-bs-backdrop="static" ref="approverModal" >
+	<div class="modal" tabindex="-1" role="dialog" data-bs-backdrop="static" ref="approverModal" data-bs-keyboard="false">
         <div class="modal-dialog modal-dialog-centered  modal-lg" role="document" >
             <div class="modal-content">
                 <div class="modal-header">
@@ -101,7 +102,7 @@
           						<div class="col-4" style="overflow-y: scroll; height:400px;">
           						<div class="row mb-3 d-flex justify-content-center align-items-center">
 	          						<div class="col-8 p-1" >
-								      <input type="text" class="form-control " placeholder="이름" v-model="searchName">
+								      <input type="search" class="form-control " placeholder="이름" v-model="searchName" @keyup.enter="search">
 	          						</div>
 	          						<div class="col-2 border rounded" >
 								      <span @click="search" style="cursor: pointer;" title="검색" class="d-flex justify-content-center align-items-center">
@@ -183,116 +184,8 @@
         </div>
 
 </div>
-
-<!-- 합의자 선택 modal -->
-	<div class="modal" tabindex="-1" role="dialog" data-bs-backdrop="static" ref="agreeorModal" >
-        <div class="modal-dialog modal-dialog-centered  modal-lg" role="document" >
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">결재 정보 - 합의자</h5>
-                </div>
-                <div class="modal-body">
-                    <!-- 모달에서 표시할 실질적인 내용 구성 -->
-	   	       		<div v-if="showDuplicateAlert" class="duplicate-alert-container w-20">
-						<div class="alert alert-dismissible alert-primary">
-						  <span>중복된 대상입니다.</span>
-						</div>
-					</div>
-	   	       		<div v-if="showAgreeorNoDataAlert" class="duplicate-alert-container w-20">
-						<div class="alert alert-dismissible alert-primary">
-						  <span>먼저 합의자를 추가 하세요.</span>
-						</div>
-					</div>
-	   	       		<div v-if="showAgreeorAddDataAlert" class="duplicate-alert-container w-20">
-						<div class="alert alert-dismissible alert-success">
-						  <span>저장되었습니다.</span>
-						</div>
-					</div>
-                    <div class="container-fluid">
-      						<div class="row">
-          						<div class="col-4" style="overflow-y: scroll; height:400px;">
-          						<div class="row mb-3 d-flex justify-content-center align-items-center">
-	          						<div class="col-8 p-1" >
-								      <input type="text" class="form-control " placeholder="이름" v-model="searchName">
-	          						</div>
-	          						<div class="col-2 border rounded" >
-								      <span @click="search" style="cursor: pointer;" title="검색" class="d-flex justify-content-center align-items-center">
-								      	<i class="fa-solid fa-magnifying-glass p-2"></i>
-								      </span>
-	          						</div>
-	          						<div class="col-2 border rounded" >
-								      <span @click="searchAll" style="cursor: pointer;" title="전체 목록" class="d-flex justify-content-center align-items-center">
-								      	<i class="fa-solid fa-list p-2" ></i>
-								      </span>
-	          						</div>
-          						</div>
-			                      <ul style="margin:0; padding:0;">
-							        <li v-for="(department, index) in deptEmpList" class="custom-list-item"> 
-							        	<span v-on:click="toggleEmployeeList(index)">
-								           <i class="fa-regular" :class="{'fa-square-plus': !department.showEmployeeList, 'fa-square-minus': department.showEmployeeList}"></i>
-								          {{ department.departmentDto.deptName }}
-							        	</span>
-							          <ul  v-show="department.showEmployeeList">
-							            <li v-for="(employee, index) in department.employeeList" class="custom-list-item">
-							             <span @click="addToAgreeorList(employee,department)">
-							              <img width="25" height="25"  class="rounded-circle" :src="getAttachmentUrl(employee.attachmentNo)" >
-							              {{ employee.empName }}.{{ employee.jobName }}
-							            </span>
-							            </li>
-							          </ul>
-							        </li>
-							      </ul>
-							      <hr>
-							      <ul style="margin:0; padding:0;">
-							      	<li class="custom-list-item">
-							      		<span>
-											<i class="fa-regular fa-square-plus"></i>	      	
-									          자주쓰는 결재선
-							      		</span>
-							      	</li>
-							      </ul>
-
-							     </div>
-       								<div class="col-8" style="overflow-y: scroll; height:400px;">
-	       								<div class="row mb-1">
-			       							<div class="col-6 text-center">
-			       								합의자 목록
-			       							</div>
-			       							<div class="col-4 text-center">
-			       								제거
-			       							</div>
-			       							<div class="col-2 text-center">
-			       							</div>
-		       							</div>
-       								<div class="row" v-for="(agreeor, index) in agreeorList">
-	       									<div class="col-6">
-				       							<div class="badge bg-danger w-100">
-				       								{{index+1}}.{{agreeor.department.deptName}} : {{agreeor.agreeorList.empName}}.{{agreeor.agreeorList.jobName}}
-				       							</div>
-	       									</div>
-	       									<div class="col-4 text-center" >
-					       						<i class="fa-regular fa-trash-can" @click="removeAgreeor(index)"></i>
-	       									</div>
-	       									<div class="col-2 text-center" >
-	       									</div>
-       								</div>
-       							</div>
-   							</div>
-						</div>
-	                </div>
-                <div class="modal-footer">
-                	<div class="row">
-                    <button type="button" class="btn" :class="agreeorList.length ? 'btn-info' : 'btn-secondary'"  @click="saveAgreeorList">저장</button>
-                    <button type="button" class="btn btn-secondary ml-auto ms-2" data-bs-dismiss="modal" @click="hideAgreeorModal">닫기</button>
-                    </div>
-                </div>
-            </div>      
-
-        </div>
-
-</div>
 <!-- 참조자 선택 modal -->
-	<div class="modal" tabindex="-1" role="dialog" data-bs-backdrop="static" ref="recipientModal" >
+	<div class="modal" tabindex="-1" role="dialog" data-bs-backdrop="static" ref="recipientModal" data-bs-keyboard="false">
         <div class="modal-dialog modal-dialog-centered  modal-lg" role="document" >
             <div class="modal-content">
                 <div class="modal-header">
@@ -320,7 +213,7 @@
           						<div class="col-4" style="overflow-y: scroll; height:400px;">
           						<div class="row mb-3 d-flex justify-content-center align-items-center">
 	          						<div class="col-8 p-1" >
-								      <input type="text" class="form-control " placeholder="이름" v-model="searchName">
+								      <input type="search" class="form-control " placeholder="이름" v-model="searchName" @keyup.enter="search">
 	          						</div>
 	          						<div class="col-2 border rounded" >
 								      <span @click="search" style="cursor: pointer;" title="검색" class="d-flex justify-content-center align-items-center">
@@ -398,8 +291,9 @@
         </div>
 
 </div>
+
 <!-- 열람자 선택 modal -->
-	<div class="modal" tabindex="-1" role="dialog" data-bs-backdrop="static" ref="readerModal" >
+	<div class="modal" tabindex="-1" role="dialog" data-bs-backdrop="static" ref="readerModal" data-bs-keyboard="false">
         <div class="modal-dialog modal-dialog-centered  modal-lg" role="document" >
             <div class="modal-content">
                 <div class="modal-header">
@@ -427,7 +321,7 @@
           						<div class="col-4" style="overflow-y: scroll; height:400px;">
           						<div class="row mb-3 d-flex justify-content-center align-items-center">
 	          						<div class="col-8 p-1" >
-								      <input type="text" class="form-control " placeholder="이름" v-model="searchName">
+								      <input type="search" class="form-control " placeholder="이름" v-model="searchName" @keyup.enter="search">
 	          						</div>
 	          						<div class="col-2 border rounded" >
 								      <span @click="search" style="cursor: pointer;" title="검색" class="d-flex justify-content-center align-items-center">
@@ -622,10 +516,6 @@
           this.approverModal.show();
       },
       
-      showAgreeorModal(){	//합의자 모달 보이기
-          this.agreeorModal.show();
-      },
-      
       showRecipientModal(){	//참조자 모달 보이기
           this.recipientModal.show();
       },
@@ -640,16 +530,6 @@
           this.approverModal.hide();
           this.hideEmployeeList();
   	  	
-          this.searchName = "";
-          this.deptEmpList = [];
-          this.loadData();
-      },
-      
-      hideAgreeorModal(){	//합의자 모달 숨기기
-		  this.agreeorList.length=0;
-          this.agreeorList = [...this.tempAgreeorList]; //임시 데이터로 덮기
-          this.agreeorModal.hide();
-          this.hideEmployeeList();
           this.searchName = "";
           this.deptEmpList = [];
           this.loadData();
@@ -742,63 +622,6 @@
 
   	    },
   	    
-      addToAgreeorList(employee, department) { //합의자 리스트 추가
-    	  const agreeorData = {
-   			  agreeorList : employee,
-	    	  department : department.departmentDto
-      		}
-      
-    	  let check = false;	//합의자 중복 체크
-    	  for (let i = 0; i < this.agreeorList.length; i++) {
-	   		    if (this.agreeorList[i].agreeorList.empNo === employee.empNo) {
-	   		    check = true;
-   		    }
-   		  }
-    	  
-    	  if(!check){	//합의자 중복아니면 추가
-	    	    this.agreeorList.push(agreeorData);
-    	  }else{	//합의자 중복이면 알림메세지
-    		  this.showDuplicateAlert = true;
-    		  
-	   	        const that = this; // 현재 컴포넌트의 this를 변수에 저장
-	
-	   	        setTimeout(function() {
-	   	          that.showDuplicateAlert = false; // 1초 후에 showDuplicateAlert 값을 false로 설정하여 알림이 사라지도록 함
-	   	        }, 1000);
-    	  }
-  	  },
-  	  
-  		saveAgreeorList() { //합의자 저장
-    		this.approvalVO.agreeorList.length=0; //이전 데이터 초기화
-  	        
-  	  	if(this.agreeorList.length==0){	//합의자 리스트 없으면 경고
-  			this.showAgreeorNoDataAlert = true;
-  			const that = this;
-  			setTimeout(function(){
-  				that.showAgreeorNoDataAlert = false;
-  			}, 1000);
-  			return;
-    		}
-    	 
-    	    for (let i = 0; i < this.agreeorList.length; i++) { //합의자 정보 저장
-    	      const agreeor = this.agreeorList[i];
-    	      const agreeorData = {
-   	    		  agreeorNo: agreeor.agreeorList.empNo,
-    	      };
-    	      this.approvalVO.agreeorList.push(agreeorData);
-    	    }
-    	      
-    	    this.tempAgreeorList.length = 0;	//임시 데이터 초기화
-    	    this.tempAgreeorList = [...this.agreeorList];	//임시 데이터 저장
-    	      
-  		this.showAgreeorAddDataAlert = true;
-  		const that = this;
-  		setTimeout(function(){
-  			that.showAgreeorAddDataAlert = false;
-  		}, 1000);
-
-   	 },
-  	  
       addToRecipientList(employee, department) { //참조자 리스트 추가
     	  const recipientData = {
    			  recipientList : employee,
@@ -933,10 +756,6 @@
   	      this.approverList.splice(index, 1);
   	   },
   	   
-  	   removeAgreeor(index) { //합의자 제거
-  	      this.agreeorList.splice(index, 1);
-  	   },
-  	   
   	   removeRecipient(index) { //참조자 제거
   	      this.recipientList.splice(index, 1);
   	   },
@@ -949,7 +768,6 @@
     
     mounted(){
     	this.approverModal = new bootstrap.Modal(this.$refs.approverModal);
-    	this.agreeorModal = new bootstrap.Modal(this.$refs.agreeorModal);
     	this.recipientModal = new bootstrap.Modal(this.$refs.recipientModal);
     	this.readerModal = new bootstrap.Modal(this.$refs.readerModal);
     },

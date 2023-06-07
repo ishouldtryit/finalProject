@@ -12,11 +12,12 @@
 <div id="app">
 
     <div class="container-fluid" v-if="ApprovalWithPageVO != null">
-       
-       <div class="row mb-3 offset-sm-1">
+     	<div class="row">
+    	<div class="col-10 offset-sm-1">         
+       <div class="row mb-3">
            <h3>나의 기안서 목록</h3>
        </div>
-       <div class="row mb-3 offset-sm-1">
+       <div class="row mb-3">
              <div class="col-2" style=" width:150px;">
                 <select class="form-select" style="width:150px;" v-model="ApprovalWithPageVO.paginationVO.column">
                    <option value="draft_title">제목</option>
@@ -24,20 +25,18 @@
                 </select>
              </div>
           <div class="input-group mb-3 ms-3 col-1" style="width:300px;">
-            <input type="text" class="form-control" placeholder="검색어" v-model="ApprovalWithPageVO.paginationVO.keyword">
+            <input type="search" class="form-control" placeholder="검색어" v-model="ApprovalWithPageVO.paginationVO.keyword" @keyup.enter="changeSearchPage">
             <button class="btn btn-info" type="button" @click="changeSearchPage">검색</button>
           </div>
-          <div class="ms-3 offset-sm-1 col">
+          <div class="ms-3 col">
             <button class="btn btn-info" type="button" @click="loadData">
             <i class="fa-solid fa-list-ul"></i>
              전체 목록
             </button>
           </div>
        </div>
-       <div class="row mb-2">
-        <div class="col-10 offset-sm-1">
-      	  <div class="row">
-             <div class="col-10">
+       <div class="row mb-2 d-flex align-items-center">
+             <div class="col-11 d-flex">
                 <div class="btn-group" role="group">
                       <button type="button" 
                       class="btn" :class="{'btn-secondary': pageStatus != 'allPage', 'btn-info': pageStatus == 'allPage'}"
@@ -71,7 +70,7 @@
                     긴급
                   </button>
                </div>      
-                   <div class="col-2">
+                   <div class="col-1 d-flex">
                     <select class="form-select" style="width:100px;" v-model="ApprovalWithPageVO.paginationVO.size" @change="changeSize">
                       <option value="10">10</option>
                       <option value="20">20</option>
@@ -80,11 +79,9 @@
                       <option value="50">50</option>
                     </select>
                 </div>    
-                </div>
-                </div>
              </div>
        <div class="row mt-4">
-           <div class="col-10 offset-sm-1">
+           <div>
                <table class="table table-hover">
                    <thead>
                        <tr class="col-12">
@@ -122,9 +119,12 @@
                               
                               </td>
                            <td>{{approval.approvalWithDrafterDto.empName}}</td>
-                           <td>
-                                 {{ approval.approverList[approval.approvalWithDrafterDto.statusCode].empName }}
-                           </td>
+							<td v-if="approval.approvalWithDrafterDto.statusCode === approval.approverList.length">
+							  -
+							</td>
+							<td v-else>
+							  {{ approval.approverList[approval.approvalWithDrafterDto.statusCode].empName }}
+							</td>
                            <td>
                               {{ approval.approverList[approval.approverList.length - 1].empName }}
                            </td>
@@ -146,6 +146,8 @@
                        </tr>
                    </tbody>
                </table>
+           </div>
+           </div>
            </div>
        </div>
        <div>

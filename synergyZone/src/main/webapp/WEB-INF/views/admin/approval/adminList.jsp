@@ -12,22 +12,25 @@
 <div id="app">
 
     <div class="container-fluid" v-if="ApprovalWithPageVO != null">
-    	
-       <div class="row mb-3 offset-sm-1">
-           <h3>기안서 목록 (관리자)</h3>
+     	<div class="row">
+    	<div class="col-10 offset-sm-1">   	
+       <div class="row mb-3">
+       		<div class="col-10">
+	           <h3>기안서 목록 (관리자)</h3>
+       		</div>
        </div>
-       <div class="row mb-3 offset-sm-1 ">
-       		<div class="col-2" style=" width:150px;">
+       <div class="row mb-3 ">
+       		<div class="col-3" style="width:150px;">
 	       		<select class="form-select" style="width:150px;" v-model="ApprovalWithPageVO.paginationVO.column">
 		          	<option value="draft_title">제목</option>
 	       			<option value="emp_name">기안자</option>
 	       		</select>
        		</div>
-		    <div class="input-group mb-3 ms-3 col-1" style="width:300px;">
-		      <input type="text" class="form-control" placeholder="검색어" v-model="ApprovalWithPageVO.paginationVO.keyword">
+		    <div class="input-group mb-3 ms-3 col-3" style="width:300px;">
+		      <input type="search" class="form-control" placeholder="검색어" v-model="ApprovalWithPageVO.paginationVO.keyword">
 		      <button class="btn btn-info" type="button" @click="changeSearchPage">검색</button>
 		    </div>
-		    <div class="ms-3 col">
+		    <div class="ms-3 col-3">
 		      <button class="btn btn-info" type="button" @click="loadData">
 		      <i class="fa-solid fa-list-ul"></i>
 		       전체 목록
@@ -35,7 +38,7 @@
 		    </div>
        </div>
        <div class="row mb-2 d-flex align-items-center">
-			    <div class="col-11 d-flex">
+             <div class="col-11 d-flex">
 				    <div class="btn-group" role="group">
 				       	<button type="button" 
 				       	class="btn" :class="{'btn-secondary': pageStatus != 'allPage', 'btn-info': pageStatus == 'allPage'}"
@@ -118,9 +121,12 @@
                            	
                            	</td>
                            <td>{{approval.approvalWithDrafterDto.empName}}</td>
-                           <td>
-                           		{{ approval.approverList[approval.approvalWithDrafterDto.statusCode].empName }}
-                           </td>
+							<td v-if="approval.approvalWithDrafterDto.statusCode === approval.approverList.length">
+							  -
+							</td>
+							<td v-else>
+							  {{ approval.approverList[approval.approvalWithDrafterDto.statusCode].empName }}
+							</td>
                            <td>
 	                           {{ approval.approverList[approval.approverList.length - 1].empName }}
                            </td>
@@ -144,8 +150,7 @@
                </table>
            </div>
        </div>
-       <div>
-       
+       </div>
        </div>
 		  	<div class="d-flex align-items-center justify-content-center mt-4">
 		  		<div class="d-flex">

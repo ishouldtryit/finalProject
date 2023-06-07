@@ -24,6 +24,26 @@
     		)
     	</insert>
     	
+    	<!-- 문서 회수 -->
+    	<update id="recallApproval">
+    		update approval
+    		<set>
+    			result_code = 1
+    		</set>
+    		where draft_no = #{draftNo}
+    	</update>
+    	
+    	<!-- 재기안 -->
+    	<update id="reApproval">
+    		update approval
+    		<set>
+    			result_code = 0,
+    			status_code = 0
+    		</set>
+    		where draft_no = #{draftNo}
+    	</update>
+    	
+    	<!-- 수정 -->
 		<update id="editAllInOne">
 			update approval
 			<set>

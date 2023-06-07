@@ -125,6 +125,16 @@ public class ApprovalRepoImpl implements ApprovalRepo {
 		return sqlSession.selectList("approval.readerApprovalDataSelectList", vo);
 	}
 
+	@Override
+	public void recallApproval(int draftNo) {
+		sqlSession.update("approval.recallApproval", draftNo);
+	}
+
+	@Override
+	public void reApproval(int draftNo) {
+		sqlSession.update("approval.reApproval", draftNo);
+	}
+
 
 
 

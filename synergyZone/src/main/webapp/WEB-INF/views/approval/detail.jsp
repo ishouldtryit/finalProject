@@ -22,7 +22,7 @@
 		</div>
 		<div class="row mb-3">
 			<div class="col">
-				<button type="button" class="btn btn-outline-info" v-if="isDrafterAndWaitApproval" @click="showApprovalRecallModal">
+				<button type="button" class="btn btn-outline-info ms-2" v-if="isDrafterAndWaitApproval" @click="showApprovalRecallModal">
 					<i class="fa-solid fa-circle-xmark"></i>
 					상신 취소
 				</button>
@@ -37,6 +37,10 @@
 				<button type="button" class="btn btn-outline-info ms-2" v-if="isDrafterAndIsRecall" >
 					<i class="fa-solid fa-user-pen"></i>
 					문서 수정
+				</button>
+				<button type="button" class="btn btn-outline-info ms-2" v-if="isDrafterAndIsRecall" @click="showReApprovalModal">
+					<i class="fa-solid fa-pen-to-square"></i>
+					재기안
 				</button>
 				<button type="button" class="btn btn-outline-info ms-2" @click="showApprovalInfoModal">
 					<i class="fa-solid fa-circle-exclamation"></i>
@@ -138,6 +142,33 @@
             </div>
            </div>
        </div>
+   
+	<!-- 재기안 modal -->
+	<div class="modal" tabindex="-1" role="dialog" ref="reApprovalModal"  >
+        <div class="modal-dialog modal-dialog-centered modal-md" role="document" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">재기안</h5>
+                </div>
+                <div class="modal-body">
+                	<div class="container-fluid" >
+                		<div class="row">
+                			<h5 class="text-primary">정말 재기안 하시겠습니까??</h5>
+                		</div>
+      				</div>  	
+                </div>
+                	
+                <div class="modal-footer">
+                	<div class="row">
+	                	<div class="col">
+	                  	  <button type="button" class="btn btn-danger ms-2" data-bs-dismiss="modal" @click="reApproval">확인</button>
+	                  	  <button type="button" class="btn btn-secondary ms-2" data-bs-dismiss="modal" @click="hideReApprovalModal">닫기</button>
+	                	</div>
+                    </div>
+                </div>
+            </div>
+           </div>
+       </div>
        
    </div>            
 	
@@ -160,6 +191,7 @@
     	  },
     	  approvalInfoModal : null,
     	  approvalRecallModal : null,
+    	  reApprovalModal : null,
     	  
       }
     },
@@ -169,7 +201,7 @@
         	const loginUser = this.ApprovalDataVO.loginUser; // 로그인한 사용자 정보
             const approverList = this.ApprovalDataVO.approverList; // 결재자 목록
             const approverOrder = this.ApprovalDataVO.approvalWithDrafterDto.resultCode; //결재 순서
-            const isRecall = this.ApprovalDataVO.approvalWithDrafterDto.statusCode == 1; //회수 상태
+            const isRecall = this.ApprovalDataVO.approvalWithDrafterDto.resultCode == 1; //회수 상태
         	     if (approverList[approverOrder].approverNo === loginUser && !isRecall) { // approverNo와 loginUser가 일치한다면 true
         	         return true; 
         	       }
@@ -178,13 +210,14 @@
           isDrafterAndWaitApproval(){//작성자인지, 결재진행중인지 검사
         	  const drafterNo = this.ApprovalDataVO.approvalWithDrafterDto.drafterNo; //작성자 아이디
         	  const loginUser = this.ApprovalDataVO.loginUser; //로그인 유저
-        	  const waitApproval = this.ApprovalDataVO.approvalWithDrafterDto.resultCode == 0; //결재 대기 중
-        	  return drafterNo === loginUser && waitApproval;
+        	  const waitApproval = this.ApprovalDataVO.approvalWithDrafterDto.statusCode == 0; //결재 대기 중
+        	  const approving = this.ApprovalDataVO.approvalWithDrafterDto.resultCode == 0; //결재 진행 중
+        	  return drafterNo === loginUser && waitApproval && approving;
           },
-          isDrafterAndIsRecall(){//작성자인지, 결재진행중인지 검사
+          isDrafterAndIsRecall(){//작성자인지, 회수 상태 검사
         	  const drafterNo = this.ApprovalDataVO.approvalWithDrafterDto.drafterNo; //작성자 아이디
         	  const loginUser = this.ApprovalDataVO.loginUser; //로그인 유저
-        	  const isRecall = this.ApprovalDataVO.approvalWithDrafterDto.statusCode == 1; //회수 상태
+        	  const isRecall = this.ApprovalDataVO.approvalWithDrafterDto.resultCode == 1; //회수 상태
         	  return drafterNo === loginUser && isRecall;
           },
     },
@@ -210,17 +243,32 @@
         hideApprovalRecallModal(){	//상신취소 모달 숨기기
         	this.approvalRecallModal.hide();
         },
-        async approvalRecall(){
+        showReApprovalModal(){	//재기안 모달 보이기
+        	this.reApprovalModal.show();
+        },
+        hideReApprovalModal(){	//재기안 모달 숨기기
+        	this.reApprovalModal.hide();
+        },
+        async approvalRecall(){	//문서 회수
             const urlParams = new URLSearchParams(window.location.search);
             const draftNo = urlParams.get("draftNo");
             const resp = await axios.patch("/rest/approval/detail/recall/"+draftNo);
-        }
+            location.reload();
+        },
+        
+        async reApproval(){	//재기안
+            const urlParams = new URLSearchParams(window.location.search);
+            const draftNo = urlParams.get("draftNo");
+            const resp = await axios.patch("/rest/approval/detail/reApproval/"+draftNo);
+            location.reload();        	
+        },
 
     },
     
     mounted(){
     	this.approvalInfoModal = new bootstrap.Modal(this.$refs.approvalInfoModal);
     	this.approvalRecallModal = new bootstrap.Modal(this.$refs.approvalRecallModal);
+    	this.reApprovalModal = new bootstrap.Modal(this.$refs.reApprovalModal);
     },
     created() {
       this.loadData();

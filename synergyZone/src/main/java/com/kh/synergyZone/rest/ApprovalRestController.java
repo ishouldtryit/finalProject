@@ -302,9 +302,16 @@ public class ApprovalRestController {
 			return approvalDataVO;
 		}
 
+		//문서 회수
 		@PatchMapping("/detail/recall/{draftNo}")
 		public void approvalRecall(@PathVariable int draftNo) {
-			System.out.println("동작?"+draftNo);
+			approvalRepoImpl.recallApproval(draftNo);
+		}
+		
+		//재기안
+		@PatchMapping("/detail/reApproval/{draftNo}")
+		public void reApproval(@PathVariable int draftNo) {
+			approvalRepoImpl.reApproval(draftNo);
 		}
 	
 }

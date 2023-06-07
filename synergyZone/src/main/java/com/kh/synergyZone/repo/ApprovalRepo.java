@@ -28,6 +28,8 @@ public interface ApprovalRepo {
 	ApprovalDataVO approvalDataSelectOne(int draftNo); //상세 페이지
 	void delete(int draftNo);	//삭제
 	void edit(ApprovalDto approvalDto);	//수정
+	void recallApproval(int draftNo);	// 기안서 회수
+	void reApproval(int draftNo);	// 기안서 회수
 	void approverInsert(ApproverDto approverDto);	//결재자 등록
 	void agreeorInsert(AgreeorDto agreeorDto);	//합의자 등록
 	void recipientInsert(RecipientDto recipientDto);	//참조자 등록

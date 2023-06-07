@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.kh.synergyZone.dto.CommuteRecordDto;
 import com.kh.synergyZone.dto.TripDto;
+import com.kh.synergyZone.dto.TripPersonDto;
 import com.kh.synergyZone.repo.CommuteRecordRepoImpl;
-import com.kh.synergyZone.repo.TripRepo;
 import com.kh.synergyZone.repo.TripRepoImpl;
 import com.kh.synergyZone.repo.VacationInfoRepoImpl;
 import com.kh.synergyZone.repo.VacationRepoImpl;
@@ -122,14 +122,22 @@ public class CommuteController {
 	}
 	
 	@GetMapping("/trip")
-	public String trip() {
+	public String trip(Model model,HttpSession session) {
+		//신청내역받아야함
+		
+//		model.addAttribute(session);
 		return "/commute/write2";
 	}
 	@PostMapping("/trip")
-	public String insert(@ModelAttribute TripDto tripDto,HttpSession session) {
+	public String insert(@ModelAttribute TripDto tripDto,HttpSession session,@ModelAttribute List<TripPersonDto> person) {
 		String empNo=(String) session.getAttribute("empNo");
 		tripDto.setEmpNo(empNo);
+		for(TripPersonDto dto: person) {
+
+		}
 		tripRepoImpl.insert(tripDto);
+		
+		
 		return "redirect:/commute/trip";
 	}
 	//관리자 연차관리페이지

@@ -28,7 +28,7 @@
 	</select>
 	
 	<select id="list" resultType="workBoardDto">
-		select * from work_board order by work_no asc
+		select * from work_board order by work_no desc
 	</select>
 	
 	<update id="edit">

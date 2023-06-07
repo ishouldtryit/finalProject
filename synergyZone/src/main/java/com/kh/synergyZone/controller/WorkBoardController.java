@@ -99,7 +99,8 @@ public class WorkBoardController {
                         @ModelAttribute WorkBoardDto workBoardDto,
                         @RequestParam int workNo,
                         HttpSession session,
-                        @RequestParam List<String> supList) {
+                        @RequestParam List<String> supList,
+                        RedirectAttributes attr) {
 
        for (String empNo : supList) {
            WorkReportDto dto = new WorkReportDto();
@@ -107,7 +108,9 @@ public class WorkBoardController {
            dto.setWorkSup(empNo);
            workReportRepo.insert(dto);
        }
-       return "redirect:/";
+       
+       attr.addAttribute("workNo", workNo);
+       return "redirect:detail";
    }
    
    //참조자 보관함

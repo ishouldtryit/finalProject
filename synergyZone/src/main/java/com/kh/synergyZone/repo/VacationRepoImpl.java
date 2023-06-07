@@ -31,7 +31,7 @@ public class VacationRepoImpl implements VacationRepo {
 	public List<VacationVO> queue(VacationVO vo) {
 		return sqlSession.selectList("vacation.queue",vo);
 	}
-
+ 
 	//연차등록
 	@Override
 	public void insert(VacationVO vo) {

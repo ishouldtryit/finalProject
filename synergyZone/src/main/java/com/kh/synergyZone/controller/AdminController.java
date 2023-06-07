@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.kh.synergyZone.dto.DepartmentDto;
 import com.kh.synergyZone.dto.EmployeeDto;
 import com.kh.synergyZone.dto.EmployeeInfoDto;
+import com.kh.synergyZone.dto.EmployeeProfileDto;
 import com.kh.synergyZone.dto.JobDto;
 import com.kh.synergyZone.dto.LoginRecordInfoDto;
 import com.kh.synergyZone.dto.VacationInfoDto;
@@ -30,8 +32,8 @@ import com.kh.synergyZone.repo.LoginRecordRepo;
 import com.kh.synergyZone.repo.VacationInfoRepoImpl;
 import com.kh.synergyZone.service.EmployeeService;
 import com.kh.synergyZone.service.VacationServiceImpl;
-import com.kh.synergyZone.vo.EmployeeExitWaitingVO;
 import com.kh.synergyZone.vo.LoginRecordSearchVO;
+import com.kh.synergyZone.vo.PaginationVO;
 
 @Controller
 @RequestMapping("/admin")
@@ -60,6 +62,9 @@ public class AdminController {
 
 	@Autowired
 	private EmployeeProfileRepo employeeProfileRepo;
+	
+	@Autowired
+	private PasswordEncoder encoder;
 	
 	
 	//회원가입
@@ -124,18 +129,108 @@ public class AdminController {
 	}
 	
 	//사원 목록
-	@GetMapping("/list")
-	public String list(Model model) throws IOException {
-		List<EmployeeInfoDto> employees = employeeRepo.list();
-	    List<DepartmentDto> departments = departmentRepo.list();
-	    List<JobDto> jobs = jobRepo.list();
-	    
-	    model.addAttribute("employees", employees);
-	    model.addAttribute("departments", departments);
-	    model.addAttribute("jobs", jobs);
-	    
-	    return "admin/list";
-	}
+		@GetMapping("/list")
+		public String list(@ModelAttribute("vo") PaginationVO vo,
+						   @RequestParam(required = false, defaultValue = "") String empNo,
+						   @RequestParam(required = false, defaultValue = "member_regdate desc") String sort,
+				           @RequestParam(required = false, defaultValue = "") String column,
+				           @RequestParam(required = false, defaultValue = "") String keyword,
+						   Model model) throws IOException {
+			List<EmployeeInfoDto> employees = employeeRepo.list();
+		    List<DepartmentDto> departments = departmentRepo.list();
+		    List<JobDto> jobs = jobRepo.list();
+		    
+		    model.addAttribute("employees", employees);
+		    model.addAttribute("departments", departments);
+		    model.addAttribute("jobs", jobs);
+		    
+		    // 검색
+		       if (!column.isEmpty() && !keyword.isEmpty()) {
+		    	   employees = employeeService.searchEmployees(column, keyword);
+		       } else {
+		           employees = employeeRepo.list();
+		       }
+		       
+		       if (empNo != null) {
+		    	    model.addAttribute("profile", employeeProfileRepo.find(empNo));
+		    	}
+		       
+		       //selected 유지
+		       model.addAttribute("column", column);
+		    
+		    // 페이징 처리
+		       int totalCount = employees.size();  // 전체 데이터 개수
+		       vo.setCount(totalCount);  // PaginationVO 객체의 count 값을 설정
+		       
+		       int size = vo.getSize();  // 페이지당 표시할 데이터 개수
+		       int page = vo.getPage();  // 현재 페이지 번호
+		       
+		       int startIndex = (page - 1) * size;  // 데이터의 시작 인덱스
+		       int endIndex = Math.min(startIndex + size, totalCount);  // 데이터의 종료 인덱스
+		       
+		       List<EmployeeInfoDto> pagedEmployees = employees.subList(startIndex, endIndex);  // 페이지에 해당하는 데이터만 추출
+		       
+		       // 프로필 사진 조회
+		       EmployeeProfileDto profile = employeeProfileRepo.find(empNo); // 프로필 정보 조회
+		       model.addAttribute("profile", profile);
+		       
+		       model.addAttribute("employees", pagedEmployees);
+		    
+		    return "admin/list";
+		}
+	
+		@GetMapping("/waitingList")
+		public String exitWaitingList(@ModelAttribute("vo") PaginationVO vo,
+		                              @RequestParam(required = false, defaultValue = "") String empNo,
+		                              @RequestParam(required = false, defaultValue = "member_regdate desc") String sort,
+		                              @RequestParam(required = false, defaultValue = "") String column,
+		                              @RequestParam(required = false, defaultValue = "") String keyword,
+		                              Model model) {
+		    List<EmployeeInfoDto> waitingList;
+		    
+		    // 대기 목록 조회
+		    if (!column.isEmpty() && !keyword.isEmpty()) {
+		        waitingList = employeeRepo.searchWaitingEmployees(column, keyword);
+		    } else {
+		        waitingList = employeeRepo.waitingList();
+		    }
+		    
+		    model.addAttribute("waitingList", waitingList);
+
+		    List<DepartmentDto> departments = departmentRepo.list();
+		    List<JobDto> jobs = jobRepo.list();
+
+		    model.addAttribute("departments", departments);
+		    model.addAttribute("jobs", jobs);
+
+		    if (empNo != null) {
+		        model.addAttribute("profile", employeeProfileRepo.find(empNo));
+		    }
+
+		    // selected 유지
+		    model.addAttribute("column", column);
+
+		    // 페이징 처리
+		    int totalCount = waitingList.size(); // 전체 데이터 개수
+		    vo.setCount(totalCount); // PaginationVO 객체의 count 값을 설정
+
+		    int size = vo.getSize(); // 페이지당 표시할 데이터 개수
+		    int page = vo.getPage(); // 현재 페이지 번호
+
+		    int startIndex = (page - 1) * size; // 데이터의 시작 인덱스
+		    int endIndex = Math.min(startIndex + size, totalCount); // 데이터의 종료 인덱스
+
+		    List<EmployeeInfoDto> pagedEmployees = waitingList.subList(startIndex, endIndex); // 페이지에 해당하는 데이터만 추출
+
+		    // 프로필 사진 조회
+		    EmployeeProfileDto profile = employeeProfileRepo.find(empNo); // 프로필 정보 조회
+		    model.addAttribute("profile", profile);
+
+		    model.addAttribute("employees", pagedEmployees);
+
+		    return "admin/waitingList";
+		}
+
 	
 	//사원 정보 수정
 	@GetMapping("/edit")
@@ -144,6 +239,9 @@ public class AdminController {
 		EmployeeDto employeeDto = employeeRepo.selectOne(empNo);
 		List<DepartmentDto> departments = departmentRepo.list();
 	    List<JobDto> jobs = jobRepo.list();
+	    
+	    String encrypt = encoder.encode(employeeDto.getEmpPassword());
+		employeeDto.setEmpPassword(encrypt);
 	
 		model.addAttribute("employeeDto", employeeDto);
 		model.addAttribute("departments", departments);
@@ -194,6 +292,13 @@ public class AdminController {
 		employeeRepo.exit(empNo);
 		return "redirect:/admin/list";
 	}
+	
+	@GetMapping("/exitCancel")
+	public String exitCancel(@RequestParam String empNo) {
+	    employeeRepo.cancelExit(empNo);
+	    return "redirect:/admin/waitingList";
+	}
+
 	
 	
 	//부서 등록
@@ -264,32 +369,7 @@ public class AdminController {
 		
 		return "admin/log/list";
 	}
-	
-	//퇴사처리 대기 목록
-	@GetMapping("/waitingList")
-	public String exitWaitingList(Model model) {
-		List<EmployeeDto> waitingList = employeeRepo.waitingList();
-		EmployeeExitWaitingVO exitWaitingVO = EmployeeExitWaitingVO.builder()
-												.waitingList(waitingList)
-												.build(); 
-		model.addAttribute("exitWaitingVO", exitWaitingVO);
-		
-		List<DepartmentDto> departments = departmentRepo.list();
-	    List<JobDto> jobs = jobRepo.list();
-	    
-	    model.addAttribute("departments", departments);
-	    model.addAttribute("jobs", jobs);
-	    
-		return "admin/waitingList";
-	}
-	
-	//관리자 등록
-	@GetMapping("/authorityAdmin")
-	public String authorityAdmin(@RequestParam String empNo,
-								 Model model) {
-		employeeRepo.authorityAdmin(empNo);
-		return "redirect:list";
-	}
+
 	
 	//관리자 목록
 	@GetMapping("/adminList")

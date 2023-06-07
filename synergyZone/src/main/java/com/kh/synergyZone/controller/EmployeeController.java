@@ -119,8 +119,8 @@ public class EmployeeController {
 		}
 		
 		@PostMapping("/findPw")
-		public String findPw(@RequestParam String empNo,
-							 @RequestParam String empEmail,
+		public String findPw(@RequestParam("empNo") String empNo,
+							 @RequestParam("empEmail") String empEmail,
 							 RedirectAttributes attr) throws MessagingException {
 			EmployeeDto employeeDto = employeeRepo.selectOne(empNo);
 			if(employeeDto == null || !employeeDto.getEmpEmail().equals(empEmail)) {
@@ -130,6 +130,8 @@ public class EmployeeController {
 			
 			//이메일 일치 시 임시 비밀번호 생성
 			emailService.sendTemporaryPw(empNo, empEmail);
+			System.out.println(empEmail);
+			System.out.println(empNo);
 			return "redirect:findPwResult";
 		}
 		

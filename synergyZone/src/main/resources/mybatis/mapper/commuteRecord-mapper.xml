@@ -5,7 +5,6 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
 <mapper namespace="commuteRecord">
-
    <!-- 출근시간 -->
    <insert id="start">
          INSERT INTO COMMUTE_RECORD(emp_no, start_time, work_date,start_ip) 
@@ -30,6 +29,9 @@
    <select id="empRecordList" resultType="CommuteRecordDto">
       select * from commute_record where emp_no= #{empNo}
    </select>
+   
+   
 
- 
+
+  
 </mapper>

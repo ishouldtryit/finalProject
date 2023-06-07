@@ -1,157 +1,183 @@
 package com.kh.synergyZone.rest;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.http.ContentDisposition;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.synergyZone.configuration.CustomFileUploadProperties;
-import com.kh.synergyZone.dto.AttachmentDto;
-import com.kh.synergyZone.dto.WorkFileDto;
-import com.kh.synergyZone.repo.AttachmentRepo;
-import com.kh.synergyZone.repo.WorkBoardRepo;
-import com.kh.synergyZone.repo.WorkFileRepo;
-import com.kh.synergyZone.service.WorkBoardService;
+import com.kh.synergyZone.vo.WorkAttachVO;
+
+import lombok.extern.slf4j.Slf4j;
 
 @CrossOrigin
 @RestController
 @RequestMapping("/rest/attachment")
+@Slf4j
 public class AttachmentRestController {
 	
-	//준비물
 	@Autowired
-	private AttachmentRepo attachmentRepo;
-	
-	@Autowired
-	private WorkFileRepo workFileRepo;
-	
-	@Autowired
-	private WorkBoardRepo workBoardRepo;
-	
-	@Autowired
-	private WorkBoardService workBoardService;
-	
-	@Autowired
-	private CustomFileUploadProperties fileUploadProperties;
+	private CustomFileUploadProperties customFileUploadProperties;
 	
 	private File dir;
 	
+ 
 	@PostConstruct
 	public void init() {
-		dir = new File(fileUploadProperties.getPath());
+		dir = new File(customFileUploadProperties.getPath());
 		dir.mkdirs();
 	}
 	
 	@PostMapping("/upload")
-	public List<AttachmentDto> upload(@RequestParam List<MultipartFile> attachments) throws IllegalStateException, IOException {
-
-	    List<AttachmentDto> uploadedAttachments = new ArrayList<>();
-
-	    for (MultipartFile attach : attachments) {
-	        if (!attach.isEmpty()) {
-	            // Generate attachment number
-	            int attachmentNo = attachmentRepo.sequence();
-
-	            // Save file
-	            File target = new File(dir, String.valueOf(attachmentNo));
-	            attach.transferTo(target);
-
-	            // Store in the database
-	            attachmentRepo.insert(AttachmentDto.builder()
-	                    .attachmentNo(attachmentNo)
-	                    .attachmentName(attach.getOriginalFilename())
-	                    .attachmentType(attach.getContentType())
-	                    .attachmentSize(attach.getSize())
-	                    .build());
-	            // Add uploaded attachment to the list
-	            uploadedAttachments.add(AttachmentDto.builder()
-	                    .attachmentNo(attachmentNo)
-	                    .attachmentName(attach.getOriginalFilename())
-	                    .build());
-	        }
-	    }
-
-	    return uploadedAttachments;
-	}
-
-	
-	//다운로드
-	@GetMapping("/download/{attachmentNo}")
-	public ResponseEntity<ByteArrayResource> download(
-			@PathVariable int attachmentNo) throws IOException{
+	public ResponseEntity<List<WorkAttachVO>> upload(MultipartFile[] uploadFile) {
+		List<WorkAttachVO> list = new ArrayList<>();
+		String uploadFolder = "C:/final/upload/kh11fb/";
 		
-		//DB조회
-		AttachmentDto attachmentDto = attachmentRepo.find(attachmentNo);
-		if(attachmentDto == null) {//없으면 404
-			return ResponseEntity.notFound().build();
+		String uploadFolderPath = getFolder();
+		
+		// make folder ----------
+		File uploadPath = new File(uploadFolder, getFolder());
+		
+		if(uploadPath.exists()==false) {
+			uploadPath.mkdirs();
 		}
 		
-		//파일 찾기
-		File target = new File(dir, String.valueOf(attachmentNo));
+		//make yyyy/MM/dd folder
 		
-		//보낼 데이터 생성
-		byte[] data = FileUtils.readFileToByteArray(target);
-		ByteArrayResource resource = new ByteArrayResource(data);
-		
-		//제공되는 모든 상수와 명령을 동원해서 최대한 오류 없이 편하게 작성
-		return ResponseEntity.ok()
-				.contentType(MediaType.APPLICATION_OCTET_STREAM)
-				.contentLength(attachmentDto.getAttachmentSize())
-				.header(HttpHeaders.CONTENT_ENCODING,
-						StandardCharsets.UTF_8.name())
-				.header(HttpHeaders.CONTENT_DISPOSITION,
-						ContentDisposition.attachment()
-							.filename(attachmentDto.getAttachmentName(),
-									StandardCharsets.UTF_8
-									).build().toString())
-				.body(resource);//다운
+		for(MultipartFile multipartFile : uploadFile) {
+			
+			WorkAttachVO attachVO = new WorkAttachVO();
+			String uploadFileName = multipartFile.getOriginalFilename();
+			log.debug(uploadFileName);
+			
+			
+			//IE has file path
+			uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\") + 1);
+			attachVO.setFileName(uploadFileName);
+			
+			UUID uuid = UUID.randomUUID();
+			uploadFileName = uuid.toString() + "_" + uploadFileName;
+
+			try {
+				File saveFile = new File(uploadPath, uploadFileName);
+				multipartFile.transferTo(saveFile);
+				
+				attachVO.setUuid(uuid.toString());
+				attachVO.setUploadPath(uploadFolderPath);
+				
+//				if(checkImageType(saveFile)) {
+//					attachVO.setFileType(true);
+//					FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_" + uploadFileName));
+//					Thumbnailator.createThumbnail(multipartFile.getInputStream(), thumbnail, 100, 100);
+//					thumbnail.close();
+//				}
+				list.add(attachVO);
+				System.out.print(list);
+			}catch (Exception e) {
+				e.printStackTrace();
+			}//end catch
+		}//end for
+		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 	
-	//첨부파일 삭제
-	@DeleteMapping("/delete/{attachmentNo}")
-	public ResponseEntity<String> delete(@PathVariable int attachmentNo){
-		AttachmentDto attachmentDto = attachmentRepo.find(attachmentNo);
-		if(attachmentDto == null) {
-			return ResponseEntity.notFound().build();
+	// 오늘 날짜의 경로를 문자열로 생성한다.
+		private String getFolder() {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			
+			Date date = new Date(0);
+			
+			String str = sdf.format(date);
+			
+			return str.replace("-", File.separator);
 		}
 		
-		File target = new File(dir, String.valueOf(attachmentNo));
-		if(target.exists() && target.delete()) {
-			attachmentRepo.delete(attachmentNo);
-			return ResponseEntity.ok("Attachment deleted successfully.");
-		}else {
-			return ResponseEntity.internalServerError().body("Failed to delete attachment.");
+//		private boolean checkImageType(File file) {
+//			try {
+//				String contentType = Files.probeContentType(file.toPath());
+//				
+//				return contentType.startsWith("image");
+//			}catch(IOException e) {
+//				e.printStackTrace();
+//			}
+//			return false;
+//		}
+		
+		
+		@GetMapping("/download")
+		public ResponseEntity<Resource> download(@RequestHeader("User-Agent") String userAgent, String fileName){
+			Resource resource = (Resource) new FileSystemResource("C:/final/upload/kh11fb/" + fileName);
+			
+			if(((File) resource).exists() == false) {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+			
+			String resourceName = ((FileSystemResource) resource).getFilename();
+			
+			String resourceOriginalName = resourceName.substring(resourceName.indexOf("_") + 1);
+			
+			HttpHeaders headers = new HttpHeaders();
+			try {
+				String downloadName = null;
+				if(userAgent.contains("Trident")) {
+					downloadName = URLEncoder.encode(resourceOriginalName, "UTF-8");
+				}else if(userAgent.contains("Edge")) {
+					downloadName = URLEncoder.encode(resourceOriginalName, "UTF-8");
+				}else {
+					downloadName = new String(resourceOriginalName.getBytes("UTF-8"), "ISO-8859-1");
+				}
+				
+				headers.add("Content-Disposition", "attachment; filename=" + downloadName);
+			}catch(UnsupportedEncodingException e){
+				e.printStackTrace();
+			}
+			return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
 		}
-	}
-	
-	@GetMapping("/list/{attachmentNo}")
-	public List<AttachmentDto> list(@PathVariable int attachmentNo) {
-	    // attachmentNo를 이용하여 해당 첨부 파일 목록을 조회하고 반환하는 로직 구현
-	    return attachmentRepo.findAll(attachmentNo);
-	}
-
-
-	
-	
-	
+		
+		
+		@PostMapping("/delete")
+		public ResponseEntity<String> delete(String fileName){
+			
+			File file;
+			
+			try {
+				file = new File("C:/final/upload/kh11fb/" + URLDecoder.decode(fileName, "UTF-8"));
+				
+				file.delete();
+				
+//				if(type.equals("image")) {
+//					String largeFileName = file.getAbsolutePath().replace("s_", "");
+//					log.info("largetFileName : " + largeFileName);
+//					file = new File(largeFileName);
+//					file.delete();
+//				}
+			}catch(UnsupportedEncodingException e) {
+				e.printStackTrace();
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+			
+			return new ResponseEntity<String>("deleted", HttpStatus.OK);
+		}
+		
+		
 }

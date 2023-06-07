@@ -25,121 +25,157 @@ import com.kh.synergyZone.repo.WorkBoardRepo;
 import com.kh.synergyZone.repo.WorkFileRepo;
 import com.kh.synergyZone.repo.WorkReportRepo;
 import com.kh.synergyZone.service.WorkBoardService;
+import com.kh.synergyZone.vo.ReportWithWorkBoardVO;
+import com.kh.synergyZone.vo.WorkBoardVO;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/workboard")
+@Slf4j
 public class WorkBoardController {
-	
-	@Autowired
-	private WorkBoardRepo workBoardRepo;
-	
-	@Autowired
-	private DepartmentRepo departmentRepo;
-	
-	@Autowired
-	private EmployeeRepo employeeRepo;
-	
-	@Autowired
-	private WorkBoardService workBoardService;
-	
-	@Autowired
-	private WorkFileRepo workFileRepo;
-	
-	@Autowired
-	private WorkReportRepo workReportRepo;
-	
-	//업무일지 작성
-	@GetMapping("/write")
-	public String write(Model model) {
-		List<EmployeeInfoDto> employees = employeeRepo.list();
-		
-		model.addAttribute("employees", employees);
-		
-		return "workboard/write";
-	}
-	
-	@PostMapping("/write")
-	public String write(@ModelAttribute WorkBoardDto workBoardDto,
-						HttpSession session,
-						@RequestParam("attachments") List<MultipartFile> attachments) throws IllegalStateException, IOException {
-		String empNo = (String) session.getAttribute("empNo");
-		workBoardDto.setEmpNo(empNo);
-		
-		int workNo = workBoardRepo.sequence();
-		workBoardDto.setWorkNo(workNo);
-		
-		
-//		System.out.println(workBoardDto.getWorkSecret());
-		
-		workBoardService.write(workBoardDto, attachments);
-		
-		
-		return "redirect:/";
-	}
-	
-	@GetMapping("/report")
-	public String report(@RequestParam int workNo,
-						 Model model) {
-		model.addAttribute("workBoardDto", workBoardRepo.selectOne(workNo));
-		
-		return "workboard/report";
-	}
-	
-	@PostMapping("/report")
-	public String report(@ModelAttribute WorkReportDto workReportDto,
-						 HttpSession session,
-						 @RequestParam("supList") List<WorkReportDto> supList) {
-		
-		for(WorkReportDto dto : supList) {
-			workReportRepo.insert(dto);
-		}
-		return "redirect:/";
-	}
-	
-	//업무일지 목록
-	@GetMapping("/list")
-	public String list(Model model) {
-	    model.addAttribute("employees", employeeRepo.list());
-	    
-		model.addAttribute("list", workBoardRepo.list());
-		return "workboard/list";
-	}
-	
-	//업무일지 수정
-	@GetMapping("/edit")
-	public String edit(@RequestParam int workNo,
-					   Model model) {
-		model.addAttribute("employees", employeeRepo.list());
-		model.addAttribute("workBoardDto", workBoardRepo.selectOne(workNo));
-		
-		model.addAttribute("files", workFileRepo.selectAll(workNo));
-		return "workboard/edit";
-	}
-	
-	@PostMapping("/edit")
-	public String edit(@ModelAttribute WorkBoardDto workBoardDto,
-					   @RequestParam int workNo,
-					   @RequestParam("attachments") List<MultipartFile> attachments,
-					   RedirectAttributes attr) throws IllegalStateException, IOException {
-//		workBoardService.deleteFile(workNo);
-		workBoardService.updateFile(workNo, attachments);
-		
-		workBoardRepo.update(workBoardDto);
-		
-		attr.addAttribute("workNo", workBoardDto.getWorkNo());
-		return "redirect:detail";
-	}
-	
-	//업무일지 상세
-	@GetMapping("/detail")
-	public String detail(@RequestParam int workNo,
-						 Model model) {
-		model.addAttribute("employees", employeeRepo.list());
-		model.addAttribute("workBoardDto", workBoardRepo.selectOne(workNo));
-		
-		model.addAttribute("files", workFileRepo.selectAll(workNo));
-		return "workboard/detail";
-	}
-	
-	
+   
+   @Autowired
+   private WorkBoardRepo workBoardRepo;
+   
+   @Autowired
+   private DepartmentRepo departmentRepo;
+   
+   @Autowired
+   private EmployeeRepo employeeRepo;
+   
+   @Autowired
+   private WorkBoardService workBoardService;
+   
+   @Autowired
+   private WorkFileRepo workFileRepo;
+   
+   @Autowired
+   private WorkReportRepo workReportRepo;
+   
+   //업무일지 작성
+   @GetMapping("/write")
+   public String write(Model model) {
+      List<EmployeeInfoDto> employees = employeeRepo.list();
+      
+      model.addAttribute("employees", employees);
+      
+      return "workboard/write";
+   }
+   
+   @PostMapping("/write")
+   public String write(@ModelAttribute WorkBoardDto workBoardDto,
+                  HttpSession session,
+                  WorkBoardVO workBoardVO,
+                  RedirectAttributes rttr) throws IllegalStateException, IOException {
+      String empNo = (String) session.getAttribute("empNo");
+      workBoardDto.setEmpNo(empNo);
+      
+      int workNo = workBoardRepo.sequence();
+      workBoardDto.setWorkNo(workNo);
+      
+      if(workBoardVO.getAttachList() != null) {
+    	  workBoardVO.getAttachList().forEach(attach -> System.out.print(attach));
+      }
+      workBoardService.write(workBoardDto, workBoardVO);
+      rttr.addFlashAttribute("result", workBoardVO.getWorkNo());
+      
+      
+      return "redirect:/";
+   }
+   
+   //업무일지 보고
+   @GetMapping("/report")
+   public String report(@RequestParam int workNo,
+                   Model model) {
+      model.addAttribute("workBoardDto", workBoardRepo.selectOne(workNo));
+      model.addAttribute("files", workFileRepo.selectAll(workNo));
+      
+      return "workboard/report";
+   }
+   
+   @PostMapping("/report")
+   public String report(@ModelAttribute WorkReportDto workReportDto,
+                        @ModelAttribute WorkBoardDto workBoardDto,
+                        @RequestParam int workNo,
+                        HttpSession session,
+                        @RequestParam List<String> supList) {
+
+       for (String empNo : supList) {
+           WorkReportDto dto = new WorkReportDto();
+           dto.setWorkNo(workNo);
+           dto.setWorkSup(empNo);
+           workReportRepo.insert(dto);
+       }
+       return "redirect:/";
+   }
+   
+   //참조자 보관함
+   @GetMapping("/supList")
+   public String supList(HttpSession session, Model model) {
+       String workSup = (String) session.getAttribute("empNo");
+       
+       model.addAttribute("supList", workReportRepo.supList(workSup));
+       
+       return "workboard/supList";
+   }
+
+   //내 보관함
+   @GetMapping("/reportList")
+   public String reportList(HttpSession session,
+		   				 Model model) {
+	   String workSup = (String) session.getAttribute("empNo");
+	   
+	   List<ReportWithWorkBoardVO> reportList = workReportRepo.reportList(workSup);
+	   model.addAttribute("reportList", reportList);
+	   return "workboard/reportList";
+   }
+   
+   
+   //업무일지 목록
+   @GetMapping("/list")
+   public String list(Model model) {
+       model.addAttribute("employees", employeeRepo.list());
+       
+      model.addAttribute("list", workBoardRepo.list());
+      return "workboard/list";
+   }
+   
+   //업무일지 수정
+   @GetMapping("/edit")
+   public String edit(@RequestParam int workNo,
+                  Model model) {
+      model.addAttribute("employees", employeeRepo.list());
+      model.addAttribute("workBoardDto", workBoardRepo.selectOne(workNo));
+      
+      model.addAttribute("files", workFileRepo.selectAll(workNo));
+      return "workboard/edit";
+   }
+   
+   @PostMapping("/edit")
+   public String edit(@ModelAttribute WorkBoardDto workBoardDto,
+                  @RequestParam int workNo,
+                  @RequestParam("attachments") List<MultipartFile> attachments,
+                  RedirectAttributes attr) throws IllegalStateException, IOException {
+//      workBoardService.deleteFile(workNo);
+      workBoardService.updateFile(workNo, attachments);
+      
+      workBoardRepo.update(workBoardDto);
+      
+      attr.addAttribute("workNo", workBoardDto.getWorkNo());
+      return "redirect:detail";
+   }
+   
+   //업무일지 상세
+   @GetMapping("/detail")
+   public String detail(@RequestParam int workNo,
+                   Model model) {
+      model.addAttribute("employees", employeeRepo.list());
+      model.addAttribute("workBoardDto", workBoardRepo.selectOne(workNo));
+      
+      model.addAttribute("files", workFileRepo.selectAll(workNo));
+      return "workboard/detail";
+   }
+   
+   
 }

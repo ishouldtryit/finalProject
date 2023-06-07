@@ -90,7 +90,7 @@
 			</div>
 		</div>
 
-		<br> <br>
+		<br>
 		<table class="table">
 			<tbody>
 				<tr>
@@ -124,12 +124,13 @@
 					<th class="align-middle">휴가사유</th>
 					<td class="align-middle">
 						<div class="">
-							<input type="text" disabled="disabled">
+							<input type="text" disabled="disabled" value="${list.reason}">
 						</div>
 					</td>
 				</tr>
 			</tbody>
 		</table>
+		<button class="btn btn-primary">반려</button> <button class="btn btn-primary">결재</button>
 	</div>
 
 </body>

@@ -154,10 +154,8 @@ public class CommuteController {
 	
 	@GetMapping("/detail")
 	public String detail(@RequestParam int vacationNo,Model model) {
-
+		
 		model.addAttribute("list",vacationRepo.oneList(vacationNo));
-		System.out.println(vacationRepo.oneList(vacationNo));
-
 		return "/commute/detail";
 	}
 }

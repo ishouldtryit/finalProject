@@ -13,10 +13,10 @@
 
     <div class="container-fluid" v-if="ApprovalWithPageVO != null">
        
-       <div class="row mb-3">
+       <div class="row mb-3 offset-sm-1">
            <h3>나의 기안서 목록</h3>
        </div>
-       <div class="row mb-3 ">
+       <div class="row mb-3 offset-sm-1">
              <div class="col-2" style=" width:150px;">
                 <select class="form-select" style="width:150px;" v-model="ApprovalWithPageVO.paginationVO.column">
                    <option value="draft_title">제목</option>
@@ -27,15 +27,17 @@
             <input type="text" class="form-control" placeholder="검색어" v-model="ApprovalWithPageVO.paginationVO.keyword">
             <button class="btn btn-info" type="button" @click="changeSearchPage">검색</button>
           </div>
-          <div class="ms-3 col">
+          <div class="ms-3 offset-sm-1 col">
             <button class="btn btn-info" type="button" @click="loadData">
             <i class="fa-solid fa-list-ul"></i>
              전체 목록
             </button>
           </div>
        </div>
-       <div class="row mb-2 d-flex align-items-center">
-             <div class="col-11 d-flex">
+       <div class="row mb-2">
+        <div class="col-10 offset-sm-1">
+      	  <div class="row">
+             <div class="col-10">
                 <div class="btn-group" role="group">
                       <button type="button" 
                       class="btn" :class="{'btn-secondary': pageStatus != 'allPage', 'btn-info': pageStatus == 'allPage'}"
@@ -63,13 +65,13 @@
                     완료
                   </button>
                </div>   
-                      <button type="button" 
+                   <button type="button" 
                       class="btn ms-3" :class="{'btn-secondary': !isemergency, 'btn-info': isemergency }"
                       @click ="changeEmergencyPage">
                     긴급
                   </button>
                </div>      
-                   <div class="col-1 d-flex">
+                   <div class="col-2">
                     <select class="form-select" style="width:100px;" v-model="ApprovalWithPageVO.paginationVO.size" @change="changeSize">
                       <option value="10">10</option>
                       <option value="20">20</option>
@@ -78,9 +80,11 @@
                       <option value="50">50</option>
                     </select>
                 </div>    
+                </div>
+                </div>
              </div>
        <div class="row mt-4">
-           <div>
+           <div class="col-10 offset-sm-1">
                <table class="table table-hover">
                    <thead>
                        <tr class="col-12">

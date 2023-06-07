@@ -13,10 +13,10 @@
 
     <div class="container-fluid" v-if="ApprovalWithPageVO != null">
     	
-       <div class="row mb-3">
+       <div class="row mb-3 offset-sm-1">
            <h3>기안서 목록 (관리자)</h3>
        </div>
-       <div class="row mb-3 ">
+       <div class="row mb-3 offset-sm-1 ">
        		<div class="col-2" style=" width:150px;">
 	       		<select class="form-select" style="width:150px;" v-model="ApprovalWithPageVO.paginationVO.column">
 		          	<option value="draft_title">제목</option>

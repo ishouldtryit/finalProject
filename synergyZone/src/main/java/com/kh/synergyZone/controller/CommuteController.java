@@ -107,7 +107,7 @@ public class CommuteController {
 		VacationVO vo =new VacationVO();
 		vo.setEmpNo(empNo);
 		List<VacationVO> list=vacationRepo.queue(vo);
-		model.addAttribute("list",list);
+			model.addAttribute("list",list);
 
 
 		return "/commute/write";
@@ -154,8 +154,10 @@ public class CommuteController {
 	
 	@GetMapping("/detail")
 	public String detail(@RequestParam int vacationNo,Model model) {
+
 		model.addAttribute("list",vacationRepo.oneList(vacationNo));
 		System.out.println(vacationRepo.oneList(vacationNo));
+
 		return "/commute/detail";
 	}
 }

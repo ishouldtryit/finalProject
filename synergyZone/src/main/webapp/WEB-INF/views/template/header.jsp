@@ -34,27 +34,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
    
 	<!-- 사이드바관련 -->
+	<script src="/static/js/popper.js"></script>
+	<script src="/static/js/main.js"></script>
     <script src="/static/js/jquery.min.js"></script>
-	<script src="/static/js/popper.js"></script>
-	<script src="/static/js/popper.js"></script>
-	<script src="/static/js/main.js"></script>
-<!--     <script src="/static/js/jquery.min.js"></script> -->
     <script src="/static/js/bootstrap.min.js"></script>
-	<script src="/static/js/main.js"></script>
 
 
     <script>
     	const contextPath = "${pageContext.request.contextPath}";
-    	const memberId = "${sessionScope.memberId}";
-    	const memberLevel = "${sessionScope.memberLevel}";
     </script>
     
     <style>
       #rogo-img{
         width: 200px;
-        width: 280px;
-        height: 50px;
-        margin-top: 2px;
       }
                   a{
                 text-decoration: none;
@@ -82,9 +74,7 @@
         <div class="container-fluid">
 	      <div class="row">
 	          <div class="col col-7 bg-info text-light">
-	            <a href="http://localhost:8080/">
 	            <img src="/static/img/logo.png" id="rogo-img" class="p-1">
-	            </a>
 	          </div>
 	      
 	          <div class="col bg-info text-light p-2">
@@ -99,143 +89,100 @@
 	    </div>
     </header>
     
-    <section style = "display:flex;">
-    <aside>
-	     <div class="wrapper d-flex align-items-stretch" >
-	            <nav id="sidebar" class="bg-info">
-	                <div class="p-4 pt-5" style=" min-height: 70vh;">
-	                    <a href="#"><h3 class="text-light mb-5">그룹웨어</h3></a>
-	                    <ul class="list-unstyled components mb-5">
-	                     <li>
-	                            <a href="${pageContext.request.contextPath}/calendar/calendar">일정</a>
-	                        </li>
-	                        <li>
-	                            <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">게시판</a>
-	                            <ul class="collapse list-unstyled" id="homeSubmenu">
-	                                <li>
-	                                    <a href="/notice/list">공지사항</a>
-	                                </li>
-	                                <li>
-	                                    <a href="/board/list">자유게시판</a>
-	                                </li>
-	                            </ul>
-	                        </li>
-	
-	                        <li>
-	                        <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">전자결재</a>
-	                        <ul class="collapse list-unstyled" id="pageSubmenu">
-	                                <li>
-	                                <a href="/approval/write">신규 결재</a>
-	                                </li>
-	                                <li>
-	                                    <a href="/approval/adminList">전체 문서함 (관리자)</a>
-	                                </li>
-	                                <li>
-	                                    <a href="/approval/myList">나의 기안 문서함</a>
-	                                </li>
-	                                <li>
-	                                    <a href="/approval/waitApproverList">결재 대기 문서함</a>
-	                                </li>
-	                                <li>
-	                                    <a href="/approval/waitAgreeorList">합의 대기 문서함</a>
-	                                </li>
-	                                <li>
-	                                    <a href="/approval/recipientList">참조 문서함</a>
-	                                </li>
-	                                <li>
-	                                    <a href="/approval/readerList">열람 문서함</a>
-	                                </li>
-	                                <li>
-	                                    <a href="#">부서 문서함</a>
-	                                </li>
-	                            </ul>
-	                        </li>
-	
-	 <li>
-	                            <a href="#addressSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">주소록</a>
-	                            <ul class="collapse list-unstyled" id="addressSubmenu">
-	                                <li>
-	                                    <a href="${pageContext.request.contextPath}/address/list">전체 주소록</a>
-	                                </li>
-	                                <c:if test="${empNo != null}">
-									  <li>
-									    <a href="${pageContext.request.contextPath}/bookmark/mylist">개인 주소록</a>
-									  </li>
-									</c:if>
-	                            </ul>
-	                            
-	                           <c:if test="${empNo != null}">
-	                            <a href="#messageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">쪽지함</a>
-	                            <ul class="collapse list-unstyled" id="messageSubmenu">
-	                                <li>
-	                                    <a href="${pageContext.request.contextPath}/message/receive">받은 쪽지함</a>
-	                                </li>
-									  <li>
-									    <a href="${pageContext.request.contextPath}/message/send">보낸 쪽지함</a>
-									  </li>
-	                            </ul>
-									</c:if>
+    <section style="display: flex;">
+			<aside>
+				<div class="wrapper d-flex align-items-stretch">
+					<nav id="sidebar" class="bg-info">
+						<div class="p-4 pt-5" style="min-height: 70vh;">
+							<a href="#"><h3 class="text-light mb-5">그룹웨어</h3></a>
+							<ul class="list-unstyled components mb-5">
+								<li><a
+									href="${pageContext.request.contextPath}/calendar/calendar">일정</a>
+								</li>
+								<li><a href="#homeSubmenu" data-toggle="collapse"
+									aria-expanded="false" class="dropdown-toggle">게시판</a>
+									<ul class="collapse list-unstyled" id="homeSubmenu">
+										<li><a href="/notice/list">공지사항</a></li>
+										<li><a href="/board/list">자유게시판</a></li>
+									</ul></li>
+
+								<li><a href="#pageSubmenu" data-toggle="collapse"
+									aria-expanded="false" class="dropdown-toggle">전자결재</a>
+									<ul class="collapse list-unstyled" id="pageSubmenu">
+										<li><a href="/approval/write">신규 결재</a></li>
+										<li><a href="/approval/adminList">전체 문서함 (관리자)</a></li>
+										<li><a href="/approval/myList">나의 기안 문서함</a></li>
+										<li><a href="/approval/waitApproverList">결재 대기 문서함</a></li>
+										<li><a href="/approval/waitAgreeorList">합의 대기 문서함</a></li>
+										<li><a href="/approval/recipientList">참조 문서함</a></li>
+										<li><a href="/approval/readerList">열람 문서함</a></li>
+										<li><a href="#">부서 문서함</a></li>
+									</ul></li>
+
+								<li><a href="#addressSubmenu" data-toggle="collapse"
+									aria-expanded="false" class="dropdown-toggle">주소록</a>
+									<ul class="collapse list-unstyled" id="addressSubmenu">
+										<li><a
+											href="${pageContext.request.contextPath}/address/list">전체
+												주소록</a></li>
+										<c:if test="${empNo != null}">
+											<li><a
+												href="${pageContext.request.contextPath}/bookmark/mylist">개인
+													주소록</a></li>
+										</c:if>
+									</ul> <c:if test="${empNo != null}">
+										<a href="#messageSubmenu" data-toggle="collapse"
+											aria-expanded="false" class="dropdown-toggle">쪽지함</a>
+										<ul class="collapse list-unstyled" id="messageSubmenu">
+											<li><a
+												href="${pageContext.request.contextPath}/message/receive">받은
+													쪽지함</a></li>
+											<li><a
+												href="${pageContext.request.contextPath}/message/send">보낸
+													쪽지함</a></li>
+										</ul>
+									</c:if></li>
+
+								<li><a href="#workSubmenu" data-toggle="collapse"
+									aria-expanded="false" class="dropdown-toggle">업무</a>
+									<ul class="collapse list-unstyled" id="workSubmenu">
+										<li><a href="/workboard/write">일지 작성</a></li>
+										<li><a href="/workboard/list">부서 업무일지</a></li>
+										<li><a href="/workboard/reportList">내 업무일지</a></li>
+										<li><a href="/workboard/supList">공유받은 업무일지</a></li>
+									</ul></li>
+
+								<li><a href="#adminSubmenu" data-toggle="collapse"
+									aria-expanded="false" class="dropdown-toggle">관리자 페이지</a>
+									<ul class="collapse list-unstyled" id="adminSubmenu">
+										<li><a href="/admin/join">사원 등록</a></li>
+										<li><a href="/admin/list">사원 통합관리</a></li>
+										<li><a href="/admin/waitingList">사원 퇴사관리</a></li>
+										<li><a href="/admin/adminList">관리자 통합관리</a></li>
+										<li><a href="/admin/log/list">사원 접근로그</a></li>
+										<li><a href="/admin/department/list">부서</a></li>
+										<li><a href="/admin/job/list">직위</a></li>
+									</ul></li>
 									
-	                        </li>
-	                        
-	                            <li>
-	                        <a href="#workSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">업무</a>
-	                        <ul class="collapse list-unstyled" id="workSubmenu">
-	                                <li>
-	                                <a href="/workboard/write">일지 작성</a>
-	                                </li>
-	                                <li>
-	                                    <a href="/workboard/list">부서 업무일지</a>
-	                                </li>
-	                                <li>
-	                                    <a href="/workboard/reportList">내 업무일지</a>
-	                                </li>
-	                                 <li>
-	                                    <a href="/workboard/supList">공유받은 업무일지</a>
-	                                </li>
-	                            </ul>
-	                        </li>
-	                        
-		                        <li>
-		                        <a href="#adminSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">관리자 페이지</a>
-		                        <ul class="collapse list-unstyled" id="adminSubmenu">
-		                                <li>
-		                                <a href="/admin/join">사원 등록</a>
-		                                </li>
-		                                <li>
-		                                    <a href="/admin/list">사원 통합관리</a>
-		                                </li>
-		                                <li>
-		                                    <a href="/admin/waitingList">사원 퇴사관리</a>
-		                                </li>
-		                                <li>
-		                                    <a href="/admin/adminList">관리자 통합관리</a>
-		                                </li>
-		                                <li>
-		                                    <a href="/admin/log/list">사원 접근로그</a>
-		                                </li>
-		                                <li>
-		                                    <a href="/admin/department/list">부서</a>
-		                                </li>
-		                                <li>
-		                                    <a href="/admin/job/list">직위</a>
-		                                </li>
-		                            </ul>
-		                        </li>
-	
-	                        <li>
-	                            <a href="#">공지사항</a>
-	                        </li>
-	                        <li>
-	                            <a href="#">Contact</a>
-	                        </li>
-	                    </ul>
-	            </div>
-	        </nav>
-	        </div>
-        </aside>
-        <!-- Page Content  -->
-        <article>
+									<li><a href="#commuteSubmenu" data-toggle="collapse"
+									aria-expanded="false" class="dropdown-toggle">근태관리</a>
+									<ul class="collapse list-unstyled" id="commuteSubmenu">
+										<li><a href="/commute/write">휴가 신청 </a></li>
+										<li><a href="/commute/trip">출장 신청</a></li>
+										<li><a href="/commute/record">근무시간 집계현황 </a></li>
+										<li><a href="/commute/vacation">휴가 신청내역</a></li>
+										<li><a href="/commute/tripList">출장 신청내역</a></li>
+									</ul></li>
+
+								<li><a href="#">공지사항</a></li>
+								<li><a href="#">Contact</a></li>
+							</ul>
+						</div>
+					</nav>
+				</div>
+			</aside>
+			<!-- Page Content  -->
+			<article>
 	
    <!--   <div id="content" class="p-4 p-md-5" style="height:200px;">	  -->           
 	            
@@ -274,5 +221,3 @@
 	                    </div>
 	                </div>
 	            </nav>
-	            
-	            <!-- 내용 -->

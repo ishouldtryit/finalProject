@@ -158,13 +158,11 @@ $(function () {
             nowDay === readDay;
 
           // 메세지 보낸 시간
-          $(newReceiveMsgRow)
-            .find(".message-send-time-col")
-            .text(sendToday ? sendTime.slice(-5) : sendTime)
-            .attr(
-              "href",
-              "/message/send/detail?messageNo=" + message.messageNo
-            );
+        $(newReceiveMsgRow)
+		  .find(".message-send-time-col")
+		  .text(sendTime)
+		  .attr("href", "/message/receive/detail?messageNo=" + message.messageNo);
+
 
           // 메세지 읽은 시간
           if (readTimeList[i] == null) {
@@ -177,42 +175,45 @@ $(function () {
               )
               .css("font-weight", "bold");
           } else {
-            $(newReceiveMsgRow)
-              .find(".message-read-time-col")
-              .text(readToday ? readTime.slice(-5) : readTime)
-              .attr(
-                "href",
-                "/message/send/detail?messageNo=" + message.messageNo
-              );
+		            $(newReceiveMsgRow)
+		  .find(".message-read-time-col")
+		  .text(readTime)
+		  .attr("href", "/message/send/detail?messageNo=" + message.messageNo);
+
           }
 
           // 발송취소
-          $(newReceiveMsgRow)
-            .find(".message-send-cancle-btn")
-            .text(readTimeList[i] == null ? "발송취소" : "")
-            .css("text-decoration", "underline")
-            .click(function () {
-              console.log("message.messageNo: " + message.messageNo);
-              if (
-                confirm(
-                  message.messageRecipient +
-                    "님에게 보낸 쪽지를 발송취소 하시겠습니까?\n"
-                )
-              ) {
-                $.ajax({
-                  url:contextPath+ "/rest/message/" + message.messageNo,
-                  method: "delete",
-                  success: function () {
-                    loadList();
-                  },
-                  error: function () {
-                    console.log("메세지 발송취소 통신에러!!!!");
-                  },
-                });
-              }
-            });
+          var cancelBtn = $(newReceiveMsgRow).find(".message-send-cancle-btn");
 
-          $(".target").append(newReceiveMsgRow);
+			if (readTimeList[i] == null) {
+			  cancelBtn
+			    .text("발송취소")
+			    .css("text-decoration", "underline")
+			    .click(function () {
+			      console.log("message.messageNo: " + message.messageNo);
+			      if (
+			        confirm(
+			          message.messageRecipient +
+			            "님에게 보낸 쪽지를 발송취소 하시겠습니까?\n"
+			        )
+			      ) {
+			        $.ajax({
+			          url: contextPath + "/rest/message/" + message.messageNo,
+			          method: "delete",
+			          success: function () {
+			            loadList();
+			          },
+			          error: function () {
+			            console.log("메세지 발송취소 통신에러!!!!");
+			          },
+			        });
+			      }
+			    });
+			} else {
+			  cancelBtn.text("메세지 읽음").css("text-decoration", "none").removeAttr("href");
+			}
+			
+			$(".target").append(newReceiveMsgRow);
         }
 
         // h1태그 옆 숫자 반영

@@ -9,7 +9,7 @@
 	<insert id="addToBookmark">
     INSERT INTO bookmark (bookmark_no, owner_no)
     VALUES (#{bookmarkNo}, #{ownerNo})
-</insert>
+	</insert>
 
 	<delete id="removeFromBookmark">
 		DELETE FROM bookmark
@@ -42,5 +42,7 @@
 	<select id="existsBookmark" parameterType="String" resultType="int">
 		SELECT COUNT(*) FROM bookmark WHERE bookmark_no = #{bookmarkNo} and owner_no = #{ownerNo}
 	</select>
+	
+	
 
 </mapper>

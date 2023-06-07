@@ -66,7 +66,7 @@
 
 
 <div class="table-responsive">
-      <table class="table table-striped">
+      <table class="table table-hover">
         <thead>
           <tr>
             <th scope="col">
@@ -109,21 +109,32 @@
     </div>
 
 <!-- 페이지네이션 -->
-<div class="mt-50 center pagination"></div>
+<div class="mt-0 mb-1 center pagination d-flex justify-content-center"></div>
+
 
 <!-- 검색창 -->
 <div class="row center">
   <form class="message-send-search-form" action="/message/send" method="get" autocomplete="off">
-    <select name="column" value="${param.column}" class="form-select">
-      <option class="column-option" value="message_title">제목</option>
-      <option class="column-option" value="message_recipient_nick">닉네임</option>
-      <option class="column-option" value="message_recipient">아이디</option>
-      <option class="column-option" value="message_content">내용</option>
-    </select>
-    <input name="keyword" class="form-control" value="${param.keyword}" placeholder="검색" />
-    <button type="submit" class="btn btn-primary">검색</button>
+    <div class="input-group" style="width: 33%; margin: auto;">
+      <select name="column"  class="form-select form-select-sm" style="width: 20%; height: 100%;">
+        <option class="column-option" value="message_title">제목</option>
+        <option class="column-option" value="message_recipient_nick">이름</option>
+        <option class="column-option" value="message_recipient">사번</option>
+        <option class="column-option" value="message_content">내용</option>
+      </select>
+      <input name="keyword" class="form-control form-control-sm" value="${param.keyword}" placeholder="검색" style="width: 60%; height: 100%;" />
+      <input name="item" type="hidden" value="${param.item}" />
+        <input name="order" type="hidden" value="${param.order}" />
+        <input name="special" type="hidden" value="${param.special}" />
+      <button class="btn btn-info btn-sm" style="width: 20%; height: 100%;">검색</button>
+    </div>
   </form>
 </div>
+
+
+
+
+
 </div>
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
 

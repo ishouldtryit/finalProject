@@ -67,10 +67,10 @@ public class BookmarkController {
       return "bookmark";
    }
    
-   // 즐겨찾기한 사원 목록
+	// 즐겨찾기한 사원 목록
    @GetMapping("/mylist")
    public String myList(Model model, @ModelAttribute("vo") PaginationVO vo, HttpSession session,
-		   			@RequestParam(required = false, defaultValue = "") String empNo,
+                        @RequestParam(required = false, defaultValue = "") String empNo,
                         @RequestParam(required = false, defaultValue = "1") int page,
                         @RequestParam(required = false, defaultValue = "") String sort,
                         @RequestParam(required = false, defaultValue = "") String column,
@@ -85,25 +85,25 @@ public class BookmarkController {
 
        // 검색
        if (!column.isEmpty() && !keyword.isEmpty()) {
-    	   employees = employeeService.searchEmployees(column, keyword);
+           employees = employeeService.searchEmployees(column, keyword);
+           // 검색 결과의 데이터 개수로 totalCount 설정
+           int totalCount = employees.size();
+           vo.setCount(totalCount);
        } else {
            employees = employeeRepo.list();
+           // 전체 데이터 개수로 totalCount 설정
+           int totalCount = bookmarkRepo.checkOwnerCount(ownerNo);
+           vo.setCount(totalCount);
        }
-       if (empNo != null) {
-    	    model.addAttribute("profile", employeeProfileRepo.find(empNo));
-    	}
-       
-       
 
        // 페이징 처리
-       int totalCount = bookmarkRepo.checkOwnerCount(ownerNo); // 전체 데이터 개수
-       vo.setCount(totalCount); // PaginationVO 객체의 count 값을 설정
-
        int size = vo.getSize(); // 페이지당 표시할 데이터 개수
+       int totalCount = vo.getCount(); // 전체 데이터 개수
+
        int startIndex = (page - 1) * size; // 데이터의 시작 인덱스
        int endIndex = Math.min(startIndex + size, totalCount); // 데이터의 종료 인덱스
 
-       List<EmployeeInfoDto> pagedEmployees = employees.subList(startIndex, Math.min(endIndex, employees.size()));
+       List<EmployeeInfoDto> pagedEmployees = employees.subList(startIndex, endIndex);
 
        // 직위, 부서별 조회
        List<DepartmentDto> departments = departmentRepo.list();
@@ -126,6 +126,9 @@ public class BookmarkController {
 
        return "bookmark/mylist";
    }
+
+
+
 
    
    //나만의 즐겨찾기 추가하기 

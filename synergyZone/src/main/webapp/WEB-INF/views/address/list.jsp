@@ -26,10 +26,14 @@
 		  
 		  <!-- My list에 추가 버튼 -->		  
 		  <button class="btn btn-success my-2 my-sm-0" type="button" onclick="addToMyList()">My list에 추가</button>
-
-		
 		</form>
 		
+		<!-- 데이터 없음 알림 -->
+		<c:if test="${empty employees}">
+		    <div class="alert alert-warning mt-3" role="alert">
+	        알맞은 검색 결과가 없습니다.
+		    </div>
+		</c:if>
     	<!-- 사원 목록 테이블 -->
 	<div class="row">
 	  <div class="col" style="margin: 0 auto;">

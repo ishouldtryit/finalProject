@@ -1,16 +1,33 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+   <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <!DOCTYPE html>
 <html>
 <head>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <meta charset='utf-8' />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/ko.js"></script>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script src='../dist/index.global.js'></script>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/index.global.min.js"></script>
 <script>
+ let events = [];
+<c:forEach items="${result}" var="item">
+              events.push({
+                  title: '${item.TITLE}',
+                  start: '${item.START_DTM}',
+                  constraint: 'availableForMeeting',
+                  end: '${item.END_DTM}',
+                  color: '#85d0ed',
+                  seq : '${item.SEQ}',
+                  empno : '${item.EMP_NO}'
 
+                });
+</c:forEach>
+console.log(events)
   document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
-
     var calendar = new FullCalendar.Calendar(calendarEl, {
       headerToolbar: {
         left: 'prev,next today',
@@ -24,67 +41,27 @@
       	day : "일간",
       	list : "목록"
       },
-      initialDate: '2023-01-12',
-      navLinks: true, // can click day/week names to navigate views
-      businessHours: true, // display business hours
-      editable: true,
-      selectable: true,
-      events: [
-        {
-          title: 'Business Lunch',
-          start: '2023-01-03T13:00:00',
-          constraint: 'businessHours'
-        },
-        {
-          title: 'Meeting',
-          start: '2023-01-13T11:00:00',
-          constraint: 'availableForMeeting', // defined below
-          color: '#257e4a'
-        },
-        {
-          title: 'Conference',
-          start: '2023-01-18',
-          end: '2023-01-20'
-        },
-        {
-          title: 'Party',
-          start: '2023-01-29T20:00:00'
-        },
+    navLinks: true,
+    // 업무 시간 표시
+    businessHours: true,
+    // 편집 가능한 일정
+    editable: true,
+    // 선택 가능한 일정
+    selectable: true,
+      events : events,
+      eventClick: function(event) {
+          let seq = event.event.extendedProps.seq // 테이블 seq 값
+          let empno = event.event.extendedProps.empno // 저장되있는 사번
 
-        // areas where "Meeting" must be dropped
-        {
-          groupId: 'availableForMeeting',
-          start: '2023-01-11T10:00:00',
-          end: '2023-01-11T16:00:00',
-          display: 'background'
-        },
-        {
-          groupId: 'availableForMeeting',
-          start: '2023-01-13T10:00:00',
-          end: '2023-01-13T16:00:00',
-          display: 'background'
-        },
-
-        // red areas where no events can be dropped
-        {
-          start: '2023-01-24',
-          end: '2023-01-28',
-          overlap: false,
-          display: 'background',
-          color: '#ff9f89'
-        },
-        {
-          start: '2023-01-06',
-          end: '2023-01-08',
-          overlap: false,
-          display: 'background',
-          color: '#ff9f89'
-        }
-      ]
+          console.log(JSON.stringify(event))
+          location.href='${pageContext.request.contextPath}/calendar/insertPage?seq='+seq;
+      }
     });
+    locale: 'ko',
 
     calendar.render();
   });
+
 
 </script>
 <style>
@@ -104,7 +81,9 @@
 </style>
 </head>
 <body>
-
+    <button onclick = "location.href='${pageContext.request.contextPath}/calendar/insertPage';">
+        일정 등록
+    </button>
   <div id='calendar'></div>
 
 </body>

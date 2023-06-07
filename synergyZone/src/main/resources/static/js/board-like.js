@@ -6,12 +6,10 @@
 //- 개발하다보면 자바스크립트와 EL/JSTL이 섞일 때가 있다
 //- 무조건 안하는 방향으로 선택하는 것이 좋다
 //- 정말 어쩔 수 없는 경우(ex : 로그인 한 사용자 아이디) 제외
-
 //[2] 하트를 클릭하면 좋아요 설정/해제 페이지로 비동기 요청
 //[3] 하트에 마우스가 들어가거나 나오면 이벤트 처리로 애니메이션 부여
 //[4] 좋아요가 눌릴 경우에도 애니메이션 부여
 $(function(){
-
 	//Javascript에서 파라미터 읽기
 	var params = new URLSearchParams(location.search);
 	var boardNo = params.get("boardNo");
@@ -57,7 +55,7 @@ $(function(){
 					setTimeout(function(){
 						$(".fa-heart").removeClass("fa-beat");
 					}, 800);
-				
+
 					$(".heart-count").text(response.count);
 				}
 				else {//좋아요 풀린것

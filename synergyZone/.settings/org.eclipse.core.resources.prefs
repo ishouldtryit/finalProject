@@ -5,6 +5,11 @@ eclipse.preferences.version=1
 encoding//src/main/java=UTF-8
 encoding//src/main/resources=UTF-8
 encoding//src/main/webapp/WEB-INF/views/admin/detail.jsp=UTF-8
+<<<<<<< HEAD
+encoding//src/main/webapp/WEB-INF/views/board/write.jsp=UTF-8
+=======
+encoding//src/main/webapp/WEB-INF/views/chat/chat.jsp=UTF-8
+>>>>>>> refs/remotes/origin/main
 encoding//src/main/webapp/WEB-INF/views/commute/commute.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/login.jsp=UTF-8
 encoding/<project>=UTF-8

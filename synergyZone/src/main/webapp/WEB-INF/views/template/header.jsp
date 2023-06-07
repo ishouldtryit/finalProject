@@ -106,6 +106,9 @@
 	                <div class="p-4 pt-5" style=" min-height: 70vh;">
 	                    <a href="#"><h3 class="text-light mb-5">그룹웨어</h3></a>
 	                    <ul class="list-unstyled components mb-5">
+	                     <li>
+	                            <a href="${pageContext.request.contextPath}/calendar/calendar">일정</a>
+	                        </li>
 	                        <li>
 	                            <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">게시판</a>
 	                            <ul class="collapse list-unstyled" id="homeSubmenu">
@@ -172,6 +175,7 @@
 									  </li>
 	                            </ul>
 									</c:if>
+									
 	                        </li>
 	
 	                        <li>

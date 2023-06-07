@@ -12,8 +12,7 @@
    href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.2.3/journal/bootstrap.min.css">
 <link rel="stylesheet"
    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-<link rel="stylesheet"
-   href="https://unpkg.com/swiper/swiper-bundle.min.css">
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
 <link rel="stylesheet"
    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
 
@@ -64,6 +63,11 @@ html, body {
    height: 100%;
    width: 100%;
 }
+.highlight{
+    background-color: red;
+   color:red;
+   font-weight: bold;
+}
 </style>
 </head>
 <body>
@@ -102,12 +106,14 @@ html, body {
          </div>
 
          <div class="col bg-info text-light p-1 d-flex justify-content-end">
-            <i class="bi bi-diagram-3 fs-2"></i> <i class="bi bi-bell fs-2 ms-3"></i>
-            <i class="bi bi-person-circle fs-2 ms-3"></i> <i
-               class="bi bi-power fs-2 ms-3 me-2" data-bs-toggle="modal"
-               data-bs-target="#logoutModal"></i>
+            <a href=#><i class="bi bi-diagram-3 fs-2"></i></a> 
+            <a href=#><i class="bi bi-bell fs-2 ms-3"></i></a>
+            <a href=#><i class="bi bi-person-circle fs-2 ms-3"></i></a> 
+            <a href=#><i class="bi bi-power fs-2 ms-3 me-2" data-bs-toggle="modal"
+               data-bs-target="#logoutModal"></i></a>
          </div>
       </div>
+
 
       <div class="row">
          <div class="col-1 bg-info text-light"
@@ -115,7 +121,8 @@ html, body {
             <a href="#"> <i
                class="bi bi-house fs-3 d-flex justify-content-center mt-3"></i>
                <p class="text-center">홈</p>
-            </a> <a href="#"> <i
+            </a>   
+            <a href="${pageContext.request.contextPath}/calendar/calendar"><i
                class="bi bi-calendar-check fs-3 d-flex justify-content-center mt-4"></i>
                <p class="text-center">일정</p>
             </a> 
@@ -129,15 +136,16 @@ html, body {
                class="bi bi-pencil-square fs-3 d-flex justify-content-center mt-4"></i>
                <p class="text-center">업무</p>
             </a> 
-               <a href="${pageContext.request.contextPath}/board/list">
-            <i class="bi bi-clipboard fs-3 d-flex justify-content-center mt-4"></i>
+            <a href="${pageContext.request.contextPath}/board/list"> <i
+               class="bi bi-clipboard fs-3 d-flex justify-content-center mt-4"></i>
                <p class="text-center">게시판</p>
-            </a> 
+            </a>
                <a href="${pageContext.request.contextPath}/address/list">
             <i class="bi bi-journals fs-3 d-flex justify-content-center mt-4"></i>
                <p class="text-center">주소록</p>
             </a>
          </div>
+
 
          <div class="col col-2 mt-4">
 
@@ -223,7 +231,10 @@ html, body {
 
             <div class="bg-light border"
                style="height: 315px; width: 348px; margin-top: 320px; margin-left: 102px;">
-               2</div>
+               <form action="/logout" method="post">
+               <button type="submit">로그아웃</button>
+            </form>
+               </div>
          </div>
 
          <div class="col col-3 mt-4">
@@ -307,9 +318,9 @@ html, body {
                   <div v-model="selectedDate" ref="datepicker" style="margin-left: 38px;"></div>
 
                   <hr>
-                  <div>
-                     <div>
-                        출근시간:
+                  <div class="fw-bold p-2 ms-2">
+                     <div class="mb-1">
+                        출근시간 :
                         <c:choose>
                            <c:when test="${empty w.startTime}">
                               <label id="start-time">미등록</label>
@@ -320,8 +331,8 @@ html, body {
                         </c:choose>
                         <br>
                      </div>
-                     <div>
-                        퇴근시간:
+                     <div class="mb-1">
+                        퇴근시간 :
                         <c:choose>
                            <c:when test="${empty w.endTime}">
                               <label id="end-time">미등록</label>
@@ -333,7 +344,7 @@ html, body {
                         <br>
                      </div>
                      <div>
-                        주간근무시간: <label id="">0h:0m:0s</label>
+                        주간근무시간 : <label id="">0h : 0m : 0s</label>
                      </div>
                   </div>
                   <form action="/commute/change" method="post">
@@ -406,6 +417,18 @@ html, body {
                 employeeInfo: null,
             };
         },
+        mounted() {
+            this.initSwiper();
+            this.updateTime();
+            this.updateRemainingTime();
+            const datepicker = this.$refs.datepicker;
+            $(datepicker).datepicker({
+                format: 'yyyy-mm-dd',
+                onSelect: (date) => {
+                    this.selectedDate = date;
+                },
+            });
+        },
         methods: {
            initSwiper() {
                 this.swiper = new Swiper('.swiper-container', {
@@ -458,17 +481,13 @@ html, body {
                 this.isTextareaEnabled = !this.isTextareaEnabled;
             },
             saveMemo() {
-                // console.log('메모가 저장되었습니다:', this.memoText);
                 localStorage.setItem('memo', this.memoText);
                 this.isTextareaEnabled = false;
             },
             logout() {
 
             },
-            initializeDatepicker() {
-                 
-               },
-           
+ 
                //프사 띄우기 
                 async fetchEmployeeInfo() {
                     const resp = await axios.get('/rest/employeeInfo/all');
@@ -482,10 +501,8 @@ html, body {
                     }
                   },
         },
-        
+       
         created() {
-            this.initializeDatepicker();
-            this.initSwiper();
             this.updateTime();
             this.updateRemainingTime();
             this.fetchEmployeeInfo();
@@ -497,13 +514,12 @@ html, body {
             $(datepicker).datepicker({
             format: 'yyyy-mm-dd',
             beforShowday:(date)=>{ 
-                // const currentDate = new Date().toISOString().split('T')[0];
-                const now = new Date();
+               const currentDate = new Date().toISOString().split('T')[0];
                 const dateStr = $.datepicker.formatDate('yy-mm-dd', date);
                 if (dateStr === currentDate) {
-                    return [true, 'highlight', ''];
+                   return [true, 'highlight',''];
                 }
-                return [true, '', ''];
+                return {classes:''};
             },
             onSelect: (date) => {   
                 this.$emit('update:selectedDate', date);
@@ -515,6 +531,7 @@ html, body {
         `,
         props: ['selectedDate'],
     });
+
 </script>
 
 </body>

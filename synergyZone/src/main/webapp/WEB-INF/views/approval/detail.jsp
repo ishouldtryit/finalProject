@@ -14,6 +14,8 @@
 
 <div id="app">
 	<div class="container-fluid" v-if="ApprovalDataVO.approverList.length > 0">
+	    <div class="row">
+    	<div class="col-10 offset-sm-1">   
 		<div class="row mb-3 d-flex align-items-center"> 
 			<div class="col">
 			  <h3 style="margin:0;">기안서 상세 보기</h3>
@@ -60,6 +62,8 @@
 					  </div>
 			  </div>
 		  </div>
+		</div>
+		</div>
 		</div>
 		
 	</div>

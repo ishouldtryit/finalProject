@@ -1,4 +1,4 @@
-package com.kh.synergyZone.Websocket;
+package com.kh.synergyZone.websocket;
 
 public interface WebSocketConstant {
 	int CHAT = 1;

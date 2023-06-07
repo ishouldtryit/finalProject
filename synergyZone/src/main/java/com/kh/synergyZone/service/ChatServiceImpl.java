@@ -11,7 +11,6 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kh.synergyZone.Websocket.WebSocketConstant;
 import com.kh.synergyZone.dto.ChatMessageDto;
 import com.kh.synergyZone.dto.ChatRoomDto;
 import com.kh.synergyZone.dto.ChatUserDto;
@@ -22,6 +21,7 @@ import com.kh.synergyZone.vo.ChatReceiveVO;
 import com.kh.synergyZone.vo.ChatRoomVO;
 import com.kh.synergyZone.vo.ChatUserVO;
 import com.kh.synergyZone.vo.MemberMessageVO;
+import com.kh.synergyZone.websocket.WebSocketConstant;
 
 import lombok.extern.slf4j.Slf4j;
 

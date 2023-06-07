@@ -1,58 +1,54 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <!DOCTYPE html>
 <html>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>
-.icon-wrapper {
-  position: relative;
-}
-
 .icon-text {
-  display: inline-block;
-  position: relative;
+	position: relative;
+	display: inline-block;
 }
 
 .tooltip {
-  position: absolute;
-  top: -30px; /* 원하는 위치로 조정하세요 */
-  left: 0;
-  background-color: #000;
-  color: #fff;
-  padding: 5px;
-  border-radius: 5px;
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity 0.3s ease;
+	position: absolute;
+	top: -25px; /* 원하는 위치로 조정 */
+	left: 50%;
+	transform: translateX(-50%);
+	background-color: #333;
+	color: #fff;
+	padding: 5px;
+	border-radius: 3px;
+	opacity: 0;
+	transition: opacity 0.3s ease;
 }
 
-.icon-wrapper:hover .tooltip {
-  visibility: visible;
-  opacity: 1;
+.icon-text:hover .tooltip {
+	opacity: 1;
 }
-	
 </style>
 <head>
-    <title>근태기록 페이지</title>
+<title>근태기록 페이지</title>
 
 </head>
 <body>
-    <div class="container">
-    	
-    
-        <h1>근태기록 페이지</h1>
-	
-        <div>
-            <button onclick="decrementMonth()">&lt;</button> <!-- 이전 월로 이동하는 버튼 -->
-	        <span id="year" required></span>
-	        <span>.</span>
-            <span id="month" required></span>
-            <button onclick="incrementMonth()">&gt;</button> <!-- 다음 월로 이동하는 버튼 -->
-        </div>
-        <div id="attendanceTable"></div>
-    </div>
-    <script>
+	<div class="container">
+
+
+		<h1>근태기록 페이지</h1>
+
+		<div>
+			<button onclick="decrementMonth()">&lt;</button>
+			<!-- 이전 월로 이동하는 버튼 -->
+			<span id="year" required></span> <span>.</span> <span id="month"
+				required></span>
+			<button onclick="incrementMonth()">&gt;</button>
+			<!-- 다음 월로 이동하는 버튼 -->
+		</div>
+		<div id="attendanceTable"></div>
+	</div>
+	<script>
     $(function() {
         setYearMonth();
     });
@@ -100,8 +96,8 @@
 
                     tableHTML += "<tr>" +
                         "<td>" + formattedDate + "</td>" +
-                        "<td>" + (record && record.startTime !== '' ? record.startTime + "&nbsp;<span class='icon-text'><i class='fa-solid fa-user'><span class='tooltip'>" + record.startIp + "</span></span></i>" : "") + "</td>" +
-                        "<td>" + (record && record.endTime !== '' ? record.endTime + "&nbsp;<span class='icon-text'><i class='fa-solid fa-user'><span class='tooltip'>" + record.endIp + "</span></span></i>" : "") + "</td>";
+                        "<td>" + (record && record.startTime !== '' ? record.startTime + "&nbsp;<span class='icon-text'><i class='fa-solid fa-user'><span class='tooltip'>" + "IP:" + record.startIp + "</span></span></i>" : "") + "</td>" +
+                        "<td>" + (record && record.endTime !== '' ? record.endTime + "&nbsp;<span class='icon-text'><i class='fa-solid fa-user'><span class='tooltip'>" + "IP:" + record.endIp + "</span></span></i>" : "") + "</td>";
 
 
                     if (record && record.workTime !== 'null') {
@@ -223,20 +219,6 @@
     }
 </script>
 
-<script type="text/javascript">
-		function showTooltip(element) {
-		    var tooltipText = $(element).data("tooltip");
-		    var tooltip = $("<span>").addClass("tooltip").text(tooltipText);
-		
-		    $(element).parent().append(tooltip);
-		}
-		
-		function hideTooltip() {
-		    var tooltip = $(".tooltip");
-		    if (tooltip.length > 0) {
-		        tooltip.remove();
-		    }
-		}
-</script>
+
 </body>
 </html>

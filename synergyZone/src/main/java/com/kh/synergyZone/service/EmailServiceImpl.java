@@ -20,6 +20,7 @@ public class EmailServiceImpl implements EmailService {
 	@Autowired
 	private RandomComponent randomComponent;
 	
+	@Autowired
 	private EmployeeRepo employeeRepo;
 	
 	@Autowired
@@ -32,6 +33,7 @@ public class EmailServiceImpl implements EmailService {
 									StandardCharsets.UTF_8.name());
 		
 		EmployeeDto employeeDto = new EmployeeDto();
+		employeeDto.setEmpNo(empNo);
 		
 		String temporaryPw = randomComponent.generateString();
 		employeeDto.setEmpPassword(temporaryPw);

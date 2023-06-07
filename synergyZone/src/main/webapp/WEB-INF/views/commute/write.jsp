@@ -2,9 +2,9 @@
 	pageEncoding="UTF-8"%>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
 <script>
 	$(function() {
+		// 정보변경
 		$("#vacationName").change(function() {
 			var selectedValue = $(this).val();
 			var applicationType = "";
@@ -27,6 +27,7 @@
 			$("#vacation").text(applicationType);
 		});
 
+		// 날짜선택
 		const currentDate = new Date();
 		const currentYear = currentDate.getFullYear();
 		$("#currentYear").text(currentYear);
@@ -44,151 +45,191 @@
 			"min" : currentYear + "-01-01",
 			"max" : currentYear + "-12-31"
 		});
-		
-		var variable = 0;
 
-		// 체크박스가 체크되면 변수에 0.5를 추가하는 함수
-		function addHalfDay() {
-		  if ($('#morningLeave').is(':checked')) {
-		    variable += 0.5;
-		  }else{
-			  variable -= 0.5;
-		  }
+		// startDate와 endDate의 차이를 구하여 useCount에 전달하고 결과를 result에 표시하는 함수
+		function updateUseCount() {
+			var startDate = new Date($('#startDate').val());
+			var endDate = new Date($('#endDate').val());
 
-		  if ($('#afternoonLeave').is(':checked')) {
-		    variable += 0.5;
-		  }else{
-			  variable -= 0.5;
-		  }
+			// 이전 날짜 선택못함
+			if (endDate < startDate) {
+				$('#endDate').val($('#startDate').val());
+				endDate = new Date($('#endDate').val());
+			}
+
+			var diffDays = 0;
+			var currentDate = new Date(startDate);
+
+			while (currentDate <= endDate) {
+				var weekDay = currentDate.getDay();
+				if (weekDay !== 0 && weekDay !== 6) {
+					diffDays++;
+				}
+				currentDate.setDate(currentDate.getDate() + 1);
+			}
+
+			// 계산 전송
+			$('#useCount').val(diffDays);
+			$('#result').text(diffDays);
 		}
 
-		// startDate와 endDate의 차이를 계산하여 주말을 제외한 숫자를 변수에 추가하는 함수
-		function calculateBusinessDays(startDate, endDate) {
-		  var start = new Date(startDate);
-		  var end = new Date(endDate);
+		// startDate와 endDate의 값이 변경될 때마다 useCount 업데이트
+		$('#startDate, #endDate').change(function() {
+			updateUseCount();
+		});
 
-		  // 시작일과 종료일 사이의 모든 날짜를 반복하면서 주말을 제외한 날짜 수를 계산
-		  while (start <= end) {
-		    var dayOfWeek = start.getDay(); // 0: 일요일, 1: 월요일, ..., 6: 토요일
-		    if (dayOfWeek !== 0 && dayOfWeek !== 6) {
-		      variable++;
-		    }
-		    start.setDate(start.getDate() + 1);
-		  }
-
-		  // 변수 값을 <td class="result"></td>에 할당하는 로직 추가
-		  $('#result').text(variable); // 변수 값을 결과 요소에 할당
+		// startDate와 endDate가 동일한 경우 반차 여부 행을 보여주고, 그렇지 않은 경우 숨김
+		function toggleLeaveRow() {
+			var startDate = $('#startDate').val();
+			var endDate = $('#endDate').val();
+			if (startDate === endDate) {
+				$('#morningLeave, #afternoonLeave').prop('disabled', false);
+				$('tr.leave-row').show();
+			} else {
+				$('#morningLeave, #afternoonLeave').prop('disabled', true)
+						.prop('checked', false);
+				$('tr.leave-row').hide();
+			}
+			updateUseCountByCheckbox();
 		}
+
+		// startDate와 endDate 값이 변경될 때마다 반차 여부 행 업데이트
+		$('#startDate, #endDate').change(function() {
+			toggleLeaveRow();
+		});
+
+		$('#morningLeave, #afternoonLeave').change(function() {
+			var morningLeaveChecked = $('#morningLeave').is(':checked');
+			var afternoonLeaveChecked = $('#afternoonLeave').is(':checked');
+
+			if (morningLeaveChecked && afternoonLeaveChecked) { // 두 개 모두 체크되어 있는 경우
+				$('#useCount').val(1);
+				$('#result').text(1);
+			} else if (morningLeaveChecked || afternoonLeaveChecked) {
+				$('#useCount').val(0.5);
+				$('#result').text(0.5);
+			} else {
+				$('#useCount').val(1);
+				$('#result').text(1);
+			}
+		});
+
+		$('#useCount').val(0);
+		$('#result').text(0);
 
 	});
-
-	
-</script>
-<script>
-
 </script>
 </head>
 <body>
-<div class="container">
-	<form action="/commute/write" method="post">
-		<h4>*신청정보</h4>
-		<table class="table table-hover">
-			<tr>
-				<th>대상자</th>
-				<td>${one.empName}<br>
-					<table>
-						<thead>
-							<tr>
-								<td>연차기준년도</td>
-								<td>연차기간</td>
-								<td>총 연차일</td>
-								<td>사용 연차</td>
-								<td>잔여 연차일</td>
-								<td>결재 대기 연차일수</td>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td id="currentYear"></td>
-								<td id="yearRange"></td>
-								<td>${one.total}</td>
-								<td>${one.used}</td>
-								<td>${one.residual}</td>
-								<td id="result"></td>
-							</tr>
-						</tbody>
-					</table>
-
-				</td>
-			</tr>
-			<tr>
-				<th>신청유형</th>
-				<td><select id="vacationName" name="vacationName">
-						<option value="">선택</option>
-						<option value="연차">연차</option>
-						<option value="병가">병가</option>
-						<option value="공가">공가</option>
-				</select></td>
-			</tr>
-			<tr>
-				<th>신청일시</th>
-				<td><input type="date" id="startDate" name="startDate" min="YYYY-01-01"
-					max="YYYY-12-31"> ~ <input type="date" id="endDate" name="endDate" 
-					min="YYYY-01-01" max="YYYY-12-31"></td>
-			</tr>
-			<tr>
-				<th>반차여부</th>
-				<td><input type="checkbox" id="morningLeave">오전 반차 <input
-					type="checkbox" id="afternoonLeave">오후 반차</td>
-			</tr>
-			<tr>
-				<th>근무계획정보</th>
-				<td><label>[근무일] 09:30 ~ 18:30</label><br> <label>(휴게:12:30
-						~ 13:30)</label></td>
-			</tr>
-			<tr>
-				<th>신청정보</th>
-				<td id="vacation">신청유형을 선택해주세요</td>
-			</tr>
-			<tr>
-				<th>사유</th>
-				<td><input type="text" name="reason"></td>
-			</tr>
-		</table>
-		<input type="hidden" name="useCount">
-		<button>등록</button>
-	</form>
-	<br>
-	<hr>
-	<br>
-	<h4>*신청내역</h4>
-	<table class="table table-hover">
-		<thead>
-			<tr>
-				<th>이름</th>
-				<th>부서명</th>
-				<th>연차사용날짜</th>
-				<th>휴가종류</th>
-				<th>사유</th>
-				<th>사용연차</th>
-				<th>승인 상태</th>
-			</tr>
-		</thead>
-		<tbody>
-			<c:forEach items="${list}" var="item">
+	<div class="container">
+		<form action="/commute/write" method="post">
+			<h4>*신청정보</h4>
+			<table class="table table-hover">
 				<tr>
-					<td>${item.empName}</td>
-					<td>${item.deptName}</td>
-					<td>${item.startDate} ~ ${item.endDate}</td>
-					<td>${item.vacationName}</td>
-					<td>${item.reason}</td>
-					<td>${item.useCount}</td>
-					<td>${item.stauts}</td>
-				</tr>
-			</c:forEach>
+					<th>대상자</th>
+					<td>${one.empName}<br>
+						<table>
+							<thead>
+								<tr>
+									<td>연차기준년도</td>
+									<td>연차기간</td>
+									<td>총 연차일</td>
+									<td>사용 연차</td>
+									<td>잔여 연차일</td>
+									<td>결재 대기 연차일수</td>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td id="currentYear"></td>
+									<td id="yearRange"></td>
+									<td>${one.total}</td>
+									<td>${one.used}</td>
+									<td>${one.residual}</td>
+									<td id="result"></td>
+								</tr>
+							</tbody>
+						</table>
 
-		</tbody>
-	</table>
+					</td>
+				</tr>
+				<tr>
+					<th>신청유형</th>
+					<td><select id="vacationName" name="vacationName">
+							<option value="">선택</option>
+							<option value="연차">연차</option>
+							<option value="병가">병가</option>
+							<option value="공가">공가</option>
+					</select></td>
+				</tr>
+				<tr>
+					<th>신청일시</th>
+					<td><input type="date" id="startDate" name="startDate"
+						min="YYYY-01-01" max="YYYY-12-31"> ~ <input type="date"
+						id="endDate" name="endDate" min="YYYY-01-01" max="YYYY-12-31">
+					</td>
+				</tr>
+				<tr>
+					<th>반차여부</th>
+					<td><input type="checkbox" id="morningLeave"
+						onchange="updateUseCountByCheckbox()" disabled>오전 반차 <input
+						type="checkbox" id="afternoonLeave"
+						onchange="updateUseCountByCheckbox()" disabled>오후 반차</td>
+				</tr>
+				<tr>
+					<th>근무계획정보</th>
+					<td><label>[근무일] 09:30 ~ 18:30</label><br> <label>(휴게:12:30
+							~ 13:30)</label></td>
+				</tr>
+				<tr>
+					<th>신청정보</th>
+					<td id="vacation">신청유형을 선택해주세요</td>
+				</tr>
+				<tr>
+					<th>사유</th>
+					<td><input type="text" name="reason"></td>
+				</tr>
+			</table>
+			<input type="hidden" name="useCount" id="useCount" value="0">
+			<button>등록</button>
+		</form>
+		<br>
+		<hr>
+		<br>
+		<h4>*신청내역</h4>
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>이름</th>
+					<th>부서명</th>
+					<th>연차사용날짜</th>
+					<th>휴가종류</th>
+					<th>사유</th>
+					<th>사용연차</th>
+					<th>승인 상태</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${list}" var="item">
+					<tr>
+						<td>${item.empName}</td>
+						<td>${item.deptName}</td>
+						<td>${item.startDate}~${item.endDate}</td>
+						<td>${item.vacationName}</td>
+						<td>${item.reason}</td>
+						<td>${item.useCount}</td>
+						<td><c:choose>
+								<c:when test="${item.status == 0}">
+				                   대기중
+				            </c:when>
+								<c:otherwise>
+				                  	반려
+				            </c:otherwise>
+							</c:choose></td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
 	</div>
 </body>
 </html>

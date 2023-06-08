@@ -67,7 +67,6 @@ public class BookmarkController {
       return "bookmark";
    }
    
-	// 즐겨찾기한 사원 목록
    @GetMapping("/mylist")
    public String myList(Model model, @ModelAttribute("vo") PaginationVO vo, HttpSession session,
                         @RequestParam(required = false, defaultValue = "") String empNo,
@@ -76,6 +75,7 @@ public class BookmarkController {
                         @RequestParam(required = false, defaultValue = "") String column,
                         @RequestParam(required = false, defaultValue = "") String keyword) throws IOException {
 
+	   
        // 즐겨찾기한 사원들 띄우기
        String ownerNo = (String) session.getAttribute("empNo");
        List<BookmarkDto> bookmarkList = bookmarkRepo.getMyList(ownerNo);
@@ -87,7 +87,7 @@ public class BookmarkController {
        if (!column.isEmpty() && !keyword.isEmpty()) {
            employees = employeeService.searchEmployees(column, keyword);
            // 검색 결과의 데이터 개수로 totalCount 설정
-           int totalCount = employees.size();
+           int totalCount = bookmarkRepo.getOwnerBookmarkCount(ownerNo, column, keyword);
            vo.setCount(totalCount);
        } else {
            employees = employeeRepo.list();
@@ -126,9 +126,6 @@ public class BookmarkController {
 
        return "bookmark/mylist";
    }
-
-
-
 
    
    //나만의 즐겨찾기 추가하기 

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kh.synergyZone.dto.BookmarkDto;
 import com.kh.synergyZone.dto.EmployeeDto;
 import com.kh.synergyZone.dto.EmployeeInfoDto;
 
@@ -25,5 +26,7 @@ public interface EmployeeService {
 	
 	List<EmployeeInfoDto> searchEmployees(String column, String keyword);
 	
+    List<BookmarkDto> searchEmployeesInMyList(String ownerNo, String column, String keyword);
+
 	boolean encoder(EmployeeDto employeeDto);
 }

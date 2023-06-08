@@ -86,7 +86,9 @@ html, body {
             <div class="modal-footer">
                <button type="button" class="btn btn-secondary"
                   data-bs-dismiss="modal">취소</button>
-               <button type="button" class="btn btn-primary" @click="logout">로그아웃</button>
+                   <form action="/logout" method="post">
+		               <button type="submit" class="btn btn-primary" @click="logout">로그아웃</button>
+			   		</form>
             </div>
          </div>
       </div>

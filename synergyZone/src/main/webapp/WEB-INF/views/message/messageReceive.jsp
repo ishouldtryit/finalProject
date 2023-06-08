@@ -24,6 +24,7 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
     var empNo = "${sessionScope.empNo}";
+    var contextPath = "<%= request.getContextPath() %>";
   </script>
   <script src="${pageContext.request.contextPath}/static/js/message/messageReceive.js"></script>
  
@@ -53,8 +54,11 @@
  <div class="container">
     <div class="message-header">
 	  <h5>받은 쪽지함 
-        <a class="message-count"  href="${pageContext.request.contextPath}/message/receive?mode=new">(${notReadCnt})</a>
-	  </h5>
+ 			<a class="deco-none message-not-read-cnt" href="${pageContext.request.contextPath}/message/receive?mode=new" 
+ 			style="color:dodgerblue">${notReadCnt}</a><c:if test="${param.mode != 'new'}">/<a class="deco-none message-receive-cnt" 
+ 			style="color:black" href="${pageContext.request.contextPath}/message/receive"></a>
+ 			</c:if>	 
+ 	 </h5>
 	  <div class="row flex">
 	    <div class="Trade-btn message-delete-btn">
 	      <i class="fas fa-times" style="color:red;"></i> 삭제

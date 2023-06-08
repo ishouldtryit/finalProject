@@ -124,14 +124,13 @@ public class WorkBoardController {
    }
 
    //내 보관함
-   @GetMapping("/reportList")
+   @GetMapping("/myWorkList")
    public String reportList(HttpSession session,
 		   				 Model model) {
-	   String workSup = (String) session.getAttribute("empNo");
+	   String empNo = (String) session.getAttribute("empNo");
 	   
-	   List<ReportWithWorkBoardVO> reportList = workReportRepo.reportList(workSup);
-	   model.addAttribute("reportList", reportList);
-	   return "workboard/reportList";
+	   model.addAttribute("myWorkList", workBoardRepo.myWorkList(empNo));
+	   return "workboard/myWorkList";
    }
    
    

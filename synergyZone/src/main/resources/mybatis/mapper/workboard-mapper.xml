@@ -40,4 +40,8 @@
 		where work_no = #{workNo}
 	</update>
 	
+	<select id="myWorkList" resultType="WorkEmpInfo">
+		select * from work_emp_info where emp_no = #{empNo}
+	</select>
+	
 </mapper>

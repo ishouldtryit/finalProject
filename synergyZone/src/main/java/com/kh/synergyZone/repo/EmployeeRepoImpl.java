@@ -61,6 +61,13 @@ public class EmployeeRepoImpl implements EmployeeRepo {
       sqlSession.update("employee.exit", employeeDto);
    }
    
+
+	@Override
+	public void finalExit(EmployeeDto employeeDto) {
+		sqlSession.update("employee.finalExit", employeeDto);
+	}
+   
+   
    //퇴사 취소
    @Override
 	public void cancelExit(String empNo) {
@@ -121,7 +128,7 @@ public class EmployeeRepoImpl implements EmployeeRepo {
 	   Map<String, Object> params = new HashMap<>();
 	   params.put("column", column);
 	   params.put("keyword", keyword);
-	   return sqlSession.selectList("searchEmployees", params);
+	   return sqlSession.selectList("employee.searchEmployees", params);
    }
    
    //퇴사대기자 목록

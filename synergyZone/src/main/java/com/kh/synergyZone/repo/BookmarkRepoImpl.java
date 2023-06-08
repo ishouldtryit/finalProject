@@ -19,12 +19,7 @@ public class BookmarkRepoImpl implements BookmarkRepo {
 
     @Override
     public void addToMyList(BookmarkDto bookmark) {
-        //int count = sqlSession.selectOne("bookmark.checkBookmarkNo", bookmark.getBookmarkNo());
-        //if (count == 0) {
-        //} else {
-        //    System.out.println("이미 존재하는 북마크 번호입니다: " + bookmark.getBookmarkNo());
-        //}
-    	sqlSession.insert("bookmark.addToBookmark", bookmark);
+        sqlSession.insert("bookmark.addToBookmark", bookmark);
     }
 
     @Override
@@ -47,8 +42,23 @@ public class BookmarkRepoImpl implements BookmarkRepo {
         return count > 0;
     }
 
-	@Override
-	public int checkOwnerCount(String ownerNo) {
-		return sqlSession.selectOne("bookmark.checkOwnerCount",ownerNo);
-	}
+    @Override
+    public int checkOwnerCount(String ownerNo) {
+        return sqlSession.selectOne("bookmark.checkOwnerCount", ownerNo);
+    }
+    
+    @Override
+    public int countMyList(String ownerNo) {
+        return sqlSession.selectOne("bookmark.countMyList", ownerNo);
+    }
+    
+    @Override
+    public int getOwnerBookmarkCount(String ownerNo, String column, String keyword) {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("ownerNo", ownerNo);
+        paramMap.put("column", column);
+        paramMap.put("keyword", keyword);
+        
+        return sqlSession.selectOne("bookmark.getOwnerBookmarkCount", paramMap);
+    }
 }

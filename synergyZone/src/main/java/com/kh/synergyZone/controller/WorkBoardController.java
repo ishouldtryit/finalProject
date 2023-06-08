@@ -99,7 +99,8 @@ public class WorkBoardController {
                         @ModelAttribute WorkBoardDto workBoardDto,
                         @RequestParam int workNo,
                         HttpSession session,
-                        @RequestParam List<String> supList) {
+                        @RequestParam List<String> supList,
+                        RedirectAttributes attr) {
 
        for (String empNo : supList) {
            WorkReportDto dto = new WorkReportDto();
@@ -107,7 +108,9 @@ public class WorkBoardController {
            dto.setWorkSup(empNo);
            workReportRepo.insert(dto);
        }
-       return "redirect:/";
+       
+       attr.addAttribute("workNo", workNo);
+       return "redirect:detail";
    }
    
    //참조자 보관함
@@ -119,14 +122,13 @@ public class WorkBoardController {
    }
 
    //내 보관함
-   @GetMapping("/reportList")
+   @GetMapping("/myWorkList")
    public String reportList(HttpSession session,
 		   				 Model model) {
-	   String workSup = (String) session.getAttribute("empNo");
+	   String empNo = (String) session.getAttribute("empNo");
 	   
-	   List<ReportWithWorkBoardVO> reportList = workReportRepo.reportList(workSup);
-	   model.addAttribute("reportList", reportList);
-	   return "workboard/reportList";
+	   model.addAttribute("myWorkList", workBoardRepo.myWorkList(empNo));
+	   return "workboard/myWorkList";
    }
    
    

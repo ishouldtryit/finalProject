@@ -70,15 +70,15 @@ $(function(){
 		        // 내가 쓴 댓글에는 수정/삭제 버튼을 추가 표시
 		        if (empNo == response[i].noticeReplyWriter) {
 		          var editButton = $("<i>")
-		            .addClass("fa-solid fa-edit ms-2")
-		            .attr("data-noticeReply-no", response[i].noticeReplyNo)
-		            .attr("data-noticeReply-content", response[i].noticeReplyContent)
-		            .click(editNoticeReply);
-		
-		          var deleteButton = $("<i>")
-		            .addClass("fa-solid fa-trash ms-1")
-		            .attr("data-noticeReply-no", response[i].noticeReplyNo)
-		            .click(deleteNoticeReply);
+					    .addClass("fa-solid fa-edit ms-2")
+					    .data("noticeReplyNo", response[i].noticeReplyNo)
+					    .data("noticeReplyContent", response[i].noticeReplyContent)
+					    .click(editNoticeReply);
+					
+				  var deleteButton = $("<i>")
+					    .addClass("fa-solid fa-trash ms-1")
+					    .data("noticeReplyNo", response[i].noticeReplyNo)
+					    .click(deleteNoticeReply);
 		
 		          $(html)
 		            .find(".noticeReplyWriter")
@@ -110,8 +110,8 @@ $(function(){
 		//this == span
 		var choice = window.confirm("정말 삭제하시겠습니까?\n삭제 후 복구는 불가능합니다");
 		if(choice == false) return;
-		
 		var noticeReplyNo = $(this).data("noticeReply-no");
+		console.log($(this));
 		
 		$.ajax({
 			url:contextPath+"/rest/noticeReply/"+noticeReplyNo,
@@ -129,8 +129,8 @@ $(function(){
 		//this == 수정버튼
 		//- data-noticeReply-no라는 이름으로 댓글번호가 존재
 		//- data-noticeReply-content라는 이름으로 댓글내용이 존재
-		var noticeReplyNo = $(this).data("noticeReply-no");
-		var noticeReplyContent = $(this).data("noticeReply-content");
+		var noticeReplyNo = $(this).data("noticeReplyNo");
+		var noticeReplyContent = $(this).data("noticeReplyContent");
 		
 		//계획
 		//- 입력창과 등록버튼, 취소버튼을 생성

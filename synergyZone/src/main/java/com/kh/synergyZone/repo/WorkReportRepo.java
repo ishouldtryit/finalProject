@@ -10,5 +10,4 @@ public interface WorkReportRepo {
 	void insert(WorkReportDto workReportDto);
 	List<WorkReportDto> list();
 	List<SupWithWorkDto> supList(String workSup);
-	List<ReportWithWorkBoardVO> reportList(String workSup);
 }

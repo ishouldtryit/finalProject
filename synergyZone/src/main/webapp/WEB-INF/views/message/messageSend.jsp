@@ -11,6 +11,50 @@
       color: black;
     }
   </style>
+  
+  <style>
+.custom-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.custom-pagination a {
+  display: inline-block;
+  padding: 8px;
+  margin: 0 5px;
+  text-decoration: none;
+  color: #333;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.custom-pagination a i {
+  margin-right: 5px;
+}
+
+.custom-pagination a.disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.custom-pagination a.on {
+  background-color: #007bff;
+  color: #fff;
+  border-color: #007bff;
+}
+
+.custom-pagination a:hover {
+  background-color: #eee;
+}
+
+.custom-pagination a:first-child,
+.custom-pagination a:last-child {
+  padding: 4px;
+}
+</style>
+  
 </head>
 <body>
 
@@ -19,7 +63,7 @@
 </script>
   
 <script type="text/html" id="send-message-row">
-	 <tr>
+    <tr>
       <td>
         <div class="form-check">
           <input class="form-check-input message-check-one" type="checkbox" value="">
@@ -47,22 +91,27 @@
 <script src="${pageContext.request.contextPath}/static/js/message/messageSend.js"></script>
 
 <!-- aside -->
-<jsp:include page="/WEB-INF/views/message/messageAside.jsp"></jsp:include>
 <div class="container">
+     <h4>보낸 쪽지함 
+       <a class="message-count" style="color:black" href="${pageContext.request.contextPath}/message/send"></a>
+     </h4>
+<jsp:include page="/WEB-INF/views/message/messageAside.jsp"></jsp:include>
 
-	<div class="message-header">
-	  <h5>보낸 쪽지함 
-	    <a class="message-count" style="color:black" href="${pageContext.request.contextPath}/message/send"></a>
-	  </h5>
-	  <div class="row flex">
-	    <div class="Trade-btn message-delete-btn">
-	      <i class="fas fa-times" style="color:red;"></i> 삭제
-	    </div>
-			<div class="action-btn ml-auto message-refresh-btn">
-			  <i class="fas fa-sync-alt custom-spin" style="color: gray;"></i> 새로고침
-			</div>
-	  </div>
-	</div>
+   <div class="message-header d-flex justify-content-between">
+  <div class="d-flex mb-2">
+    <button class="btn btn-outline-primary Trade-btn message-delete-btn me-2 ms-2">
+      <i class="fas fa-times" style="color:red;"></i> 삭제
+    </button>
+    <button class="btn btn-outline-secondary action-btn ml-auto message-refresh-btn">
+      <i class="fas fa-sync-alt custom-spin" style="color: gray;"></i> 새로고침
+    </button>
+  </div>
+  <div class="d-flex mb-2 justify-content-end">
+    <a class="btn btn-outline-info me-2" href="${pageContext.request.contextPath}/message/write">쪽지쓰기</a>
+    <a class="btn btn-outline-info" href="${pageContext.request.contextPath}/message/write?recipient=${sessionScope.empNo}">내게쓰기</a>
+  </div>
+</div>
+
 
 
 <div class="table-responsive">
@@ -109,11 +158,12 @@
     </div>
 
 <!-- 페이지네이션 -->
-<div class="mt-0 mb-1 center pagination d-flex justify-content-center"></div>
+<div class="mt-3 center pagination d-flex justify-content-center">
+</div>
 
 
 <!-- 검색창 -->
-<div class="row center">
+<div class="row center mt-3">
   <form class="message-send-search-form" action="/message/send" method="get" autocomplete="off">
     <div class="input-group" style="width: 33%; margin: auto;">
       <select name="column"  class="form-select form-select-sm" style="width: 20%; height: 100%;">

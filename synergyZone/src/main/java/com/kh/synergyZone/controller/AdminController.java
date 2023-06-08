@@ -136,29 +136,20 @@ public class AdminController {
 				           @RequestParam(required = false, defaultValue = "") String column,
 				           @RequestParam(required = false, defaultValue = "") String keyword,
 						   Model model) throws IOException {
-			List<EmployeeInfoDto> employees = employeeRepo.list();
-		    List<DepartmentDto> departments = departmentRepo.list();
-		    List<JobDto> jobs = jobRepo.list();
-		    
-		    model.addAttribute("employees", employees);
-		    model.addAttribute("departments", departments);
-		    model.addAttribute("jobs", jobs);
-		    
-		    // 검색
+			 List<EmployeeInfoDto> employees;
+
+		       
+		       // 검색
 		       if (!column.isEmpty() && !keyword.isEmpty()) {
 		    	   employees = employeeService.searchEmployees(column, keyword);
 		       } else {
 		           employees = employeeRepo.list();
 		       }
-		       
 		       if (empNo != null) {
 		    	    model.addAttribute("profile", employeeProfileRepo.find(empNo));
 		    	}
 		       
-		       //selected 유지
-		       model.addAttribute("column", column);
-		    
-		    // 페이징 처리
+		       // 페이징 처리
 		       int totalCount = employees.size();  // 전체 데이터 개수
 		       vo.setCount(totalCount);  // PaginationVO 객체의 count 값을 설정
 		       
@@ -169,6 +160,16 @@ public class AdminController {
 		       int endIndex = Math.min(startIndex + size, totalCount);  // 데이터의 종료 인덱스
 		       
 		       List<EmployeeInfoDto> pagedEmployees = employees.subList(startIndex, endIndex);  // 페이지에 해당하는 데이터만 추출
+		       
+		       // 직위, 부서별 조회
+		       List<DepartmentDto> departments = departmentRepo.list();
+		       List<JobDto> jobs = jobRepo.list();
+		       
+		       model.addAttribute("departments", departments);
+		       model.addAttribute("jobs", jobs);
+		       
+		       //selected 유지
+		       model.addAttribute("column", column);
 		       
 		       // 프로필 사진 조회
 		       EmployeeProfileDto profile = employeeProfileRepo.find(empNo); // 프로필 정보 조회
@@ -298,6 +299,19 @@ public class AdminController {
 	    employeeRepo.cancelExit(empNo);
 	    return "redirect:/admin/waitingList";
 	}
+	
+	@GetMapping("/finalExit")
+	public String finalExit(@RequestParam String empNo) {
+		EmployeeDto employeeDto = employeeRepo.selectOne(empNo);
+		employeeDto.setEmpEmail("9999");
+		employeeDto.setEmpPhone("9999");
+		employeeDto.setEmpAddress("9999");
+		employeeDto.setEmpDetailAddress("9999");
+		employeeDto.setEmpPostcode("9999");
+		
+		employeeRepo.finalExit(employeeDto);
+		return "redirect:/admin/waitingList";
+	}
 
 	
 	
@@ -371,16 +385,37 @@ public class AdminController {
 	}
 
 	
-	//관리자 목록
-	@GetMapping("/adminList")
-	public String adminList(Model model) throws IOException {
+//	//관리자 목록
+//	@GetMapping("/adminList")
+//	public String adminList(Model model) throws IOException {
+//		List<EmployeeDto> adminList = employeeRepo.adminList();
+//		    
+//		model.addAttribute("adminList" ,adminList);
+//		    
+//		    
+//		return "admin/adminList";
+//	}
+	
+	//관리자
+	@GetMapping("/add")
+	public String add(Model model) {
 		List<EmployeeDto> adminList = employeeRepo.adminList();
-		    
+	    
 		model.addAttribute("adminList" ,adminList);
 		    
 		    
-		return "admin/adminList";
+		return "admin/add";
 	}
+	
+	@PostMapping("/add")
+	public String add(@RequestParam List<String> adminList, HttpSession session) {
+	    for (String empNo : adminList) {
+	        employeeRepo.authorityAdmin(empNo);
+	    }
+
+	    return "redirect:/admin/add";
+	}
+
 	
 	
 }

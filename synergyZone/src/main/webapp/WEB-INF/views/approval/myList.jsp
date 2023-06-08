@@ -280,7 +280,7 @@
                   
              //상세페이지 이동
                 goToDetail(draftNo) {
-                    window.location.href = 'detail?draftNo=' + draftNo;
+                    window.location.href = "detail?draftNo=" + draftNo;
                 },
                 
                 //전체 항목 조회

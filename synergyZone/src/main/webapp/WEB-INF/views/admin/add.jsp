@@ -93,7 +93,7 @@
                                        <div class="row" v-for="(admin, index) in adminList">
                                         <div class="col-6">
                                           <div class="badge bg-danger w-100">
-                                            {{index+1}}.{{admin.department.deptName}} : {{admin.supList.empName}}
+                                            {{index+1}}.{{admin.department.deptName}} : {{admin.adminList.empName}}
                                           </div>
                                         </div>
                                         <div class="col-2 text-center">
@@ -107,9 +107,6 @@
                 <div class="modal-footer">
                     <div class="row">
                         <button type="button" class="btn btn-secondary ml-auto" data-bs-dismiss="modal" @click="hideEmployeeList">닫기</button>
-                    </div>
-                     <div class="row">
-                        <button type="button" class="btn btn-secondary ml-auto" data-bs-dismiss="modal" @click="addAdminList">추가</button>
                     </div>
                 </div>
             </div>      
@@ -129,23 +126,19 @@
 			    <div class="col">
 			      <label class="form-label">관리자 목록</label>
 			      <div v-for="(admin, index) in adminList" :key="index">
-			        {{ index + 1 }}. {{ admin.department.deptName }} : {{ admin.supList.empName }}
+			        {{ index + 1 }}. {{ admin.department.deptName }} : {{ admin.adminList.empName }}
 			        <input type="hidden" name="adminList" :key="index" :value="admin.adminList.empNo">
 			      </div>
 			    </div>
 			  </div>
+              
 
                
              <div class="row mt-4">
                  <div class="col">
-                     <input type="hidden" name="workNo" id="workNo" value="${workBoardDto.workNo}">
                 <!-- 나머지 입력 필드들 -->
-                <button type="submit" class="btn btn-primary">관리자 추가</button>
+                <button type="submit" class="btn btn-primary">추가</button>
                  </div>
-             </div>
-             
-             <div>
-             	
              </div>
                 
 
@@ -175,6 +168,13 @@
     },
     
     computed: {
+    	 isDataComplete() {
+    	      return (
+    	        this.approvalVO.approvalDto.draftTitle !== "" &&
+    	        this.approvalVO.approvalDto.draftContent !== "" &&
+    	        this.approvalVO.approverList.length > 0
+    	      );
+   	    },
     },
     
     methods: {
@@ -261,19 +261,6 @@
           }, 1000);
         }
       },
-      
-      addAdminList() {
-    	    // 선택한 관리자 목록에서 각 관리자의 EmpAdmin 값을 변경하는 작업 수행
-    	    this.adminList.forEach(admin => {
-    	      admin.adminList.empAdmin = 'Y';
-    	    });
-
-    	    // 추가한 후에 선택한 관리자 목록을 초기화
-    	    this.adminList = [];
-
-    	    // 모달을 숨김
-    	    this.hideAdminModal();
-    	  },
      
   	   
     },

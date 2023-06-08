@@ -396,6 +396,7 @@ public class AdminController {
 //		return "admin/adminList";
 //	}
 	
+	//관리자
 	@GetMapping("/add")
 	public String add(Model model) {
 		List<EmployeeDto> adminList = employeeRepo.adminList();
@@ -407,16 +408,12 @@ public class AdminController {
 	}
 	
 	@PostMapping("/add")
-	public String add(@RequestParam List<String> adminList,
-	                  HttpSession session) {
-	  for (String empNo : adminList) {
-	    EmployeeDto dto = new EmployeeDto();
-	    dto.setEmpAdmin(empNo);
-	    // EmpAdmin 값을 "Y"로 업데이트
-	    employeeRepo.insert(dto);
-	  }
+	public String add(@RequestParam List<String> adminList, HttpSession session) {
+	    for (String empNo : adminList) {
+	        employeeRepo.authorityAdmin(empNo);
+	    }
 
-	  return "redirect:/admin/add";
+	    return "redirect:/admin/add";
 	}
 
 	

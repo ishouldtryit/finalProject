@@ -19,10 +19,8 @@ public class CalendarService {
     private CalendarRepo calendarRepo;
 
 
-    public  int insertDate(CalendarVO vo) {
-        int rs = 0;
-        rs = calendarRepo.insert(vo);
-        return rs ;
+    public void insertDate(CalendarVO vo) {
+        calendarRepo.insert(vo);
     }
 
 

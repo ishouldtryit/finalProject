@@ -143,7 +143,7 @@
 		<div class="mt-4" style="display: flex; justify-content: center;">
 		  <ul class="pagination" style="width: 20%;">
 		    <li class="page-item ${vo.isFirst() ? 'disabled' : ''}">
-		      <a class="page-link" href="${vo.isFirst() ? '#' : pageContext.request.contextPath}/notice/list?page=${vo.getPrevPage()}">&laquo;</a>
+		      <a class="page-link" href="${vo.isFirst() ? '#' : pageContext.request.contextPath}/notice/list?page=${vo.getPrevPage()}"><i class="fa-solid fa-angles-left"></i></a>
 		    </li>
 		    <c:forEach var="i" begin="${vo.getStartBlock()}" end="${vo.getFinishBlock()}">
 		      <li class="page-item">
@@ -154,7 +154,7 @@
 		    </c:forEach> 
 		    <li class="page-item ${vo.isLast() ? 'disabled' : ''}">
 		      <a class="page-link" href="${vo.isLast() ? '#' : pageContext.request.contextPath}/notice/list?page=${vo.getNextPage()}">
-		        <span class="text-info">&raquo;</span>
+		        <span class="text-info"><i class="fa-solid fa-angles-right"></i></span>
 		      </a>
 		    </li>
 		  </ul>

@@ -127,12 +127,12 @@ JOIN search_info S ON B.notice_writer = S.emp_no
 </update>
 
 <!-- updateReplycount -->
-<update id="updateNoticeReplycount">
+<update id="updateReplycount">
 	update notice
 	set notice_reply = (
 		select count(*)
-		from noticeReply
-		where noticeReply_origin = #{noticeNo}
+		from notice_reply
+		where notice_reply_origin = #{noticeNo}
 	)
 	where notice_no = #{noticeNo}
 </update>

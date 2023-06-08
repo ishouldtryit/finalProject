@@ -65,20 +65,13 @@ public class ApprovalController {
 	
 	//기안서 상세 페이지
 	@GetMapping("/detail")
-	public String detail(@RequestParam int draftNo) {
+	public String detail() {
 		return "/approval/detail";
 	}
 	
-//	@GetMapping("/edit")
-//	public String edit(Model model, @RequestParam int draftNo) {
-//		model.addAttribute("approvalDto", approvalRepoImpl.selectOne(draftNo));
-//		return "/approval/edit";
-//	}
-	
-	@PostMapping("/edit")
-	public String edit(@ModelAttribute ApprovalDto approvalDto) {
-		approvalRepoImpl.edit(approvalDto);
-		return "redirect:/approval/detail?draftNo="+approvalDto.getDraftNo();
+	@GetMapping("/edit")
+	public String edit() {
+		return "/approval/edit2";
 	}
 	
 	

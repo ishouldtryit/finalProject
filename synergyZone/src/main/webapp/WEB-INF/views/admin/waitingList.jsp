@@ -104,7 +104,8 @@
 		              </td>
 	                  <td class="align-middle">${employeeDto.isLeave}</td>
 	                  <td class="align-middle">
-	                    <a href="exitCancel?empNo=${employeeDto.empNo}" class="exit-cancel-button">퇴사취소 처리</a>
+	                    <a href="exitCancel?empNo=${employeeDto.empNo}" class="exit-cancel-button">퇴사취소</a>
+	                    <a href="finalExit?empNo=${employeeDto.empNo}" class="final-exit-button">퇴사처리</a>
 	                  </td>
 		            </tr>
 		          </c:forEach>
@@ -243,6 +244,17 @@
     
     $(".exit-cancel-button").click(function(){
     	var result = confirm("퇴사취소 처리 하시겠습니까?");
+    	
+    	if(result){
+    		return true;
+    	}
+    	else{
+    		return false;
+    	}
+    });
+    
+    $(".final-exit-button").click(function(){
+    	var result = confirm("퇴사처리하시겠습니까?");
     	
     	if(result){
     		return true;

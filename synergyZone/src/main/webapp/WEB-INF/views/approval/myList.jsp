@@ -12,11 +12,12 @@
 <div id="app">
 
     <div class="container-fluid" v-if="ApprovalWithPageVO != null">
-       
+     	<div class="row">
+    	<div class="col-10 offset-sm-1">         
        <div class="row mb-3">
            <h3>나의 기안서 목록</h3>
        </div>
-       <div class="row mb-3 ">
+       <div class="row mb-3">
              <div class="col-2" style=" width:150px;">
                 <select class="form-select" style="width:150px;" v-model="ApprovalWithPageVO.paginationVO.column">
                    <option value="draft_title">제목</option>
@@ -24,11 +25,11 @@
                 </select>
              </div>
           <div class="input-group mb-3 ms-3 col-1" style="width:300px;">
-            <input type="text" class="form-control" placeholder="검색어" v-model="ApprovalWithPageVO.paginationVO.keyword">
+            <input type="search" class="form-control" placeholder="검색어" v-model="ApprovalWithPageVO.paginationVO.keyword" @keyup.enter="changeSearchPage">
             <button class="btn btn-info" type="button" @click="changeSearchPage">검색</button>
           </div>
           <div class="ms-3 col">
-            <button class="btn btn-info" type="button" @click="loadData">
+            <button class="btn btn-info" type="button" @click="allList">
             <i class="fa-solid fa-list-ul"></i>
              전체 목록
             </button>
@@ -63,7 +64,7 @@
                     완료
                   </button>
                </div>   
-                      <button type="button" 
+                   <button type="button" 
                       class="btn ms-3" :class="{'btn-secondary': !isemergency, 'btn-info': isemergency }"
                       @click ="changeEmergencyPage">
                     긴급
@@ -118,9 +119,12 @@
                               
                               </td>
                            <td>{{approval.approvalWithDrafterDto.empName}}</td>
-                           <td>
-                                 {{ approval.approverList[approval.approvalWithDrafterDto.statusCode].empName }}
-                           </td>
+							<td v-if="approval.approvalWithDrafterDto.statusCode === approval.approverList.length">
+							  -
+							</td>
+							<td v-else>
+							  {{ approval.approverList[approval.approvalWithDrafterDto.statusCode].empName }}
+							</td>
                            <td>
                               {{ approval.approverList[approval.approverList.length - 1].empName }}
                            </td>
@@ -142,6 +146,8 @@
                        </tr>
                    </tbody>
                </table>
+           </div>
+           </div>
            </div>
        </div>
        <div>
@@ -208,6 +214,12 @@
                     this.ApprovalWithPageVO = resp.data;
                 },
                 
+                
+                async allList(){ //전체 목록 호출
+                	await this.loadData();	
+                	this.pageStatus = "allPage";
+                },
+                
                 //페이지 이동
                 async move(page) {
                     this.ApprovalWithPageVO.paginationVO.page = page;
@@ -268,7 +280,7 @@
                   
              //상세페이지 이동
                 goToDetail(draftNo) {
-                    window.location.href = 'detail?draftNo=' + draftNo;
+                    window.location.href = "detail?draftNo=" + draftNo;
                 },
                 
                 //전체 항목 조회

@@ -259,7 +259,7 @@ messageToMeBtn.change(function () {
       alert("쪽지 제목을 입력해주세요");
       return;
     } else {
-      const titleRegex = /^[-!@#$%^&*()_a-zA-Z0-9가-힣\s]{1,100}$/;
+		const titleRegex = /^[-!@#$%^&*()_a-zA-Z0-9가-힣\sㄱ-ㅎ]{1,100}$/;
       if(!titleRegex.test(messageTitle)){
         alert("쪽지는 일부의 특수문자, 숫자, 영어 대소문자, 한글로 이루어진 1~100자 이어야 합니다");
         return;

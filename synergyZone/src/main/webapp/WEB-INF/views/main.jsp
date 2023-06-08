@@ -15,7 +15,7 @@
 <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
 <link rel="stylesheet"
    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
-
+	<link rel="icon" href="${pageContext.request.contextPath}/static/favicon.ico" type="image/x-icon">
 <style>
 #img {
    width: 280px;
@@ -86,7 +86,9 @@ html, body {
             <div class="modal-footer">
                <button type="button" class="btn btn-secondary"
                   data-bs-dismiss="modal">취소</button>
-               <button type="button" class="btn btn-primary" @click="logout">로그아웃</button>
+                   <form action="/logout" method="post">
+		               <button type="submit" class="btn btn-primary" @click="logout">로그아웃</button>
+			   		</form>
             </div>
          </div>
       </div>
@@ -159,21 +161,18 @@ html, body {
 
          <div class="col col-2 mt-4">
 
-            <div class="bg-light border p-2"
-                 style="height: 230px; width: 290px; margin-left: 15px;">
-                 
-                <div class="d-flex justify-content-center">
-                 <div class="profile-image employee-name">
-                   <img width="100" height="100" :src="getProfileImageUrl(employeeInfo.attachmentNo)" 
-                   alt="" style="border-radius: 50%; margin-top: 10px;">
-                 </div>
-               </div>
-
-                
-                
-                <h5 class="text-center mt-4">{{ employeeInfo.empName }}</h5>
-                <p class="text-center mt-3">{{ employeeInfo.deptName }}</p>
-            </div>
+           <div class="bg-light border p-2" style="height: 230px; width: 290px; margin-left: 15px;">
+			  <div class="d-flex justify-content-center">
+			    <div class="profile-image employee-name">
+			      <img width="100" height="100" :src="getProfileImageUrl(employeeInfo.attachmentNo)" alt="" style="border-radius: 50%; margin-top: 10px;">
+			    </div>
+			  </div>
+			
+			  <h5 class="text-center mt-3" style="font-weight: bold; margin-bottom: 5px;">{{ employeeInfo.empName }}</h5>
+			  <p class="text-center mt-1" style="font-weight: ; margin-bottom: 5px;">{{ employeeInfo.deptName }}</p>
+			  <p class="text-center mt-0" style="font-weight: ; margin-bottom: 0;">{{ employeeInfo.jobName }}</p>
+			</div>
+	
 
 
             <div class="bg-light border p-2"

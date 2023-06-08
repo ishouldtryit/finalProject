@@ -63,6 +63,13 @@
 		where emp_no = #{empNo}
 	</update>
 	
+	<update id="finalExit">
+		update employee set
+		emp_email = #{empEmail}, emp_phone = #{empPhone}, emp_address = #{empAddress},
+		emp_detail_address = #{empDetailAddress}, emp_postcode = #{empPostcode}
+		where emp_no = #{empNo}
+	</update>
+	
 	<delete id="delete">
 		delete from employee where emp_no = #{empNo}
 	</delete>
@@ -156,7 +163,7 @@
 	
 	<select id="searchWaitingEmployees" resultType="EmployeeInfoDto">
 	    SELECT *
-	    FROM employee
+	    FROM search_info
 	    WHERE is_leave = 'Y'
 	      AND instr(${column}, #{keyword}) > 0
 	    ORDER BY ${column} ASC

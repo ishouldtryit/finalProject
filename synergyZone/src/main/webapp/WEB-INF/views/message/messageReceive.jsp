@@ -12,9 +12,13 @@
     .message-title-col{
       color: black;
     }
-    .message-send-time-col{
+    .message-send-time-col{	
       color: black;
     }
+
+	.col {
+  		flex: 0 0 auto;
+	}
     
   </style>
 </head>
@@ -46,25 +50,32 @@
     </tr>
   </script>
   <!-- aside -->
+ <div class="container">
+ 
+	<h5>받은 쪽지함 
+          <a class="deco-none message-not-read-cnt" href="${pageContext.request.contextPath}/message/receive?mode=new" 
+          style="color:dodgerblue">${notReadCnt}</a><c:if test="${param.mode != 'new'}">/<a class="deco-none message-receive-cnt" 
+          style="color:black" href="${pageContext.request.contextPath}/message/receive"></a>
+          </c:if>    
+     </h5>
+	  
   <jsp:include page="/WEB-INF/views/message/messageAside.jsp"></jsp:include>
   
-
-
- <div class="container">
-    <div class="message-header">
-	  <h5>받은 쪽지함 
-        <a class="message-count"  href="${pageContext.request.contextPath}/message/receive?mode=new">(${notReadCnt})</a>
-	  </h5>
-	  <div class="row flex">
-	    <div class="Trade-btn message-delete-btn">
+    <div class="message-header d-flex justify-content-between">
+	  <div class="d-flex mb-2">
+	    <button class="btn btn-outline-primary Trade-btn message-delete-btn me-2 ms-2">
 	      <i class="fas fa-times" style="color:red;"></i> 삭제
-	    </div>
-			<div class="action-btn ml-auto message-refresh-btn">
+	    </button>
+			<button class="btn btn-outline-secondary action-btn ml-auto message-refresh-btn">
 			  <i class="fas fa-sync-alt custom-spin" style="color: gray;"></i> 새로고침
-			</div>
-
+			</button>
 	  </div>
+	    <div class="d-flex mb-2">
+	      <a class="btn btn-outline-info me-2" href="${pageContext.request.contextPath}/message/write">쪽지쓰기</a>
+	      <a class="btn btn-outline-info" href="${pageContext.request.contextPath}/message/write?recipient=${sessionScope.empNo}">내게쓰기</a>
+	    </div>
 	</div>
+	
 	
     <div class="table-responsive">
       <table class="table table-hover">

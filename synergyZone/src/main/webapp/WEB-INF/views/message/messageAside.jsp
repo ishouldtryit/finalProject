@@ -28,6 +28,7 @@
 	
 	
 	<style>
+	
 	  .message-send-btn {
 	    text-align: center;
 	    text-decoration: none;
@@ -41,31 +42,32 @@
 	</style>
 	
 	<!-- section -->
+	
 	<section class="container py-4">
-	  <div class="row mb-4">
-	    <div class="col text-center">
-	      <a class="btn btn-info mx-2" href="${pageContext.request.contextPath}/message/write">쪽지쓰기</a>
-	      <a class="btn btn-info mx-2" href="${pageContext.request.contextPath}/message/write?recipient=${sessionScope.empNo}">내게쓰기</a>
-	    </div>
-	  </div>
-	  <div class="row mb-3">
+	<aside class="col-md-3 d-flex justify-content-start">
+	 
+	  <div class="row" style="margin-left:-33px">
 	    <div class="col reply-aside receive-store">
 	      <a href="${pageContext.request.contextPath}/message/receive" class="link d-flex align-items-center">
 	        <i class="fas fa-envelope mr-2" style="color: dodgerblue"></i>
-	        <span>받은 쪽지함</span>
+	        <span style="color:black" class="fw-bold">받은 쪽지함</span>
 	      </a>
 	    </div>
 	    <div class="col reply-aside send-store">
 	      <a href="${pageContext.request.contextPath}/message/send" class="link d-flex align-items-center">
 	        <i class="far fa-envelope mr-2" style="color: dodgerblue"></i>
-	        <span>보낸 쪽지함</span>
+	        <span style="color:black" class="fw-bold">보낸 쪽지함</span>
 	      </a>
 	    </div>
 	  </div>
+	</aside>
+	
+	 
+	  
+	</section>
 	
 	  <!-- article -->
-	  <article class="container-1200 ps-30">
+<article class="col-md-9">
 	    <!-- Content here -->
-	  </article>
-	</section>
+</article>
 	

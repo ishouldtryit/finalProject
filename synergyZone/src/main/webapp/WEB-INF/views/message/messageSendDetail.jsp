@@ -12,8 +12,9 @@
 <head>
   <meta charset="UTF-8">
   <style>
-    .container {
-      max-width: 800px;
+    .message-detail {
+      max-width: 1400px;
+      min-height:550px;
       margin: 0 auto;
       padding: 20px;
       background-color: #F8F8F8;
@@ -94,26 +95,50 @@
     .message-content {
       font-size: 16px;
     }
+    .message-actions button.message-delete-btn {
+      background-color: #ffffff;
+      color:#EC6C64;
+      border:1px solid #EC6C64;
+    }
+  .message-actions button.message-delete-btn:hover{
+  	background-color:#EC6C64;
+  	color:#ffffff;
+  }
+    .message-actions button.message-reply-btn {
+      background-color: #ffffff;
+      color:#34649C;
+      border:1px solid #34649C
+    }
+    .message-actions button.message-reply-btn:hover{
+    	background-color: #34649C;
+    	color:#ffffff;
+    }
   </style>
 </head>
 <body>
 
-<div class="container">
   <script src="${pageContext.request.contextPath}/static/js/message/messageReceiveDetail.js"></script>
-  <jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/message/messageAside.jsp"></jsp:include>
 
-  <h1>제목: ${messageWithNickDto.messageTitle}</h1>
-  <div class="message-actions">
-    <button class="message-delete-btn">
-      <i class="fa-solid fa-xmark" style="color:white;"></i> 삭제
+<div class="container">
+<div class="message-detail">
+  <div class="d-flex justify-content-between">
+    
+      <div class="message-actions">
+      
+      <button class="message-reply-btn">
+      <i class="fa-solid fa-reply" style="color: darkblue;"></i> 답장
     </button>
-    <button class="message-reply-btn">
-      <i class="fa-solid fa-reply" style="color: white;"></i> 답장
-    </button>
-    <a href="${pageContext.request.contextPath}/message/receive" class="message-list-btn">
-      <i class="fa-solid fa-list" style="color: white;"></i> 목록
-    </a>
-  </div>
+      	<button class="message-delete-btn">
+        <i class="fa-solid fa-xmark" style="color:red;"></i> 삭제
+      </button>
+    </div>
+      <a href="${pageContext.request.contextPath}/message/receive" class="btn btn-outline-secondary">
+        <i class="fa-solid fa-list" style="color:gray"></i> 목록
+      </a>
+    </div>
+  
+   <h1 class="mt-5">${messageWithNickDto.messageTitle}</h1>
+   <hr>
   <div class="message-info">
     <div class="d-flex mt-2">
       <div class="profile-image">
@@ -126,13 +151,13 @@
             </c:otherwise>
         </c:choose>" alt="" style="border-radius: 50%;">
       </div>
-      <div class="sender-info mt-2">
+      <div class="sender-info">
         <b class="mt-2 ml-2">보낸사람:</b>
         ${messageWithNickDto.messageSenderNick} (${messageWithNickDto.messageSender})
         [<fmt:formatDate value="${messageWithNickDto.messageSendTime}" pattern="yyyy.MM.dd. H:m"/>]
       </div>
     </div>
-    <hr>
+
     <div class="d-flex">
       <div class="profile-image">
         <img width="40" height="40" src="<c:choose>
@@ -144,7 +169,7 @@
             </c:otherwise>
         </c:choose>" alt="" style="border-radius: 50%;">
       </div>
-      <div class="recipient-info mt-2">
+      <div class="recipient-info">
         <b class="mt-2 ml-2">받은사람:</b>
         ${messageWithNickDto.messageRecipientNick} (${messageWithNickDto.messageRecipient})
         [<fmt:formatDate value="${messageWithNickDto.messageReadTime}" pattern="yyyy.MM.dd. H:m"/>]
@@ -155,7 +180,7 @@
       ${messageWithNickDto.messageContent}
     </div>
   </div>
-
+</div>
 </div>
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

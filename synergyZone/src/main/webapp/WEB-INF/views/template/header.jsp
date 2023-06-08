@@ -10,6 +10,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>홈페이지 레이아웃</title>
     
+   <link rel="icon" href="${pageContext.request.contextPath}/static/favicon.ico" type="image/x-icon">
+    
     <!-- 사이드바 css -->
     <link rel="stylesheet" href="/static/css/style.css">
     
@@ -48,6 +50,8 @@
        const memberId = "${sessionScope.memberId}";
        const memberLevel = "${sessionScope.memberLevel}";
     </script>
+    
+    
     
     <style>
       #rogo-img{
@@ -134,10 +138,7 @@
                                        <a href="/approval/myList">나의 기안 문서함</a>
                                    </li>
                                    <li>
-                                       <a href="/approval/waitApproverList">결재 대기 문서함</a>
-                                   </li>
-                                   <li>
-                                       <a href="/approval/waitAgreeorList">합의 대기 문서함</a>
+                                       <a href="/approval/waitApproverList">결재 수신 문서함</a>
                                    </li>
                                    <li>
                                        <a href="/approval/recipientList">참조 문서함</a>
@@ -275,3 +276,4 @@
                    </div>
                </nav>
                
+               <!-- 내용 -->

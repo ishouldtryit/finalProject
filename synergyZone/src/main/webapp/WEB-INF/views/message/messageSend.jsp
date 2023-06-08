@@ -47,20 +47,20 @@
 <script src="${pageContext.request.contextPath}/static/js/message/messageSend.js"></script>
 
 <!-- aside -->
-<jsp:include page="/WEB-INF/views/message/messageAside.jsp"></jsp:include>
 <div class="container">
-
-	<div class="message-header">
-	  <h5>보낸 쪽지함 
+	  <h4>보낸 쪽지함 
 	    <a class="message-count" style="color:black" href="${pageContext.request.contextPath}/message/send"></a>
-	  </h5>
-	  <div class="row flex">
-	    <div class="Trade-btn message-delete-btn">
+	  </h4>
+<jsp:include page="/WEB-INF/views/message/messageAside.jsp"></jsp:include>
+
+	<div class="message-header d-flex justify-contetn-start">
+	  <div class="d-flex mb-2">
+	    <button class="btn btn-outline-primary Trade-btn message-delete-btn me-2 ms-2">
 	      <i class="fas fa-times" style="color:red;"></i> 삭제
-	    </div>
-			<div class="action-btn ml-auto message-refresh-btn">
+	    </button>
+			<button class="btn btn-outline-secondary action-btn ml-auto message-refresh-btn">
 			  <i class="fas fa-sync-alt custom-spin" style="color: gray;"></i> 새로고침
-			</div>
+			</button>
 	  </div>
 	</div>
 

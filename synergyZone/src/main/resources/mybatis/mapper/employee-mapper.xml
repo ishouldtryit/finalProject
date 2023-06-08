@@ -87,6 +87,7 @@
 			<result column="emp_postcode" property="empPostcode"/>
 			<result column="emp_hire_date" property="empHireDate"/>
 			<result column="is_leave" property="isLeave"/>
+			<result column="emp_admin" property="empAdmin"/>
 			<result column="cp_number" property="cpNumber"/>
 			<result column="job_no" property="jobNo"/>
 			<result column="dept_no" property="deptNo"/>

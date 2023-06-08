@@ -5,6 +5,16 @@
   .employee-name {
     color: dodgerblue;
   }
+   /* 체크박스 열(TH)의 높이 설정 */
+    th:first-child {
+        vertical-align: middle;
+    }
+
+    /* 나머지 열(TH)의 높이 설정 */
+    th:not(:first-child) {
+        height: 35px; /* 원하는 높이로 조정하세요 */
+        line-height: 35px; /* 원하는 높이로 조정하세요 */
+    }
 </style>
 
 

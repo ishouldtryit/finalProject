@@ -43,7 +43,7 @@
                                 <td class="align-middle">${work.workReportDate}</td>
                                 <td class="align-middle">${work.workTitle}</td>
                                 <td class="align-middle">
-                                    <span class="badge bg-success statusBadge" data-work-status="${work.workStatus}">요청</span>
+                                    <span class="badge bg-success statusBadge" data-work-status="${work.workStatus}"></span>
                                 </td>
                                 <td class="align-middle">${work.workType}</td>
                                 <td class="align-middle">${work.empName}</td>

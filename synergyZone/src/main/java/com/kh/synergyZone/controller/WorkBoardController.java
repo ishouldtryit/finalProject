@@ -54,35 +54,29 @@ public class WorkBoardController {
    private WorkReportRepo workReportRepo;
    
    //업무일지 작성
-   @GetMapping("/write")
-   public String write(Model model) {
-      List<EmployeeInfoDto> employees = employeeRepo.list();
-      
-      model.addAttribute("employees", employees);
-      
-      return "workboard/write";
-   }
-   
-   @PostMapping("/write")
-   public String write(@ModelAttribute WorkBoardDto workBoardDto,
-                  HttpSession session,
-                  WorkBoardVO workBoardVO,
-                  RedirectAttributes rttr) throws IllegalStateException, IOException {
-      String empNo = (String) session.getAttribute("empNo");
-      workBoardDto.setEmpNo(empNo);
-      
-      int workNo = workBoardRepo.sequence();
-      workBoardDto.setWorkNo(workNo);
-      
-      if(workBoardVO.getAttachList() != null) {
-    	  workBoardVO.getAttachList().forEach(attach -> System.out.print(attach));
-      }
-      workBoardService.write(workBoardDto, workBoardVO);
-      rttr.addFlashAttribute("result", workBoardVO.getWorkNo());
-      
-      
-      return "redirect:/";
-   }
+ 	@GetMapping("/write")
+ 	public String write(Model model) {
+ 		return "workboard/write";
+ 	}
+ 	
+ 	
+ 	@PostMapping("/write")
+ 	public String write(@ModelAttribute WorkBoardDto workBoardDto,
+ 						HttpSession session,
+ 						@RequestParam("attachments") List<MultipartFile> attachments) throws IllegalStateException, IOException {
+ 		String empNo = (String) session.getAttribute("empNo");
+ 		workBoardDto.setEmpNo(empNo);
+ 		
+ 		int workNo = workBoardRepo.sequence();
+ 		workBoardDto.setWorkNo(workNo);
+ 		
+// 		System.out.println(workBoardDto.getWorkSecret());
+ 		
+ 		workBoardService.write(workBoardDto, attachments);
+ 		
+ 		
+ 		return "redirect:/";
+ 	}
    
    //업무일지 보고
    @GetMapping("/report")
@@ -160,6 +154,7 @@ public class WorkBoardController {
                   @RequestParam("attachments") List<MultipartFile> attachments,
                   RedirectAttributes attr) throws IllegalStateException, IOException {
 //      workBoardService.deleteFile(workNo);
+	   System.out.println(attachments);
       workBoardService.updateFile(workNo, attachments);
       
       workBoardRepo.update(workBoardDto);

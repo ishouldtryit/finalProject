@@ -134,10 +134,7 @@
 	                                    <a href="/approval/myList">나의 기안 문서함</a>
 	                                </li>
 	                                <li>
-	                                    <a href="/approval/waitApproverList">결재 대기 문서함</a>
-	                                </li>
-	                                <li>
-	                                    <a href="/approval/waitAgreeorList">합의 대기 문서함</a>
+	                                    <a href="/approval/waitApproverList">결재 수신 문서함</a>
 	                                </li>
 	                                <li>
 	                                    <a href="/approval/recipientList">참조 문서함</a>

@@ -20,6 +20,7 @@ public class RecipientVO {
     private String empPostcode;
     private Date empHireDate;
     private String isLeave;
+    private String empAdmin;
     private int cpNumber;
     private int deptNo;
     private Integer attachmentNo;

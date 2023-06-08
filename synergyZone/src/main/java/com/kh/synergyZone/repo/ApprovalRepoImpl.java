@@ -125,6 +125,58 @@ public class ApprovalRepoImpl implements ApprovalRepo {
 		return sqlSession.selectList("approval.readerApprovalDataSelectList", vo);
 	}
 
+	@Override
+	public void recallApproval(int draftNo) {
+		sqlSession.update("approval.recallApproval", draftNo);
+	}
+
+	@Override
+	public void reApproval(int draftNo) {
+		sqlSession.update("approval.reApproval", draftNo);
+	}
+
+	@Override
+	public ApprovalDto draftSelectOne(int draftNo) {
+		return sqlSession.selectOne("approval.draftSelectOne", draftNo);
+	}
+
+	@Override
+	public void draftApproval(ApproverDto approverDto) {
+		sqlSession.update("approval.draftApproval", approverDto);
+		
+	}
+
+	@Override
+	public void draftApprovalReason(ApproverDto approverDto) {
+		sqlSession.update("approval.draftApprovalReason", approverDto);
+		
+	}
+	
+	@Override
+	public void approved(ApproverDto approverDto) {
+		sqlSession.update("approval.approved", approverDto);
+		
+	}
+
+	@Override
+	public void draftReturn(ApproverDto approverDto) {
+		sqlSession.update("approval.draftReturn", approverDto);
+		
+	}
+	
+	@Override
+	public void draftReturnReason(ApproverDto approverDto) {
+		sqlSession.update("approval.draftReturnReason", approverDto);
+		
+	}
+
+	@Override
+	public int approverCount(int draftNo) {
+		return sqlSession.selectOne("approval.approverCount", draftNo);
+	}
+
+
+
 
 
 

@@ -49,9 +49,11 @@
 			<c:if test="${owner}">
 			<a href="/notice/edit?noticeNo=${noticeDto.noticeNo}" class="btn btn-light"><i class="fa-regular fa-pen-to-square" style="color: #8f8f8f;"></i>&nbsp;수정</a>
 			</c:if>
-			<c:if test="${owner || admin}">
-			<a href="/notice/delete?noticeNo=${noticeDto.noticeNo}" class="btn btn-light"><i class="fa-solid fa-trash-can" style="color: #8f8f8f;"></i>&nbsp;삭제</a>
-			</c:if>
+			 <c:if test="${owner || admin}">
+			 <a href="/notice/delete?noticeNo=${noticeDto.noticeNo}" class="btn btn-light" onclick="return confirm('정말 삭제하시겠습니까?')">
+			    <i class="fa-solid fa-trash-can" style="color: #8f8f8f;"></i>&nbsp;삭제
+			 </a>
+			 </c:if>
 			<a href="/notice/list" class="btn btn-light"><i class="fa-solid fa-bars" style="color: #8f8f8f;"></i>&nbsp;목록</a>
 		</div>
 	</div>
@@ -62,7 +64,7 @@
 	<div class="row">
 	<div class="row mt-4">
 		<div class="col-md-10 offset-md-1">
-			<h3>${noticeDto.noticeTitle} ${noticeDto.jobName}[${noticeDto.noticeReply}]
+			<h3>${noticeDto.noticeTitle} [${noticeDto.noticeReply}]
 						<!-- 하트자리 -->
 						<i class="fa-solid fa-heart fa-xl float-right mt-3 ml-3" style="color: #f70808;"></i>
 					<span class="heart-count float-right">${noticeDto.noticeLike}</span>
@@ -79,7 +81,7 @@
 			      </c:otherwise>
 			    </c:choose>" alt="" style="border-radius: 50%;">
 			  </div>
-			  <h6 class="text" style="margin-left: 10px; margin-top:10px; font-weight: nomal"> ${noticeDto.empName}
+			  <h6 class="text" style="margin-left: 10px; margin-top:10px; font-weight: nomal"> ${noticeDto.empName}  ${noticeDto.jobName}
 			  <span class="ms-2 text-secondary" style="font-weight:lighter; font-size:14px;"><fmt:formatDate value="${noticeDto.noticeTime}" 
 						pattern="y년 M월 d일 H시 m분 "/></span></h6>
 			</div>

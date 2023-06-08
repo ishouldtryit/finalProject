@@ -17,6 +17,7 @@
 					<th>휴가종류</th>
 					<th>사용연차</th>
 					<th>승인 상태</th>
+					<th>사용 날짜</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -32,6 +33,8 @@
                     <c:when test="${item.status == 0}">대기중</c:when>
                 </c:choose>
             </td>
+            <td>${item.usedDate}</td>
+            
         </tr>
     </c:forEach>
 </tbody>

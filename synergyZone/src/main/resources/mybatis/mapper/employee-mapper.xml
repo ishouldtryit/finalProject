@@ -174,5 +174,9 @@
 	  ]]>
 	</select>
 	
+	
+	<select id="empId" resultType="employeeDto">
+		select emp_name from employee where emp_no=#{empNo}
+	</select>
 
 </mapper>

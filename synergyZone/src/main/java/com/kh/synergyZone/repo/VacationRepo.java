@@ -16,5 +16,7 @@ public interface VacationRepo {
 	
 	void insert(VacationVO vo);
 	VacationVO oneList(int vacationNo);
+	
+	 boolean appoval(VacationDto dto);
 
 }

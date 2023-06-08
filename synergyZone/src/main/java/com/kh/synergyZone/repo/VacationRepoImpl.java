@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.synergyZone.dto.VacationDto;
-import com.kh.synergyZone.dto.VacationInfoDto;
 import com.kh.synergyZone.vo.VacationVO;
 
 @Repository
@@ -43,6 +42,14 @@ public class VacationRepoImpl implements VacationRepo {
 	@Override
 	public VacationVO oneList(int vacationNo) {
 		return sqlSession.selectOne("vacation.oneList",vacationNo);
+	}
+
+	
+	@Override
+	public boolean appoval(VacationDto dto) {
+		return sqlSession.update("vacation.appoval",dto)>0;
+
+		
 	}
 	
 }

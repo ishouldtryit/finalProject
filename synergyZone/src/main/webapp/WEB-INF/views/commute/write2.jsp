@@ -11,8 +11,36 @@
     		$("#hide").closest("tr").css("display", "none");
     		$("#stopover").val("");
     	});
-    	
-    	
+    	function updateUseCount() {
+			var startDate = new Date($('#startDate').val());
+			var endDate = new Date($('#endDate').val());
+
+			// 이전 날짜 선택못함
+			if (endDate < startDate) {
+				$('#endDate').val($('#startDate').val());
+				endDate = new Date($('#endDate').val());
+			}
+		}
+
+		// startDate와 endDate의 값이 변경될 때마다 useCount 업데이트
+		$('#startDate, #endDate').change(function() {
+			updateUseCount();
+		});
+		
+		$('#employeeList tr').click(function() {
+	        var department = $(this).find('td:eq(0)').text();
+	        var position = $(this).find('td:eq(1)').text();
+	        var name = $(this).find('td:eq(2)').text();
+	        
+	        var newRow = $('<tr></tr>').append(
+	            $('<td></td>').text(department),
+	            $('<td></td>').text(position),
+	            $('<td></td>').text(name)
+	        );
+	        
+	        $('#selectedEmployees').append(newRow);
+	    });
+
 });
     
     
@@ -20,9 +48,9 @@
 
 </head>
 <body>
-	<div class="container d-flex" id="app">
+	<div class="container" id="app">
 		<form action="/commute/trip" method="post">
-			<table class="table table-hover">
+			<table class="table">
 				<tr>
 					<th>유형/구분</th>
 					<td><select id="name" name="name">
@@ -34,8 +62,7 @@
 				<tr>
 					<th>대상자</th>
 					<td>
-						<button type="button" class="btn btn-primary"
-							data-bs-toggle="modal" data-bs-target="#myModal">대상자추가</button>
+						<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">대상자추가</button>
 						<button type="button">선택 삭제</button> <br>
 						<table class="table">
 							<thead>
@@ -137,6 +164,61 @@
 				</tbody>
 			</table>
 		</form>
+<!-- 모달 창 HTML -->
+<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel">대상자 추가</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h6>사원 목록</h6>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>부서</th>
+                                    <th>직급</th>
+                                    <th>이름</th>
+                                </tr>
+                            </thead>
+                            <tbody id="employeeList">
+                                <tr onclick="addToSelectedEmployees(this)">
+                                    <td>영업팀</td>
+                                    <td>사원</td>
+                                    <td>테스트사원</td>
+                                </tr>
+                                <!-- 다른 사원들의 정보도 추가 -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-lg-6">
+                        <h6>추가된 사원</h6>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>부서</th>
+                                    <th>직급</th>
+                                    <th>이름</th>
+                                </tr>
+                            </thead>
+                            <tbody id="selectedEmployees">
+                                <!-- 추가된 사원들의 정보가 여기에 추가될 예정 -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                <button type="button" class="btn btn-primary" onclick="saveEmployees()">저장</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 

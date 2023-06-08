@@ -15,6 +15,7 @@ public class VacationVO {
 	private double useCount;
 	private int status;
 	private String reason;
+	private int leave;
 	
 	private String empName;
 	private String deptName;

@@ -112,10 +112,40 @@
 				$('#useCount').val(1);
 				$('#result').text(1);
 			}
+			
+			if (morningLeaveChecked && afternoonLeaveChecked) { // 두 개 모두 체크되어 있는 경우
+				$('#leave').val(0); //종일
+			} else if (morningLeaveChecked) {
+				$('#leave').val(1); //오전
+			} else if (afternoonLeaveChecked){
+				$('#leave').val(2); //오후
+			} else{
+				$('#leave').val(0); //모두 체크풀림
+			}
 		});
 
 		$('#useCount').val(0);
 		$('#result').text(0);
+		
+		$("form").submit(function(event) {
+		      var useCount = parseInt($("#useCount").val());
+		      var totalValue = parseInt($("#value").text());
+		      var vacationName = $("#vacationName").val();
+			
+		      if (vacationName === "") {
+		          event.preventDefault(); // 폼 전송을 막습니다.
+		          alert("휴가 종류를 선택해주세요."); // 경고 메시지를 표시합니다.
+		        }
+		      
+		      if (vacationName === "공가") {
+		        return true; // "공가"인 경우 폼을 전송합니다.
+		      }
+
+		      if (useCount > totalValue) {
+		        alert("잔여 연차일보다 연차 사용량이 더 많습니다. 다시 등록해주세요");
+		        event.preventDefault(); // 잔여 연차일보다 사용량이 더 많은 경우 폼 전송을 막습니다.
+		      }
+		    });
 
 	});
 </script>
@@ -124,12 +154,12 @@
 	<div class="container">
 		<form action="/commute/write" method="post">
 			<h4>*신청정보</h4>
-			<table class="table table-hover">
+			<table class="table">
 				<tr>
 					<th>대상자</th>
-					<td>${one.empName}<br>
-						<table>
-							<thead>
+					<td>${one.empName}<br><br>
+						<table class="table table-bordered">
+							<thead class="table-dark">
 								<tr>
 									<td>연차기준년도</td>
 									<td>연차기간</td>
@@ -145,7 +175,7 @@
 									<td id="yearRange"></td>
 									<td>${one.total}</td>
 									<td>${one.used}</td>
-									<td>${one.residual}</td>
+									<td id="value">${one.residual}</td>
 									<td id="result"></td>
 								</tr>
 							</tbody>
@@ -187,9 +217,10 @@
 				</tr>
 				<tr>
 					<th>사유</th>
-					<td><input type="text" name="reason"></td>
+					<td><input type="text" name="reason" required="required"></td>
 				</tr>
 			</table>
+			<input type="hidden" name="leave" id="leave" value="0">
 			<input type="hidden" name="useCount" id="useCount" value="0">
 			<button>등록</button>
 		</form>

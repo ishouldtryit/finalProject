@@ -21,6 +21,7 @@ public class EmployeeDetailsDto {
 	private String empPostcode;
 	private Date empHireDate;
 	private String isLeave;
+	private String empAdmin;
 	private int cpNumber;
 	private int jobNo;
 	private String jobName;

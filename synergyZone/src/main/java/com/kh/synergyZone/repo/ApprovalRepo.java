@@ -25,9 +25,18 @@ public interface ApprovalRepo {
 	List<ApprovalDataVO> recipientApprovalDataSelectList(ApprovalPaginationVO vo);	//전체 목록(참조문서)
 	int readerApprovalDataCount(ApprovalPaginationVO vo); // 전체 카운트(열람문서)
 	List<ApprovalDataVO> readerApprovalDataSelectList(ApprovalPaginationVO vo);	//전체 목록(열람문서)
-	ApprovalDataVO approvalDataSelectOne(int draftNo); //상세 페이지
+	ApprovalDataVO approvalDataSelectOne(int draftNo); //상세 페이지 정보
+	ApprovalDto draftSelectOne(int draftNo); //기안서 정보
+	int approverCount(int draftNo); //결재자 수 카운트
 	void delete(int draftNo);	//삭제
 	void edit(ApprovalDto approvalDto);	//수정
+	void recallApproval(int draftNo);	// 기안서 회수
+	void reApproval(int draftNo);	// 기안서 회수
+	void draftApproval(ApproverDto approverDto); //기안서 결재
+	void draftApprovalReason(ApproverDto approverDto); //기안서 결재 의견
+	void approved(ApproverDto approverDto); //결재 완료
+	void draftReturn(ApproverDto approverDto); //결재 반려
+	void draftReturnReason(ApproverDto approverDto); //결재 반려 의견
 	void approverInsert(ApproverDto approverDto);	//결재자 등록
 	void agreeorInsert(AgreeorDto agreeorDto);	//합의자 등록
 	void recipientInsert(RecipientDto recipientDto);	//참조자 등록

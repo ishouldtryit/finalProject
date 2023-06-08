@@ -6,19 +6,22 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.synergyZone.configuration.CustomFileUploadProperties;
 import com.kh.synergyZone.dto.AttachmentDto;
+import com.kh.synergyZone.dto.BookmarkDto;
 import com.kh.synergyZone.dto.EmployeeDto;
 import com.kh.synergyZone.dto.EmployeeInfoDto;
 import com.kh.synergyZone.dto.EmployeeProfileDto;
@@ -53,7 +56,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		dir = new File(customFileUploadProperties.getPath());
 		dir.mkdirs();
 	}
-	
+	private SqlSession sqlSession;
 	
 	//회원가입
 	@Override
@@ -234,6 +237,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 			return browser;
 		}
 
-		
+		@Override
+	    public List<BookmarkDto> searchEmployeesInMyList(String ownerNo, String column, String keyword) {
+	        Map<String, Object> paramMap = new HashMap<>();
+	        paramMap.put("ownerNo", ownerNo);
+	        paramMap.put("column", column);
+	        paramMap.put("keyword", keyword);
+	        return sqlSession.selectList("bookmark.searchEmployeesInMyList", paramMap);
+	    }
 
 }

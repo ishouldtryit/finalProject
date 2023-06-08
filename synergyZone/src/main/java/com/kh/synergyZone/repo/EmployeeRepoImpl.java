@@ -128,7 +128,7 @@ public class EmployeeRepoImpl implements EmployeeRepo {
 	   Map<String, Object> params = new HashMap<>();
 	   params.put("column", column);
 	   params.put("keyword", keyword);
-	   return sqlSession.selectList("searchEmployees", params);
+	   return sqlSession.selectList("employee.searchEmployees", params);
    }
    
    //퇴사대기자 목록

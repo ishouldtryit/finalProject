@@ -12,7 +12,8 @@
 <div id="app">
 
     <div class="container-fluid" v-if="ApprovalWithPageVO != null">
-    	
+   	 <div class="row">
+    	<div class="col-10 offset-sm-1">  
        <div class="row mb-3">
            <h3>참조 문서 목록</h3>
        </div>
@@ -24,11 +25,11 @@
 	       		</select>
        		</div>
 		    <div class="input-group mb-3 ms-3 col-1" style="width:300px;">
-		      <input type="text" class="form-control" placeholder="검색어" v-model="ApprovalWithPageVO.paginationVO.keyword">
+		      <input type="search" class="form-control" placeholder="검색어" v-model="ApprovalWithPageVO.paginationVO.keyword">
 		      <button class="btn btn-info" type="button" @click="changeSearchPage">검색</button>
 		    </div>
 		    <div class="ms-3 col">
-		      <button class="btn btn-info" type="button" @click="loadData">
+		      <button class="btn btn-info" type="button" @click="allList">
 		      <i class="fa-solid fa-list-ul"></i>
 		       전체 목록
 		      </button>
@@ -118,9 +119,12 @@
                            	
                            	</td>
                            <td>{{approval.approvalWithDrafterDto.empName}}</td>
-                           <td>
-                           		{{ approval.approverList[approval.approvalWithDrafterDto.statusCode].empName }}
-                           </td>
+							<td v-if="approval.approvalWithDrafterDto.statusCode === approval.approverList.length">
+							  -
+							</td>
+							<td v-else>
+							  {{ approval.approverList[approval.approvalWithDrafterDto.statusCode].empName }}
+							</td>
                            <td>
 	                           {{ approval.approverList[approval.approverList.length - 1].empName }}
                            </td>
@@ -144,8 +148,7 @@
                </table>
            </div>
        </div>
-       <div>
-       
+       </div>
        </div>
 		  	<div class="d-flex align-items-center justify-content-center mt-4">
 		  		<div class="d-flex">
@@ -206,6 +209,12 @@
                 async loadData(){
                     const resp = await axios.get("/rest/approval/recipientList");
                     this.ApprovalWithPageVO = resp.data;
+                },
+                
+                
+                async allList(){ //전체 목록 호출
+                	await this.loadData();	
+                	this.pageStatus = "allPage";
                 },
                 
                 //페이지 이동

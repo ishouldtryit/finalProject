@@ -15,7 +15,7 @@
 <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
 <link rel="stylesheet"
    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
-
+	<link rel="icon" href="${pageContext.request.contextPath}/static/favicon.ico" type="image/x-icon">
 <style>
 #img {
    width: 280px;

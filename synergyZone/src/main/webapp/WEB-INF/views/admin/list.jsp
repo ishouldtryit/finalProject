@@ -26,6 +26,12 @@
 		  
 		</form>
 		
+		<!-- 데이터 없음 알림 -->
+		<c:if test="${empty employees}">
+		    <div class="alert alert-warning mt-3" role="alert">
+	        알맞은 검색 결과가 없습니다.
+		    </div>
+		</c:if>
     	<!-- 사원 목록 테이블 -->
 	<div class="row">
 	  <div class="col" style="margin: 0 auto;">
@@ -38,21 +44,21 @@
                 <input type="checkbox" id="selectAllBtn" class="btn btn-primary my-2 my-sm-0">
               </div>
               </th>
-	              <th>프로필</th>
-                <th>사원번호</th>
-                <th>이름</th>
-                <th>전화번호</th>
-                <th>이메일</th>
-                <th>주소</th>
-                <th>상세주소</th>
-                <th>부서</th>
-                <th>직위</th>
-                <th>퇴사여부</th>
-                <th>관리</th>
+				<th>프로필</th>
+				<th>사원번호</th>
+				<th>이름</th>
+				<th>전화번호</th>
+				<th>이메일</th>
+				<th>주소</th>
+				<th>상세주소</th>
+				<th>부서</th>
+				<th>직위</th>
+				<th>퇴사여부</th>
+				<th>관리</th>
 	          </tr>
 	        </thead>
 	        <tbody>
-            <c:forEach var="employeeDto" items="${employees}">
+	          <c:forEach var="employeeDto" items="${employees}">
 	            <tr>
 	              <td class="align-middle">
 	                <div class="p-2">
@@ -75,7 +81,7 @@
 	                </div>
 	               
 	              </td>
-	              <td class="align-middle">${employeeDto.empNo}</td>
+	              <td class="align-middle emp-no">${employeeDto.empNo}</td>
 	              <td class="align-middle employee-name" data-empno="${employeeDto.empNo}" data-empname="${employeeDto.empName}" 
 	                data-empphone="${employeeDto.empPhone}" data-empemail="${employeeDto.empEmail}" 
 	                data-empaddress="${employeeDto.empAddress}" data-empdetailaddress="${employeeDto.empDetailAddress}"
@@ -100,6 +106,17 @@
 	                  </c:if>
 	                </c:forEach>
 	              </td>
+				  <td class="align-middle">
+					<c:forEach var="jobDto" items="${jobs}">
+					  <c:if test="${jobDto.jobNo == employeeDto.jobNo}">
+						${jobDto.jobName}
+					  </c:if>
+					</c:forEach>
+				  </td>
+				  <td class="align-middle">${employeeDto.isLeave}</td>
+				  <td class="align-middle">
+					<a href="exit?empNo=${employeeDto.empNo}" class="exit-button">퇴사처리</a>
+				  </td>
 	            </tr>
 	          </c:forEach>
 	        </tbody>
@@ -163,22 +180,24 @@
 		<div style="display: flex; justify-content: center;">
 		  <ul class="pagination" style="width: 20%;">
 		    <li class="page-item ${vo.isFirst() ? 'disabled' : ''}">
-		      <a class="page-link" href="${vo.isFirst() ? '#' : pageContext.request.contextPath}/address/list?page=${vo.getPrevPage()}">&laquo;</a>
+		      <a class="page-link" href="${vo.isFirst() ? '#' : pageContext.request.contextPath}/admin/list?page=${vo.getPrevPage()}&sort=${vo.getSort()}${vo.getQueryString()}">&laquo;</a>
 		    </li>
 		    <c:forEach var="i" begin="${vo.getStartBlock()}" end="${vo.getFinishBlock()}">
 		      <li class="page-item">
-		        <a class="page-link ${vo.getPage() eq i ? 'active' : ''}" href="${pageContext.request.contextPath}/address/list?page=${i}&sort=${vo.getSort()}">
+		        <a class="page-link ${vo.getPage() eq i ? 'active' : ''}" href="${pageContext.request.contextPath}/admin/list?page=${i}&sort=${vo.getSort()}${vo.getQueryString()}">
 		          <span class="text-info">${i}</span>
 		        </a>
 		      </li>
 		    </c:forEach> 
 		    <li class="page-item ${vo.isLast() ? 'disabled' : ''}">
-		      <a class="page-link" href="${vo.isLast() ? '#' : pageContext.request.contextPath}/address/list?page=${vo.getNextPage()}">
+		      <a class="page-link" href="${vo.isLast() ? '#' : pageContext.request.contextPath}/admin/list?page=${vo.getNextPage()}&sort=${vo.getSort()}${vo.getQueryString()}">
 		        <span class="text-info">&raquo;</span>
 		      </a>
 		    </li>
 		  </ul>
 		</div>
+
+
 	</div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
      <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
@@ -228,6 +247,23 @@
 
       $('#employeeInfoModal').modal('show');
     });
+
+	$(".emp-no").click(function(){
+    	var empNo = $(this).text(); // 클릭한 요소의 텍스트 값을 가져옴
+    	  var editUrl = "edit?empNo=" + empNo; // 수정하기 링크 URL 생성
+    	  window.location.href = editUrl; // 링크로 이동
+    });
+    
+    $(".exit-button").click(function(){
+    	var result = confirm("정말 퇴사처리 하시겠습니까?");
+    	
+    	if(result){
+    		return true;
+    	}
+    	else{
+    		return false;
+    	}
+    });
   });
 </script>
 
@@ -240,6 +276,40 @@
     $('select[name="column"] option[value="' + selectedColumn + '"]').prop('selected', true);
   });
 </script>
+    
+<script>
+function addToMyList() {
+  var selectedEmployees = [];
+  var checkboxes = document.getElementsByName('selectedEmployees');
+  
+  for (var i = 0; i < checkboxes.length; i++) {
+    if (checkboxes[i].checked) {
+      selectedEmployees.push(checkboxes[i].value);
+    }
+  }
+  
+  if (selectedEmployees.length > 0) {
+    var confirmation = confirm("선택한 직원을 나만의 주소록에 추가하시겠습니까?");
+    if (confirmation) {
+      $.ajax({
+        type: "POST",
+        url: "/bookmark/addBookmark",
+        data: JSON.stringify({bookmarkNo: selectedEmployees}),
+        contentType: "application/json",
+        success: function(response) {
+          alert("나만의 주소록에 추가되었습니다!");
+        },
+        error: function(xhr, status, error) {
+        }
+      });
+    }
+  } else {
+    console.log("직원이 선택되지 않았습니다.");
+  }
+}
+</script>
+
+
 
 <script>
   // 체크박스 전체선택 기능
@@ -258,3 +328,4 @@
 </script>
     
   <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
+    

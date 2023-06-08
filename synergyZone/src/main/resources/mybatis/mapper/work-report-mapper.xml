@@ -24,29 +24,4 @@
 		select * from sup_with_work where work_sup = #{workSup}
 	</select>
 	
-	<!-- 내 업무일지(임시) -->
-	<resultMap type="ReportWithWorkBoardVO" id="rwvo">
-		<association property="workReportDto" javaType="WorkReportDto">
-			<result column="work_no" property="workNo"/>
-			<result column="work_sup" property="workSup"/>
-		</association>
-		<collection property="workBoardList" select="workBoardByWorkSup"
-				javaType="java.util.List" ofType="WorkBoardDto"
-				column="work_sup">
-		</collection>
-	</resultMap>
-	
-	<select id="reportWithWorkBoard" resultMap="rwvo">
-		select * from work_report
-		<where>
-			<if test="workSup != null and !workSup.equals('')">
-				and work_sup = #{workSup}
-			</if>
-		</where>
-	</select>
-	
-	<select id="workBoardByWorkSup" resultType="workBoardDto">
-		select * from work_board where emp_no = #{workSup}
-	</select>
-
 </mapper>

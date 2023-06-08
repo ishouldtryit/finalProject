@@ -32,11 +32,5 @@ public class WorkReportRepoImpl implements WorkReportRepo {
 		return sqlSession.selectList("workReport.supList", workSup);
 	}
 
-	//내 업무일지
-	@Override
-	public List<ReportWithWorkBoardVO> reportList(String workSup) {
-		return sqlSession.selectList("workReport.reportWithWorkBoard", workSup);
-	}
-
 
 }

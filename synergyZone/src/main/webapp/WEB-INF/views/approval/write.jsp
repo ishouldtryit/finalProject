@@ -512,7 +512,6 @@
       },
       
       showApproverModal(){	//결재자 모달 보이기
-          this.tempApproverList = [...this.approverList]; //데이터 백업
           this.approverModal.show();
       },
       

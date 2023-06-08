@@ -4,11 +4,16 @@ import java.util.List;
 
 import com.kh.synergyZone.dto.AgreeorDto;
 import com.kh.synergyZone.dto.ApprovalDto;
+import com.kh.synergyZone.dto.ApprovalWithDrafterDto;
 import com.kh.synergyZone.dto.ApproverDto;
 import com.kh.synergyZone.dto.ReaderDto;
 import com.kh.synergyZone.dto.RecipientDto;
+import com.kh.synergyZone.vo.AgreeorVO;
 import com.kh.synergyZone.vo.ApprovalDataVO;
 import com.kh.synergyZone.vo.ApprovalPaginationVO;
+import com.kh.synergyZone.vo.ApproverVO;
+import com.kh.synergyZone.vo.ReaderVO;
+import com.kh.synergyZone.vo.RecipientVO;
 
 public interface ApprovalRepo {
 
@@ -29,7 +34,11 @@ public interface ApprovalRepo {
 	ApprovalDto draftSelectOne(int draftNo); //기안서 정보
 	int approverCount(int draftNo); //결재자 수 카운트
 	void delete(int draftNo);	//삭제
-	void edit(ApprovalDto approvalDto);	//수정
+	void edit(ApprovalWithDrafterDto approvalWithDrafterDto);	// 기안서 수정 등록
+	void approverEdit(ApproverVO approverVO);	//결재자 수정 등록
+	void agreeorEdit(AgreeorVO agreeorVO);	//합의자 수정 등록
+	void recipientEdit(RecipientVO recipientVO);	//참조자 수정 등록
+	void readerEdit(ReaderVO readerVO);	//열람자 수정 등록
 	void recallApproval(int draftNo);	// 기안서 회수
 	void reApproval(int draftNo);	// 기안서 회수
 	void draftApproval(ApproverDto approverDto); //기안서 결재

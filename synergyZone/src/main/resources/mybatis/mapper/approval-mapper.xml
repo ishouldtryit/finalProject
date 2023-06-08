@@ -35,6 +35,18 @@
     		)
     	</insert>
     	
+    	<!-- 기안서 수정 작성 -->
+    	<insert id="edit" >
+    		insert into approval( 
+    		draft_no,draft_title,draft_content, result_code,
+    		drafter_no, isemergency
+    		) 
+    		values(
+    		#{draftNo},#{draftTitle},#{draftContent}, 1 ,
+    		#{drafterNo}, #{isemergency}
+    		)
+    	</insert>
+    	
     	<!-- 문서 회수 -->
     	<update id="recallApproval">
     		update approval
@@ -103,19 +115,6 @@
     		where draft_no = #{draftNo} and approver_no = #{approverNo}
     	</update>
     	
-    	<!-- 수정 -->
-		<update id="editAllInOne">
-			update approval
-			<set>
-				<if test="draftTitle!=null">
-					draft_title=#{draftTitle},
-				</if>
-				<if test="draftContent!=null">
-					draft_content=#{draftContent},
-				</if>
-			</set>
-			where draft_no=#{draftNo}
-		</update>    	
 		
 		<!-- 기안서 삭제 -->
 		<delete id="remove">
@@ -161,6 +160,7 @@
     		#{readerNo}, #{draftNo}
     		)
     	</insert>
+    	
     	
     	<!-- 계층형 조회 resultMap -->
 		<resultMap type="ApprovalDataVO" id="ApprovalDataVO">

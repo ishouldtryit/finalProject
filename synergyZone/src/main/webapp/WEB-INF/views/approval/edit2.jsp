@@ -30,19 +30,19 @@
 		</div>
 	  <div class="row mb-2">
 	  	<div class="col-4">
-		   	<button type="button" class="btn mb-2" :class="approvalVO.approverList.length ? 'btn-info' : 'btn-secondary'" @click="showApproverModal">
-		  		{{ approvalVO.approverList.length ? '결재자 정보' : '결재자 추가' }}
+		   	<button type="button" class="btn mb-2" :class="ApprovalDataVO.approverList.length ? 'btn-info' : 'btn-secondary'" @click="showApproverModal">
+		  		{{ ApprovalDataVO.approverList.length ? '결재자 정보' : '결재자 추가' }}
 			</button>
-		   	<button type="button" class="btn ms-3 mb-2" :class="approvalVO.recipientList.length ? 'btn-info' : 'btn-secondary'" @click="showRecipientModal">
-		  		{{ approvalVO.recipientList.length ? '참조자 정보' : '참조자 추가' }}
+		   	<button type="button" class="btn ms-3 mb-2" :class="ApprovalDataVO.recipientList.length ? 'btn-info' : 'btn-secondary'" @click="showRecipientModal">
+		  		{{ ApprovalDataVO.recipientList.length ? '참조자 정보' : '참조자 추가' }}
 			</button>
-		   	<button type="button" class="btn ms-3 mb-2" :class="approvalVO.readerList.length ? 'btn-info' : 'btn-secondary'" @click="showReaderModal">
-		  		{{ approvalVO.readerList.length ? '열람자 정보' : '열람자 추가' }}
+		   	<button type="button" class="btn ms-3 mb-2" :class="ApprovalDataVO.readerList.length ? 'btn-info' : 'btn-secondary'" @click="showReaderModal">
+		  		{{ ApprovalDataVO.readerList.length ? '열람자 정보' : '열람자 추가' }}
 			</button>
 	  	</div>
 	  	<div class="col-2 d-flex align-items-center justify-content-center">
 	  		<div class="form-check form-switch d-flex">
-			  <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" :checked="approvalVO.approvalDto.isemergency === 1" @change="emergencyCheck">
+			  <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" :checked="ApprovalDataVO.approvalWithDrafterDto.isemergency === 1" @change="emergencyCheck">
 			  <label class="form-check-label" for="flexSwitchCheckDefault">긴급 문서</label>
 			</div>
 	  	</div>
@@ -50,12 +50,12 @@
 	  
 	    <div class="row p-3" >
 	      <label for="draftTitle" class="form-label">제목</label>
-	      <input type="text" id="draftTitle" name="draftTitle" v-model="approvalVO.approvalDto.draftTitle" class="form-control" v-on:input="approvalVO.approvalDto.draftTitle = $event.target.value">
+	      <input type="text" id="draftTitle" name="draftTitle" v-model="ApprovalDataVO.approvalWithDrafterDto.draftTitle" class="form-control" v-on:input="ApprovalDataVO.approvalWithDrafterDto.draftTitle = $event.target.value">
 	    </div>
 	    
 	    <div class="row p-3">
 	      <label for="draftContent" class="form-label">내용</label>
-	      <textarea id="draftContent" name="draftContent" required style="min-height: 300px;" v-model="approvalVO.approvalDto.draftContent" class="form-control" v-on:input="approvalVO.approvalDto.draftContent = $event.target.value"></textarea>
+	      <textarea id="draftContent" name="draftContent" required style="min-height: 300px;" v-model="ApprovalDataVO.approvalWithDrafterDto.draftContent" class="form-control" v-on:input="ApprovalDataVO.approvalWithDrafterDto.draftContent = $event.target.value"></textarea>
 	    </div>
 
 	    <div class="row">
@@ -407,6 +407,15 @@
     data() {
       return {
     	  
+    	  ApprovalDataVO : {
+    		  agreeorList : [],
+    		  approverList : [],
+    		  readerList : [],
+    		  recipientList : [],
+    		  loginUser : "",
+    		  approvalWithDrafterDto : {},
+    	  },
+    	  
     	searchName : "",
     	  
         deptEmpList: [],
@@ -436,33 +445,23 @@
         showReaderAddDataAlert : false,
         showApprovalNoDataAlert : false,
         
-        approvalVO : {
-        	approvalDto : {
-	        	draftTitle : "",
-	        	draftContent : "",
-	        	isemergency : 0,
-        	},
-        	approverList : [],
-            agreeorList : [],
-            recipientList : [],
-            readerList : [],
-        },
+        
       }
     },
     
     computed: {
     	 isDataComplete() {
     	      return (
-    	        this.approvalVO.approvalDto.draftTitle !== "" &&
-    	        this.approvalVO.approvalDto.draftContent !== "" &&
-    	        this.approvalVO.approverList.length > 0
+    	        this.ApprovalDataVO.approvalWithDrafterDto.draftTitle !== "" &&
+    	        this.ApprovalDataVO.approvalWithDrafterDto.draftContent !== "" &&
+    	        this.ApprovalDataVO.approverList.length > 0
     	      );
    	    },
     },
     
     methods: {
     	
-      async loadData() { //데이터 호출(로드)
+      async loadEmpData() { //부서별 사원 데이터 호출(로드)
     	  const resp = await axios.get("/rest/approval/",{ 
     			  params :{
     		  		searchName : this.searchName
@@ -471,14 +470,62 @@
           this.deptEmpList.push(...resp.data);
       },
       
+      async loadDraftData(){ // 기안서 데이터 호출
+          const urlParams = new URLSearchParams(window.location.search);
+          const draftNo = urlParams.get("draftNo");
+          
+          const resp = await axios.get("/rest/approval/detail/"+draftNo);
+          this.ApprovalDataVO = resp.data; 	  
+          
+          this.ApprovalDataVO.approverList.forEach(approver => {	//결재자 정보 넣어주기
+              const empNo = approver.empNo;
+              const empName = approver.empName;
+              const deptName = approver.deptName;
+              const jobName = approver.jobName;
+              const approverList = {empNo, empName, jobName};
+              const department = {deptName};
+              const approverData = {approverList: approverList, department: department };
+              this.approverList.push(approverData);
+            });
+          this.tempApproverList = [...this.approverList];
+          this.approverList = [...this.approverList];
+          
+          this.ApprovalDataVO.recipientList.forEach(recipient => {	//참조자 정보 넣어주기
+              const empNo = recipient.empNo;
+              const empName = recipient.empName;
+              const deptName = recipient.deptName;
+              const jobName = recipient.jobName;
+              const recipientList = { empNo, empName, jobName };
+              const department = { deptName};
+              const recipientData = { recipientList: recipientList, department: department };
+              this.recipientList.push(recipientData);
+            });
+          this.tempRecipientList = [...this.recipientList];
+          this.recipientList = [...this.recipientList];
+          
+          this.ApprovalDataVO.readerList.forEach(reader => {	//열람자 정보 넣어주기
+              const empNo = reader.empNo;
+              const empName = reader.empName;
+              const deptName = reader.deptName;
+              const jobName = reader.jobName;
+              const readerList = {empNo, empName, jobName };
+              const department = { deptName};
+              const readerData = { readerList: readerList, department: department };
+              this.readerList.push(readerData);
+            });
+          this.tempReaderList = [...this.readerList];
+          this.readerList = [...this.readerList];
+          
+      },
+      
       searchAll() {	//이름 검색
     	  	this.searchName ="";
     	  	this.deptEmpList = [];
-    	    this.loadData();
+    	    this.loadEmpData();
     	},
       async search() {	//이름 검색
     	  	this.deptEmpList = [];
-    	    await this.loadData();
+    	    await this.loadEmpData();
     	    for(let i=0; i<this.deptEmpList.length; i++){
 	    	    if (this.deptEmpList[i].employeeList.length > 0) { //검색 결과가 있는 항목 펼치기
 	    	        this.deptEmpList[i].showEmployeeList = true;
@@ -502,17 +549,18 @@
     	  		}, 1000);
     	        return;
     	  }
-    	  const url = "/rest/approval/write";
-    	  const resp = await axios.post(url, this.approvalVO);
+          const urlParams = new URLSearchParams(window.location.search);
+          const draftNo = urlParams.get("draftNo");
+    	  const url = "/rest/approval/edit/"+draftNo;
+    	  const resp = await axios.post(url, this.ApprovalDataVO);
     	  window.location.href = "/approval/detail?draftNo="+resp.data;
       },
       
       emergencyCheck(event) {	//긴급 문서 여부
-    	  this.approvalVO.approvalDto.isemergency = event.target.checked ? 1 : 0;
+    	  this.ApprovalDataVO.approvalWithDrafterDto.isemergency = event.target.checked ? 1 : 0;
       },
       
       showApproverModal(){	//결재자 모달 보이기
-          this.tempApproverList = [...this.approverList]; //데이터 백업
           this.approverModal.show();
       },
       
@@ -532,7 +580,7 @@
   	  	
           this.searchName = "";
           this.deptEmpList = [];
-          this.loadData();
+          this.loadEmpData();
       },
       
       hideRecipientModal(){	//참조자 모달 숨기기
@@ -542,7 +590,7 @@
           this.hideEmployeeList();
           this.searchName = "";
           this.deptEmpList = [];
-          this.loadData();
+          this.loadEmpData();
       },
       
       hideReaderModal(){	//열람자 모달 숨기기
@@ -552,7 +600,7 @@
      	  this.hideEmployeeList();
      	 this.searchName = "";
          this.deptEmpList = [];
-         this.loadData();
+         this.loadEmpData();
       },
       
       toggleEmployeeList(index) {	//부서별 사원 목록 접었다 펴기
@@ -592,7 +640,7 @@
   	  },
   	  
   	  saveApproverList() { //결재자 저장
-  		this.approvalVO.approverList.length=0; //이전 데이터 초기화
+  		this.ApprovalDataVO.approverList.length=0; //이전 데이터 초기화
 	        
 	  	if(this.approverList.length==0){	//결재자 리스트 없으면 경고
 			this.showApproverNoDataAlert = true;
@@ -608,7 +656,7 @@
   	      const approverData = {
   	        approverNo: approver.approverList.empNo,
   	      };
-  	      this.approvalVO.approverList.push(approverData);
+  	      this.ApprovalDataVO.approverList.push(approverData);
   	    }
   	      
   	    this.tempApproverList.length = 0;	//임시 데이터 초기화
@@ -649,7 +697,7 @@
   	  },
   	  
 		saveRecipientList() { //참조자 저장
-  		this.approvalVO.recipientList.length=0; //이전 데이터 초기화
+  		this.ApprovalDataVO.recipientList.length=0; //이전 데이터 초기화
 	        
 	  	if(this.recipientList.length==0){	//참조자 리스트 없으면 경고
 			this.showRecipientNoDataAlert = true;
@@ -665,7 +713,7 @@
   	      const recipientData = {
   	    		recipientNo: recipient.recipientList.empNo,
   	      };
-  	      this.approvalVO.recipientList.push(recipientData);
+  	      this.ApprovalDataVO.recipientList.push(recipientData);
   	    }
   	      
   	    this.tempRecipientList.length = 0;	//임시 데이터 초기화
@@ -706,7 +754,7 @@
    	   },
    	   
 		saveReaderList() { //열람자 저장
-     		this.approvalVO.readerList.length=0; //이전 데이터 초기화
+     		this.ApprovalDataVO.readerList.length=0; //이전 데이터 초기화
    	        
    	  	if(this.readerList.length==0){	//열람자 리스트 없으면 경고
    			this.showReaderNoDataAlert = true;
@@ -722,7 +770,7 @@
      	      const readerData = {
      	    		 readerNo: reader.readerList.empNo,
      	      };
-     	      this.approvalVO.readerList.push(readerData);
+     	      this.ApprovalDataVO.readerList.push(readerData);
      	    }
      	      
      	    this.tempReaderList.length = 0;	//임시 데이터 초기화
@@ -772,7 +820,8 @@
     	this.readerModal = new bootstrap.Modal(this.$refs.readerModal);
     },
     created() {
-      this.loadData();
+      this.loadEmpData();
+      this.loadDraftData();
     },
   }).mount("#app");
 </script>

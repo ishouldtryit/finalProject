@@ -9,7 +9,7 @@
 	<insert id="addToBookmark">
     INSERT INTO bookmark (bookmark_no, owner_no)
     VALUES (#{bookmarkNo}, #{ownerNo})
-</insert>
+	</insert>
 
 	<delete id="removeFromBookmark">
 		DELETE FROM bookmark
@@ -28,6 +28,10 @@
 	<select id="checkBookmarkNo" parameterType="String" resultType="int">
 		SELECT COUNT(*) FROM bookmark WHERE bookmark_no = #{bookmarkNo}
 	</select>
+	
+	<select id="checkOwnerCount" resultType="int">
+		select count(*) from bookmark where owner_no =#{ownerNo}
+	</select>
 
 	<select id="getMyList" parameterType="String" resultType="BookmarkDto">
 		SELECT *
@@ -38,5 +42,35 @@
 	<select id="existsBookmark" parameterType="String" resultType="int">
 		SELECT COUNT(*) FROM bookmark WHERE bookmark_no = #{bookmarkNo} and owner_no = #{ownerNo}
 	</select>
+	
+	<select id="searchEmployeesInMyList" parameterType="Map" resultType="BookmarkDto">
+    SELECT *
+    FROM bookmark
+    WHERE owner_no = #{ownerNo}
+    AND bookmark_no IN (
+        SELECT emp_no
+        FROM employee
+        WHERE instr(${column}, #{keyword}) > 0
+    )
+	</select>
+	
+<select id="getOwnerBookmarkCount" parameterType="Map" resultType="int">
+    SELECT COUNT(*) FROM bookmark
+    WHERE owner_no = #{ownerNo}
+    AND bookmark_no IN (
+        SELECT emp_no
+        FROM search_info
+        WHERE (instr(dept_name, #{keyword}) > 0 AND #{column} = 'dept_name')
+            OR (instr(emp_name, #{keyword}) > 0 AND #{column} = 'emp_name')
+            OR (instr(emp_no, #{keyword}) > 0 AND #{column} = 'emp_no')
+            OR (instr(job_name, #{keyword}) > 0 AND #{column} = 'job_name')
+    )
+</select>
+
+
+
+
+	
+	
 
 </mapper>

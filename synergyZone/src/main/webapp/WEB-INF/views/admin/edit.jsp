@@ -3,6 +3,25 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <script src="${pageContext.request.contextPath}/static/js/employee/employee.js"></script>
+
+    <style>
+    	.file-container {
+		  position: relative;
+		  display: inline-block;
+		}
+		
+		.file-input {
+		  position: absolute;
+		  top: 0;
+		  left: 0;
+		  width: 100%;
+		  height: 100%;
+		  opacity: 0;
+		  cursor: pointer;
+		}
+    	
+    </style>
+	
   	<body>
 
 <form action="edit" method="post" enctype="multipart/form-data">
@@ -12,18 +31,20 @@
     
             <div class="row">
                 <div class="offset-md-2 col-md-8">
-
-                    <div class="row mt-4">
+                
+                	<div class="row mt-4">
                         <div class="col">
-                            <label class="form-label">사원명</label>
-                          <input class="form-control rounded" type="text" name="empName" placeholder="사원명" value="${employeeDto.empName}">
+                           <div class="file-container d-flex justify-content-center">
+							  <img class="rounded-circle profilePreview" width="200" height="200" src="/attachment/download?attachmentNo=${profile.attachmentNo}">
+							  <input class="file-input" type="file" name="attach" id="profileImage" accept="image/*">
+							</div>
                         </div>
                     </div>
 
                     <div class="row mt-4">
                         <div class="col">
-                            <label class="form-label">비밀번호</label>
-                            <input class="form-control rounded" type="text" name="empPassword" placeholder="비밀번호" value="${employeeDto.empPassword}">
+                            <label class="form-label">사원명</label>
+                          <input class="form-control rounded" type="text" name="empName" placeholder="사원명" value="${employeeDto.empName}">
                         </div>
                     </div>
 
@@ -41,13 +62,13 @@
                         </div>
                     </div>
                     
-                    <div class="row mt-4">
-					    <div class="col">
-					        <img class="profilePreview" width="200" height="200" src="/attachment/download?attachmentNo=${profile.attachmentNo}">
-					        <label class="form-label">프로필사진</label>
-					        <input class="form-control rounded" type="file" id="profileImage" name="attach" placeholder="프로필사진">
-					    </div>
-					</div>
+<!--                     <div class="row mt-4"> -->
+<!-- 					    <div class="col"> -->
+<%-- 					        <img class="rounded-circle profilePreview" width="200" height="200" src="/attachment/download?attachmentNo=${profile.attachmentNo}"> --%>
+<!-- 					        <label class="form-label">프로필사진</label> -->
+<!-- 					        <input class="form-control rounded" type="file" id="profileImage" name="attach" placeholder="프로필사진"> -->
+<!-- 					    </div> -->
+<!-- 					</div> -->
 
                     <div class="row mt-4">
                         <div class="col">

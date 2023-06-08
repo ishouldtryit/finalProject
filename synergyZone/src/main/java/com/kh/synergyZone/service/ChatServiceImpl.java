@@ -210,8 +210,8 @@ public class ChatServiceImpl implements ChatService {
 			this.moveUser(user, roomName);
 		}
 	}
-	
 }
+
 
 
 

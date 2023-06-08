@@ -8,5 +8,5 @@ import lombok.NoArgsConstructor;
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
 public class WorkReportDto {
 	private int workNo;
-	private String empNo;
+	private String workSup;
 }

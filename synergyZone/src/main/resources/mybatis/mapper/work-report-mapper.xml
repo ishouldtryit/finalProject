@@ -19,4 +19,9 @@
 		select * from work_report order by work_no asc
 	</select>
 	
+	<!-- 보고받은 업무일지 -->
+	<select id="supList" resultType="SupWithWorkDto">
+		select * from sup_with_work where work_sup = #{workSup}
+	</select>
+	
 </mapper>

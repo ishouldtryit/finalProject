@@ -153,18 +153,16 @@ $(function () {
 
           // 메세지 보낸 시간(오늘 보냈으면 시간만 출력)
           $(newReceiveMsgRow)
-            .find(".message-send-time-col")
-            .text(isToday ? sendTime.slice(-5) : sendTime)
-            .attr(
-              "href",
-              "/message/receive/detail?messageNo=" + message.messageNo
-            );
+  .find(".message-send-time-col")
+  .text(sendTime)
+  .attr("href", "/message/receive/detail?messageNo=" + message.messageNo);
+
 
           // 메세지 색상 설정 (읽은 메세지는 회색, 안 읽은 메세지는 블루)
           if (message.messageReadTime != null) {
-            $(newReceiveMsgRow).find("a").addClass("gray");
+            $(newReceiveMsgRow).find("a").addClass("");
           } else {
-            $(newReceiveMsgRow).find("a").addClass("blue");
+            $(newReceiveMsgRow).find("a").addClass("");
           }
           
           $(".target").append(newReceiveMsgRow);

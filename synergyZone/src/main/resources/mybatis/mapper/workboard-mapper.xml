@@ -5,7 +5,7 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
 <mapper namespace="workBoard">
-
+	
 	<select id="sequence" resultType="int">
 		select work_board_seq.nextval from dual
 	</select>
@@ -28,7 +28,7 @@
 	</select>
 	
 	<select id="list" resultType="workBoardDto">
-		select * from work_board order by work_no asc
+		select * from work_board order by work_no desc
 	</select>
 	
 	<update id="edit">
@@ -39,5 +39,9 @@
 		work_type = #{workType}
 		where work_no = #{workNo}
 	</update>
+	
+	<select id="myWorkList" resultType="WorkEmpInfo">
+		select * from work_emp_info where emp_no = #{empNo}
+	</select>
 	
 </mapper>

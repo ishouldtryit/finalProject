@@ -64,9 +64,9 @@ html, body {
    width: 100%;
 }
 .highlight{
- 	background-color: red;
-	color:red;
-	font-weight: bold;
+    background-color: red;
+   color:red;
+   font-weight: bold;
 }
 </style>
 </head>
@@ -86,7 +86,9 @@ html, body {
             <div class="modal-footer">
                <button type="button" class="btn btn-secondary"
                   data-bs-dismiss="modal">취소</button>
-               <button type="button" class="btn btn-primary" @click="logout">로그아웃</button>
+                   <form action="/logout" method="post">
+		               <button type="submit" class="btn btn-primary" @click="logout">로그아웃</button>
+			   		</form>
             </div>
          </div>
       </div>
@@ -115,55 +117,52 @@ html, body {
       </div>
 
 
-		<div class="row">
-			<div class="col-1 bg-info text-light"
-				style="width: 75px; height: 913px;">
-				<a href="#"> <i
-					class="bi bi-house fs-3 d-flex justify-content-center mt-3"></i>
-					<p class="text-center">홈</p>
-				</a>   
-				<a href="${pageContext.request.contextPath}/calendar/calendar"><i
-					class="bi bi-calendar-check fs-3 d-flex justify-content-center mt-4"></i>
-					<p class="text-center">일정</p>
-				</a> 
-				
-	            <a href="${pageContext.request.contextPath}/message/receive">
-				<i class="bi bi-envelope fs-3 d-flex justify-content-center mt-4"></i>
-					<p class="text-center">쪽지</p>
-				</a> 
-				
-				<a href="#"> <i
-					class="bi bi-pencil-square fs-3 d-flex justify-content-center mt-4"></i>
-					<p class="text-center">업무</p>
-				</a> 
-				<a href="${pageContext.request.contextPath}/board/list"> <i
+      <div class="row">
+         <div class="col-1 bg-info text-light"
+            style="width: 75px; height: 913px;">
+            <a href="#"> <i
+               class="bi bi-house fs-3 d-flex justify-content-center mt-3"></i>
+               <p class="text-center">홈</p>
+            </a>   
+            <a href="${pageContext.request.contextPath}/calendar/calendar"><i
+               class="bi bi-calendar-check fs-3 d-flex justify-content-center mt-4"></i>
+               <p class="text-center">일정</p>
+            </a> 
+            
+               <a href="${pageContext.request.contextPath}/message/receive">
+            <i class="bi bi-envelope fs-3 d-flex justify-content-center mt-4"></i>
+               <p class="text-center">쪽지</p>
+            </a> 
+            
+            <a href="#"> <i
+               class="bi bi-pencil-square fs-3 d-flex justify-content-center mt-4"></i>
+               <p class="text-center">업무</p>
+            </a> 
+            <a href="${pageContext.request.contextPath}/board/list"> <i
                class="bi bi-clipboard fs-3 d-flex justify-content-center mt-4"></i>
                <p class="text-center">게시판</p>
             </a>
-	            <a href="${pageContext.request.contextPath}/address/list">
-				<i class="bi bi-journals fs-3 d-flex justify-content-center mt-4"></i>
-					<p class="text-center">주소록</p>
-				</a>
-			</div>
+               <a href="${pageContext.request.contextPath}/address/list">
+            <i class="bi bi-journals fs-3 d-flex justify-content-center mt-4"></i>
+               <p class="text-center">주소록</p>
+            </a>
+         </div>
 
 
          <div class="col col-2 mt-4">
 
-            <div class="bg-light border p-2"
-                 style="height: 230px; width: 290px; margin-left: 15px;">
-                 
-                <div class="d-flex justify-content-center">
-                 <div class="profile-image employee-name">
-                   <img width="100" height="100" :src="getProfileImageUrl(employeeInfo.attachmentNo)" 
-                   alt="" style="border-radius: 50%; margin-top: 10px;">
-                 </div>
-               </div>
-
-                
-                
-                <h5 class="text-center mt-4">{{ employeeInfo.empName }}</h5>
-                <p class="text-center mt-3">{{ employeeInfo.deptName }}</p>
-            </div>
+           <div class="bg-light border p-2" style="height: 230px; width: 290px; margin-left: 15px;">
+			  <div class="d-flex justify-content-center">
+			    <div class="profile-image employee-name">
+			      <img width="100" height="100" :src="getProfileImageUrl(employeeInfo.attachmentNo)" alt="" style="border-radius: 50%; margin-top: 10px;">
+			    </div>
+			  </div>
+			
+			  <h5 class="text-center mt-3" style="font-weight: bold; margin-bottom: 5px;">{{ employeeInfo.empName }}</h5>
+			  <p class="text-center mt-1" style="font-weight: ; margin-bottom: 5px;">{{ employeeInfo.deptName }}</p>
+			  <p class="text-center mt-0" style="font-weight: ; margin-bottom: 0;">{{ employeeInfo.jobName }}</p>
+			</div>
+	
 
 
             <div class="bg-light border p-2"
@@ -231,7 +230,10 @@ html, body {
 
             <div class="bg-light border"
                style="height: 315px; width: 348px; margin-top: 320px; margin-left: 102px;">
-               2</div>
+               <form action="/logout" method="post">
+               <button type="submit">로그아웃</button>
+            </form>
+               </div>
          </div>
 
          <div class="col col-3 mt-4">
@@ -511,10 +513,10 @@ html, body {
             $(datepicker).datepicker({
             format: 'yyyy-mm-dd',
             beforShowday:(date)=>{ 
-            	const currentDate = new Date().toISOString().split('T')[0];
+               const currentDate = new Date().toISOString().split('T')[0];
                 const dateStr = $.datepicker.formatDate('yy-mm-dd', date);
                 if (dateStr === currentDate) {
-                	return [true, 'highlight',''];
+                   return [true, 'highlight',''];
                 }
                 return {classes:''};
             },

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.synergyZone.dto.WorkBoardDto;
+import com.kh.synergyZone.dto.WorkEmpInfo;
 
 @Repository
 public class WorkBoardRepoImpl implements WorkBoardRepo {
@@ -37,6 +38,12 @@ public class WorkBoardRepoImpl implements WorkBoardRepo {
 	@Override
 	public void update(WorkBoardDto workBoardDto) {
 		sqlSession.update("workBoard.edit", workBoardDto);
+	}
+
+	//내 업무일지
+	@Override
+	public List<WorkEmpInfo> myWorkList(String empNo) {
+		return sqlSession.selectList("workBoard.myWorkList", empNo);
 	}
 
 	

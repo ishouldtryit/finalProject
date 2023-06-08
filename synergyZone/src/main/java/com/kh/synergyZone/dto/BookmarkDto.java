@@ -12,5 +12,6 @@ import lombok.NoArgsConstructor;
 public class BookmarkDto {
     private String bookmarkNo;
     private String ownerNo;
-	private String[] empNo;
+    private String[] empNo;
+    private String deptName;
 }

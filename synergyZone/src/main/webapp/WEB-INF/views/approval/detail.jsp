@@ -347,6 +347,7 @@
     		  loginUser : "",
     		  approvalWithDrafterDto : {},
     	  },
+    	  
     	  approvalInfoModal : null,
     	  approvalRecallModal : null,
     	  reApprovalModal : null,

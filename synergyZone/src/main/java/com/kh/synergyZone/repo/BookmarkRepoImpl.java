@@ -46,4 +46,9 @@ public class BookmarkRepoImpl implements BookmarkRepo {
         int count = sqlSession.selectOne("bookmark.existsBookmark", paramMap);
         return count > 0;
     }
+
+	@Override
+	public int checkOwnerCount(String ownerNo) {
+		return sqlSession.selectOne("bookmark.checkOwnerCount",ownerNo);
+	}
 }

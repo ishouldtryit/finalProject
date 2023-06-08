@@ -7,6 +7,24 @@
     <!-- 다음 우편 API 사용을 위한 CDN -->
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/YURIMEEI/find-address@0.0.1/find-address.js"></script>
+    
+    <style>
+    	.file-container {
+		  position: relative;
+		  display: inline-block;
+		}
+		
+		.file-input {
+		  position: absolute;
+		  top: 0;
+		  left: 0;
+		  width: 100%;
+		  height: 100%;
+		  opacity: 0;
+		  cursor: pointer;
+		}
+    	
+    </style>
 	
 	<script type="text/javascript">
 	   //주소api
@@ -41,6 +59,15 @@
     
             <div class="row">
                 <div class="offset-md-2 col-md-8">
+                
+                	<div class="row mt-4">
+                        <div class="col">
+                           <div class="file-container d-flex justify-content-center">
+							  <img src="https://via.placeholder.com/200x200?text=P" alt="이미지 미리보기" class="file-preview rounded-circle" width="200" height="200">
+							  <input class="file-input" type="file" name="attach" accept="image/*">
+							</div>
+                        </div>
+                    </div>
 
                     <div class="row mt-4">
                         <div class="col">
@@ -67,7 +94,7 @@
                         <div class="col">
                             <label class="form-label">우편번호</label>
                             <input class="form-control rounded" type="text" name="empPostcode" placeholder="우편번호">
-                            <button class="btn btn-primary address-btn" type="button">우편번호 찾기</button>
+                            <button class="mt-2 btn btn-primary address-btn" type="button">우편번호 찾기</button>
                         </div>
                     </div>
 
@@ -82,17 +109,6 @@
                         <div class="col">
                             <label class="form-label">상세주소</label>
                             <input class="form-control rounded" type="text" name="empDetailAddress" placeholder="상세주소">
-                        </div>
-                    </div>
-                    
-                    <div class="row mt-4 target">
-                    </div>
-                    
-                     <div class="row mt-4">
-                        <div class="col">
-<%--                         	<img class="profilePreview" width="200" height="200" src="/attachment/download?attachmentNo=${profile.attachmentNo}"> --%>
-                            <label class="form-label">프로필사진</label>
-                            <input class="form-control rounded" type="file" name="attach" placeholder="프로필사진">
                         </div>
                     </div>
 

@@ -6,6 +6,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.kh.synergyZone.interceptor.AdminInterceptor;
+import com.kh.synergyZone.interceptor.EmployeeInterceptor;
 
 @Configuration
 public class InterceptorConfiguration implements WebMvcConfigurer {
@@ -13,10 +14,25 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
 	@Autowired
 	private AdminInterceptor adminInterceptor;
 	
+	@Autowired
+	private EmployeeInterceptor employeeInterceptor;
+	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(adminInterceptor)
 								.addPathPatterns("/admin/job/register");
+		
+		registry.addInterceptor(employeeInterceptor)
+								.addPathPatterns(
+										"/",
+										"/admin/**",
+										"/employee/**",
+										"/workboard/**"
+								)
+								.excludePathPatterns(
+										"/employee/findPw"
+								);
+								
 	}
 	
 	

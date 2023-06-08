@@ -19,7 +19,14 @@
 <c:if test="${sessionScope.empNo != null}">
 	<a href="${pageContext.request.contextPath}/employee/mypage">내 정보</a>
 </c:if>
-<form action="/logout" method="post" >
+<c:if test="${sessionScope.empNo != null}">
+	<a href="${pageContext.request.contextPath}/workboard/supList">업무일지 보관함</a>
+</c:if>
+
+<c:if test="${sessionScope.empNo != null}">
+	<a href="${pageContext.request.contextPath}/workboard/reportList">업무일지 보관함</a>
+</c:if>
+<form action="/logout" method="post">
 	<button type="submit">로그아웃</button>
 </form>
 

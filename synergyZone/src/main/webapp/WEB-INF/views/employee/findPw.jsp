@@ -1,34 +1,39 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+ <!-- <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.2.3/journal/bootstrap.min.css">
+    <style>
+        a{
+            color: black;
+            text-decoration: none;
+        }
+        a:hover{
+            color: darkblue;
+        }
+    </style>
 
-<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
-
-  <body>
-
-    <!--
-        container - 화면이 배치될 기본 위치
-
-        1. container : 기본 컨테이너이며 폭에 반응하여 자동 조정(뚝뚝끊김)
-        2. container-fluid : 폭의 변화에 부드럽게 반응하는 컨테이너(100%)
-
-        row - 한 줄 영역 , col - 한 칸 영역
-
-        사이즈 - sm, md, lg, xl
-    -->
+</head>
+ <body>
     <form action="findPw" method="post" autocomplete="off">
-        <div class="container-fluid mt-4">
-    
-            <div class="row">
-                <div class="offset-md-2 col-md-8">
 
+        <div id="app" style="background: linear-gradient(#7ba9ff6c 27%,#8a8eff65,#ddc7ff93,#f8c7ff6b)">
+            
+            <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+                <div class="p-5 bg-light border border-2 rounded-3">
+              
                     <div class="row mt-4">
                         <div class="col">
                             <h2>비밀번호 찾기</h2>
                             <h3>아이디와 본인확인 이메일을 입력해주세요</h3>
                         </div>
                     </div>
-    
+
                     <div class="row mt-4">
                         <div class="col">
                             <label class="form-label">사원번호</label>
@@ -56,15 +61,26 @@
 	                        </div>
                     	</div>
                     </c:if>
-    
-                </div>
+                
             </div>
-    
-            
         </div>
-
+        
+    </div>
     </form>
-
+    
+    <script src="https://unpkg.com/vue@3.2.36"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     
-    <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
+    <script>
+        const app = Vue.createApp({
+            data(){
+                return{
+
+                }
+            },
+        });
+        app.mount('#app');
+    </script>
+
+  </body>
+</html>

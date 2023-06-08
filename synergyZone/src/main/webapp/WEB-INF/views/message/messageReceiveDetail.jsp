@@ -31,7 +31,7 @@
     color: #FFF;
     font-weight: bold;
     cursor: pointer;
-    background-color: #5DADE2;
+    background-color: dodgerblue;
     transition: background-color 0.3s;
   }
 
@@ -44,7 +44,7 @@
     color: #FFF;
     font-weight: bold;
     cursor: pointer;
-    background-color: #85C1E9;
+    background-color: dodgerblue;
     transition: background-color 0.3s;
   }
 
@@ -57,7 +57,7 @@
     color: #FFF;
     font-weight: bold;
     cursor: pointer;
-    background-color: #AED6F1;
+    background-color: dodgerblue;
     text-decoration: none;
     transition: background-color 0.3s;
   }
@@ -123,52 +123,51 @@
     
 
     
-    <h4 class="mt-5">제목 : ${messageWithNickDto.messageTitle}</h4>
-    <hr>
-    
-    <div class="message-info">
-    
-      <div class="d-flex align-items-center">
-        <div class="profile-image">
-          <img width="40" height="40" src="<c:choose>
-              <c:when test="${senderProfile.attachmentNo > 0}">
-                  /attachment/download?attachmentNo=${senderProfile.attachmentNo}
-              </c:when>
-              <c:otherwise>
-                  https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg
-              </c:otherwise>
-          </c:choose>" alt="" style="border-radius: 50%;">
-        </div>
-        <div class="sender-info">
-          <b class="mt-2 ml-2">보낸사람:</b>
-          ${messageWithNickDto.messageSenderNick} (${messageWithNickDto.messageSender})
-          [<fmt:formatDate value="${messageWithNickDto.messageSendTime}" pattern="yyyy.MM.dd. H:m"/>]
-        </div>
-      </div>
+    <h4 class="mt-5">제목: ${messageWithNickDto.messageTitle}</h4>
 
-      <div class="d-flex align-items-center">
-        <div class="profile-image">
-          <img width="40" height="40" src="<c:choose>
-              <c:when test="${recipientProfile.attachmentNo > 0}">
-                  /attachment/download?attachmentNo=${recipientProfile.attachmentNo}
-              </c:when>
-              <c:otherwise>
-                  https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg
-              </c:otherwise>
-          </c:choose>" alt="" style="border-radius: 50%;">
-        </div>
-        <div class="recipient-info">
-          <b class="mt-2 ml-2">받은사람:</b>
-          ${messageWithNickDto.messageRecipientNick} (${messageWithNickDto.messageRecipient})
-          [<fmt:formatDate value="${messageWithNickDto.messageReadTime}" pattern="yyyy.MM.dd. H:m"/>]
-        </div>
-      </div>
-      
-      <hr>
-      <div class="message-content">
-        ${messageWithNickDto.messageContent}
-      </div>
+<div class="message-info">
+  <div class="d-flex align-items-center">
+    <div class="profile-image">
+      <img width="40" height="40" src="<c:choose>
+          <c:when test="${senderProfile.attachmentNo > 0}">
+              /attachment/download?attachmentNo=${senderProfile.attachmentNo}
+          </c:when>
+          <c:otherwise>
+              https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg
+          </c:otherwise>
+      </c:choose>" alt="" style="border-radius: 50%;">
     </div>
+    <div class="sender-info">
+      <b class="mt-2 ml-2" style="color: #4285F4;">보낸 사람:</b>
+      ${messageWithNickDto.messageSenderNick} (${messageWithNickDto.messageSender})
+      [<fmt:formatDate value="${messageWithNickDto.messageSendTime}" pattern="yyyy.MM.dd. H:m"/>]
+    </div>
+  </div>
+
+  <div class="d-flex align-items-center">
+    <div class="profile-image">
+      <img width="40" height="40" src="<c:choose>
+          <c:when test="${recipientProfile.attachmentNo > 0}">
+              /attachment/download?attachmentNo=${recipientProfile.attachmentNo}
+          </c:when>
+          <c:otherwise>
+              https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg
+          </c:otherwise>
+      </c:choose>" alt="" style="border-radius: 50%;">
+    </div>
+    <div class="recipient-info">
+      <b class="mt-2 ml-2" style="color: #EA4335;">받은 사람:</b>
+      ${messageWithNickDto.messageRecipientNick} (${messageWithNickDto.messageRecipient})
+      [<fmt:formatDate value="${messageWithNickDto.messageReadTime}" pattern="yyyy.MM.dd. H:m"/>]
+    </div>
+  </div>
+
+  <hr>
+  <div class="message-content">
+    ${messageWithNickDto.messageContent}
+  </div>
+</div>
+
     
    </div>
 </div>

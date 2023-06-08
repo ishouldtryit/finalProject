@@ -17,9 +17,8 @@ public class CalendarRepoImpl implements CalendarRepo{
 
 
 	@Override
-	public int insert(CalendarVO calendarVO) {
-		int rs = sqlSession.insert("Calendar.insertDate", calendarVO);
-		return rs ;
+	public void insert(CalendarVO calendarVO) {
+		sqlSession.insert("Calendar.insertDate", calendarVO);
 	}
 
 	@Override

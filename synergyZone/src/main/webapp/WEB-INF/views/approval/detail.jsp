@@ -36,7 +36,7 @@
 					<i class="fa-solid fa-share fa-rotate-180"></i>
 					반려
 				</button>
-				<button type="button" class="btn btn-outline-info ms-2" v-if="isDrafterAndIsRecall" @click="showEditApprovalModal">
+				<button type="button" class="btn btn-outline-info ms-2" v-if="isDrafterAndIsRecall" @click="showDraftEditModal">
 					<i class="fa-solid fa-user-pen"></i>
 					문서 수정
 				</button>
@@ -243,7 +243,7 @@
        </div>
        
 	<!-- 문서 수정 modal -->
-	<div class="modal" tabindex="-1" role="dialog" ref="editApprovalModal"  >
+	<div class="modal" tabindex="-1" role="dialog" ref="draftEditModal"  >
         <div class="modal-dialog modal-dialog-centered modal-md" role="document" >
             <div class="modal-content">
                 <div class="modal-header">
@@ -260,8 +260,8 @@
                 <div class="modal-footer">
                 	<div class="row">
 	                	<div class="col">
-	                  	  <button type="button" class="btn btn-danger ms-2" data-bs-dismiss="modal" @click="editApproval">확인</button>
-	                  	  <button type="button" class="btn btn-secondary ms-2" data-bs-dismiss="modal" @click="hideEditApprovalModal">닫기</button>
+	                  	  <button type="button" class="btn btn-danger ms-2" data-bs-dismiss="modal" @click="draftEdit">확인</button>
+	                  	  <button type="button" class="btn btn-secondary ms-2" data-bs-dismiss="modal" @click="hideDraftEditModal">닫기</button>
 	                	</div>
                     </div>
                 </div>
@@ -351,7 +351,7 @@
     	  approvalInfoModal : null,
     	  approvalRecallModal : null,
     	  reApprovalModal : null,
-    	  editApprovalModal : null,
+    	  draftEditModal : null,
     	  draftApprovalModal : null,
     	  
     	  approvalReason : "",
@@ -446,12 +446,12 @@
         	this.draftReturnModal.hide();
         },
         
-        showEditApprovalModal(){	//문서 수정 모달 보이기
-        	this.editApprovalModal.show();
+        showDraftEditModal(){	//문서 수정 모달 보이기
+        	this.draftEditModal.show();
         },
         
-        hideEditApprovalModal(){	//문서 수정 모달 숨기기
-        	this.editApprovalModal.hide();
+        hideDraftEditModal(){	//문서 수정 모달 숨기기
+        	this.draftEditModal.hide();
         },
         
         async approvalRecall(){	//문서 회수
@@ -486,10 +486,10 @@
             window.location.href = "/approval/waitApproverList";  	
         },
         
-        async draftReturn(){	//수정하기
+        async draftEdit(){	//수정하기
             const urlParams = new URLSearchParams(window.location.search);
             const draftNo = urlParams.get("draftNo");
-            window.location.href = "/approval/waitApproverList";  	
+            window.location.href = "edit?draftNo=" + draftNo;	
         },
 
     },
@@ -500,7 +500,7 @@
     	this.reApprovalModal = new bootstrap.Modal(this.$refs.reApprovalModal);
     	this.draftApprovalModal = new bootstrap.Modal(this.$refs.draftApprovalModal);
     	this.draftReturnModal = new bootstrap.Modal(this.$refs.draftReturnModal);
-    	this.editApprovalModal = new bootstrap.Modal(this.$refs.editApprovalModal);
+    	this.draftEditModal = new bootstrap.Modal(this.$refs.draftEditModal);
     },
     created() {
       this.loadData();

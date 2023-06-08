@@ -281,8 +281,8 @@
                 </div>
                 <div class="modal-body">
                 		<div class="form-group">
-						      <label for="approvalReasonText" class="form-label mt-4">반려 의견 (100자 이내)</label>
-						      <textarea class="form-control" id="approvalReasonText" rows="5" v-model="returnReason" @input="returnReasonLimitInput" ></textarea>
+						      <label for="returnReasonText" class="form-label mt-4">반려 의견 (100자 이내)</label>
+						      <textarea class="form-control" id="returnReasonText" rows="5" v-model="returnReason" @input="returnReasonLimitInput" ></textarea>
                 		</div>
                 		<div class="text-right">
                 		( {{returnReason.length}} / 100 )

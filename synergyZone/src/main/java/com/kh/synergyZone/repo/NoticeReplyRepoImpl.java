@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.synergyZone.dto.NoticeReplyDto;
 import com.kh.synergyZone.vo.NoticeReplyVO;
-import com.kh.synergyZone.vo.ReplyVO;
 
 
 @Repository

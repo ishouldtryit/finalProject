@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface CalendarRepo {
-	int insert(CalendarVO vo);
+	void insert(CalendarVO vo);
 
 	List<Map<String,Object>> getDate(CalendarVO vo);
 

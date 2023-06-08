@@ -15,12 +15,60 @@
     .message-send-time-col{   
       color: black;
     }
+	.unread-message {
+	  font-weight: bold;
+	}
 
    .col {
         flex: 0 0 auto;
    }
     
   </style>
+  
+  <style>
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.pagination a {
+  display: inline-block;
+  padding: 8px;
+  margin: 0 5px;
+  text-decoration: none;
+  color: #333;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.pagination a i {
+  margin-right: 5px;
+}
+
+.pagination a.disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.pagination a.on {
+  background-color: #007bff;
+  color: #fff;
+  border-color: #007bff;
+}
+
+.pagination a:hover {
+  background-color: #eee;
+}
+
+.pagination a:first-child,
+.pagination a:last-child {
+  padding: 4px;
+}
+</style>
+
+  
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
@@ -62,7 +110,7 @@
   <jsp:include page="/WEB-INF/views/message/messageAside.jsp"></jsp:include>
   
     <div class="message-header d-flex justify-content-between">
-     <div class="d-flex mb-2">
+     <div class	="d-flex mb-2">
        <button class="btn btn-outline-primary Trade-btn message-delete-btn me-2 ms-2">
          <i class="fas fa-times" style="color:red;"></i> 삭제
        </button>
@@ -97,29 +145,29 @@
     </div>
   
   
- <!-- 페이지네이션 -->
+<!-- 페이지네이션 -->
 <div class="mt-3 center pagination d-flex justify-content-center">
 </div>
 
-  
-  <!-- 검색창 -->
- <div class="row center">
+<!-- 검색창 -->
+<div class="row center mt-3"> 
   <form class="message-receive-search-form" action="/message/receive" method="get" autocomplete="off">
-      <div class="input-group" style="width: 33%; margin: auto;">
-        <select name="column" class="form-select form-select-sm" style="width: 20%; height: 100%;">
-          <option class="column-option" value="message_title">제목</option>
-          <option class="column-option" value="message_sender_nick">이름</option>
-          <option class="column-option" value="message_sender">사번</option>
-          <option class="column-option" value="message_content">내용</option>
-        </select>
-        <input name="keyword" class="form-control form-control-sm" value="${param.keyword}" placeholder="검색"  style="width: 60%; height: 100%;" />
-        <input name="item" type="hidden" value="${param.item}" />
-        <input name="order" type="hidden" value="${param.order}" />
-        <input name="special" type="hidden" value="${param.special}" />
+    <div class="input-group" style="width: 33%; margin: auto;">
+      <select name="column" class="form-select form-select-sm" style="width: 20%; height: 100%;">
+        <option class="column-option" value="message_title">제목</option>
+        <option class="column-option" value="message_sender_nick">이름</option>
+        <option class="column-option" value="message_sender">사번</option>
+        <option class="column-option" value="message_content">내용</option>
+      </select>
+      <input name="keyword" class="form-control form-control-sm" value="${param.keyword}" placeholder="검색" style="width: 60%; height: 100%;" />
+      <input name="item" type="hidden" value="${param.item}" />
+      <input name="order" type="hidden" value="${param.order}" />
+      <input name="special" type="hidden" value="${param.special}" />
       <button class="btn btn-info btn-sm" style="width: 20%; height: 100%;">검색</button>
-      </div>
-    </form>
-   </div>
+    </div>
+  </form>
+</div>
+
 
 
 

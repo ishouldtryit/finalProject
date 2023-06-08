@@ -11,6 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>홈페이지 레이아웃</title>
     
+    
     <!-- 사이드바 css -->
     <link rel="stylesheet" href="/static/css/style.css">
     
@@ -49,6 +50,8 @@
     	const memberId = "${sessionScope.memberId}";
     	const memberLevel = "${sessionScope.memberLevel}";
     </script>
+    
+    
     
     <style>
       #rogo-img{

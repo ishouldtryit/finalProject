@@ -16,6 +16,9 @@
 	.btn{
 	width: 120px;
 	}
+	ul li span, .form-check-input, .form-check-label {
+    cursor: pointer;
+  }
 </style>
 
 

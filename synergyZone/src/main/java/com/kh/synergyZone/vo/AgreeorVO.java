@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 public class AgreeorVO {
 
 	private String agreeorNo;	//합의자 사원번호
+	private int agreeorOrder;	//합의자 순서
 	private int draftNo;	//기안서 번호
 	private String empName;
     private String empEmail;

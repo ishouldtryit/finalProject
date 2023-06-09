@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 public class ReaderVO {
 
 	private String readerNo;	//열람자 사원번호
+	private int readerOrder;	//열람자 순서
 	private int draftNo;	//기안서 번호
 	private String empName;
     private String empEmail;

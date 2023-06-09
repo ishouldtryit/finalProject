@@ -134,30 +134,30 @@
     	<!-- 합의자 추가 -->
     	<insert id="agreeorInsert">
     		insert into agreeor(
-    		agreeor_no, draft_no
+    		agreeor_no, draft_no, agreeor_order
     		)
     		values(
-    		#{agreeorNo}, #{draftNo}
+    		#{agreeorNo}, #{draftNo}, #{agreeorOrder}
     		)
     	</insert>
     	
     	<!-- 참조자 추가 -->
     	<insert id="recipientInsert">
     		insert into recipient(
-    		recipient_no, draft_no
+    		recipient_no, draft_no, recipient_order
     		)
     		values(
-    		#{recipientNo}, #{draftNo}
+    		#{recipientNo}, #{draftNo}, #{recipientOrder}
     		)
     	</insert>
     	
     	<!-- 열람자 추가 -->
     	<insert id="readerInsert">
     		insert into reader(
-    		reader_no, draft_no
+    		reader_no, draft_no, reader_order
     		)
     		values(
-    		#{readerNo}, #{draftNo}
+    		#{readerNo}, #{draftNo}, #{readerOrder}
     		)
     	</insert>
     	
@@ -206,6 +206,7 @@
 				select="agreeorDataSelect"
 				column="draft_no">
 				<result column="agreeor_no" property="agreeorNo"/>
+				<result column="agreeor_order" property="agreeorOrder"/>
 				<result column="draft_no" property="draftNo"/>
 			</collection>
 			<collection property="recipientList"
@@ -213,6 +214,7 @@
 				select="recipientDataSelect"
 				column="draft_no">
 				<result column="recipient_no" property="recipientNo"/>
+				<result column="recipient_order" property="recipientOrder"/>
 				<result column="draft_no" property="draftNo"/>
 			</collection>
 			<collection property="readerList"
@@ -220,6 +222,7 @@
 				select="readerDataSelect"
 				column="draft_no">
 				<result column="reader_no" property="readerNo"/>
+				<result column="reader_order" property="readerOrder"/>
 				<result column="draft_no" property="draftNo"/>
 			</collection>
 		</resultMap>
@@ -622,6 +625,7 @@
 			select * from 
 			agreeor AG inner join search_info EMP on AG.agreeor_no = EMP.emp_no
 			where draft_no = #{draftNo}
+			order by agreeor_order asc
 		</select>
 		
 		<!-- 계층형 조회 서브 구문 (참조자) -->
@@ -629,6 +633,7 @@
 			select * from 
 			recipient RECP inner join search_info EMP on RECP.recipient_no = EMP.emp_no
 			where draft_no = #{draftNo}
+			order by recipient_order asc
 		</select>
 		
 		<!-- 계층형 조회 서브 구문 (열람자)-->
@@ -636,6 +641,7 @@
 			select * from 
 			reader RD inner join search_info EMP on RD.reader_no = EMP.emp_no
 			where draft_no = #{draftNo}
+			order by reader_order asc
 		</select>
     	
     </mapper>

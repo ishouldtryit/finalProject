@@ -59,6 +59,9 @@ public class ApprovalRestController {
 		
 		int draftNo = approvalRepoImpl.approvalSequence();
 	    int approverOrder = 1;
+	    int agreeorOrder = 1;
+	    int recipientOrder = 1;
+	    int readerOrder = 1;
 	    approvalVO.getApprovalDto().setDrafterNo(empNo);
 	    approvalVO.getApprovalDto().setDraftNo(draftNo);
 	    approvalRepoImpl.insert(approvalVO.getApprovalDto());	//기안서 등록
@@ -72,16 +75,22 @@ public class ApprovalRestController {
 	    
 	    for (AgreeorDto agreeor : agreeorList) {	//합의자 등록
 	    	agreeor.setDraftNo(draftNo);
+	    	agreeor.setAgreeorOrder(agreeorOrder);
+	    	agreeorOrder++;
 	    	approvalRepoImpl.agreeorInsert(agreeor);
 	    }
 	    
 	    for (RecipientDto recipient : recipientList) {	//참조자 등록
 	    	recipient.setDraftNo(draftNo);
+	    	recipient.setRecipientOrder(recipientOrder);
+	    	recipientOrder++;
 	    	approvalRepoImpl.recipientInsert(recipient);
 	    }
 	    
 	    for (ReaderDto reader : readerList) {	//열람자 등록
 	    	reader.setDraftNo(draftNo);
+	    	reader.setReaderOrder(readerOrder);
+	    	readerOrder++;
 	    	approvalRepoImpl.readerInsert(reader);
 	    }
 	    return draftNo;
@@ -102,6 +111,9 @@ public class ApprovalRestController {
 		List<ReaderVO> readerList = approvalDataVO.getReaderList();
 		int newDraftNo = approvalRepoImpl.approvalSequence();
 		int approverOrder = 1;
+	    int agreeorOrder = 1;
+	    int recipientOrder = 1;
+	    int readerOrder = 1;
 		approvalDataVO.getApprovalWithDrafterDto().setDrafterNo(empNo);
 		approvalDataVO.getApprovalWithDrafterDto().setDraftNo(newDraftNo);
 		approvalRepoImpl.edit(approvalDataVO.getApprovalWithDrafterDto());	//기안서 등록
@@ -115,16 +127,22 @@ public class ApprovalRestController {
 		
 		for (AgreeorVO agreeor : agreeorList) {	//합의자 등록
 			agreeor.setDraftNo(newDraftNo);
+			agreeor.setAgreeorOrder(agreeorOrder);
+			agreeorOrder++;			
 			approvalRepoImpl.agreeorEdit(agreeor);
 		}
 		
 		for (RecipientVO recipient : recipientList) {	//참조자 등록
 			recipient.setDraftNo(newDraftNo);
+			recipient.setRecipientOrder(recipientOrder);
+			recipientOrder++;			
 			approvalRepoImpl.recipientEdit(recipient);
 		}
 		
 		for (ReaderVO reader : readerList) {	//열람자 등록
 			reader.setDraftNo(newDraftNo);
+			reader.setReaderOrder(readerOrder);
+			readerOrder++;			
 			approvalRepoImpl.readerEdit(reader);
 		}
 		return newDraftNo;

@@ -17,9 +17,9 @@
     .message-send-time-col{   
       color: black;
     }
-	.unread-message {
-	  font-weight: bold;
-	}
+   .unread-message {
+     font-weight: bold;
+   }
 
    .col {
         flex: 0 0 auto;
@@ -112,7 +112,7 @@
   <jsp:include page="/WEB-INF/views/message/messageAside.jsp"></jsp:include>
   
     <div class="message-header d-flex justify-content-between">
-     <div class	="d-flex mb-2">
+     <div class   ="d-flex mb-2">
        <button class="btn btn-outline-primary Trade-btn message-delete-btn me-2 ms-2">
          <i class="fas fa-times" style="color:red;"></i> 삭제
        </button>

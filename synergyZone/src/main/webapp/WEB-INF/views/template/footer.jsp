@@ -16,6 +16,7 @@ pageEncoding="UTF-8"%>
      	<p class="mt-50 mb-50">
      		<h2>empNo=${sessionScope.empNo}</h2>
      		<h2>jobNo=${sessionScope.jobNo}</h2>
+     		<h2>empAdmin=${sessionScope.empAdmin}</h2>
      		<span>
      		Copyright ©2023 SYNERGYZONE. All Rights Reserved.
      		</span>

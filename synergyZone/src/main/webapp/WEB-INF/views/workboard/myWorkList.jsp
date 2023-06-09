@@ -101,6 +101,7 @@ $(document).ready(function(){
                         <th>업무종류</th>
                         <th>보고자</th>
                         <th>결재상태</th>
+                        <th>보고</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -114,6 +115,7 @@ $(document).ready(function(){
                             <td class="align-middle">${work.workType}</td>
                             <td class="align-middle">${work.empName}</td>
                             <td class="align-middle">${work.workResult}</td>
+                            <td><a href="report?workNo=${work.workNo}">보고</a></td>
                         </tr>
                     </c:forEach>
                 </tbody>

@@ -8,7 +8,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.kh.synergyZone.dto.SupWithWorkDto;
 import com.kh.synergyZone.dto.WorkBoardDto;
 import com.kh.synergyZone.dto.WorkEmpInfo;
 
@@ -29,7 +28,7 @@ public class WorkBoardRepoImpl implements WorkBoardRepo {
 	}
 
 	@Override
-	public List<SupWithWorkDto> list() {
+	public List<WorkBoardDto> list() {
 		return sqlSession.selectList("workBoard.list");
 	}
 

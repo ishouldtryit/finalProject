@@ -100,7 +100,7 @@ $(document).ready(function(){
                         <th>업무상태</th>
                         <th>업무종류</th>
                         <th>보고자</th>
-                        <th>참조자</th>
+<!--                         <th>참조자</th> -->
 <!--                         <th>결재상태</th> -->
                     </tr>
                 </thead>
@@ -113,7 +113,7 @@ $(document).ready(function(){
                                 <span class="badge statusBadge" data-work-status="${work.workStatus}"></span>
                             </td>
                             <td class="align-middle">${work.workType}</td>
-                            <td class="align-middle">${work.workSup}</td>
+<%--                             <td class="align-middle">${work.workSup}</td> --%>
 <%--                             <td class="align-middle">${work.workResult}</td> --%>
                         </tr>
                     </c:forEach>

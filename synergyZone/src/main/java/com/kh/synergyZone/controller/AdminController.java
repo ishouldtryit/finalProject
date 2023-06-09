@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.annotation.SessionScope;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.synergyZone.dto.DepartmentDto;
@@ -389,7 +390,9 @@ public class AdminController {
 
 	// 관리자
 	@GetMapping("/add")
-	public String add(@RequestParam(required = false, defaultValue = "") String empNo, Model model) {
+	public String add(@RequestParam(required = false, defaultValue = "") String empNo, 
+					  Model model,
+					  HttpSession session) {
 
 		model.addAttribute("adminList", employeeRepo.adminList());
 		model.addAttribute("jobs", jobRepo.list());
@@ -398,6 +401,11 @@ public class AdminController {
 		// 프로필 사진 조회
 		EmployeeProfileDto profile = employeeProfileRepo.find(empNo); // 프로필 정보 조회
 		model.addAttribute("profile", profile);
+		
+		//관리자 판단
+		String empAdmin = (String) session.getAttribute("empAdmin");
+		boolean admin = empAdmin != null && empAdmin.equals("Y");
+		model.addAttribute("admin", admin);
 
 		return "admin/add";
 	}

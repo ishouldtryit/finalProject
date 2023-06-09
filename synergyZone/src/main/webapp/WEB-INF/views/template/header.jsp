@@ -48,6 +48,8 @@
     	const contextPath = "${pageContext.request.contextPath}";
     	const memberId = "${sessionScope.memberId}";
     	const memberLevel = "${sessionScope.memberLevel}";
+    	var empNo = "${sessionScope.empNo}";
+        var empAdmin = "${sessionScope.empAdmin}";
     </script>
     
     <style>
@@ -194,6 +196,7 @@
 	                            </ul>
 	                        </li>
 	                        
+	                        <c:if test="${sessionScope.empAdmin == 'Y'}">
 		                        <li>
 		                        <a href="#adminSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">관리자 페이지</a>
 		                        <ul class="collapse list-unstyled" id="adminSubmenu">
@@ -220,7 +223,8 @@
 		                                </li>
 		                            </ul>
 		                        </li>
-	
+							</c:if>
+							
 	                        <li>
 	                            <a href="#">공지사항</a>
 	                        </li>

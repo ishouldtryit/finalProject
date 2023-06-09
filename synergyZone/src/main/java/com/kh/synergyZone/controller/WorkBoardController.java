@@ -159,7 +159,9 @@ public class WorkBoardController {
    
    //업무일지 목록
    @GetMapping("/list")
-   public String list(Model model) {
+   public String list(HttpSession session, Model model) {
+	   String jobNo = (String) session.getAttribute("jobNo");
+	   
        model.addAttribute("employees", employeeRepo.list());
        
       model.addAttribute("list", workBoardRepo.list());

@@ -27,8 +27,8 @@
 		select * from work_board where work_no = #{workNo}
 	</select>
 	
-	<select id="list" resultType="SupWithWorkDto">
-		select * from sup_with_work order by work_no desc
+	<select id="list" resultType="WorkEmpInfo">
+		select * from work_emp_info where job_no = #{jobNo} order by work_no desc
 	</select>
 	
 	<update id="edit">

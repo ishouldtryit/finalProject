@@ -53,9 +53,8 @@
                     </div>
                 </div>
                 
-                <div class="row mt-1">
+                <div class="row mt-2">
                     <div class="col text-center">
-                        <label class="ms-1 me-1">/</label>
                         <a href="employee/findPw">비밀번호 찾기</a>
                     </div>
                 </div>

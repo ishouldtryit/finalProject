@@ -99,9 +99,10 @@ $(document).ready(function(){
                         <th>제목</th>
                         <th>업무상태</th>
                         <th>업무종류</th>
-                        <th>보고자</th>
+<!--                         <th>보고자</th> -->
 <!--                         <th>참조자</th> -->
 <!--                         <th>결재상태</th> -->
+						<th>부서번호(나중에삭제)</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -115,6 +116,8 @@ $(document).ready(function(){
                             <td class="align-middle">${work.workType}</td>
 <%--                             <td class="align-middle">${work.workSup}</td> --%>
 <%--                             <td class="align-middle">${work.workResult}</td> --%>
+							<td class="align-middle">${work.jobNo}</td>
+
                         </tr>
                     </c:forEach>
                 </tbody>

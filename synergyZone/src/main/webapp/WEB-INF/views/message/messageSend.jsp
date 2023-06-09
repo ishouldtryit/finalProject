@@ -133,7 +133,7 @@
                 </div>
               </td>
               <td>
-                <a class="message-recipient-col" href="" style="color: black;"></a>
+                <a class="message-recipient-col" href=""></a>
               </td>
               <td>
                 <a class="message-title-col" href=""></a>

@@ -68,7 +68,7 @@
                 text-decoration: none;
                 color:#ffffff;
             }
-            a:hover{
+            .bi:hover{
             	color:#FFEDCB;
             }
             html,body{

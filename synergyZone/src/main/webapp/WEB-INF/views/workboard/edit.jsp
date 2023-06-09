@@ -130,6 +130,7 @@
                   <div class="col">
 					    <label class="form-label">파일첨부</label>
 					    <input class="form-control rounded" type="file" name="attachments" multiple="multiple">
+					    
 					    <c:forEach var="file" items="${files}">
 					        <div class="attachment">
 					            <a href="/attachment/download?attachmentNo=${file.attachmentNo}">
@@ -137,6 +138,7 @@
 					            </a>
 					        </div>
 					    </c:forEach>
+					    
 					</div>
 
 				

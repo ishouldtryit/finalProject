@@ -150,7 +150,6 @@
 					</tr>
 				</tbody>
 			</table>
-		</form>
 		<!-- 결재자 선택 modal -->
 		<div class="modal" tabindex="-1" role="dialog"
 			data-bs-backdrop="static" ref="SupModal">
@@ -220,7 +219,9 @@
 										<div class="col-6">
 											<div class="badge bg-danger w-100">
 												{{index+1}}.{{sup.department.deptName}} :
-												{{sup.supList.empName}}</div>
+												{{sup.supList.empName}}
+												<input type="hidden" name="supList" :key="index" :value="sup.supList.empNo">
+												</div>
 										</div>
 										<div class="col-2 text-center">
 											<i class="fa-regular fa-trash-can" @click="removeSup(index)"></i>
@@ -243,6 +244,7 @@
 		</div>
 
 
+		</form>
 	</div>
 
 

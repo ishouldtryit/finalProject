@@ -22,6 +22,7 @@ import com.kh.synergyZone.dto.VacationInfoDto;
 import com.kh.synergyZone.repo.CommuteRecordRepoImpl;
 import com.kh.synergyZone.repo.EmployeeRepoImpl;
 import com.kh.synergyZone.repo.JobRepoImpl;
+import com.kh.synergyZone.repo.TripPersonRepoImpl;
 import com.kh.synergyZone.repo.TripRepoImpl;
 import com.kh.synergyZone.repo.VacationInfoRepoImpl;
 import com.kh.synergyZone.repo.VacationRepoImpl;
@@ -47,6 +48,9 @@ public class CommuteController {
 	
 	@Autowired
 	private JobRepoImpl jobRepoImpl;
+	
+	@Autowired
+	private TripPersonRepoImpl personRepoImpl;
 	
 	
 	//근태관리 메인
@@ -140,12 +144,19 @@ public class CommuteController {
 		return "/commute/write2";
 	}
 	@PostMapping("/trip")
-	public String insert(@ModelAttribute TripDto tripDto,HttpSession session) {
-		String empNo=(String) session.getAttribute("empNo");
-		tripDto.setEmpNo(empNo);
+	public String insert(@ModelAttribute TripDto tripDto,HttpSession session,@RequestParam List<String> supList) {
+		String emp=(String) session.getAttribute("empNo");
+		tripDto.setEmpNo(emp);
 		tripRepoImpl.insert(tripDto);
+		String no =personRepoImpl.one(emp);
+		//tripNo 조회
 		
-		
+		for (String empNo : supList) {
+			   TripPersonDto dto = new TripPersonDto();
+	           dto.setEmpNo(empNo);
+	           dto.setTripNo(no);
+	           personRepoImpl.insert(dto);
+	       }
 		return "redirect:/commute/trip";
 	}
 	
@@ -204,5 +215,11 @@ public class CommuteController {
 		return "redirect:/commute/adminList";
 	}
 	
+	
+	//개인 출장내역페이지
+	@GetMapping("tripList")
+	public String tripList() {
+		return "";
+	}
 	
 }

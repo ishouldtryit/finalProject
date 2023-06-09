@@ -12,6 +12,7 @@
 					,#{work},#{purpose},#{notes},#{startDate},#{endDate},0,#{name}
 				)
 	</insert>
+	
 	<!-- 출장 대상자 추가 -->
 	<insert id="personInsert">
 		insert into trip_person values (#{empNo},#{tripNo}) 
@@ -26,6 +27,10 @@
 	<!-- 출장대상자 리스트 조회 -->
 	<select id="personList" resultType="TripPersonDto">
 		select * from trip_person where trip_no= #{tripNo}
+	</select>
+	
+	<select id="no" resultType="String">
+		select trip_no from (select trip_no from trip where emp_no= #{empNo} order by trip_no DESC) where ROWNUM = 1
 	</select>
 
 </mapper>

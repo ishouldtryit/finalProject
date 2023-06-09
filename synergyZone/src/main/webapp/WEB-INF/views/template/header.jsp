@@ -58,8 +58,12 @@
         height: 50px;
         margin-top: 2px;
       }
-                  a{
+             a{
                 text-decoration: none;
+                color:#ffffff;
+            }
+            a:hover{
+            	color:#FFEDCB;
             }
             html,body{
                 height: 100%;
@@ -90,12 +94,14 @@
              </div>
          
              <div class="col bg-info text-light p-2">
-               <input type="text" class="form-control" placeholder="검색어 입력">
              </div>
                      
              <div class="col bg-info text-light p-1 d-flex justify-content-end">
-               <i class="bi bi-bell fs-3 ms-5"></i>
-               <i class="bi bi-person-circle fs-3 ms-3 me-3"></i>
+              <a href="${pageContext.request.contextPath}/address/list"><i class="bi bi-diagram-3 fs-2"></i></a> 
+            <a href=#><i class="bi bi-bell fs-2 ms-3"></i></a>
+            <a href=#><i class="bi bi-person-circle fs-2 ms-3"></i></a> 
+            <a href=#><i class="bi bi-power fs-2 ms-3 me-2" data-bs-toggle="modal"
+               data-bs-target="#logoutModal"></i></a>
              </div>
            </div>
        </div>
@@ -115,10 +121,10 @@
                                <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">게시판</a>
                                <ul class="collapse list-unstyled" id="homeSubmenu">
                                    <li>
-                                       <a href="/notice/list">공지사항</a>
+                                       <a href="${pageContext.request.contextPath}/notice/list">공지사항</a>
                                    </li>
                                    <li>
-                                       <a href="/board/list">자유게시판</a>
+                                       <a href="${pageContext.request.contextPath}/board/list">자유게시판</a>
                                    </li>
                                </ul>
                            </li>
@@ -181,16 +187,16 @@
                            <a href="#workSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">업무</a>
                            <ul class="collapse list-unstyled" id="workSubmenu">
                                    <li>
-                                   <a href="/workboard/write">일지 작성</a>
+                                   <a href="${pageContext.request.contextPath}/workboard/write">일지 작성</a>
                                    </li>
                                    <li>
-                                       <a href="/workboard/list">부서 업무일지</a>
+                                       <a href="${pageContext.request.contextPath}/workboard/list">부서 업무일지</a>
                                    </li>
                                    <li>
-                                       <a href="/workboard/reportList">내 업무일지</a>
+                                       <a href="${pageContext.request.contextPath}/workboard/reportList">내 업무일지</a>
                                    </li>
                                     <li>
-                                       <a href="/workboard/supList">공유받은 업무일지</a>
+                                       <a href="${pageContext.request.contextPath}/workboard/supList">공유받은 업무일지</a>
                                    </li>
                                </ul>
                            </li>
@@ -199,35 +205,39 @@
                               <a href="#adminSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">관리자 페이지</a>
                               <ul class="collapse list-unstyled" id="adminSubmenu">
                                       <li>
-                                      <a href="/admin/join">사원 등록</a>
+                                      <a href="${pageContext.request.contextPath}/admin/join">사원 등록</a>
                                       </li>
                                       <li>
-                                          <a href="/admin/list">사원 통합관리</a>
+                                          <a href="${pageContext.request.contextPath}/admin/list">사원 통합관리</a>
                                       </li>
                                       <li>
-                                          <a href="/admin/waitingList">사원 퇴사관리</a>
+                                          <a href="${pageContext.request.contextPath}/admin/waitingList">사원 퇴사관리</a>
                                       </li>
                                       <li>
-                                          <a href="/admin/adminList">관리자 통합관리</a>
+                                          <a href="${pageContext.request.contextPath}/admin/adminList">관리자 통합관리</a>
                                       </li>
                                       <li>
-                                          <a href="/admin/log/list">사원 접근로그</a>
+                                          <a href="${pageContext.request.contextPath}/admin/log/list">사원 접근로그</a>
                                       </li>
                                       <li>
-                                          <a href="/admin/department/list">부서</a>
+                                          <a href="${pageContext.request.contextPath}/admin/department/list">부서</a>
                                       </li>
                                       <li>
-                                          <a href="/admin/job/list">직위</a>
+                                          <a href="${pageContext.request.contextPath}/admin/job/list">직위</a>
                                       </li>
                                   </ul>
                               </li>
    
-                           <li>
-                               <a href="#">공지사항</a>
-                           </li>
-                           <li>
-                               <a href="#">Contact</a>
-                           </li>
+                          <li>
+                          <a href="#commuteSubmenu" data-toggle="collapse"
+                           aria-expanded="false" class="dropdown-toggle">근태관리</a>
+                           <ul class="collapse list-unstyled" id="commuteSubmenu">
+                              <li><a href="${pageContext.request.contextPath}/commute/write">휴가 신청 </a></li>
+                              <li><a href="${pageContext.request.contextPath}/commute/trip">출장 신청</a></li>
+                              <li><a href="${pageContext.request.contextPath}/commute/record">근무시간 집계현황 </a></li>
+                              <li><a href="${pageContext.request.contextPath}/commute/vacation">휴가 신청내역</a></li>
+                              <li><a href="${pageContext.request.contextPath}/commute/tripList">출장 신청내역</a></li>
+                           </ul></li>
                        </ul>
                </div>
            </nav>
@@ -241,10 +251,6 @@
                <nav class="navbar navbar-expand-lg navbar-light bg-light">
                    <div class="container-fluid">
    
-                       <button type="button" id="sidebarCollapse" class="btn btn-primary" style="background-color:#34659cc4; border-color: #34659c00;">
-                           <i class="fa fa-bars"></i>
-                           <span class="sr-only">Toggle Menu</span>
-                       </button>
                        <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                            <i class="fa fa-bars"></i>
                        </button>
@@ -252,22 +258,22 @@
                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
                            <ul class="nav navbar-nav ml-auto">
                                <li class="nav-item">
-                                   <a class="nav-link" href="#">홈</a>
+                                   <a class="nav-link" href="${pageContext.request.contextPath}/">홈</a>
                                </li>
                                <li class="nav-item">
-                                   <a class="nav-link" href="#">일정</a>
+                                   <a class="nav-link" href="${pageContext.request.contextPath}/calendar/calendar">일정</a>
                                </li>
                                <li class="nav-item">
-                                   <a class="nav-link" href="#">쪽지</a>
+                                   <a class="nav-link" href="${pageContext.request.contextPath}/message/receive">쪽지</a>
                                </li>
                                <li class="nav-item">
-                                   <a class="nav-link" href="#">업무</a>
+                                   <a class="nav-link" href="${pageContext.request.contextPath}/workboard/write">업무</a>
                                </li>
                                <li class="nav-item active">
-                                   <a class="nav-link" href="#">게시판</a>
+                                   <a class="nav-link" href="${pageContext.request.contextPath}/board/list">게시판</a>
                                </li> 
                                <li class="nav-item">
-                                   <a class="nav-link" href="#">조직도</a>
+                                   <a class="nav-link" href="${pageContext.request.contextPath}/address/list">주소록</a>
                                </li>
                            </ul>
                        </div>

@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.kh.synergyZone.dto.EmployeeInfoDto;
 import com.kh.synergyZone.dto.WorkBoardDto;
+import com.kh.synergyZone.dto.WorkEmpInfo;
 import com.kh.synergyZone.dto.WorkReportDto;
 import com.kh.synergyZone.repo.DepartmentRepo;
 import com.kh.synergyZone.repo.EmployeeRepo;
@@ -25,8 +25,7 @@ import com.kh.synergyZone.repo.WorkBoardRepo;
 import com.kh.synergyZone.repo.WorkFileRepo;
 import com.kh.synergyZone.repo.WorkReportRepo;
 import com.kh.synergyZone.service.WorkBoardService;
-import com.kh.synergyZone.vo.ReportWithWorkBoardVO;
-import com.kh.synergyZone.vo.WorkBoardVO;
+import com.kh.synergyZone.vo.PaginationVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -120,10 +119,40 @@ public class WorkBoardController {
    //내 보관함
    @GetMapping("/myWorkList")
    public String reportList(HttpSession session,
-		   				 Model model) {
+		   					@ModelAttribute("vo") PaginationVO vo,
+						    @RequestParam(required = false, defaultValue = "") String column,
+				            @RequestParam(required = false, defaultValue = "") String keyword,
+		   				    Model model) {
+	   
 	   String empNo = (String) session.getAttribute("empNo");
 	   
-	   model.addAttribute("myWorkList", workBoardRepo.myWorkList(empNo));
+	   List<WorkEmpInfo> myWorkList;
+	   
+	   //검색
+	   if(!column.isEmpty() && !keyword.isEmpty()) {
+		   myWorkList = workBoardRepo.SearchMyWorkList(column, keyword);
+	   } else {
+		   myWorkList = workBoardRepo.myWorkList(empNo);
+	   }
+	   
+	   //페이징
+	   int totalCount = myWorkList.size();
+	   vo.setCount(totalCount);
+	   
+	   int size = vo.getSize();  // 페이지당 표시할 데이터 개수
+       int page = vo.getPage();  // 현재 페이지 번호
+       
+       int startIndex = (page - 1) * size;  // 데이터의 시작 인덱스
+       int endIndex = Math.min(startIndex + size, totalCount);  // 데이터의 종료 인덱스
+       
+       List<WorkEmpInfo> pagedMyWorkList = myWorkList.subList(startIndex, endIndex);
+       
+	   
+	   //selected 유지
+       model.addAttribute("column", column);
+       
+       model.addAttribute("myWorkList", pagedMyWorkList);
+	   
 	   return "workboard/myWorkList";
    }
    
@@ -152,6 +181,7 @@ public class WorkBoardController {
    public String edit(@ModelAttribute WorkBoardDto workBoardDto,
                   @RequestParam int workNo,
                   @RequestParam("attachments") List<MultipartFile> attachments,
+                  
                   RedirectAttributes attr) throws IllegalStateException, IOException {
 //      workBoardService.deleteFile(workNo);
 	   System.out.println(attachments);

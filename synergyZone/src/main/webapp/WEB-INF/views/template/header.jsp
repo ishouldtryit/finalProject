@@ -186,7 +186,7 @@
 	                                    <a href="/workboard/list">부서 업무일지</a>
 	                                </li>
 	                                <li>
-	                                    <a href="/workboard/reportList">내 업무일지</a>
+	                                    <a href="/workboard/myWorkList">내 업무일지</a>
 	                                </li>
 	                                 <li>
 	                                    <a href="/workboard/supList">공유받은 업무일지</a>
@@ -207,7 +207,7 @@
 		                                    <a href="/admin/waitingList">사원 퇴사관리</a>
 		                                </li>
 		                                <li>
-		                                    <a href="/admin/adminList">관리자 통합관리</a>
+		                                    <a href="/admin/add">관리자 통합관리</a>
 		                                </li>
 		                                <li>
 		                                    <a href="/admin/log/list">사원 접근로그</a>

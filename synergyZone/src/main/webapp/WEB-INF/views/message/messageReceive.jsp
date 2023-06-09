@@ -4,6 +4,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="icon" href="${pageContext.request.contextPath}/static/favicon.ico" type="image/x-icon">
+
   <meta charset="UTF-8">
   <style>
     .message-sender-col {

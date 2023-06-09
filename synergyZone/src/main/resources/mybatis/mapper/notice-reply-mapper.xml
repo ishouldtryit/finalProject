@@ -4,11 +4,11 @@
     
     <!-- 댓글 조회 -->
     <select id="selectList" resultType="NoticeReplyVO">
-    SELECT R.*, S.*
-    FROM notice_Reply R
-    JOIN search_info S ON R.notice_Reply_writer = S.emp_no
-    WHERE R.notice_Reply_origin = #{noticeReplyOrigin}
-    ORDER BY R.notice_Reply_no ASC
+    SELECT N.*, S.*
+    FROM notice_reply N
+    JOIN search_info S ON N.notice_reply_writer = S.emp_no
+    WHERE N.notice_reply_origin = #{noticeReplyOrigin}
+    ORDER BY N.notice_reply_no ASC
 	</select>
 
     <!-- 댓글 작성 -->
@@ -30,10 +30,10 @@
 
     <!-- 댓글 번호로 조회 -->
    <select id="selectOne" resultType="NoticeReplyVO">
-	    SELECT R.*, S.*
-	    FROM notice_reply R
-	    JOIN search_info S ON R.notice_Reply_writer = S.emp_no
-	    WHERE R.notice_Reply_no = #{noticeReplyNo}
+	    SELECT N.*, S.*
+	    FROM notice_reply N
+	    JOIN search_info S ON N.notice_reply_writer = S.emp_no
+	    WHERE N.notice_reply_no = #{noticeReplyNo}
 	</select>
 
     

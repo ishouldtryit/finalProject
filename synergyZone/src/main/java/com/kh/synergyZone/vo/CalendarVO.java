@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
 public class CalendarVO {
-	int seq;
+	Integer seq;
 	String content;
 	String title;
 	String emp_no;

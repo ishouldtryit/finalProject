@@ -38,13 +38,18 @@ public class CalendarController {
    }
 
     // 등록 창 이동
-    @GetMapping("/insertPage")
-    public String insertPage(Model model, @ModelAttribute("vo") CalendarVO vo,
-                       @RequestParam(required = false, defaultValue = "") String keyword) throws IOException {
-        Map<String,Object> rsMap= calendarService.detailView(vo);
-        model.addAttribute("result", rsMap);
-        return "calendar/insertPage";
-    }
+   @GetMapping("/insertPage")
+   public String insertPage(Model model, @ModelAttribute("vo") CalendarVO vo,
+                      @RequestParam(required = false, defaultValue = "") String keyword) throws IOException {
+       if(vo.getSeq() == null || vo.getSeq().equals("")) {
+            return "calendar/insertPage"; 
+       } else {
+           Map<String,Object> rsMap= calendarService.detailView(vo);
+           model.addAttribute("result", rsMap);
+           return "calendar/insertPage";
+
+       }
+   }
     // 등록
     @PostMapping("/insertDate")
     public String insertPage(Model model, @ModelAttribute("vo") CalendarVO vo,  HttpSession session,
@@ -53,12 +58,8 @@ public class CalendarController {
         String empName = (String) session.getAttribute("empName");
         vo.setEmp_no(empNo);
         vo.setEmp_name(empName);
-       int rs = calendarService.insertDate(vo);
-       if(rs >0) {
-           return "calendar/insertPage";
-       } else {
-           return "calendar/calendar";
-       }
+        calendarService.insertDate(vo);
+        return "redirect:/calendar/calendar";
     }
 
     // 수정

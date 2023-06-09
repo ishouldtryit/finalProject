@@ -76,6 +76,7 @@ public class AddressController {
        } else {
            employees = employeeRepo.list();
        }
+       
        if (empNo != null) {
     	    model.addAttribute("profile", employeeProfileRepo.find(empNo));
     	}

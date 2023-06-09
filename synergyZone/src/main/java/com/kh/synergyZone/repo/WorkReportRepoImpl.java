@@ -30,6 +30,16 @@ public class WorkReportRepoImpl implements WorkReportRepo {
 	public List<SupWithWorkDto> supList(String workSup) {
 		return sqlSession.selectList("workReport.supList", workSup);
 	}
+	
+	//참조자 표시
+	@Override
+	public List<WorkReportDto> selectAll(int workNo) {
+		List<WorkReportDto> workSups = sqlSession.selectList("workReport.find", workNo);
+		if(workSups != null && !workSups.isEmpty()) {
+			return workSups;
+		}
+		return null;
+	}
 
 
 }

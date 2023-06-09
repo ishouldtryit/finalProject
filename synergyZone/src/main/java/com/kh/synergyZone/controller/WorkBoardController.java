@@ -1,9 +1,7 @@
 package com.kh.synergyZone.controller;
 
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -158,28 +156,18 @@ public class WorkBoardController {
 	   return "workboard/myWorkList";
    }
    
+   
+   //업무일지 목록
    @GetMapping("/list")
    public String list(HttpSession session, Model model) {
-       int jobNo = (int) session.getAttribute("jobNo");
-
+	   int jobNo = (int) session.getAttribute("jobNo");
+	   
        model.addAttribute("employees", employeeRepo.list());
-
-       List<WorkEmpInfo> workBoardList = workBoardRepo.list(jobNo);
-       Set<Integer> uniqueWorkNoSet = new HashSet<>(); // 중복된 work_no 값을 필터링하기 위한 Set
-
-       for (WorkEmpInfo workBoard : workBoardList) {
-           int workNo = workBoard.getWorkNo();
-           if (!uniqueWorkNoSet.contains(workNo)) {
-               uniqueWorkNoSet.add(workNo);
-           }
-       }
-
-       model.addAttribute("list", workBoardList);
-       model.addAttribute("uniqueWorkNoSet", uniqueWorkNoSet); // 콤마로 구분된 workSup 목록을 전달
-
-       return "workboard/list";
+       
+      model.addAttribute("list", workBoardRepo.list(jobNo));
+      
+      return "workboard/list";
    }
-
    
    //업무일지 수정
    @GetMapping("/edit")
@@ -216,6 +204,7 @@ public class WorkBoardController {
       model.addAttribute("workBoardDto", workBoardRepo.selectOne(workNo));
       
       model.addAttribute("files", workFileRepo.selectAll(workNo));
+      model.addAttribute("workSups", workReportRepo.selectAll(workNo));
       return "workboard/detail";
    }
    

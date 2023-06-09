@@ -100,20 +100,20 @@ $(document).ready(function(){
                         <th>업무상태</th>
                         <th>업무종류</th>
                         <th>보고자</th>
-                        <th>결재상태</th>
+<!--                         <th>결재상태</th> -->
                     </tr>
                 </thead>
                 <tbody>
                     <c:forEach var="work" items="${supList}">
                         <tr>
                             <td class="align-middle">${work.workReportDate}</td>
-                            <td class="align-middle">${work.workTitle}</td>
+                            <td class="align-middle work-title" data-work-no="${work.workNo}">${work.workTitle}</td>
                             <td class="align-middle">
                                 <span class="badge statusBadge" data-work-status="${work.workStatus}"></span>
                             </td>
                             <td class="align-middle">${work.workType}</td>
-                            <td class="align-middle">${work.workSup}</td>
-                            <td class="align-middle">${work.workResult}</td>
+                            <td class="align-middle">${work.empName}</td>
+<%--                             <td class="align-middle">${work.workResult}</td> --%>
                         </tr>
                     </c:forEach>
                 </tbody>
@@ -142,6 +142,17 @@ $(document).ready(function(){
 		  </ul>
 		</div>
 </div>
+
+<script>
+$(document).ready(function() {
+    $(".work-title").click(function(){
+        var workNo = $(this).data("work-no"); // Retrieve the workNo from the data attribute
+        var detailUrl = "detail?workNo=" + workNo; // Construct the detail page URL
+        window.location.href = detailUrl; // Redirect to the detail page
+    });
+});
+
+</script>
 
 
 

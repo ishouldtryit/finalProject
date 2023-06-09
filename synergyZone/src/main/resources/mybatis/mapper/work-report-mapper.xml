@@ -19,6 +19,10 @@
 		select * from work_report order by work_no asc
 	</select>
 	
+	<select id="find" resultType="workReportDto">
+		select * from work_report where work_no = #{workNo}
+	</select>
+	
 	<!-- 보고받은 업무일지 -->
 	<select id="supList" resultType="SupWithWorkDto">
 		select * from sup_with_work where work_sup = #{workSup}

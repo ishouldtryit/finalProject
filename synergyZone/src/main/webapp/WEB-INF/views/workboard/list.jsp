@@ -99,24 +99,24 @@ $(document).ready(function(){
                         <th>제목</th>
                         <th>업무상태</th>
                         <th>업무종류</th>
-<!--                         <th>보고자</th> -->
-                        <th>참조자</th>
+                        <th>보고자</th>
 <!--                         <th>결재상태</th> -->
 						<th>부서번호(나중에삭제)</th>
+						<th>관리</th>
                     </tr>
                 </thead>
 					<tbody>
-					    <c:forEach var="workNo" items="${uniqueWorkNoSet}">
-					        <c:set var="work" value="${list.stream().filter(work -> work.workNo == workNo).findFirst().orElse(null)}" />
+					    <c:forEach var="work" items="${list}">
 					        <tr>
 					            <td class="align-middle">${work.workReportDate}</td>
-					            <td class="align-middle">${work.workTitle}</td>
+					            <td class="align-middle work-title" data-work-no="${work.workNo}">${work.workTitle}</td>
 					            <td class="align-middle">
 					                <span class="badge statusBadge" data-work-status="${work.workStatus}"></span>
 					            </td>
 					            <td class="align-middle">${work.workType}</td>
-					            <td class="align-middle">${work.workSup}</td>
+					            <td class="align-middle">${work.empName}</td>
 					            <td class="align-middle">${work.jobNo}</td>
+					            <td><a href="report?workNo=${work.workNo}">보고하기</a></td>
 					        </tr>
 					    </c:forEach>
 					</tbody>
@@ -146,6 +146,19 @@ $(document).ready(function(){
 		  </ul>
 		</div>
 </div>
+
+<!-- 스크립트 -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $(".work-title").click(function(){
+        var workNo = $(this).data("work-no"); // Retrieve the workNo from the data attribute
+        var detailUrl = "detail?workNo=" + workNo; // Construct the detail page URL
+        window.location.href = detailUrl; // Redirect to the detail page
+    });
+});
+
+</script>
 
 
 

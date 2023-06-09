@@ -10,6 +10,7 @@
                 <th>첨부파일</th>
                 <th>보고일</th>
                 <th>글 내용</th>
+                <th>참조자</th>
                 <th>관리</th>
             </tr>
         </thead>
@@ -30,6 +31,11 @@
 				</td>
                 <td>${workBoardDto.workReportDate}</td>
                 <td>${workBoardDto.workContent}</td>
+                <td>
+                 	<c:forEach var="workSups" items="${workSups}">
+					    ${workSups.workSup}
+					</c:forEach>
+                </td>
                 <td><a href="edit?workNo=${workBoardDto.workNo}">수정하기</a></td>
             </tr>
         </tbody>

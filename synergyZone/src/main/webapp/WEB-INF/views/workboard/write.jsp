@@ -8,161 +8,172 @@
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
     
-      <script type="text/javascript">
-     $(function() {
-    	 
-    	 $('[name=workContent]').summernote({
- 	        placeholder: '내용 작성',
- 	        tabsize: 4,
- 	        height: 250,
- 	        toolbar: [
- 	            ['style', ['style']],
- 	            ['font', ['bold', 'underline', 'clear']],
- 	            ['color', ['color']],
- 	            ['para', ['ul', 'ol', 'paragraph']],
- 	            ['table', ['table']],
- 	        ]
- 	    });
-     
-       $(document).ready(function(e){
-    	   var formObj = $("form[role='form']");
-    		$("button[type='submit']").on("click", function(e){
-//     			e.preventDefault();
-//     			console.log("submit clicked");
-    			
-    			var str = "";
-    			
-    			$(".uploadResult ul li").each(function(i, obj){
-    				var jobj = $(obj);
-    				console.dir(jobj);
-    				
-    				str += "<input type = 'hidden' name = 'attachList["+i+"].fileName' value = '" + jobj.data("filename")+"'>";
-    				str += "<input type = 'hidden' name = 'attachList["+i+"].uuid' value = '" + jobj.data("uuid") + "'>";
-    				str += "<input type = 'hidden' name = 'attachList["+i+"].uploadPath' value = '" + jobj.data("path") + "'>";
-    				str += "<input type = 'hidden' name = 'attachList["+i+"].fileType' value = '" + jobj.data("type") + "'>";
-    		
-    			});
-    			formObj.append(str).submit();
-    		});
-    	  
-    	  var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
-    	  var maxSize = 10000000;
-    	  
-    	  function checkExtension(fileName, fileSize){
-    		  if(fileSize >= maxSize){
-    			  alert("파일 사이즈 초과");
-    			  return false;
-    		  }
-    		  
-    		  if(regex.test(fileName)){
-    			  alert("해당 종류의 파일은 업로드할 수 없습니다");
-    			  return false;
-    		  }
-    		  return true;
-    		  
-    	  }
-    	  
-    	  $("input[type = 'file']").change(function(e){
-    		  var formData = new FormData();
-    		  var inputFile = $("input[name='uploadFile']");
-    		  var files = inputFile[0].files;
-
-    		  for(var i=0; i<files.length; i++){
-    		      if(!checkExtension(files[i].name, files[i].size)){
-    		          return false;
-    		      }
-    		      formData.append("uploadFile", files[i]);
-    		  }
-
-
-              $.ajax({
-                url : '/rest/attachment/upload',
-                processData : false,
-                contentType : false,
-                data : formData,
-                type : 'POST',
-                dataType : 'json',
-                success:function(result){
-                    console.log(result);
-                    showUploadResult(result);
-                }
-              });
-    		  
-    	  });
-
-          function showUploadResult(uploadResultArr){
-		  if(!uploadResultArr || uploadResultArr.length == 0){return ;}
-		  var uploadUL = $(".uploadResult ul");
-		  var str = "";
-		  
-		  $(uploadResultArr).each(function(i, obj){
-			  
-			   //image type
-		        if(obj.image){
-		          var fileCallPath =  encodeURIComponent( obj.uploadPath+ "/s_"+obj.uuid +"_"+obj.fileName);
-// 		          str += "<li><a href='/download?fileName=" + fileCallPath +"'>"
-// 		        		  + "<img src = '/resources/img/attach.png'>" + obj.fileName + "</a></li>";
-		          str += "<li data-path = '" + obj.uploadPath + "'";
-		          str += "data-uuid = '" + obj.uuid + "'data-filename='" + obj.fileName + "'data-type = '" + obj.image + "'";
-		          str += "<span> "+ obj.fileName+"</span>";
-		          str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
-		          str += "<img src='/display?fileName="+fileCallPath+"'>";
-		          str += "</div>";
-		          str +"</li>";
-		        }else{
-		          var fileCallPath =  encodeURIComponent( obj.uploadPath+"/"+ obj.uuid +"_"+obj.fileName);            
-		          var fileLink = fileCallPath.replace(new RegExp(/\\/g),"/");
-		          
-		          str += "<li";
-		          str += "data-path ='" + obj.uploadPath + "' data-uuid ='" + obj.uuid + "'data-filename'" + obj.fileName
-		          + "'data-type ='" + obj.image + "'><div>";
-		          str += "<li><div>";
-		          str += "<span> "+ obj.fileName+"</span>";
-		          str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='file' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
-		          str += "</div>";
-		          str +"</li>";
-		        } 
-		  });
-			uploadUL.append(str);
-	     }
-          
-          $(".uploadResult").on("click", "button", function(e){
-    		  console.log("delete file");
-    		  
-    		  var targetFile = $(this).data("file");
-    		  var type = $(this).data("type");
-    		  
-    		  var targetLi = $(this).closest("li");
-    		  
-    		  $.ajax({
-    		  	url : '/rest/attachment/delete',
-    		  	data : {fileName : targetFile, type : type},
-    		  	dataType : 'text',
-    		  	type : 'POST',
-    		  		success : function(result) {
-    		  			alert(result);
-    		  			targetLi.remove();
-    		  		}
-    		  });
-    	  });
-          
-          
+   <script type="text/javascript">
+  $(function() {
+     $('[name=workContent]').summernote({
+           placeholder: '내용 작성',
+           tabsize: 4,
+           height: 250,
+           toolbar: [
+               ['style', ['style']],
+               ['font', ['bold', 'underline', 'clear']],
+               ['color', ['color']],
+               ['para', ['ul', 'ol', 'paragraph']],
+               ['table', ['table']],
+           ]
        });
 
+       // 파일 선택 시 파일 목록 표시
+       $(document).on('change', '#attachments', function() {
+           const fileListContainer = document.getElementById('fileList');
+           const existingFiles = Array.from(document.querySelectorAll('#fileList li'));
+           const newFiles = Array.from(this.files);
+
+           const mergedFiles = existingFiles.map(fileItem => {
+               const fileName = fileItem.querySelector('span').innerText;
+               return {
+                   name: fileName,
+                   file: null
+               };
+           });
+
+           newFiles.forEach(file => {
+               mergedFiles.push({
+                   name: file.name,
+                   file: file
+               });
+           });
+
+           displayFileList(mergedFiles);
+       });
+
+       // Delete all files
+       const deleteAll = () => {
+//            $('#attachments').val('');
+           $('#fileList').empty();
+       }
+
+       // Delete a specific file
+       const deleteFile = (fileName) => {
+	    const fileListContainer = document.getElementById('fileList');
+	    const listItem = Array.from(fileListContainer.querySelectorAll('li')).find(item => {
+	        const span = item.querySelector('span');
+	        return span.innerText === fileName;
+	    });
+	    if (listItem) {
+	        fileListContainer.removeChild(listItem);
+	
+	        // Remove the file from the dataTransfer object
+	        for (let i = 0; i < dataTransfer.files.length; i++) {
+	            if (dataTransfer.files[i].name === fileName) {
+	                dataTransfer.items.remove(i);
+	                break;
+	            }
+	        }
+	        document.getElementById("attachments").files = dataTransfer.files;
+	        console.log("dataTransfer after deletion =>", dataTransfer.files);
+	        console.log("input Files after deletion =>", document.getElementById("attachments").files);
+	    }
+	}
+
+
+       // Display file list
+       function displayFileList(files) {
+           const fileListContainer = document.getElementById('fileList');
+           fileListContainer.innerHTML = '';
+
+           for (let i = 0; i < files.length; i++) {
+               const file = files[i];
+               const fileId = `file-${i}`;
+               const listItem = document.createElement('li');
+               listItem.id = fileId;
+
+               const fileName = document.createElement('span');
+               fileName.innerText = file.name;
+
+               const removeButton = document.createElement('button');
+               removeButton.type = 'button';
+               removeButton.className = 'remove_button';
+               removeButton.dataset.fileName = file.name;
+               removeButton.innerText = 'X';
+               removeButton.addEventListener('click', () => deleteFile(file.name));
+
+               listItem.appendChild(removeButton);
+               listItem.appendChild(fileName);
+               fileListContainer.appendChild(listItem);
+           }
+       }
+
+       // FileListWrapper class definition
+       function FileListWrapper(files) {
+           const dataTransfer = new DataTransfer();
+           for (let i = 0; i < files.length; i++) {
+               dataTransfer.items.add(files[i]);
+           }
+           return dataTransfer.files;
+       }
+
+       // New code for managing file uploads
+       const dataTransfer = new DataTransfer();
+
+       $("#attachments").change(function() {
+           let fileArr = document.getElementById("attachments").files;
+
+           if (fileArr != null && fileArr.length > 0) {
+              deleteAll();
+              
+               // =====DataTransfer 파일 관리========
+               for (var i = 0; i < fileArr.length; i++) {
+                   dataTransfer.items.add(fileArr[i]);
+               }
+               document.getElementById("attachments").files = dataTransfer.files;
+               console.log("dataTransfer =>", dataTransfer.files);
+               console.log("input FIles =>", document.getElementById("attachments").files);
+               // ==========================================
+           }
+       });
+
+       $("#fileList").click(function(event) {
+           let fileArr = document.getElementById("attachments").files;
+           if (event.target.className == 'remove_button') {
+               targetFile = event.target.dataset.fileName;
+
+               // ============DataTransfer================
+               for (var i = 0; i < dataTransfer.files.length; i++) {
+                   if (dataTransfer.files[i].name == targetFile) {
+                       // 총용량에서 삭제
+                       total_file_size -= dataTransfer.files[i].size;
+
+                       dataTransfer.items.remove(i);
+                       break;
+                   }
+               }
+               document.getElementById("attachments").files = dataTransfer.files;
+
+//                const removeTarget = document.getElementById(targetFile);
+//                removeTarget.remove();
+
+               console.log("dataTransfer 삭제후=>", dataTransfer.files);
+               console.log('input FIles 삭제후=>', document.getElementById("attachments").files);
+           }
+           
+           
+       });
 
   });
-     
-     function validateForm() {
-    	    if ($('#workSecretCheck').is(':checked')) {
-    	      $("#workSecret").val("Y");
-    	    } else {
-    	      $("#workSecret").val("N");
-    	    }
-    	    
-    	    return true;
-    	  }
   
-</script>
+  
+
+  function validateForm() {
+    if ($('#workSecretCheck').is(':checked')) {
+      $("#workSecret").val("Y");
+    } else {
+      $("#workSecret").val("N");
+    }
+    
+    return true;
+  }
+</script> 
 
    
     <form action="write" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
@@ -218,23 +229,21 @@
                       </div>
                   </div>
                   
-                 <div class="row mt-4">
-			        <div class="col-lg-12">
-			            <div class="card shadow mb-4">
-			                <div class="card-header py-3">
-			                    <h4 class="m-0 font-weight-bold text-primary">File Attach</h4>
-			                </div>
-			                <div class="card-body">
-			                    <div class="form-group uploadDiv">
-			                        <input type="file" name="uploadFile" multiple>
-			                    </div>
-			                    <div class="uploadResult">
-			                        <ul></ul>
-			                    </div>
-			                </div>
-			            </div>
-			        </div>
-			    </div>
+			   <div class="row mt-4">
+				    <div class="col">
+				        <label class="form-label">파일첨부</label>
+				        <input class="form-control rounded" type="file" id="attachments" name="attachments" multiple="multiple">
+				    </div>
+				</div>
+				
+				<div class="row mt-4">
+				    <div class="col">
+				        <label class="form-label">첨부된 파일 목록</label>
+				        <div id="preview"></div>
+				        <div id="fileList">
+				        </div>
+				    </div>
+				</div>
                   
                 <div class="row mt-4">
                     <div class="col">

@@ -70,6 +70,7 @@ public class HomeController {
 						session.setAttribute("empName", findDto.getEmpName());
 						session.setAttribute("empNo", findDto.getEmpNo());
 						session.setAttribute("jobNo", findDto.getJobNo());
+						session.setAttribute("empAdmin", findDto.getEmpAdmin());
 						
 						String ipAddress = employeeService.getLocation(request);
 						String browserAddress = employeeService.getBrowser(request);

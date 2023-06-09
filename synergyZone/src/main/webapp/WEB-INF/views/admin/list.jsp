@@ -106,13 +106,6 @@
 	                  </c:if>
 	                </c:forEach>
 	              </td>
-				  <td class="align-middle">
-					<c:forEach var="jobDto" items="${jobs}">
-					  <c:if test="${jobDto.jobNo == employeeDto.jobNo}">
-						${jobDto.jobName}
-					  </c:if>
-					</c:forEach>
-				  </td>
 				  <td class="align-middle">${employeeDto.isLeave}</td>
 				  <td class="align-middle">
 					<a href="exit?empNo=${employeeDto.empNo}" class="exit-button">퇴사처리</a>

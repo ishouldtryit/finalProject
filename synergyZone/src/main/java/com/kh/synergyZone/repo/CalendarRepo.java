@@ -6,16 +6,16 @@ import java.util.List;
 import java.util.Map;
 
 public interface CalendarRepo {
-	void insert(CalendarVO vo);
+   void insert(CalendarVO vo);
 
-	List<Map<String,Object>> getDate(CalendarVO vo);
+   List<Map<String,Object>> getDate(CalendarVO vo);
 
-	int deleteDate(CalendarVO vo);
+   int deleteDate(CalendarVO vo);
 
-	Map<String, Object> detailView(CalendarVO vo);
-	
-	CalendarVO detailView(int seq);
-	
-	void updateDate(CalendarVO vo);
-	
+   Map<String, Object> detailView(CalendarVO vo);
+   
+   CalendarVO detailView(int seq);
+   
+   void updateDate(CalendarVO vo);
+   
 }

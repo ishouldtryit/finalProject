@@ -1,5 +1,4 @@
 package com.kh.synergyZone.vo;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

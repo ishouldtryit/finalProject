@@ -21,9 +21,9 @@ import java.util.Map;
 @RequestMapping("/calendar")
 public class CalendarController {
 
-	@Autowired
-	private CalendarRepo calendarRepo;
-	
+   @Autowired
+   private CalendarRepo calendarRepo;
+   
    @Autowired
    private CalendarService calendarService;
 

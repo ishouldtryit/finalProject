@@ -227,7 +227,7 @@
                                           <a href="${pageContext.request.contextPath}/admin/waitingList">사원 퇴사관리</a>
                                       </li>
                                       <li>
-                                          <a href="${pageContext.request.contextPath}/admin/adminList">관리자 통합관리</a>
+                                          <a href="${pageContext.request.contextPath}/admin/add">관리자 통합관리</a>
                                       </li>
                                       <li>
                                           <a href="${pageContext.request.contextPath}/admin/log/list">사원 접근로그</a>

@@ -20,7 +20,10 @@
 	</select>
 	
 	<select id="find" resultType="workReportDto">
-		select * from work_report where work_no = #{workNo}
+		SELECT wr.*, e.emp_name
+		FROM work_report wr
+		LEFT JOIN employee e ON wr.work_sup = e.emp_no
+		where work_no = #{workNo}
 	</select>
 	
 	<!-- 보고받은 업무일지 -->

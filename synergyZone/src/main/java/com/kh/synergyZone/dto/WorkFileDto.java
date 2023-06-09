@@ -9,5 +9,8 @@ import lombok.NoArgsConstructor;
 public class WorkFileDto {
 	private int workNo;
 	private Integer attachmentNo;
+	private String attachmentName;
+	private String attachmentType;
+	private long attachmentSize;
 
 }

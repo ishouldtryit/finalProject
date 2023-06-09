@@ -160,8 +160,6 @@
        });
 
   });
-  
-  
 
   function validateForm() {
     if ($('#workSecretCheck').is(':checked')) {

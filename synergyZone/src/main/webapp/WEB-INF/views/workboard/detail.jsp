@@ -1,45 +1,58 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+    
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
-<div class="row">
-    <table>
-        <thead>
-            <tr>
-                <th>제목</th>
-                <th>작성자</th>
-                <th>첨부파일</th>
-                <th>보고일</th>
-                <th>글 내용</th>
-                <th>참조자</th>
-                <th>관리</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>${workBoardDto.workTitle}</td>
-                <td>
-                   <c:forEach var="employeeDto" items="${employees}">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+
+<div class="border container-fluid">
+
+	<!-- 제목 -->
+	<div class="row">
+	<div class="row mt-4">
+		<div class="col-md-10 offset-md-1">
+			<h3>${workBoardDto.workTitle}
+						
+			</h3>
+			
+			<div class="d-flex align-items-center">
+			 <div class="profile-image employee-name">
+			    <img width="24" height="24" src="<c:choose>
+			        <c:when test="${profile.empNo == workBoardDto.empNo}">
+			            /attachment/download?attachmentNo=${profile.attachmentNo}
+			        </c:when>
+			        <c:otherwise>
+			            https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg
+			        </c:otherwise>
+			    </c:choose>" alt="" style="border-radius: 50%;">
+			</div>
+
+			  <h6 class="text" style="margin-left: 10px; margin-top:10px; font-weight: nomal">
+				
+				<c:forEach var="employeeDto" items="${employees}">
                       <c:if test="${employeeDto.empNo == workBoardDto.empNo}">
                          ${employeeDto.empName}
                       </c:if>
-                   </c:forEach>
-                </td>
-                <td>
-		            <c:forEach var="file" items="${files}">
-					    <a href="/attachment/download?attachmentNo=${file.attachmentNo}">${file.attachmentNo}</a>                
-					</c:forEach>
-				</td>
-                <td>${workBoardDto.workReportDate}</td>
-                <td>${workBoardDto.workContent}</td>
-                <td>
-                 	<c:forEach var="workSups" items="${workSups}">
-					    ${workSups.workSup}
-					</c:forEach>
-                </td>
-                <td><a href="edit?workNo=${workBoardDto.workNo}">수정하기</a></td>
-            </tr>
-        </tbody>
-    </table>
+                </c:forEach>
+			  <span class="ms-2 text-secondary" style="font-weight:lighter; font-size:14px;"><fmt:formatDate value="${workBoardDto.workReportDate}" 
+						pattern="y년 M월 d일 H시 m분 "/></span></h6>
+			</div>
+		</div>
+	</div>
 </div>
+	
+	
+	
+	<!-- 게시글 내용 -->
+	<div class="row mt-4" style="min-height:350px;">
+		<div class="col-md-10 offset-md-1" value="${workBoardDto.workContent}">
+			${workBoardDto.workContent}
+		</div>
+	</div>
 
+	<br>
+	
+</div>
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

@@ -99,7 +99,7 @@ public class WorkBoardServiceImpl implements WorkBoardService{
 	@Override
 	public void updateFile(int workNo, List<MultipartFile> attachments) throws IllegalStateException, IOException {
 		
-		deleteFile(workNo);
+//		deleteFile(workNo);
 		
 		for (MultipartFile attach : attachments) {
 	        if (!attach.isEmpty()) {

@@ -16,7 +16,10 @@
 	</insert>
 	
 	<select id="find" resultType="workFileDto">
-		select * from work_file where work_no = #{workNo}
+		SELECT wf.*, a.attachment_name, a.attachment_type, a.attachment_size
+		FROM work_file wf
+		LEFT JOIN attachment a ON wf.attachment_no = a.attachment_no
+		WHERE work_no = #{workNo}
 	</select>
 	
 	<update id="updateFile">

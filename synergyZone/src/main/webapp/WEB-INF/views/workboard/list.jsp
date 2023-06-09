@@ -100,27 +100,27 @@ $(document).ready(function(){
                         <th>업무상태</th>
                         <th>업무종류</th>
 <!--                         <th>보고자</th> -->
-<!--                         <th>참조자</th> -->
+                        <th>참조자</th>
 <!--                         <th>결재상태</th> -->
 						<th>부서번호(나중에삭제)</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <c:forEach var="work" items="${list}">
-                        <tr>
-                            <td class="align-middle">${work.workReportDate}</td>
-                            <td class="align-middle">${work.workTitle}</td>
-                            <td class="align-middle">
-                                <span class="badge statusBadge" data-work-status="${work.workStatus}"></span>
-                            </td>
-                            <td class="align-middle">${work.workType}</td>
-<%--                             <td class="align-middle">${work.workSup}</td> --%>
-<%--                             <td class="align-middle">${work.workResult}</td> --%>
-							<td class="align-middle">${work.jobNo}</td>
+					<tbody>
+					    <c:forEach var="workNo" items="${uniqueWorkNoSet}">
+					        <c:set var="work" value="${list.stream().filter(work -> work.workNo == workNo).findFirst().orElse(null)}" />
+					        <tr>
+					            <td class="align-middle">${work.workReportDate}</td>
+					            <td class="align-middle">${work.workTitle}</td>
+					            <td class="align-middle">
+					                <span class="badge statusBadge" data-work-status="${work.workStatus}"></span>
+					            </td>
+					            <td class="align-middle">${work.workType}</td>
+					            <td class="align-middle">${work.workSup}</td>
+					            <td class="align-middle">${work.jobNo}</td>
+					        </tr>
+					    </c:forEach>
+					</tbody>
 
-                        </tr>
-                    </c:forEach>
-                </tbody>
             </table>
         </div>
     </div>

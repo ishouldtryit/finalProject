@@ -105,20 +105,20 @@
      <jsp:include page="/WEB-INF/views/message/messageAside.jsp"></jsp:include>
    
     <div class="message-actions">
-	  <div class="d-flex justify-content-between">
-	    <div class="">
-	      <button class="message-reply-btn btn btn-outline-info">
-	        <i class="fa-solid fa-reply" style="color:darkblue"></i> 답장
-	      </button>
-	      <button class="message-delete-btn btn btn-outline-primary ms-2">
-	        <i class="fa-solid fa-xmark" style="color:red;"></i> 삭제
-	      </button>
-	    </div>
-	    <a href="${pageContext.request.contextPath}/message/receive" class="message-list-btn btn btn-outline-secondary">
-	      <i class="fa-solid fa-list" style="color:gray"></i> 목록
-	    </a>
-	  </div>
-	</div>
+     <div class="d-flex justify-content-between">
+       <div class="">
+         <button class="message-reply-btn btn btn-outline-info">
+           <i class="fa-solid fa-reply" style="color:darkblue"></i> 답장
+         </button>
+         <button class="message-delete-btn btn btn-outline-primary ms-2">
+           <i class="fa-solid fa-xmark" style="color:red;"></i> 삭제
+         </button>
+       </div>
+       <a href="${pageContext.request.contextPath}/message/receive" class="message-list-btn btn btn-outline-secondary">
+         <i class="fa-solid fa-list" style="color:gray"></i> 목록
+       </a>
+     </div>
+   </div>
 
     
 

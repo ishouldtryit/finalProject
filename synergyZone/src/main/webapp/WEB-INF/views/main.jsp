@@ -104,11 +104,11 @@ html, body {
          </div>
 
          <div class="col bg-info text-light p-2">
-            <input type="text" class="form-control" placeholder="검색어 입력">
+            
          </div>
 
          <div class="col bg-info text-light p-1 d-flex justify-content-end">
-            <a href=#><i class="bi bi-diagram-3 fs-2"></i></a> 
+            <a href="${pageContext.request.contextPath}/address/list"><i class="bi bi-diagram-3 fs-2"></i></a> 
             <a href=#><i class="bi bi-bell fs-2 ms-3"></i></a>
             <a href=#><i class="bi bi-person-circle fs-2 ms-3"></i></a> 
             <a href=#><i class="bi bi-power fs-2 ms-3 me-2" data-bs-toggle="modal"
@@ -129,12 +129,17 @@ html, body {
                <p class="text-center">일정</p>
             </a> 
             
-               <a href="${pageContext.request.contextPath}/message/receive">
-            <i class="bi bi-envelope fs-3 d-flex justify-content-center mt-4"></i>
+             <a href="${pageContext.request.contextPath}/message/receive">
+            	<i class="bi bi-envelope fs-3 d-flex justify-content-center mt-4"></i>
                <p class="text-center">쪽지</p>
             </a> 
             
-            <a href="#"> <i
+            <a href="${pageContext.request.contextPath}/approval/write">
+            	<i class="bi bi-check2-square fs-3 d-flex justify-content-center mt-3"></i>
+                <p class="text-center">결재</p>
+            </a>
+            
+            <a href="${pageContext.request.contextPath}/workboard/list"> <i
                class="bi bi-pencil-square fs-3 d-flex justify-content-center mt-4"></i>
                <p class="text-center">업무</p>
             </a> 
@@ -145,6 +150,11 @@ html, body {
                <a href="${pageContext.request.contextPath}/address/list">
             <i class="bi bi-journals fs-3 d-flex justify-content-center mt-4"></i>
                <p class="text-center">주소록</p>
+            </a>
+            
+             <a href="${pageContext.request.contextPath}/commute/record">
+            	<i class="bi bi-smartwatch fs-3 d-flex justify-content-center mt-3"></i>
+                <p class="text-center">근태</p>
             </a>
          </div>
 

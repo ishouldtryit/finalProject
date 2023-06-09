@@ -6,7 +6,13 @@
   .pointable {
     cursor: pointer;
   }
-  
+    .profileImage {
+    width: 200px;
+    height: auto;
+    object-fit: contain;
+    max-width: 100%;
+    max-height: 100%;
+  }
   
 </style>
 <div id="app">
@@ -118,15 +124,23 @@
                               {{approval.approvalWithDrafterDto.draftTitle}}
                               
                               </td>
-                           <td>{{approval.approvalWithDrafterDto.empName}}</td>
+                           <td>
+	                           <span class="pointable" @click="showDrafterInfoModal(index)">
+	                           		{{approval.approvalWithDrafterDto.empName}}
+	                           </span>
+                           </td>
 							<td v-if="approval.approvalWithDrafterDto.statusCode === approval.approverList.length">
 							  -
 							</td>
 							<td v-else>
-							  {{ approval.approverList[approval.approvalWithDrafterDto.statusCode].empName }}
+								<span class="pointable"  @click="showNowApproverInfoModal(index)">
+								  {{ approval.approverList[approval.approvalWithDrafterDto.statusCode].empName }}
+								</span>
 							</td>
                            <td>
-                              {{ approval.approverList[approval.approverList.length - 1].empName }}
+	                           	<span class="pointable"  @click="showFinalApproverInfoModal(index)">
+	                              {{ approval.approverList[approval.approverList.length - 1].empName }}
+	                           	</span>
                            </td>
                      <td>
                        <span v-if="approval.approvalWithDrafterDto.resultCode === 0" class="badge bg-success">
@@ -190,6 +204,100 @@
             </div>
          </div>   
         </div>
+        
+        	<!-- 기안자 회원 정보 modal -->
+	<div class="modal" tabindex="-1" role="dialog" ref="drafterInfoModal"  >
+        <div class="modal-dialog modal-dialog-centered modal-md" role="document" >
+           <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="employeeModalLabel"></h5>
+		        
+		     <div class="profile-image">
+			    <img class="profileImage" height="auto" :src="getAttachmentUrl(ApprovalWithPageVO.approvalDataVO[empTarget].approvalWithDrafterDto.attachmentNo)" alt="프로필 이미지">
+			</div>
+			
+			  <div class="modal-body">
+		        <p><strong>사원번호 :</strong> <span>{{ApprovalWithPageVO.approvalDataVO[empTarget].approvalWithDrafterDto.drafterNo}}</span></p>
+		        <p><strong>이름 :</strong> <span>{{ApprovalWithPageVO.approvalDataVO[empTarget].approvalWithDrafterDto.empName}}</span></p>
+		        <p><strong>전화번호 :</strong> <span>{{ApprovalWithPageVO.approvalDataVO[empTarget].approvalWithDrafterDto.empPhone}}</span></p>
+		        <p><strong>이메일 :</strong> <span>{{ApprovalWithPageVO.approvalDataVO[empTarget].approvalWithDrafterDto.empEmail}}</span></p>
+		        <p><strong>주소 :</strong> <span>{{ApprovalWithPageVO.approvalDataVO[empTarget].approvalWithDrafterDto.empAddress}}</span></p>
+		        <p><strong>상세주소 :</strong> <span>{{ApprovalWithPageVO.approvalDataVO[empTarget].approvalWithDrafterDto.empDetailAddress}}</span></p>
+		        <p><strong>부서 :</strong> <span>{{ApprovalWithPageVO.approvalDataVO[empTarget].approvalWithDrafterDto.deptName}}</span></p> 
+		        <p><strong>직위 :</strong> <span>{{ApprovalWithPageVO.approvalDataVO[empTarget].approvalWithDrafterDto.jobName}}</span></p> 
+		        <!-- 정보 추가 가능 -->
+		      </div>
+      
+		      </div>
+		      <div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="hideDrafterInfoModal">닫기</button>	      
+	            </div>
+		    </div>
+          </div>
+      </div>
+      
+        	<!-- 현재 결재자 회원 정보 modal -->
+	<div class="modal" tabindex="-1" role="dialog" ref="nowApproverInfoModal"  >
+        <div class="modal-dialog modal-dialog-centered modal-md" role="document" >
+           <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="employeeModalLabel"></h5>
+		        
+		     <div class="profile-image">
+			    <img class="profileImage" height="auto" :src="getAttachmentUrl(ApprovalWithPageVO.approvalDataVO[empTarget].approverList[ApprovalWithPageVO.approvalDataVO[empTarget].approvalWithDrafterDto.statusCode].attachmentNo)" alt="프로필 이미지">
+			</div>
+			
+			  <div class="modal-body">
+		        <p><strong>사원번호 :</strong> <span>{{ApprovalWithPageVO.approvalDataVO[empTarget].approverList[ApprovalWithPageVO.approvalDataVO[empTarget].approvalWithDrafterDto.statusCode].empNo}}</span></p>
+		        <p><strong>이름 :</strong> <span>{{ApprovalWithPageVO.approvalDataVO[empTarget].approverList[ApprovalWithPageVO.approvalDataVO[empTarget].approvalWithDrafterDto.statusCode].empName}}</span></p>
+		        <p><strong>전화번호 :</strong> <span>{{ApprovalWithPageVO.approvalDataVO[empTarget].approverList[ApprovalWithPageVO.approvalDataVO[empTarget].approvalWithDrafterDto.statusCode].empPhone}}</span></p>
+		        <p><strong>이메일 :</strong> <span>{{ApprovalWithPageVO.approvalDataVO[empTarget].approverList[ApprovalWithPageVO.approvalDataVO[empTarget].approvalWithDrafterDto.statusCode].empEmail}}</span></p>
+		        <p><strong>주소 :</strong> <span>{{ApprovalWithPageVO.approvalDataVO[empTarget].approverList[ApprovalWithPageVO.approvalDataVO[empTarget].approvalWithDrafterDto.statusCode].empAddress}}</span></p>
+		        <p><strong>상세주소 :</strong> <span>{{ApprovalWithPageVO.approvalDataVO[empTarget].approverList[ApprovalWithPageVO.approvalDataVO[empTarget].approvalWithDrafterDto.statusCode].empDetailAddress}}</span></p>
+		        <p><strong>부서 :</strong> <span>{{ApprovalWithPageVO.approvalDataVO[empTarget].approverList[ApprovalWithPageVO.approvalDataVO[empTarget].approvalWithDrafterDto.statusCode].deptName}}</span></p> <!-- 부서 정보를 표시할 곳 -->
+		        <p><strong>직위 :</strong> <span>{{ApprovalWithPageVO.approvalDataVO[empTarget].approverList[ApprovalWithPageVO.approvalDataVO[empTarget].approvalWithDrafterDto.statusCode].jobName}}</span></p> <!-- 직위 정보를 표시할 곳 -->
+		        <!-- 정보 추가 가능 -->
+		      </div>
+      
+		      </div>
+		      <div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="hideNowApproverInfoModal">닫기</button>	      
+	            </div>
+		    </div>
+          </div>
+      </div>
+        	<!-- 최종 결재자 회원 정보 modal -->
+	<div class="modal" tabindex="-1" role="dialog" ref="finalApproverInfoModal"  >
+        <div class="modal-dialog modal-dialog-centered modal-md" role="document" >
+           <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="employeeModalLabel"></h5>
+		        
+		     <div class="profile-image">
+			    <img class="profileImage" :src="getAttachmentUrl(ApprovalWithPageVO.approvalDataVO[empTarget].approverList[ApprovalWithPageVO.approvalDataVO[empTarget].approverList.length - 1].attachmentNo)" alt="프로필 이미지">
+			</div>
+			
+			  <div class="modal-body">
+		        <p><strong>사원번호 :</strong> <span>{{ApprovalWithPageVO.approvalDataVO[empTarget].approverList[ApprovalWithPageVO.approvalDataVO[empTarget].approverList.length - 1].empNo}}</span></p>
+		        <p><strong>이름 :</strong> <span>{{ApprovalWithPageVO.approvalDataVO[empTarget].approverList[ApprovalWithPageVO.approvalDataVO[empTarget].approverList.length - 1].empName}}</span></p>
+		        <p><strong>전화번호 :</strong> <span>{{ApprovalWithPageVO.approvalDataVO[empTarget].approverList[ApprovalWithPageVO.approvalDataVO[empTarget].approverList.length - 1].empPhone}}</span></p>
+		        <p><strong>이메일 :</strong> <span>{{ApprovalWithPageVO.approvalDataVO[empTarget].approverList[ApprovalWithPageVO.approvalDataVO[empTarget].approverList.length - 1].empEmail}}</span></p>
+		        <p><strong>주소 :</strong> <span>{{ApprovalWithPageVO.approvalDataVO[empTarget].approverList[ApprovalWithPageVO.approvalDataVO[empTarget].approverList.length - 1].empAddress}}</span></p>
+		        <p><strong>상세주소 :</strong> <span>{{ApprovalWithPageVO.approvalDataVO[empTarget].approverList[ApprovalWithPageVO.approvalDataVO[empTarget].approverList.length - 1].empDetailAddress}}</span></p>
+		        <p><strong>부서 :</strong> <span>{{ApprovalWithPageVO.approvalDataVO[empTarget].approverList[ApprovalWithPageVO.approvalDataVO[empTarget].approverList.length - 1].deptName}}</span></p> 
+		        <p><strong>직위 :</strong> <span>{{ApprovalWithPageVO.approvalDataVO[empTarget].approverList[ApprovalWithPageVO.approvalDataVO[empTarget].approverList.length - 1].jobName}}</span></p>
+		        <!-- 정보 추가 가능 -->
+		      </div>
+      
+		      </div>
+		      <div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="hideFinalApproverInfoModal">닫기</button>	      
+	            </div>
+		    </div>
+          </div>
+      </div>
+        
+        
 </div>
 
 
@@ -202,7 +310,8 @@
                    ApprovalWithPageVO : null,
                    pageStatus : "allPage",
                    isemergency : false,
-                   
+                   empInfoModal : null,
+                   empTarget : 0,
                 };
             },
             computed:{
@@ -213,7 +322,6 @@
                     const resp = await axios.get("/rest/approval/myList");
                     this.ApprovalWithPageVO = resp.data;
                 },
-                
                 
                 async allList(){ //전체 목록 호출
                 	await this.loadData();	
@@ -363,10 +471,50 @@
                     this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
                 },
                 
+                showDrafterInfoModal(index){	//기안자 정보 모달 보이기
+                	this.drafterInfoModal.show();
+                	this.empTarget = index;
+                },
+                
+                hideDrafterInfoModal(){	//기안자 정보 모달 숨기기
+                	this.drafterInfoModal.hide();
+                },
+                
+                showNowApproverInfoModal(index){	//현재 결재자 정보 모달 보이기
+                	this.nowApproverInfoModal.show();
+                	this.empTarget = index;
+                },
+                
+                hideNowApproverInfoModal(){	//현재 결재자정보 모달 숨기기
+                	this.nowApproverInfoModal.hide();
+                },
+                
+                showFinalApproverInfoModal(index){	//최종 결재자 정보 모달 보이기
+                	this.finalApproverInfoModal.show();
+                	this.empTarget = index;
+                },
+                
+                hideFinalApproverInfoModal(){	//최종 결재자 정보 모달 숨기기
+                	this.finalApproverInfoModal.hide();
+                },
+                getAttachmentUrl(attachmentNo) { //프로필 사진 주소
+                    if (attachmentNo === null) {
+                      return "/static/img/dummydog.jpg";
+                    } else {
+                      return "/attachment/download?attachmentNo=" + attachmentNo;
+                    }
+                 },
             },
+            
             created(){
                this.loadData();
-            }
+            },
+            updated(){
+                this.drafterInfoModal = new bootstrap.Modal(this.$refs.drafterInfoModal);
+                this.nowApproverInfoModal = new bootstrap.Modal(this.$refs.nowApproverInfoModal);
+                this.finalApproverInfoModal = new bootstrap.Modal(this.$refs.finalApproverInfoModal);
+
+             },            
         }).mount("#app");
     </script>
 

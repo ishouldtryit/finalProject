@@ -61,7 +61,10 @@
         height: 50px;
         margin-top: 2px;
       }
-             a{
+      		a{
+      			text-decoration: none;
+      		}
+            .bi{
                 text-decoration: none;
                 color:#ffffff;
             }
@@ -96,10 +99,10 @@
                </a>
              </div>
          
-             <div class="col col-2 bg-info text-light p-2">
+             <div class="col col-2 bg-info text-light">
              </div>
                      
-             <div id="app1" class="col col-3 bg-info text-light p-1 d-flex justify-content-end">
+             <div id="app1" class="col col-3 bg-info text-light p-1 d-flex justify-content-end align-items-center">
             <h5 class="text-light mt-3 me-4" style="margin-bottom: 10px; color: black; font-weight: normal;"> 
         <strong>{{ employeeInfo.empName }}</strong> 님 환영합니다.
     </h5>
@@ -110,7 +113,7 @@
         data-bs-target="#logoutModal"></i></a>
                
     <div class="profile-image employee-name1">
-        <img width="34" height="34" :src="getProfileImageUrl(employeeInfo.attachmentNo)" alt="" style="border-radius: 50%; margin-top: 8px; margin-right: 7px; margin-left: 7px;">
+        <img width="34" height="34" :src="getProfileImageUrl(employeeInfo.attachmentNo)" alt="" style="border-radius: 50%; margin-top: 3px; margin-right: 7px; margin-left: 7px;">
     </div>
 		 </div>
          </div>
@@ -121,7 +124,7 @@
     <aside>
         <div class="wrapper d-flex align-items-stretch" >
                <nav id="sidebar" class="bg-info">
-                   <div class="p-4 pt-5" style=" min-height: 70vh;">
+                   <div class="p-4 pt-5" style=" min-height: 100vh;">
                        <a href="#"><h3 class="text-light mb-5">그룹웨어</h3></a>
                        <ul class="list-unstyled components mb-5">
                         <li>

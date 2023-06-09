@@ -46,6 +46,9 @@
 
 <div class="container">
     <div class="row mb-3 d-flex">
+    <div class="row center mb-3">
+        <h3>자유 게시판</h3>
+    </div>
  <form class="d-flex" action="list" method="get">
     <c:choose>
       <c:when test="${vo.column == 'board_content'}">
@@ -164,4 +167,3 @@
 
   
 
-<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

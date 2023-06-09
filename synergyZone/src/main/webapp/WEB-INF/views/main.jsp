@@ -251,8 +251,8 @@ html, body {
                style="height: 315px; width: 348px; margin-top: 320px; margin-left: 102px;">
                <form action="/logout" method="post">
                <button type="submit">로그아웃</button>
-            </form>
-               </div>
+            	</form>
+            </div>
          </div>
 
          <div class="col col-3 mt-4">

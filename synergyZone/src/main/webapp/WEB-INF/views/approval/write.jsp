@@ -16,6 +16,11 @@
    .btn{
    width: 120px;
    }
+   html,body{
+   	height: 100%;
+
+  }
+   
 </style>
 
 
@@ -777,4 +782,3 @@
   }).mount("#app");
 </script>
 
-<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

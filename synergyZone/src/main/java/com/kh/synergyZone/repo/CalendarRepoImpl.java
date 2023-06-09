@@ -40,14 +40,15 @@ public class CalendarRepoImpl implements CalendarRepo{
 
 
    @Override
-   public Map<String,Object> detailView(CalendarVO calendarVO) {
-      Map<String,Object> test = sqlSession.selectOne("Calendar.detailView", calendarVO);
+   public Map<String, Object> detailView(CalendarVO calendarVO) {
       return sqlSession.selectOne("Calendar.detailView", calendarVO);
    }
-
+   
    @Override
-   public CalendarVO detailView(int seq) {
+   public CalendarVO detailView2(int seq) {
       return sqlSession.selectOne("Calendar.detailView2", seq);
    }
+   
+   
 
 }

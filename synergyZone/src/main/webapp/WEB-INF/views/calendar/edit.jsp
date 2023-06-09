@@ -35,23 +35,23 @@ $(document).ready(function() {
 
 <%-- 답글일 때는 정보가 한 개 더 전송되어야 한다(boardParent) --%>
 <div class="container">
-<form method="post" action="/edit">
+<form method="post" action="/calendar/edit">
    <!-- 제목 -->
    <div class="row center">
             <h2>일정 수정</h2>
    </div>
-   <input type="hidden" id="seq" name="seq" value="${result.SEQ}">
+   <input type="hidden" id="seq" name="seq" value="${result.seq}">
     <div class="row p-3" >
          <label for="draftTitle" class="form-label">제목</label>
-         <input type="text" id="title" name="title"  value= "${result.TITLE}" class="form-control">
+         <input type="text" id="title" name="title"  value= "${result.title}" class="form-control">
        </div>
 
        <div class="row p-3">
          <label for="content" class="form-label" v-model="CalendarVO.content">내용</label>
-         <textarea id="content" name="content" required style="min-height: 300px;" class="form-control"> ${result.CONTENT} </textarea>
+         <textarea id="content" name="content" required style="min-height: 300px;" class="form-control"> ${result.content} </textarea>
        </div>
-          시작일    <input type="date"  value= "${result.START_DTM}" id ="start_dtm" name="start_dtm" size="10"/ >
-          종료일    <input type="date"  value= "${result.END_DTM}" id= "end_dtm" name="end_dtm" size="10"/>
+          시작일    <input type="date"  value= "${result.start_dtm}" id ="start_dtm" name="start_dtm" size="10"/ >
+          종료일    <input type="date"  value= "${result.end_dtm}" id= "end_dtm" name="end_dtm" size="10"/>
        <div class="row mt-4">
 
 

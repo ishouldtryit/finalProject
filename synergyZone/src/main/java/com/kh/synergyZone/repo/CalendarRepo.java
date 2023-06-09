@@ -14,8 +14,10 @@ public interface CalendarRepo {
 
    Map<String, Object> detailView(CalendarVO vo);
    
-   CalendarVO detailView(int seq);
+   CalendarVO detailView2(int seq);
    
    void updateDate(CalendarVO vo);
+   
+   
    
 }

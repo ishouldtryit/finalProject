@@ -45,4 +45,9 @@ public class CalendarRepoImpl implements CalendarRepo{
 		return sqlSession.selectOne("Calendar.detailView", calendarVO);
 	}
 
+	@Override
+	public CalendarVO detailView(int seq) {
+		return sqlSession.selectOne("Calendar.detailView2", seq);
+	}
+
 }

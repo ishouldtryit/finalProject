@@ -1,11 +1,16 @@
 package com.kh.synergyZone.controller;
 
+import com.kh.synergyZone.repo.CalendarRepo;
 import com.kh.synergyZone.service.CalendarService;
 import com.kh.synergyZone.vo.CalendarVO;
+
+import io.micrometer.core.instrument.util.StringUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -16,6 +21,9 @@ import java.util.Map;
 @RequestMapping("/calendar")
 public class CalendarController {
 
+	@Autowired
+	private CalendarRepo calendarRepo;
+	
    @Autowired
    private CalendarService calendarService;
 
@@ -50,6 +58,8 @@ public class CalendarController {
 
        }
    }
+   
+   
     // 등록
     @PostMapping("/insertDate")
     public String insertPage(Model model, @ModelAttribute("vo") CalendarVO vo,  HttpSession session,
@@ -61,9 +71,9 @@ public class CalendarController {
         calendarService.insertDate(vo);
         return "redirect:/calendar/calendar";
     }
-
+    
     // 수정
-    @PostMapping("/updateDate")
+    @PostMapping("/edit")
     public String updateDate(Model model, @ModelAttribute("vo") CalendarVO vo,  HttpSession session,
                              @RequestParam(required = false, defaultValue = "") String keyword) throws IOException {
         String empNo = (String) session.getAttribute("empNo");
@@ -74,8 +84,23 @@ public class CalendarController {
         return "redirect:/calendar/calendar";
     }
 
+    @GetMapping("/edit")
+    public String edit(Model model, 
+            @ModelAttribute("vo") CalendarVO vo,
+            @RequestParam(required = false, defaultValue = "") String keyword,
+            @RequestParam int seq) throws IOException {
 
+        // seq 값을 vo 객체에 설정합니다.
+        vo.setSeq(seq);
 
+        if(vo.getSeq() == null || vo.getSeq().equals("")) {
+            return "calendar/calendar"; 
+        } else {
+            CalendarVO rsMap = calendarRepo.detailView(seq);
+            model.addAttribute("result", rsMap);
+            return "calendar/edit";
+        }
+    }
 /*   @PostMapping("/detailView")
     public ModelAndView detailView(Model model, @ModelAttribute("vo") CalendarVO vo, HttpSession session,
                                    @RequestParam(required = false, defaultValue = "") String keyword) throws IOException {

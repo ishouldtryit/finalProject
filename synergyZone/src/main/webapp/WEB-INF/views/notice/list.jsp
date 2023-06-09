@@ -46,6 +46,9 @@
 
 <div class="container">
     <div class="row mb-3 d-flex">
+     <div class="row center mb-3">
+        <h3>공지 게시판</h3>
+    </div>
  <form class="d-flex" action="list" method="get">
     <c:choose>
       <c:when test="${vo.column == 'notice_content'}">
@@ -79,11 +82,12 @@
     </c:choose>
 <input class="form-control me-sm-2" type="search" placeholder="검색어" name="keyword" value="${vo.keyword}" style="width: 13%;">
 		  <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
-       <div class="col-md-6 d-flex">
-    <a href="/notice/write" class="btn btn-info">글쓰기</a>
+		  <c:if test="${loginUser.empAdmin=='Y'}">
+		    <a href="/notice/write" class="btn btn-info ms-2">글쓰기</a>
+		  </c:if>
     </form>
   	</div>
-</div>
+
 <div class="row mt-4">
 <table class="table table-hover">
   <thead>
@@ -136,7 +140,7 @@
     </tbody>
 </table> 
 </div>
-
+</div>
 <br>
     
     	<!-- 페이징 영역 -->
@@ -159,8 +163,6 @@
 		    </li>
 		  </ul>
 		</div>
-	</div>
-</div>
 
   
 

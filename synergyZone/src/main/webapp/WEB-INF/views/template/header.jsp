@@ -203,7 +203,7 @@
                                        <a href="${pageContext.request.contextPath}/workboard/list">부서 업무일지</a>
                                    </li>
                                    <li>
-                                       <a href="${pageContext.request.contextPath}/workboard/reportList">내 업무일지</a>
+                                       <a href="${pageContext.request.contextPath}/workboard/myWorkList">내 업무일지</a>
                                    </li>
                                     <li>
                                        <a href="${pageContext.request.contextPath}/workboard/supList">공유받은 업무일지</a>

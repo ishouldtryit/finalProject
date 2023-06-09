@@ -99,13 +99,14 @@
                </a>
              </div>
          
-             <div class="col col-2 bg-info text-light">
+             <div class="col col-1 bg-info text-light">
              </div>
                      
-             <div id="app1" class="col col-3 bg-info text-light p-1 d-flex justify-content-end align-items-center">
-            <h5 class="text-light mt-3 me-4" style="margin-bottom: 10px; color: black; font-weight: normal;"> 
-        <strong>{{ employeeInfo.empName }}</strong> 님 환영합니다.
-    </h5>
+             <div id="app1" class="col col-4 bg-info text-light p-1 d-flex justify-content-end align-items-center">
+             <h5 class="text-light mt-3 me-4" style="margin-bottom: 10px; 
+            color: black; font-weight: normal; font-size: 18px;">
+         <strong>{{ employeeInfo.empName }}</strong> 님 환영합니다.
+     </h5>
 
     <a href="${pageContext.request.contextPath}/address/list"><i class="bi bi-diagram-3 fs-2"></i></a> 
     <a href=#><i class="bi bi-bell fs-2 ms-3"></i></a>
@@ -113,7 +114,7 @@
         data-bs-target="#logoutModal"></i></a>
                
     <div class="profile-image employee-name1">
-        <img width="34" height="34" :src="getProfileImageUrl(employeeInfo.attachmentNo)" alt="" style="border-radius: 50%; margin-top: 3px; margin-right: 7px; margin-left: 7px;">
+        <img width="34" height="34" :src="getProfileImageUrl(employeeInfo.attachmentNo)" alt="" style="border-radius: 50%; margin-top: 0px; margin-right: 7px; margin-left: 7px;">
     </div>
 		 </div>
          </div>
@@ -293,29 +294,29 @@
                    </div>
                </nav>
  <script>
- Vue.createApp({
-	  data() {
-	    return {
-	      employeeInfo: null,
-	    };
-	  },
-	  methods: {
-	    async fetchEmployeeInfo() {
-	      const resp = await axios.get('/rest/employeeInfo/all');
-	      this.employeeInfo = resp.data;
-	    },
-	    getProfileImageUrl(attachmentNo) {
-	      if (attachmentNo > 0) {
-	        return '/attachment/download?attachmentNo=' + attachmentNo;
-	      } else {
-	        return 'https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg';
-	      }
-	    },
-	  },
-	  created() {
-	    this.fetchEmployeeInfo();
-	  },
-	}).mount("#app1");
-</script>    
+  Vue.createApp({
+    data() {
+      return {
+        employeeInfo: null,
+      };
+    },
+    methods: {
+      async fetchEmployeeInfo() {
+        const resp = await axios.get('/rest/employeeInfo/all');
+        this.employeeInfo = resp.data;
+      },
+      getProfileImageUrl(attachmentNo) {
+        if (attachmentNo > 0) {
+          return '/attachment/download?attachmentNo=' + attachmentNo;
+        } else {
+          return 'https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg';
+        }
+      },
+    },
+    created() {
+      this.fetchEmployeeInfo();
+    },
+  }).mount("#app1");
+</script>
 
                <!-- 내용 -->

@@ -36,7 +36,7 @@
 </head>
 <body>
 	<div class="container" id="app">
-		<form action="/commute/trip" method="post">
+		<form action="/commute/trip" method="post" v-on:submit="submitForm">
 			<table class="table">
 				<tr>
 					<th>유형/구분</th>
@@ -50,8 +50,7 @@
 					<th>대상자</th>
 					<td>
 						<button type="button" class="btn btn-primary"
-							v-on:click="showSupModal">대상자 추가</button>
-						<button type="button">선택 삭제</button> <br>
+							v-on:click="showSupModal">대상자 관리</button>
 						<table class="table" id="supListTable">
 							<thead>
 								<tr>
@@ -62,11 +61,11 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td><input type="checkbox"></td>
-									<td>영업팀</td>
-									<td>사원</td>
-									<td>테스트사원</td>
+								<tr v-for="(sup, index) in supList" :key="index">
+									<td></td>
+									<td>{{ sup.department.deptName }}</td>
+									<td>{{ sup.supList.jobName }}</td>
+									<td>{{ sup.supList.empName }}</td>
 								</tr>
 							</tbody>
 						</table>
@@ -128,7 +127,7 @@
 				</tr>
 			</table>
 			<input type="hidden" name="">
-			<button>등록</button>
+			<button type="submit">등록</button>
 			<br>
 			<hr>
 			<br>
@@ -233,8 +232,6 @@
 					</div>
 					<div class="modal-footer">
 						<div class="row">
-							<button type="button" class="btn btn-primary" @click="addSupToList">추가</button>
-						
 							<button type="button" class="btn btn-secondary ml-auto"
 								data-bs-dismiss="modal" @click="hideEmployeeList">닫기</button>
 						</div>
@@ -252,7 +249,8 @@
 
 
 </body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
   Vue.createApp({
@@ -363,13 +361,42 @@
           }, 1000);
         }
       },
-     
+      addSupToList() {
+     		// 선택한 대상자 정보를 supList에 추가
+     		const selectedSup = {
+     			supList: this.selectedEmployee,
+     			department: this.selectedDepartment.departmentDto,
+     		};
+     		this.supList.push(selectedSup);
+
+     		// 모달 창 닫기
+     		this.hideSupModal();
+      },
+      
+      submitForm() {
+          // 서버로 전송할 데이터 준비
+          const formData = {
+            supList: this.supList
+          };
+
+          // 서버로 POST 요청 전송
+          axios.post('/commute/trip', formData)
+            .then(response => {
+              // 요청 성공 처리
+              console.log(response.data);
+            })
+            .catch(error => {
+              // 요청 실패 처리
+              console.error(error);
+            });
+        },
         
     },
     
     mounted(){
        this.supModal = new bootstrap.Modal(this.$refs.SupModal);
-    },
+
+   	},
     created() {
       this.loadData();
     },

@@ -220,6 +220,16 @@
 		                                </li>
 		                            </ul>
 		                        </li>
+		                        
+		                        <li><a href="#commuteSubmenu" data-toggle="collapse"
+									aria-expanded="false" class="dropdown-toggle">근태관리</a>
+									<ul class="collapse list-unstyled" id="commuteSubmenu">
+										<li><a href="/commute/write">휴가 신청 </a></li>
+										<li><a href="/commute/trip">출장 신청</a></li>
+										<li><a href="/commute/record">근무시간 집계현황 </a></li>
+										<li><a href="/commute/vacation">휴가 신청내역</a></li>
+										<li><a href="/commute/tripList">출장 신청내역</a></li>
+									</ul></li>
 	
 	                        <li>
 	                            <a href="#">공지사항</a>

@@ -6,56 +6,56 @@
 
 
 <mapper namespace="Calendar">
-	
-	<insert id="insertDate">
-		insert into CALENDAR
-		(	 SEQ
-			,CONTENT
-			,TITLE
-			,EMP_NO
-			,EMP_NAME
-			,START_DTM
-			,END_DTM
-		)
-		values
-		(	 CALENDAR_SEQ.NEXTVAL
-			,#{content}
-			,#{title}
-			,#{emp_no}
-			,#{emp_name}
-			,#{start_dtm}
-			,#{end_dtm}
-		)
-	</insert>
+   
+   <insert id="insertDate">
+      insert into CALENDAR
+      (    SEQ
+         ,CONTENT
+         ,TITLE
+         ,EMP_NO
+         ,EMP_NAME
+         ,START_DTM
+         ,END_DTM
+      )
+      values
+      (    CALENDAR_SEQ.NEXTVAL
+         ,#{content}
+         ,#{title}
+         ,#{emp_no}
+         ,#{emp_name}
+         ,#{start_dtm}
+         ,#{end_dtm}
+      )
+   </insert>
 
-	<!-- delete -->
-	<delete id="delete">
-		delete
-		from CALENDAR
-		where SEQ =#{seq}
-	</delete>
+   <!-- delete -->
+   <delete id="delete">
+      delete
+      from CALENDAR
+      where SEQ =#{seq}
+   </delete>
 
-	<!-- 전체 조회용으로 조건문 없이 조회 추 후 요건 추가 시 수정 -->
-	<select id="getDate"  resultType="map" >
-		select * from CALENDAR
-	</select>
+   <!-- 전체 조회용으로 조건문 없이 조회 추 후 요건 추가 시 수정 -->
+   <select id="getDate"  resultType="map" >
+      select * from CALENDAR
+   </select>
 
-	<!-- update -->
-	<update id="updateDate">
-		update CALENDAR
-		set CONTENT  =#{content},
-		TITLE  =#{title},
-		START_DTM =#{start_dtm},
-		END_DTM =#{end_dtm}
-		where SEQ =#{seq}
-	</update>
-	<select id="detailView"  resultType="map" >
-		select * from CALENDAR
-		where seq =#{seq}
-	</select>
-	
-	<select id="detailView2"  resultType="CalendarVO" >
-		select * from CALENDAR
-		where seq = #{seq}
-	</select>
+   <!-- update -->
+   <update id="updateDate">
+      update CALENDAR
+      set CONTENT  =#{content},
+      TITLE  =#{title},
+      START_DTM =#{start_dtm},
+      END_DTM =#{end_dtm}
+      where SEQ =#{seq}
+   </update>
+   <select id="detailView"  resultType="map" >
+      select * from CALENDAR
+      where seq =#{seq}
+   </select>
+   
+   <select id="detailView2"  resultType="CalendarVO" >
+      select * from CALENDAR
+      where seq = #{seq}
+   </select>
 </mapper>

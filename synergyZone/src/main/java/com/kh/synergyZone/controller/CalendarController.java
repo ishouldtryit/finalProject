@@ -21,9 +21,9 @@ import java.util.Map;
 @RequestMapping("/calendar")
 public class CalendarController {
 
-	@Autowired
-	private CalendarRepo calendarRepo;
-	
+   @Autowired
+   private CalendarRepo calendarRepo;
+   
    @Autowired
    private CalendarService calendarService;
 
@@ -75,7 +75,7 @@ public class CalendarController {
     // 수정
     @PostMapping("/edit")
     public String updateDate(Model model, @ModelAttribute("vo") CalendarVO vo,  HttpSession session,
-                             @RequestParam(required = false, defaultValue = "") String keyword) throws IOException {
+                             @RequestParam(required = false, defaultValue =  "HttpServletRequest request, HttpServletResponse response, CalendarVO") String keyword) throws IOException {
         String empNo = (String) session.getAttribute("empNo");
         String empName = (String) session.getAttribute("empName");
         vo.setEmp_no(empNo);
@@ -85,31 +85,21 @@ public class CalendarController {
     }
 
     @GetMapping("/edit")
-    public String edit(Model model, 
+    public String edit(Model model,
             @ModelAttribute("vo") CalendarVO vo,
-            @RequestParam(required = false, defaultValue = "") String keyword,
+            @RequestParam(required = false, defaultValue =  "HttpServletRequest request, HttpServletResponse response, CalendarVO") String keyword,
             @RequestParam int seq) throws IOException {
-
         // seq 값을 vo 객체에 설정합니다.
         vo.setSeq(seq);
 
         if(vo.getSeq() == null || vo.getSeq().equals("")) {
             return "calendar/calendar"; 
         } else {
-            CalendarVO rsMap = calendarRepo.detailView(seq);
+            CalendarVO rsMap = calendarRepo.detailView2(seq);
             model.addAttribute("result", rsMap);
             return "calendar/edit";
         }
     }
-/*   @PostMapping("/detailView")
-    public ModelAndView detailView(Model model, @ModelAttribute("vo") CalendarVO vo, HttpSession session,
-                                   @RequestParam(required = false, defaultValue = "") String keyword) throws IOException {
-        ModelAndView mv = new ModelAndView("calendar/insertPage");
-        Map<String, Object> rsMap= calendarService.detailView(vo);
-        mv.setViewName("redirect:/insertDate");
-        mv.addObject("result", rsMap);
-        return mv;
-    } */
 
 
     // 삭제

@@ -28,8 +28,8 @@
     document.addEventListener('DOMContentLoaded', function() {
       var calendarEl = document.getElementById('calendar');
       var calendar = new FullCalendar.Calendar(calendarEl, {
-    	 
-    	  
+        
+         
         headerToolbar: {
           left: 'prev,next today',
           center: 'title',
@@ -48,17 +48,17 @@
         selectable: true,
         events: events,
         eventClick: function(event) {
-        	
+           
           let seq = event.event.extendedProps.seq;
           let empno = event.event.extendedProps.empno;
           document.getElementById('editBtn').addEventListener('click', function() {
-        	    // 페이지 이동
-        	    window.location.href = "/calendar/edit?seq=" + seq;
-        	  });
+               // 페이지 이동
+               window.location.href = "/calendar/edit?seq=" + seq;
+             });
           document.getElementById('eventTitle').textContent = event.event.title;
           document.getElementById('eventStart').textContent = moment(event.event.start).format('YYYY년 MM월 DD일 HH:mm:ss');
           document.getElementById('eventEnd').textContent = moment(event.event.end).format('YYYY년 MM월 DD일 HH:mm:ss');
-		
+      
           // 모달을 표시 (Bootstrap 5):
           var eventModal = new bootstrap.Modal(document.getElementById('eventModal'));
           eventModal.show();
@@ -68,25 +68,25 @@
       calendar.render();
     });
     document.getElementById('deleteBtn').onclick = function() {
-    	  var deleteConfirm = confirm("정말로 이 일정을 삭제하시겠습니까?");
-    	  if (deleteConfirm) {
-    	    event.event.remove(); // 캘린더 이벤트를 삭제합니다
-    	    eventModal.hide(); // 모달 창을 닫습니다
-    	   	$.ajax({
-      		  type: "POST",
-      		url: "/calendar/deleteDate?seq=" + seq,
-      		  data: { seq: seq, empno: empno },
-      		  success: function(response) {
-      		    // 요청이 성공적으로 처리되면 실행되는 함수
-      		    alert("일정이 성공적으로 삭제되었습니다.");
-      		  },
-      		  error: function(jqXHR, textStatus, errorThrown) {
-      		    // 요청 처리 실패시 실행되는 함수
-      		    alert("오류가 발생했습니다. 다시 시도해주세요.");
-      		  }
-      		});
-    	  }
-    	};
+         var deleteConfirm = confirm("정말로 이 일정을 삭제하시겠습니까?");
+         if (deleteConfirm) {
+           event.event.remove(); // 캘린더 이벤트를 삭제합니다
+           eventModal.hide(); // 모달 창을 닫습니다
+             $.ajax({
+              type: "POST",
+            url: "/calendar/deleteDate?seq=" + seq,
+              data: { seq: seq, empno: empno },
+              success: function(response) {
+                // 요청이 성공적으로 처리되면 실행되는 함수
+                alert("일정이 성공적으로 삭제되었습니다.");
+              },
+              error: function(jqXHR, textStatus, errorThrown) {
+                // 요청 처리 실패시 실행되는 함수
+                alert("오류가 발생했습니다. 다시 시도해주세요.");
+              }
+            });
+         }
+       };
  
   </script>
   <style>
@@ -120,7 +120,7 @@
           <!-- 추가하려는 정보에 따라 요소를 추가 -->
         </div>
        
-		<div class="modal-footer">
+      <div class="modal-footer">
   <button type="button" id="editBtn" class="btn btn-info">수정</button>
   <button type="button" id="deleteBtn" class="btn btn-danger">삭제</button>
   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>

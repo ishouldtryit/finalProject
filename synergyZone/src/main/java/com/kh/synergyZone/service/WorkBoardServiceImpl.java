@@ -51,20 +51,35 @@ public class WorkBoardServiceImpl implements WorkBoardService{
 		dir.mkdirs();
 	}
 	
-	@Transactional
 	@Override
-	public void write(WorkBoardDto workBoardDto, WorkBoardVO workBoardVO) throws IllegalStateException, IOException {
-		
+	public void write(WorkBoardDto workBoardDto, List<MultipartFile> attachments) throws IllegalStateException, IOException {
 	    workBoardRepo.insert(workBoardDto);
-	    
-	    if(workBoardVO.getAttachList() == null || workBoardVO.getAttachList().size() <= 0) {
-	    	System.out.print("error");
-	    	return;
+
+	    for (MultipartFile attach : attachments) {
+	        if (!attach.isEmpty()) {
+	            // Generate attachment number
+	            int attachmentNo = attachmentRepo.sequence();
+
+	            // Save file
+	            File target = new File(dir, String.valueOf(attachmentNo));
+	            attach.transferTo(target);
+
+	            // Store in the database
+	            attachmentRepo.insert(AttachmentDto.builder()
+	                    .attachmentNo(attachmentNo)
+	                    .attachmentName(attach.getOriginalFilename())
+	                    .attachmentType(attach.getContentType())
+	                    .attachmentSize(attach.getSize())
+	                    .build());
+	            
+	            workFileRepo.insert(WorkFileDto.builder()
+	            		.workNo(workBoardDto.getWorkNo())
+	            		.attachmentNo(attachmentNo)
+	            		.build());
+	        }
 	    }
-	    workBoardVO.getAttachList().forEach(attach ->{
-	    	attach.setWorkNo(workBoardDto.getWorkNo());
-	    	workAttachRepo.insert(attach);
-	    });
+	    
+	    System.out.println("Selected file count: " + attachments.size());
 	 }
 
 	@Override
@@ -83,6 +98,7 @@ public class WorkBoardServiceImpl implements WorkBoardService{
 
 	@Override
 	public void updateFile(int workNo, List<MultipartFile> attachments) throws IllegalStateException, IOException {
+		
 		deleteFile(workNo);
 		
 		for (MultipartFile attach : attachments) {

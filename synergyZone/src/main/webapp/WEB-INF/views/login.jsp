@@ -4,8 +4,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>SynergyZone</title>
  <!-- <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"> -->
+ <link rel="icon" href="${pageContext.request.contextPath}/static/favicon.ico" type="image/x-icon">
+ 
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.2.3/journal/bootstrap.min.css">
     <style>
         a{
@@ -51,9 +53,8 @@
                     </div>
                 </div>
                 
-                <div class="row mt-1">
+                <div class="row mt-2">
                     <div class="col text-center">
-                        <label class="ms-1 me-1">/</label>
                         <a href="employee/findPw">비밀번호 찾기</a>
                     </div>
                 </div>

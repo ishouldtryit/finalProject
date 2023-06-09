@@ -158,12 +158,12 @@ $(function () {
   .attr("href", "/message/receive/detail?messageNo=" + message.messageNo);
 
 
-          // 메세지 색상 설정 (읽은 메세지는 회색, 안 읽은 메세지는 블루)
+          // 메세지 색상 설정 (읽은 메세지는 연하게, 안읽은건 진하게)
           if (message.messageReadTime != null) {
-            $(newReceiveMsgRow).find("a").addClass("");
-          } else {
-            $(newReceiveMsgRow).find("a").addClass("");
-          }
+		  $(newReceiveMsgRow).find("a").addClass("");
+		} else {
+		  $(newReceiveMsgRow).find("a").addClass("unread-message");
+		}
           
           $(".target").append(newReceiveMsgRow);
         }
@@ -193,95 +193,100 @@ $(function () {
   }
 
   function loadPagination(pageVo) {
-    const paginationContainer = $(".pagination");
-    paginationContainer.empty();
-    // 비동기 페이지네이션 추가
-    // <<
-    if (pageVo.first) {
+  const paginationContainer = $(".pagination");
+  paginationContainer.empty();
+
+  // <<
+  if (pageVo.first) {
+    paginationContainer.append(
+      $("<a>")
+        .addClass("disabled")
+        .append($("<i>").addClass("fa-solid fa-angles-left"))
+    );
+  } else {
+    paginationContainer.append(
+      $("<a>")
+        .attr(
+          "href",
+          `/message/receive?${pageVo.parameter}&page=1&${pageVo.addParameter}`
+        )
+        .append($("<i>").addClass("fa-solid fa-angles-left"))
+    );
+  }
+
+  // <
+  if (pageVo.prev) {
+    paginationContainer.append(
+      $("<a>")
+        .attr(
+          "href",
+          `/message/receive?${pageVo.parameter}&page=${pageVo.prevPage}&${pageVo.addParameter}`
+        )
+        .append($("<i>").addClass("fa-solid fa-angle-left"))
+    );
+  } else {
+    paginationContainer.append(
+      $("<a>")
+        .addClass("disabled")
+        .append($("<i>").addClass("fa-solid fa-angle-left disabled"))
+    );
+  }
+
+  // 숫자
+  for (let i = pageVo.startBlock; i <= pageVo.finishBlock; i++) {
+    if (pageVo.page === i) {
       paginationContainer.append(
-        $("<a>")
-          .addClass("disabled")
-          .append($("<i>").addClass("fa-solid fa-angles-left"))
+        $("<a>").addClass("on disabled").text(`${i}`)
       );
     } else {
       paginationContainer.append(
         $("<a>")
           .attr(
             "href",
-            `/message/receive?${pageVo.parameter}&page=1&${pageVo.addParameter}`
+            `/message/receive?${pageVo.parameter}&page=${i}&${pageVo.addParameter}`
           )
-          .append($("<i>").addClass("fa-solid fa-angles-left"))
-      );
-    }
-    // <
-    if (pageVo.prev) {
-      paginationContainer.append(
-        $("<a>")
-          .attr(
-            "href",
-            `/message/receive?${pageVo.parameter}&page=${pageVo.prevPage}&${pageVo.addParameter}`
-          )
-          .append($("<i>").addClass("fa-solid fa-angle-left"))
-      );
-    } else {
-      paginationContainer.append(
-        $("<a>")
-          .addClass("disabled")
-          .append($("<i>").addClass("fa-solid fa-angle-left disabled"))
-      );
-    }
-    // 숫자
-    for (let i = pageVo.startBlock; i <= pageVo.finishBlock; i++) {
-      if (pageVo.page === i) {
-        paginationContainer.append(
-          $("<a>").addClass("on disabled").text(`${i}`)
-        );
-      } else {
-        paginationContainer.append(
-          $("<a>")
-            .attr(
-              "href",
-              `/message/receive?${pageVo.parameter}&page=${i}&${pageVo.addParameter}`
-            )
-            .text(`${i}`)
-        );
-      }
-    }
-    // >
-    if (pageVo.next) {
-      paginationContainer.append(
-        $("<a>")
-          .attr(
-            "href",
-            `/message/receive?${pageVo.parameter}&page=${pageVo.nextPage}&${pageVo.addParameter}`
-          )
-          .append($("<i>").addClass("fa-solid fa-angle-right"))
-      );
-    } else {
-      paginationContainer.append(
-        $("<a>")
-          .addClass("disabled")
-          .append($("<i>").addClass("fa-solid fa-angle-right"))
-      );
-    }
-    // >>
-    if (pageVo.last) {
-      paginationContainer.append(
-        $("<a>")
-          .addClass("disabled")
-          .append($("<i>").addClass("fa-solid fa-angles-right"))
-      );
-    } else {
-      paginationContainer.append(
-        $("<a>")
-          .attr(
-            "href",
-            `/message/receive?${pageVo.parameter}&page=${pageVo.totalPage}&${pageVo.addParameter}`
-          )
-          .append($("<i>").addClass("fa-solid fa-angles-right"))
+          .text(`${i}`)
       );
     }
   }
+
+  // >
+  if (pageVo.next) {
+    paginationContainer.append(
+      $("<a>")
+        .attr(
+          "href",
+          `/message/receive?${pageVo.parameter}&page=${pageVo.nextPage}&${pageVo.addParameter}`
+        )
+        .append($("<i>").addClass("fa-solid fa-angle-right"))
+    );
+  } else {
+    paginationContainer.append(
+      $("<a>")
+        .addClass("disabled")
+        .append($("<i>").addClass("fa-solid fa-angle-right"))
+    );
+  }
+
+  // >>
+  if (pageVo.last) {
+    paginationContainer.append(
+      $("<a>")
+        .addClass("disabled")
+        .append($("<i>").addClass("fa-solid fa-angles-right"))
+    );
+  } else {
+    paginationContainer.append(
+      $("<a>")
+        .attr(
+          "href",
+          `/message/receive?${pageVo.parameter}&page=${pageVo.totalPage}&${pageVo.addParameter}`
+        )
+        .append($("<i>").addClass("fa-solid fa-angles-right"))
+    );
+  }
+}
+
 
 	  // option 선택
   $(".column-option").each(function () {

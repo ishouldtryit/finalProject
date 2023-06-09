@@ -52,7 +52,7 @@
 	          						<div class="col-8 p-1" >
 								      <input type="text" class="form-control " placeholder="이름" v-model="searchName">
 	          						</div>
-	          						<div class="col-2 border rounded" >
+	          						<div class="col-2 border rounded">
 								      <span @click="search" style="cursor: pointer;" title="검색" class="d-flex justify-content-center align-items-center">
 								      	<i class="fa-solid fa-magnifying-glass p-2"></i>
 								      </span>

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.synergyZone.dto.SupWithWorkDto;
 import com.kh.synergyZone.dto.WorkReportDto;
-import com.kh.synergyZone.vo.ReportWithWorkBoardVO;
 
 @Repository
 public class WorkReportRepoImpl implements WorkReportRepo {

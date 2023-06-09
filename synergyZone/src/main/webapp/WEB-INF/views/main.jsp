@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>main</title>
+<title>SynergyZone</title>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"> -->
 <link rel="stylesheet" type="text/css"
@@ -15,7 +15,7 @@
 <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
 <link rel="stylesheet"
    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
-
+	<link rel="icon" href="${pageContext.request.contextPath}/static/favicon.ico" type="image/x-icon">
 <style>
 #img {
    width: 280px;
@@ -68,6 +68,8 @@ html, body {
    color:red;
    font-weight: bold;
 }
+
+
 </style>
 </head>
 <body>
@@ -103,18 +105,24 @@ html, body {
             <img src="static/img/logo.png" id="img" class="p-1">
          </div>
 
-         <div class="col bg-info text-light p-2">
-            <input type="text" class="form-control" placeholder="검색어 입력">
+         <div class="col col-2 bg-info text-light p-2">
+            
          </div>
 
-         <div class="col bg-info text-light p-1 d-flex justify-content-end">
-            <a href=#><i class="bi bi-diagram-3 fs-2"></i></a> 
-            <a href=#><i class="bi bi-bell fs-2 ms-3"></i></a>
-            <a href=#><i class="bi bi-person-circle fs-2 ms-3"></i></a> 
-            <a href=#><i class="bi bi-power fs-2 ms-3 me-2" data-bs-toggle="modal"
-               data-bs-target="#logoutModal"></i></a>
-         </div>
-      </div>
+         <div class="col col-3 bg-info text-light p-1 d-flex justify-content-end">
+    <h5 class="text-light mt-3 me-4" style="margin-bottom: 10px; color: black; font-weight: normal;"> 
+        <strong>{{ employeeInfo.empName }}</strong> 님 환영합니다.
+    </h5>
+
+    <a href="${pageContext.request.contextPath}/address/list"><i class="bi bi-diagram-3 fs-2"></i></a> 
+    <a href=#><i class="bi bi-bell fs-2 ms-3"></i></a>
+    <a href=#><i class="bi bi-power fs-2 ms-3 me-2" data-bs-toggle="modal"
+        data-bs-target="#logoutModal"></i></a>
+               
+    <div class="profile-image employee-name">
+        <img width="34" height="34" :src="getProfileImageUrl(employeeInfo.attachmentNo)" alt="" style="border-radius: 50%; margin-top: 8px; margin-right: 7px; margin-left: 7px;">
+    </div>
+</div>
 
 
       <div class="row">
@@ -129,12 +137,17 @@ html, body {
                <p class="text-center">일정</p>
             </a> 
             
-               <a href="${pageContext.request.contextPath}/message/receive">
-            <i class="bi bi-envelope fs-3 d-flex justify-content-center mt-4"></i>
+             <a href="${pageContext.request.contextPath}/message/receive">
+            	<i class="bi bi-envelope fs-3 d-flex justify-content-center mt-4"></i>
                <p class="text-center">쪽지</p>
             </a> 
             
-            <a href="#"> <i
+            <a href="${pageContext.request.contextPath}/approval/write">
+            	<i class="bi bi-check2-square fs-3 d-flex justify-content-center mt-3"></i>
+                <p class="text-center">결재</p>
+            </a>
+            
+            <a href="${pageContext.request.contextPath}/workboard/list"> <i
                class="bi bi-pencil-square fs-3 d-flex justify-content-center mt-4"></i>
                <p class="text-center">업무</p>
             </a> 
@@ -146,6 +159,11 @@ html, body {
             <i class="bi bi-journals fs-3 d-flex justify-content-center mt-4"></i>
                <p class="text-center">주소록</p>
             </a>
+            
+             <a href="${pageContext.request.contextPath}/commute/record">
+            	<i class="bi bi-smartwatch fs-3 d-flex justify-content-center mt-3"></i>
+                <p class="text-center">근태</p>
+            </a>
          </div>
 
 
@@ -153,10 +171,11 @@ html, body {
 
            <div class="bg-light border p-2" style="height: 230px; width: 290px; margin-left: 15px;">
 			  <div class="d-flex justify-content-center">
-			    <div class="profile-image employee-name">
-			      <img width="100" height="100" :src="getProfileImageUrl(employeeInfo.attachmentNo)" alt="" style="border-radius: 50%; margin-top: 10px;">
-			    </div>
-			  </div>
+		  <div class="profile-image employee-name">
+		    <img width="100" height="100" :src="getProfileImageUrl(employeeInfo.attachmentNo)" alt="" style="border-radius: 50%; margin-top: 10px; cursor: pointer;" onclick="openModal()">
+		  </div>
+		</div>
+
 			
 			  <h5 class="text-center mt-3" style="font-weight: bold; margin-bottom: 5px;">{{ employeeInfo.empName }}</h5>
 			  <p class="text-center mt-1" style="font-weight: ; margin-bottom: 5px;">{{ employeeInfo.deptName }}</p>
@@ -232,8 +251,8 @@ html, body {
                style="height: 315px; width: 348px; margin-top: 320px; margin-left: 102px;">
                <form action="/logout" method="post">
                <button type="submit">로그아웃</button>
-            </form>
-               </div>
+            	</form>
+            </div>
          </div>
 
          <div class="col col-3 mt-4">
@@ -391,6 +410,7 @@ html, body {
 
    </div>
 
+
    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
    <script async src="https://app1.weatherwidget.org/js/?id=ww_7fd843d3cd9e8"></script>
@@ -532,6 +552,7 @@ html, body {
     });
 
 </script>
+
 
 </body>
 </html>

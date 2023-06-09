@@ -36,7 +36,7 @@
 					<i class="fa-solid fa-share fa-rotate-180"></i>
 					반려
 				</button>
-				<button type="button" class="btn btn-outline-info ms-2" v-if="isDrafterAndIsRecall" >
+				<button type="button" class="btn btn-outline-info ms-2" v-if="isDrafterAndIsRecall" @click="showDraftEditModal">
 					<i class="fa-solid fa-user-pen"></i>
 					문서 수정
 				</button>
@@ -241,6 +241,33 @@
             </div>
            </div>
        </div>
+       
+	<!-- 문서 수정 modal -->
+	<div class="modal" tabindex="-1" role="dialog" ref="draftEditModal"  >
+        <div class="modal-dialog modal-dialog-centered modal-md" role="document" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">문서 수정</h5>
+                </div>
+                <div class="modal-body">
+                	<div class="container-fluid" >
+                		<div class="row">
+                			<h5 class="text-primary">정말 수정 하시겠습니까??</h5>
+                		</div>
+      				</div>  	
+                </div>
+                	
+                <div class="modal-footer">
+                	<div class="row">
+	                	<div class="col">
+	                  	  <button type="button" class="btn btn-danger ms-2" data-bs-dismiss="modal" @click="draftEdit">확인</button>
+	                  	  <button type="button" class="btn btn-secondary ms-2" data-bs-dismiss="modal" @click="hideDraftEditModal">닫기</button>
+	                	</div>
+                    </div>
+                </div>
+            </div>
+           </div>
+       </div>
    
 	<!-- 결재 modal -->
 	<div class="modal" tabindex="-1" role="dialog" ref="draftApprovalModal"  >
@@ -320,9 +347,11 @@
     		  loginUser : "",
     		  approvalWithDrafterDto : {},
     	  },
+    	  
     	  approvalInfoModal : null,
     	  approvalRecallModal : null,
     	  reApprovalModal : null,
+    	  draftEditModal : null,
     	  draftApprovalModal : null,
     	  
     	  approvalReason : "",
@@ -417,6 +446,14 @@
         	this.draftReturnModal.hide();
         },
         
+        showDraftEditModal(){	//문서 수정 모달 보이기
+        	this.draftEditModal.show();
+        },
+        
+        hideDraftEditModal(){	//문서 수정 모달 숨기기
+        	this.draftEditModal.hide();
+        },
+        
         async approvalRecall(){	//문서 회수
             const urlParams = new URLSearchParams(window.location.search);
             const draftNo = urlParams.get("draftNo");
@@ -448,6 +485,12 @@
             });
             window.location.href = "/approval/waitApproverList";  	
         },
+        
+        async draftEdit(){	//수정하기
+            const urlParams = new URLSearchParams(window.location.search);
+            const draftNo = urlParams.get("draftNo");
+            window.location.href = "edit?draftNo=" + draftNo;	
+        },
 
     },
     
@@ -457,6 +500,7 @@
     	this.reApprovalModal = new bootstrap.Modal(this.$refs.reApprovalModal);
     	this.draftApprovalModal = new bootstrap.Modal(this.$refs.draftApprovalModal);
     	this.draftReturnModal = new bootstrap.Modal(this.$refs.draftReturnModal);
+    	this.draftEditModal = new bootstrap.Modal(this.$refs.draftEditModal);
     },
     created() {
       this.loadData();

@@ -47,6 +47,7 @@
 	        알맞은 검색 결과가 없습니다.
 		    </div>
 		</c:if>
+		
     	<!-- 사원 목록 테이블 -->
 	<div class="row">
 	  <div class="col" style="margin: 0 auto;">
@@ -312,5 +313,4 @@ function addToMyList() {
   });
 </script>
     
-  <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
     

@@ -16,7 +16,7 @@
 	</insert>
 	
 	<select id="list" resultType="loginRecordDto">
-		select * from log order by log_login asc
+		select * from log order by log_login desc
 	</select>
 	
 	<select id="complexSearch" resultType="LoginRecordInfoDto">

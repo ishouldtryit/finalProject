@@ -68,6 +68,8 @@ html, body {
    color:red;
    font-weight: bold;
 }
+
+
 </style>
 </head>
 <body>
@@ -103,18 +105,24 @@ html, body {
             <img src="static/img/logo.png" id="img" class="p-1">
          </div>
 
-         <div class="col bg-info text-light p-2">
+         <div class="col col-2 bg-info text-light p-2">
             
          </div>
 
-         <div class="col bg-info text-light p-1 d-flex justify-content-end">
-            <a href="${pageContext.request.contextPath}/address/list"><i class="bi bi-diagram-3 fs-2"></i></a> 
-            <a href=#><i class="bi bi-bell fs-2 ms-3"></i></a>
-            <a href=#><i class="bi bi-person-circle fs-2 ms-3"></i></a> 
-            <a href=#><i class="bi bi-power fs-2 ms-3 me-2" data-bs-toggle="modal"
-               data-bs-target="#logoutModal"></i></a>
-         </div>
-      </div>
+         <div class="col col-3 bg-info text-light p-1 d-flex justify-content-end">
+    <h5 class="text-light mt-3 me-4" style="margin-bottom: 10px; color: black; font-weight: normal;"> 
+        <strong>{{ employeeInfo.empName }}</strong> 님 환영합니다.
+    </h5>
+
+    <a href="${pageContext.request.contextPath}/address/list"><i class="bi bi-diagram-3 fs-2"></i></a> 
+    <a href=#><i class="bi bi-bell fs-2 ms-3"></i></a>
+    <a href=#><i class="bi bi-power fs-2 ms-3 me-2" data-bs-toggle="modal"
+        data-bs-target="#logoutModal"></i></a>
+               
+    <div class="profile-image employee-name">
+        <img width="34" height="34" :src="getProfileImageUrl(employeeInfo.attachmentNo)" alt="" style="border-radius: 50%; margin-top: 8px; margin-right: 7px; margin-left: 7px;">
+    </div>
+</div>
 
 
       <div class="row">
@@ -163,10 +171,11 @@ html, body {
 
            <div class="bg-light border p-2" style="height: 230px; width: 290px; margin-left: 15px;">
 			  <div class="d-flex justify-content-center">
-			    <div class="profile-image employee-name">
-			      <img width="100" height="100" :src="getProfileImageUrl(employeeInfo.attachmentNo)" alt="" style="border-radius: 50%; margin-top: 10px;">
-			    </div>
-			  </div>
+		  <div class="profile-image employee-name">
+		    <img width="100" height="100" :src="getProfileImageUrl(employeeInfo.attachmentNo)" alt="" style="border-radius: 50%; margin-top: 10px; cursor: pointer;" onclick="openModal()">
+		  </div>
+		</div>
+
 			
 			  <h5 class="text-center mt-3" style="font-weight: bold; margin-bottom: 5px;">{{ employeeInfo.empName }}</h5>
 			  <p class="text-center mt-1" style="font-weight: ; margin-bottom: 5px;">{{ employeeInfo.deptName }}</p>
@@ -401,6 +410,7 @@ html, body {
 
    </div>
 
+
    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
    <script async src="https://app1.weatherwidget.org/js/?id=ww_7fd843d3cd9e8"></script>
@@ -542,6 +552,7 @@ html, body {
     });
 
 </script>
+
 
 </body>
 </html>

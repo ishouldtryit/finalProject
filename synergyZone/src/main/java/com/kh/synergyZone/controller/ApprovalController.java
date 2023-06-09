@@ -71,7 +71,7 @@ public class ApprovalController {
 	
 	@GetMapping("/edit")
 	public String edit() {
-		return "/approval/edit2";
+		return "/approval/edit";
 	}
 	
 	

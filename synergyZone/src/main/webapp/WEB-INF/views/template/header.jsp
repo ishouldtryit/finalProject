@@ -113,7 +113,7 @@
         data-bs-target="#logoutModal"></i></a>
                
     <div class="profile-image employee-name1">
-        <img width="34" height="34" :src="getProfileImageUrl(employeeInfo.attachmentNo)" alt="" style="border-radius: 50%; margin-top: 8px; margin-right: 7px; margin-left: 7px;">
+        <img width="34" height="34" :src="getProfileImageUrl(employeeInfo.attachmentNo)" alt="" style="border-radius: 50%; margin-top: 3px; margin-right: 7px; margin-left: 7px;">
     </div>
 		 </div>
          </div>

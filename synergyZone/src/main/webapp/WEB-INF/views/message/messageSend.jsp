@@ -6,6 +6,11 @@
 <html>
 <head>
   <meta charset="UTF-8">
+    <style>
+    a {
+      color: black;
+    }
+  </style>
   
   <style>
 .custom-pagination {

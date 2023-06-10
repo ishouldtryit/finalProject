@@ -8,7 +8,15 @@
 
 
 <div class="border container-fluid">
-
+	
+	<c:if test="${owner}">
+		<a href="/workboard/edit?workNo=${workBoardDto.workNo}" class="btn btn-light"><i class="fa-solid fa-bars" style="color: #8f8f8f;"></i>&nbsp;수정</a>
+	</c:if>
+	<c:if test="${owner || admin}">
+		<a href="/workboard/delete?workNo=${workBoardDto.workNo}" class="btn btn-light"><i class="fa-solid fa-bars" style="color: #8f8f8f;"></i>&nbsp;삭제</a>
+	</c:if>
+	<a href="/workboard/list" class="btn btn-light"><i class="fa-solid fa-bars" style="color: #8f8f8f;"></i>&nbsp;목록</a>
+	
 	<!-- 제목 -->
 	<div class="row">
 	<div class="row mt-4">
@@ -49,6 +57,22 @@
 	<div class="row mt-4" style="min-height:350px;">
 		<div class="col-md-10 offset-md-1" value="${workBoardDto.workContent}">
 			${workBoardDto.workContent}
+		</div>
+		
+		  <c:forEach var="file" items="${files}">
+                   <a href="/attachment/download?attachmentNo=${file.attachmentNo}">${file.attachmentName}</a>
+                   <c:if test="${not loop.last}">, </c:if>            
+               </c:forEach>
+               
+                <c:forEach var="workSup" items="${workSups}" varStatus="loop">
+                    ${workSup.empName}
+                    <c:if test="${not loop.last}">, </c:if>
+                </c:forEach>
+               
+		
+		
+		<div class="col-md-10 offset-md-1" value="${workBoardDto.workContent}">
+			${workBoardDto.workSecret}
 		</div>
 	</div>
 

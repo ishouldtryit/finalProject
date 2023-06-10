@@ -22,6 +22,7 @@ public class WorkEmpInfo {
 	private int workResult;
 	private String empName;
 	private int jobNo;
+	private int deptNo;
 	private String workSup;
 
 }

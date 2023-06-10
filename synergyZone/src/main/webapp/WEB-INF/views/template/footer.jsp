@@ -17,6 +17,7 @@ pageEncoding="UTF-8"%>
      		<h2>사원이름 = ${sessionScope.empName}</h2>
      		<h2>사번 = ${sessionScope.empNo}</h2>
      		<h2>사번 = ${sessionScope.jobNo}</h2>
+     		<h2>부서 = ${sessionScope.deptNo}</h2>
      		<span>
      		Copyright ©2023 SYNERGYZONE. All Rights Reserved.
      		</span>

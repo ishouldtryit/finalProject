@@ -163,20 +163,79 @@
            
            
        });
+       
+       $("#workStart").change(function() {
+    	      var workStart = new Date($(this).val());
+    	      var workDeadline = new Date($("#workDeadline").val());
+
+    	      // 이전 날짜 선택 못함
+    	      if (workDeadline < workStart) {
+    	         $("#workDeadline").val($("#workStart").val());
+    	      }
+    	   });
+
+    	   $("#workDeadline").change(function() {
+    	      var workStart = new Date($("#workStart").val());
+    	      var workDeadline = new Date($(this).val());
+
+    	      // 이전 날짜 선택 못함
+    	      if (workDeadline < workStart) {
+    	         $("#workStart").val($("#workDeadline").val());
+    	      }
+    	   });
+       
 
   });
   
   
 
   function validateForm() {
+	//비밀글
     if ($('#workSecretCheck').is(':checked')) {
       $("#workSecret").val("Y");
     } else {
       $("#workSecret").val("N");
     }
     
+ // 제목 입력 확인
+    var workTitle = $('[name=workTitle]').val();
+    if (workTitle.trim() === '') {
+       alert('제목을 입력해 주세요.');
+       return false;
+    }
+
+    // 종류 선택 확인
+    var workType = $('#workType').val();
+    if (workType.trim() === '') {
+       alert('종류를 선택해 주세요.');
+       return false;
+    }
+
+    // 업무 선택 확인
+    var workStatus = $('#workStatus').val();
+    if (workStatus.trim() === '') {
+       alert('상태를 선택해 주세요.');
+       return false;
+    }
+
+    // 업무일 입력 확인
+    var workStart = $('[name=workStart]').val();
+    var workDeadline = $('[name=workDeadline]').val();
+    if (workStart.trim() === '' || workDeadline.trim() === '') {
+       alert('업무일을 입력해 주세요.');
+       return false;
+    }
+
+    // 내용 입력 확인
+    var workContent = $('[name=workContent]').val();
+    if (workContent.trim() === '') {
+       alert('내용을 입력해 주세요.');
+       return false;
+    }
+
     return true;
   }
+  
 </script>
 
 
@@ -209,7 +268,7 @@
 
             <div class="row mt-4">
                <div class="col">
-                  <label class="form-label">업무</label> <select id="workStatus"
+                  <label class="form-label">상태</label> <select id="workStatus"
                      name="workStatus" class="form-select rounded">
                      <option value="">선택하세요</option>
                      <option value="0">요청</option>
@@ -220,14 +279,17 @@
                </div>
             </div>
 
-            <div class="row mt-4">
-               <div class="col">
-                  <label class="form-label">업무일</label> <input
-                     class="form-control rounded" type="date" name="workStart">
-                  ~ <input class="form-control rounded" type="date"
-                     name="workDeadline">
-               </div>
-            </div>
+			<div class="row mt-4">
+			   <div class="col">
+			      <label class="form-label">업무일</label>
+			      <div class="d-flex">
+			         <input class="form-control rounded me-2" type="date" id="workStart" name="workStart" placeholder="YYYY-MM-DD">
+			         <input class="form-control rounded" type="date" id="workDeadline" name="workDeadline" placeholder="YYYY-MM-DD">
+			      </div>
+			   </div>
+			</div>
+
+
 
             <div class="row mt-4">
                <div class="col">

@@ -8,6 +8,7 @@ encoding//src/main/webapp/WEB-INF/views/admin/detail.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/board/write.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/chat/chat.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/commute/commute.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/employee/findPw.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/login.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/message/messageAside.jsp=UTF-8
 encoding/<project>=UTF-8

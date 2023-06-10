@@ -115,7 +115,7 @@ $(document).ready(function(){
 					            </td>
 					            <td class="align-middle">${work.workType}</td>
 					            <td class="align-middle">${work.empName}</td>
-					            <td class="align-middle">${work.jobNo}</td>
+					            <td class="align-middle">${work.deptNo}</td>
 					            <td><a href="report?workNo=${work.workNo}">보고하기</a></td>
 					        </tr>
 					    </c:forEach>

@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.synergyZone.dto.CommuteRecordDto;
 import com.kh.synergyZone.dto.EmployeeProfileDto;
@@ -62,7 +63,8 @@ public class HomeController {
 				@PostMapping("/login")
 				public String login(@ModelAttribute EmployeeDto employeeDto,
 									HttpSession session,
-									HttpServletRequest request) {
+									HttpServletRequest request,
+									RedirectAttributes attr) {
 					EmployeeDto findDto = employeeService.login(employeeDto);
 					
 					if(findDto != null){
@@ -70,6 +72,7 @@ public class HomeController {
 						session.setAttribute("empName", findDto.getEmpName());
 						session.setAttribute("empNo", findDto.getEmpNo());
 						session.setAttribute("jobNo", findDto.getJobNo());
+						session.setAttribute("deptNo", findDto.getDeptNo());
 						session.setAttribute("empAdmin", findDto.getEmpAdmin());
 						
 						String ipAddress = employeeService.getLocation(request);
@@ -82,6 +85,9 @@ public class HomeController {
 						loginRecordDto.setLogBrowser(browserAddress);
 						
 						loginRecordRepo.insert(loginRecordDto);
+					} else {
+						attr.addAttribute("mode", "error");
+				        return "redirect:login";
 					}
 					
 					return "redirect:/";

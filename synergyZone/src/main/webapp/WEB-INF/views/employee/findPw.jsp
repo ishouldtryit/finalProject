@@ -16,6 +16,15 @@
         a:hover{
             color: darkblue;
         }
+        
+    .custom-alert {
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+        color: #721c24;
+        padding: .75rem 1.25rem;
+        margin-bottom: 1rem;
+        border-radius: .25rem;
+    }
     </style>
 
 </head>
@@ -28,38 +37,40 @@
                 <div class="p-5 bg-light border border-2 rounded-3">
               
                     <div class="row mt-4">
-                        <div class="col">
-                            <h2>비밀번호 찾기</h2>
-                            <h3>아이디와 본인확인 이메일을 입력해주세요</h3>
+                        <div class="col text-center">
+                            <h2 class="text-dark">비밀번호 찾기</h2>
+                            <h5 class="text-muted">사원번호와 본인확인 이메일을 입력해주세요</h5>
                         </div>
                     </div>
 
                     <div class="row mt-4">
                         <div class="col">
                             <label class="form-label">사원번호</label>
-                            <input class="form-control rounded" type="text" name="empNo">
+                            <input class="form-control rounded" type="text" v-model="empNo" name="empNo">
                         </div>
                     </div>
 
                     <div class="row mt-4">
                         <div class="col">
                             <label class="form-label">이메일</label>
-                            <input class="form-control rounded" type="text" name="empEmail">
+                            <input class="form-control rounded" type="text" v-model="empEmail" name="empEmail">
                         </div>
                     </div>
 
                     <div class="row mt-4">
                         <div class="col">
-                            <button class="btn btn-primary" type="submit">찾기</button>
+                            <button class="btn btn-primary" type="submit" @click="submitForm">찾기</button>
                         </div>
                     </div>
                     
                     <c:if test="${param.mode == 'error'}">
-                    	<div class="row mt-4">
-	                        <div class="col">
-	                            <h3 class="error">입력하신 정보와 일치하는 회원이 없습니다.</h3>
-	                        </div>
-                    	</div>
+                        <div class="row mt-4">
+                            <div class="col">
+                                <div class="alert custom-alert" role="alert">
+                                    입력하신 정보와 일치하는 회원이 없습니다.
+                                </div>
+                            </div>
+                        </div>
                     </c:if>
                 
             </div>
@@ -69,17 +80,38 @@
     </form>
     
     <script src="https://unpkg.com/vue@3.2.36"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
     <script>
-        const app = Vue.createApp({
-            data(){
-                return{
-
-                }
+        Vue.createApp({
+            data() {
+                return {
+                    empNo: "",
+                    empEmail: "",
+                };
             },
-        });
-        app.mount('#app');
+            computed: {
+                empNoValid() {
+                    return this.empNo.length > 0;
+                },
+                empEmailValid() {
+                    return this.empEmail.length > 0;
+                },
+            },
+            methods: {
+                submitForm() {
+                    if (!this.empNoValid) {
+                        alert("사원번호를 입력해 주세요.");
+                        return;
+                    } else if (!this.empEmailValid) {
+                        alert("이메일을 입력해 주세요.");
+                        return;
+                    }
+                    // Submit the form
+                    document.querySelector("form").submit();
+                },
+            },
+        }).mount("#app");
     </script>
 
   </body>

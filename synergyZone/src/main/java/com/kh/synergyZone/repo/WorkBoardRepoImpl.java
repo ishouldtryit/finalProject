@@ -28,8 +28,8 @@ public class WorkBoardRepoImpl implements WorkBoardRepo {
 	}
 
 	@Override
-	public List<WorkEmpInfo> list(int jobNo) {
-		return sqlSession.selectList("workBoard.list", jobNo);
+	public List<WorkEmpInfo> list(int deptNo) {
+		return sqlSession.selectList("workBoard.list", deptNo);
 	}
 
 	@Override
@@ -42,6 +42,11 @@ public class WorkBoardRepoImpl implements WorkBoardRepo {
 		sqlSession.update("workBoard.edit", workBoardDto);
 	}
 
+	@Override
+	public void delete(int workNo) {
+		sqlSession.delete("workBoard.delete", workNo);
+	}
+	
 	//내 업무일지
 	@Override
 	public List<WorkEmpInfo> myWorkList(String empNo) {
@@ -55,6 +60,14 @@ public class WorkBoardRepoImpl implements WorkBoardRepo {
 		 params.put("keyword", keyword);
 		 return sqlSession.selectList("workBoard.SearchMyWorkList",params);
 	}
+
+	@Override
+	public List<WorkEmpInfo> listByJobNoWithSecret(int deptNo, String empNo) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("deptNo", deptNo);
+        params.put("empNo", empNo);
+        return sqlSession.selectList("workBoard.listByJobNoWithSecret", params);
+    }
 
 	
 	

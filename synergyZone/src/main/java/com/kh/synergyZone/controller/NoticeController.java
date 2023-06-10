@@ -18,11 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.synergyZone.dto.EmployeeProfileDto;
-import com.kh.synergyZone.dto.NoticeDto;
-import com.kh.synergyZone.repo.NoticeRepo;
 import com.kh.synergyZone.repo.EmployeeProfileRepo;
+import com.kh.synergyZone.repo.EmployeeRepo;
 import com.kh.synergyZone.repo.NoticeRepo;
-import com.kh.synergyZone.service.NoticeService;
 import com.kh.synergyZone.service.NoticeService;
 import com.kh.synergyZone.vo.NoticeVO;
 import com.kh.synergyZone.vo.PaginationVO;
@@ -40,6 +38,8 @@ public class NoticeController {
    @Autowired
    private EmployeeProfileRepo employeeProfileRepo;
 
+   @Autowired
+   private EmployeeRepo employeeRepo;
    
    @GetMapping("/list")
    public String list(
@@ -57,6 +57,11 @@ public class NoticeController {
       if (profile != null && profile.getAttachmentNo() > 0) {
           model.addAttribute("employeeDto", profile);
       }
+      
+      // 로그인 한 사람 정보
+      String loginUser = (String) session.getAttribute("empNo");
+      model.addAttribute("loginUser", employeeRepo.selectOne(loginUser));
+      
       return "notice/list";
    }
    
@@ -74,13 +79,16 @@ public class NoticeController {
       NoticeVO noticeVO = noticeRepo.selectOne(noticeNo);
       String empNo = (String) session.getAttribute("empNo");
       
+      String loginUser = (String) session.getAttribute("empNo");
+      model.addAttribute("loginUser", employeeRepo.selectOne(loginUser));
+      
       boolean owner = noticeVO.getNoticeWriter() != null 
             && noticeVO.getNoticeWriter().equals(empNo);
       model.addAttribute("owner", owner);
       
    // 사용자가 관리자인지 판정 후 JSP로 전달
-      String jobName = (String) session.getAttribute("jobName");
-      boolean admin = jobName != null && jobName.equals("관리자");
+      String empAdmin = (String) session.getAttribute("empAdmin");
+      boolean admin = empAdmin != null && empAdmin.equals("y");
       model.addAttribute("admin", admin);
       
       //조회수 증가

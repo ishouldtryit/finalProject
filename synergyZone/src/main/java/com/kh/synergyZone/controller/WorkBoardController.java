@@ -163,7 +163,7 @@ public class WorkBoardController {
 	   
        model.addAttribute("employees", employeeRepo.list());
        
-      model.addAttribute("list", workBoardRepo.list());
+      model.addAttribute("list", workBoardRepo.list(0));
       return "workboard/list";
    }
    
@@ -184,26 +184,29 @@ public class WorkBoardController {
                   @RequestParam("attachments") List<MultipartFile> attachments,
                   @RequestParam("attachmentList") List<Integer> deleteList,                  
                   RedirectAttributes attr) throws IllegalStateException, IOException {
-      //workBoardService.deleteFile(workNo);
+
       // 기존 DB내에서 해당값과 맞으면 삭제시키고 아니면 버림
       
-      //첫번째 방법
+
       List<WorkFileDto> files = workFileRepo.selectAll(workNo); //DB값 찾고
       workBoardService.updateFile(workNo, attachments);
       workBoardRepo.update(workBoardDto);
+      
+      //2중 for문
       for (Integer no : deleteList) {
-       //첫번째 no가 들어갔을때
-         //2중 for문
-         for(int i=0; i<files.size();i++) {  
-            //리스트의 전체 한바퀴 돌아서 삭제 아그냥 DB구문 다시짤까 귀찮네
-            //해당 방법시 list의 값이 커질경우 성능이 매우나빠짐
-            if(no==(files.get(i).getAttachmentNo())) {
-               workBoardService.deleteFile(workNo);//파일삭제
+    	  //no값 들어올때마다 
+    	  for (WorkFileDto file : files) {
+    		  System.out.println("삭제리스트"+no);
+    		  System.out.println("파일리스트"+file.getAttachmentNo());
+    		  //no값과 files의 attachmentNo의 값이 동일한지 확인
+            if(no.equals(file.getAttachmentNo())) {
+            	System.out.println("실제삭제"+no);
+               workBoardService.deleteFile(no,workNo);//파일삭제
             }
          }
       }
       
-      // 2번째 방법 DB구문을 다시짬
+
       attr.addAttribute("workNo", workBoardDto.getWorkNo());
       return "redirect:detail";
    }

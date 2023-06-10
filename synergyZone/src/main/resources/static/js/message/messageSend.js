@@ -161,7 +161,7 @@ $(function () {
         $(newReceiveMsgRow)
 		  .find(".message-send-time-col")
 		  .text(sendTime)
-		  .attr("href", "/message/receive/detail?messageNo=" + message.messageNo);
+		  //.attr("href", "/message/receive/detail?messageNo=" + message.messageNo);
 
 
           // 메세지 읽은 시간

@@ -83,8 +83,10 @@ public class WorkBoardServiceImpl implements WorkBoardService{
 	 }
 
 	@Override
-	public void deleteFile(int attachmentNo) {
-		WorkFileDto file = workFileRepo.selectOne(attachmentNo);
+	public void deleteFile(int attachmentNo,int workNo) {
+		//이거왜 null?
+		WorkFileDto file = workFileRepo.selectOne(workNo);
+		System.out.println("검색리스트"+file);
 		if(file != null) {
 			File target = new File(dir, String.valueOf(attachmentNo));
 			if(target.exists()) {
@@ -97,8 +99,6 @@ public class WorkBoardServiceImpl implements WorkBoardService{
 
 	@Override
 	public void updateFile(int workNo, List<MultipartFile> attachments) throws IllegalStateException, IOException {
-		
-		deleteFile(workNo);
 		
 		for (MultipartFile attach : attachments) {
 	        if (!attach.isEmpty()) {

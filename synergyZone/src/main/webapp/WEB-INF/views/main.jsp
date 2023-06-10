@@ -105,14 +105,16 @@ html, body {
             <img src="static/img/logo.png" id="img" class="p-1">
          </div>
 
-         <div class="col col-2 bg-info text-light p-2">
+         <div class="col col-1 bg-info text-light p-2">
             
          </div>
 
-         <div class="col col-3 bg-info text-light p-1 d-flex justify-content-end">
-    <h5 class="text-light mt-3 me-4" style="margin-bottom: 10px; color: black; font-weight: normal;"> 
-        <strong>{{ employeeInfo.empName }}</strong> 님 환영합니다.
-    </h5>
+         <div class="col col-4 bg-info text-light p-1 d-flex justify-content-end">
+         
+    <h5 class="text-light mt-3 me-4" style="margin-bottom: 10px; 
+            color: black; font-weight: normal; font-size: 18px;">
+         <strong>{{ employeeInfo.empName }}</strong> 님 환영합니다.
+     </h5>
 
     <a href="${pageContext.request.contextPath}/address/list"><i class="bi bi-diagram-3 fs-2"></i></a> 
     <a href=#><i class="bi bi-bell fs-2 ms-3"></i></a>
@@ -251,8 +253,8 @@ html, body {
                style="height: 315px; width: 348px; margin-top: 320px; margin-left: 102px;">
                <form action="/logout" method="post">
                <button type="submit">로그아웃</button>
-            </form>
-               </div>
+            	</form>
+            </div>
          </div>
 
          <div class="col col-3 mt-4">

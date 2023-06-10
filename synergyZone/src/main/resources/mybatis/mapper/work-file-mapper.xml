@@ -32,6 +32,6 @@
 	
 	<!-- 해당파일만 지울수 잇도록 추가 -->
 	<delete id="deleteFile">
-		delete from work_file where attachment_no = #{attachmentNo};
+		delete from work_file where attachment_no = #{attachmentNo}
 	</delete>
 </mapper>

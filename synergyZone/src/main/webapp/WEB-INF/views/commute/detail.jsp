@@ -53,10 +53,13 @@
 <body>
 	<form action="/commute/approval" method="post">
 		<div class="container">
-			<div class="row justify-content-center">
-				<h1>연차신청서</h1>
+			<div class="row justify-content-center mb-2">
+				<div class="col-auto">
+					<h3>연차신청서</h3>
+				</div>
+
 			</div>
-			<div class="d-flex justify-content-between">
+			<div class="d-flex justify-content-between mt-5">
 				<div>
 					<table class="table">
 						<tbody>
@@ -77,7 +80,7 @@
 				</div>
 
 				<div>
-					<table class="table">
+					<table class="table mr-4">
 						<tbody>
 							<tr>
 								<th>승인</th>
@@ -103,7 +106,7 @@
 					</tr>
 					<tr>
 						<th>기간일시</th>
-						<td>${list.startDate}~${list.endDate}</td>
+						<td><label class="form-label">${list.startDate}</label> ~ <label class="form-label">${list.endDate}</label></td>
 					</tr>
 					<tr>
 						<th>반차여부</th>
@@ -148,21 +151,23 @@
 					</tr>
 					<tr>
 						<th>연차일수</th>
-						<td>잔여연차:  신청연차:${list.useCount}</td>
+						<td><div class="ml-2">
+						<label>잔여연차:15</label> <label class="ml-3">신청연차:${list.useCount}</label>
+						</div></td>
 					</tr>
 					<tr>
 						<th class="align-middle">휴가사유</th>
 						<td class="align-middle">
-							<div class="">
-								<input type="text" disabled="disabled" value="${list.reason}">
+							<div class="col-6">
+								<input type="text" disabled="disabled" value="${list.reason}" class="form-control">
 							</div>
 						</td>
 					</tr>
 				</tbody>
 			</table>
-			<input type="hidden" name="used" value="${list.useCount}"> 
-			<input type="hidden" name="empNo" value="${list.empNo}">
-			<input type="hidden" name="vacationNo" value="${list.vacationNo}">
+			<input type="hidden" name="used" value="${list.useCount}"> <input
+				type="hidden" name="empNo" value="${list.empNo}"> <input
+				type="hidden" name="vacationNo" value="${list.vacationNo}">
 			<button class="btn btn-primary" id="N" type="submit" value="1"
 				name="btn">반려</button>
 			<button class="btn btn-primary" id="Y" type="submit" value="2"

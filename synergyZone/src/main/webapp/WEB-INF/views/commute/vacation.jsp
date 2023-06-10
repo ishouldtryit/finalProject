@@ -41,9 +41,12 @@
 </head>
 <body>
 	<div class="container">
-		<div class="d-flex">
-			<h1>내 연차내역</h1>
-			<h1 id="currentDate"></h1>
+		<h3>내 연차내역</h3>
+		<div class="row justify-content-center">
+			<div class="col-auto d-flex">
+				<h4 id="currentDate"></h4>
+				<button class="btn ml-2">오늘</button>
+			</div>
 		</div>
 		<hr>
 		<!-- 해당 페이지도 view로 다시 묶어서 해야함 -->
@@ -98,25 +101,29 @@
 			</div>
 		</div>
 		<hr>
-		<select name="year" id="year-select"></select>
+		<div class="row">
+			<div class="col-2">
+				<select name="year" id="year-select" class="form-select mb-3"></select>
+			</div>
+		</div>
 		<div>
 			<div id="table-container"></div>
 		</div>
-		
+
 	</div>
 
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script>
 		$(function() {
-					var currentDate = new Date();
-					var year = currentDate.getFullYear();
-					var month = currentDate.getMonth() + 1;
-					var day = currentDate.getDate();
+			var currentDate = new Date();
+			var year = currentDate.getFullYear();
+			var month = currentDate.getMonth() + 1;
+			var day = currentDate.getDate();
 
-					var formattedDate = year + '-' + ('0' + month).slice(-2)
-							+ '-' + ('0' + day).slice(-2);
-					$('#currentDate').text(formattedDate);
-				});
+			var formattedDate = year + '-' + ('0' + month).slice(-2) + '-'
+					+ ('0' + day).slice(-2);
+			$('#currentDate').text(formattedDate);
+		});
 	</script>
 	<script>
 		$(function() {
@@ -135,39 +142,43 @@
 			});
 
 			function createTable(data) {
-				  var tableElement = $("<table class='table table-hover'>");
+				var tableElement = $("<table class='table table-hover'>");
 
-				  var headerRow = $("<tr>");
-				  headerRow.append($("<th>").text("이름"));
-				  headerRow.append($("<th>").text("부서명"));
-				  headerRow.append($("<th>").text("연차사용날짜"));
-				  headerRow.append($("<th>").text("휴가 종류"));
-				  headerRow.append($("<th>").text("사유"));
-				  headerRow.append($("<th>").text("사용 연차"));
-				  tableElement.append(headerRow);
+				var headerRow = $("<tr>");
+				headerRow.append($("<th>").text("이름"));
+				headerRow.append($("<th>").text("부서명"));
+				headerRow.append($("<th>").text("연차사용날짜"));
+				headerRow.append($("<th>").text("휴가 종류"));
+				headerRow.append($("<th>").text("사유"));
+				headerRow.append($("<th>").text("사용 연차"));
+				tableElement.append(headerRow);
 
-				  if (data.length === 0) {
-				    var emptyRow = $("<tr>").append($("<td colspan=''>").text("목록이 없습니다."));
-				    tableElement.append(emptyRow);
-				    var emptyRowContainer = $("<div class='empty-row-container'>").append(tableElement);
-				    return emptyRowContainer;
-				  } else {
-				    for (var i = 0; i < data.length; i++) {
-				      var rowData = data[i];
-				      var row = $("<tr>");
+				if (data.length === 0) {
+					var emptyRow = $("<tr>").append(
+							$("<td colspan=''>").text("목록이 없습니다."));
+					tableElement.append(emptyRow);
+					var emptyRowContainer = $(
+							"<div class='empty-row-container'>").append(
+							tableElement);
+					return emptyRowContainer;
+				} else {
+					for (var i = 0; i < data.length; i++) {
+						var rowData = data[i];
+						var row = $("<tr>");
 
-				      row.append($("<td>").text(rowData.empName));
-				      row.append($("<td>").text(rowData.deptName));
-				      row.append($("<td>").text(rowData.startDate + ' ~ ' + rowData.endDate));
-				      row.append($("<td>").text(rowData.vacationName));
-				      row.append($("<td>").text(rowData.reason));
-				      row.append($("<td>").text(rowData.useCount));
+						row.append($("<td>").text(rowData.empName));
+						row.append($("<td>").text(rowData.deptName));
+						row.append($("<td>").text(
+								rowData.startDate + ' ~ ' + rowData.endDate));
+						row.append($("<td>").text(rowData.vacationName));
+						row.append($("<td>").text(rowData.reason));
+						row.append($("<td>").text(rowData.useCount));
 
-				      tableElement.append(row);
-				    }
-				    return tableElement;
-				  }
+						tableElement.append(row);
+					}
+					return tableElement;
 				}
+			}
 
 			// 현재 년도를 가져오는 함수
 			function getCurrentYear() {
@@ -219,9 +230,9 @@
 						selectedValue : selectedValue
 					},
 					success : function(data) {
-							var table = createTable(data);
-							$("#table-container").empty().append(table);
-						
+						var table = createTable(data);
+						$("#table-container").empty().append(table);
+
 					},
 					error : function() {
 						$("#table-container").text("데이터를 가져오는 데 실패했습니다.");

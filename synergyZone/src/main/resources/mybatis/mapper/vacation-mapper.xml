@@ -23,7 +23,7 @@
      
      <!-- 연차사용 -->
      <insert id="add">
-     	insert into vacation values(vacation_seq.nextval,#{empNo},#{vacationName},#{startDate},#{endDate},#{useCount},#{reason},0,sysdate,#{leave})
+     	insert into vacation(VACATION_NO,EMP_NO,VACATION_NAME,START_DATE,END_DATE,USE_COUNT,REASON,STATUS,USED_DATE,LEAVE) values(vacation_seq.nextval,#{empNo},#{vacationName},#{startDate},#{endDate},#{useCount},#{reason},0,sysdate,#{leave})
      </insert>
      
      <!-- 관리자페이지 사원 연차 사용조회 -->
@@ -34,7 +34,7 @@
      <!--  결재 반려 처리 -->
      <update id="appoval">
      	UPDATE vacation
-		SET status = #{status}
+		SET status = #{status} and RETURN_REASON = #{returnReason}
 		WHERE emp_no = #{empNo} and vacation_no= #{vacationNo}
      </update>
      

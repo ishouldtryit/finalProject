@@ -16,4 +16,5 @@ public class VacationDto {
 	private int status;
 	private Date usedDate;
 	private int leave;
+	private int returnReason;
 }

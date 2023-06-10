@@ -7,7 +7,11 @@
 </head>
 <body>
 	<div class="container">
-		<h3>신청내역</h3>
+		<div class="row justify-content-center">
+			<div class="col-auto">
+				<h3>신청내역</h3>
+			</div>
+		</div>
 		<table class="table table-hover">
 			<thead>
 				<tr>
@@ -21,27 +25,26 @@
 				</tr>
 			</thead>
 			<tbody>
-    <c:forEach items="${list}" var="item">
-        <tr class="" onclick="location.href='detail?vacationNo=${item.vacationNo}'">
-            <td>${item.empName}</td>
-            <td>${item.deptName}</td>
-            <td>${item.startDate}~${item.endDate}</td>
-            <td>${item.vacationName}</td>
-            <td>${item.useCount}</td>
-            <td>
-                <c:choose>
-                    <c:when test="${item.status == 0}">대기중</c:when>
-                </c:choose>
-            </td>
-            <td>${item.usedDate}</td>
-            
-        </tr>
-    </c:forEach>
-</tbody>
+				<c:forEach items="${list}" var="item">
+					<tr class=""
+						onclick="location.href='detail?vacationNo=${item.vacationNo}'">
+						<td>${item.empName}</td>
+						<td>${item.deptName}</td>
+						<td>${item.startDate}~${item.endDate}</td>
+						<td>${item.vacationName}</td>
+						<td>${item.useCount}</td>
+						<td><c:choose>
+								<c:when test="${item.status == 0}">대기중</c:when>
+							</c:choose></td>
+						<td>${item.usedDate}</td>
+
+					</tr>
+				</c:forEach>
+			</tbody>
 		</table>
 	</div>
 
-	
+
 
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 	<script>

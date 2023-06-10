@@ -110,28 +110,32 @@
         <div class="col-md-10 offset-md-1" value="${workBoardDto.workContent}">
             ${workBoardDto.workContent}
         </div>
-
-        <div class="col-md-10 offset-md-1">
-            <div class="row mt-4">
-                <div class="col-lg-12">
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h4 class="m-0 font-weight-bold text-info">File Attach</h4>
-                        </div>
-                        <div class="card-body">
-                            <div class="text-info">
-                                <c:forEach var="file" items="${files}">
-                                    <a href="/attachment/download?attachmentNo=${file.attachmentNo}" data-file-size="${file.attachmentSize}">
-                                        ${file.attachmentName}
-                                    </a>
-                                    <br/>
-                                </c:forEach>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+	
+		<c:if test="${files != null}">
+		
+	        <div class="col-md-10 offset-md-1">
+	            <div class="row mt-4">
+	                <div class="col-lg-12">
+	                    <div class="card shadow mb-4">
+	                        <div class="card-header py-3">
+	                            <h4 class="m-0 font-weight-bold text-info">File Attach</h4>
+	                        </div>
+	                        <div class="card-body">
+	                            <div class="text-info">
+	                                <c:forEach var="file" items="${files}">
+	                                    <a href="/attachment/download?attachmentNo=${file.attachmentNo}" data-file-size="${file.attachmentSize}">
+	                                        ${file.attachmentName}
+	                                    </a>
+	                                    <br/>
+	                                </c:forEach>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	        
+		</c:if>
     </div>
     <br>
 </div>

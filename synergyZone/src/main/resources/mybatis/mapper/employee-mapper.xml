@@ -201,12 +201,12 @@
 		where emp_no = #{empNo}
 	</update>
 	
-	<!-- 퇴사 대기 사원 카운트 -->
+	<!-- 최종 퇴사 대기 사원 카운트 -->
 	<select id="exitEmployeesCount" resultType="int">
 	 	 SELECT COUNT(*) FROM employee where is_leave = 'Y'
 	</select>
 	
-	<!-- 퇴사 대기 검색 -->
+	<!-- 최종 퇴사 대기 검색 -->
 	<select id="searchExitEmployees" resultType="EmployeeInfoDto">
 	    SELECT *
 	    FROM search_info
@@ -215,7 +215,7 @@
 	    ORDER BY ${column} ASC
 	</select>
 
-	<!-- 퇴사 대기 페이지네이션 -->
+	<!--최종 퇴사 페이지네이션 -->
 	<select id="getExitList" resultType="employeeInfoDto" parameterType="com.kh.synergyZone.vo.PaginationVO">
 	  <![CDATA[
 	  SELECT *

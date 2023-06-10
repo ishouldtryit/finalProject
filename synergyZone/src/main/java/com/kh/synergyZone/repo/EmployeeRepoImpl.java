@@ -61,7 +61,8 @@ public class EmployeeRepoImpl implements EmployeeRepo {
       sqlSession.update("employee.exit", employeeDto);
    }
    
-
+   
+   	//최종 퇴사
 	@Override
 	public void finalExit(EmployeeDto employeeDto) {
 		sqlSession.update("employee.finalExit", employeeDto);

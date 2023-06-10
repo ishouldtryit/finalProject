@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -11,10 +12,14 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -49,6 +54,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Autowired
 	private PasswordEncoder encoder;
 	
+	@Autowired
+	private JavaMailSender sender;
+	
 	private File dir;
 	
 	@PostConstruct
@@ -60,7 +68,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	
 	//회원가입
 	@Override
-	public void join(EmployeeDto employeeDto, MultipartFile attach) throws IllegalStateException, IOException {
+	public void join(EmployeeDto employeeDto, MultipartFile attach) throws IllegalStateException, IOException, MessagingException {
 		employeeRepo.insert(employeeDto);
 		
 		if(!attach.isEmpty()) {
@@ -81,6 +89,19 @@ public class EmployeeServiceImpl implements EmployeeService {
 										.attachmentNo(attachmentNo)
 									.build());
 		}
+		
+		MimeMessage message = sender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message, false,
+									StandardCharsets.UTF_8.name());
+		
+		String empNo = employeeDto.getEmpNo();
+		
+		helper.setTo(employeeDto.getEmpEmail());
+		helper.setSubject("사원번호 및 비밀번호 안내");
+		helper.setText("사원번호는 "+ empNo + "이며 비밀번호는 synergyZone12345 입니다. 로그인 후 비밀번호를 반드시 변경해주시길 바랍니다.");
+		sender.send(message);
+		
+		
 		
 	}
 	

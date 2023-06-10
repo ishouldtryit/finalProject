@@ -2,14 +2,35 @@
    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+<style>
+   .uploadResult {
+       width: 100%;
+   }
+
+   .uploadResult ul {
+       display: flex;
+       flex-flow: row;
+       justify-content: center;
+       align-items: center;
+       padding: 0;
+   }
+
+   .uploadResult ul li {
+       list-style: none;
+       padding: 10px;
+   }
+
+   .uploadResult ul li img {
+       width: 100px;
+   }
+   
+   .uploadResult ul li span {color: dimgray;}
+</style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <!-- summernote cdn -->
-<link
-   href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css"
-   rel="stylesheet">
-<script
-   src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 
 <script type="text/javascript">
   $(function() {
@@ -297,21 +318,43 @@
                </div>
             </div>
 
+<!--             <div class="row mt-4"> -->
+<!--                <div class="col"> -->
+<!--                   <label class="form-label">파일첨부</label> <input -->
+<!--                      class="form-control rounded" type="file" id="attachments" -->
+<!--                      name="attachments" multiple="multiple"> -->
+<!--                </div> -->
+<!--             </div> -->
+            
             <div class="row mt-4">
-               <div class="col">
-                  <label class="form-label">파일첨부</label> <input
-                     class="form-control rounded" type="file" id="attachments"
-                     name="attachments" multiple="multiple">
-               </div>
-            </div>
+			   <div class="col-lg-12">
+			      <div class="card shadow mb-4">
+			         <div class="card-header py-3">
+			            <h4 class="m-0 font-weight-bold text-info">File Attach</h4>
+			         </div>
+			         <div class="card-body">
+				                  <label class="form-label">파일첨부</label> <input
+				                     class="form-control rounded" type="file" id="attachments"
+				                     name="attachments" multiple="multiple">
+			            <div class="row mt-2">
+			               <div class="col">
+			                  <label class="form-label"></label>
+			                  <div id="preview"></div>
+			                  <div id="fileList"></div>
+			               </div>
+			            </div>
+			         </div>
+			      </div>
+			   </div>
+			</div>
 
-            <div class="row mt-4">
-               <div class="col">
-                  <label class="form-label">첨부된 파일 목록</label>
-                  <div id="preview"></div>
-                  <div id="fileList"></div>
-               </div>
-            </div>
+<!--             <div class="row mt-4"> -->
+<!--                <div class="col"> -->
+<!--                   <label class="form-label">첨부된 파일 목록</label> -->
+<!--                   <div id="preview"></div> -->
+<!--                   <div id="fileList"></div> -->
+<!--                </div> -->
+<!--             </div> -->
 
             <div class="row mt-4">
                <div class="col">

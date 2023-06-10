@@ -176,7 +176,7 @@
                  <div class="col">
                      <input type="hidden" name="workNo" id="workNo" value="${workBoardDto.workNo}">
                 <!-- 나머지 입력 필드들 -->
-                <button type="submit" class="btn btn-primary">보고</button>
+                <button type="button" class="btn btn-primary" @click="report">보고</button>
                  </div>
              </div>
                 
@@ -300,7 +300,18 @@
           }, 1000);
         }
       },
-     
+      
+      report() {
+    	  if (this.supList === null || this.supList.length === 0) {
+    	    alert("참조자를 선택해 주세요.");
+    	    return;
+    	  }
+
+    	  // Submit the form
+    	  document.querySelector("form").submit();
+    	},
+
+      
   	   
     },
     

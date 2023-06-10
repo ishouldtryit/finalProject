@@ -102,7 +102,7 @@ $(document).ready(function(){
                         <th>보고자</th>
 <!--                         <th>결재상태</th> -->
 						<th>부서번호(나중에삭제)</th>
-						<th>관리</th>
+<!-- 						<th>관리</th> -->
                     </tr>
                 </thead>
 					<tbody>
@@ -116,7 +116,7 @@ $(document).ready(function(){
 					            <td class="align-middle">${work.workType}</td>
 					            <td class="align-middle">${work.empName}</td>
 					            <td class="align-middle">${work.deptNo}</td>
-					            <td><a href="report?workNo=${work.workNo}">보고하기</a></td>
+<%-- 					            <td><a href="report?workNo=${work.workNo}">보고하기</a></td> --%>
 					        </tr>
 					    </c:forEach>
 					</tbody>

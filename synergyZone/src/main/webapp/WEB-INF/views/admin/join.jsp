@@ -23,11 +23,6 @@
 		  opacity: 0;
 		  cursor: pointer;
 		}
-		
-		  .custom-btn {
-		    background-color: #your-desired-color;
-		    border-color: #your-desired-color;
-		  }
     	
     </style>
 	

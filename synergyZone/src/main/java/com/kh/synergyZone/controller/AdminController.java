@@ -291,6 +291,7 @@ public class AdminController {
 		employeeDto.setEmpAddress("9999");
 		employeeDto.setEmpDetailAddress("9999");
 		employeeDto.setEmpPostcode("9999");
+		employeeDto.setIsLeave("Y");
 
 		employeeRepo.finalExit(employeeDto);
 		return "redirect:/admin/waitingList";

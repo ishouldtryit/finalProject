@@ -57,7 +57,7 @@ public class EmployeeRepoImpl implements EmployeeRepo {
    public void exit(String empNo) {
       EmployeeDto employeeDto = new EmployeeDto();
       employeeDto.setEmpNo(empNo);
-      employeeDto.setIsLeave("Y");
+      employeeDto.setIsLeave("D");
       sqlSession.update("employee.exit", employeeDto);
    }
    

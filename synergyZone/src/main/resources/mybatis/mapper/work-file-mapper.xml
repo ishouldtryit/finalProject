@@ -25,7 +25,13 @@
 		where work_no = #{workNo}
 	</update>
 	
-	<delete id="deleteFile">
+	<!-- 기존코드는 boardfile 전체를 지우는코드 -->
+	<delete id="deleteALLFile">
 		delete from work_file where work_no = #{workNo}
+	</delete>
+	
+	<!-- 해당파일만 지울수 잇도록 추가 -->
+	<delete id="deleteFile">
+		delete from work_file where attachment_no = #{attachmentNo};
 	</delete>
 </mapper>

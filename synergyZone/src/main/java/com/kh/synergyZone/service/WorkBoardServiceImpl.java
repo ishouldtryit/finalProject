@@ -83,16 +83,15 @@ public class WorkBoardServiceImpl implements WorkBoardService{
 	 }
 
 	@Override
-	public void deleteFile(int workNo) {
-		WorkFileDto file = workFileRepo.selectOne(workNo);
+	public void deleteFile(int attachmentNo) {
+		WorkFileDto file = workFileRepo.selectOne(attachmentNo);
 		if(file != null) {
-			int attachmentNo = file.getAttachmentNo();
 			File target = new File(dir, String.valueOf(attachmentNo));
 			if(target.exists()) {
 				target.delete();
 			}
 			attachmentRepo.delete(attachmentNo);
-			workFileRepo.delete(workNo);
+			workFileRepo.delete(attachmentNo);
 		}
 	}
 

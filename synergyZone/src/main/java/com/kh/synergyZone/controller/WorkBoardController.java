@@ -18,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.synergyZone.dto.WorkBoardDto;
 import com.kh.synergyZone.dto.WorkEmpInfo;
+import com.kh.synergyZone.dto.WorkFileDto;
 import com.kh.synergyZone.dto.WorkReportDto;
 import com.kh.synergyZone.repo.DepartmentRepo;
 import com.kh.synergyZone.repo.EmployeeRepo;
@@ -181,14 +182,28 @@ public class WorkBoardController {
    public String edit(@ModelAttribute WorkBoardDto workBoardDto,
                   @RequestParam int workNo,
                   @RequestParam("attachments") List<MultipartFile> attachments,
-                  
+                  @RequestParam("attachmentList") List<Integer> deleteList,                  
                   RedirectAttributes attr) throws IllegalStateException, IOException {
-//      workBoardService.deleteFile(workNo);
-	   System.out.println(attachments);
+      //workBoardService.deleteFile(workNo);
+      // 기존 DB내에서 해당값과 맞으면 삭제시키고 아니면 버림
+      
+      //첫번째 방법
+      List<WorkFileDto> files = workFileRepo.selectAll(workNo); //DB값 찾고
       workBoardService.updateFile(workNo, attachments);
-      
       workBoardRepo.update(workBoardDto);
+      for (Integer no : deleteList) {
+       //첫번째 no가 들어갔을때
+         //2중 for문
+         for(int i=0; i<files.size();i++) {  
+            //리스트의 전체 한바퀴 돌아서 삭제 아그냥 DB구문 다시짤까 귀찮네
+            //해당 방법시 list의 값이 커질경우 성능이 매우나빠짐
+            if(no==(files.get(i).getAttachmentNo())) {
+               workBoardService.deleteFile(workNo);//파일삭제
+            }
+         }
+      }
       
+      // 2번째 방법 DB구문을 다시짬
       attr.addAttribute("workNo", workBoardDto.getWorkNo());
       return "redirect:detail";
    }

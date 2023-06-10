@@ -5,17 +5,32 @@
     
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+    	$(document).ready(function() {
+    		
+    		$(".delete-button").click(function(){
+    	    	var result = confirm("정말 삭제하시겠습니까?");
+    	    	
+    	    	if(result){
+    	    		return true;
+    	    	}
+    	    	else{
+    	    		return false;
+    	    	}
+    	    });
+    	});
+    </script>
 
 
 <div class="border container-fluid">
 	
 	<c:if test="${owner}">
-		<a href="/workboard/edit?workNo=${workBoardDto.workNo}" class="btn btn-light"><i class="fa-solid fa-bars" style="color: #8f8f8f;"></i>&nbsp;수정</a>
+		<a href="/workboard/edit?workNo=${workBoardDto.workNo}" class="btn btn-light btn-sm"><i class="fa-solid fa-bars" style="color: #8f8f8f;"></i>&nbsp;수정</a>
 	</c:if>
 	<c:if test="${owner || admin}">
-		<a href="/workboard/delete?workNo=${workBoardDto.workNo}" class="btn btn-light"><i class="fa-solid fa-bars" style="color: #8f8f8f;"></i>&nbsp;삭제</a>
+		<a href="/workboard/delete?workNo=${workBoardDto.workNo}" class="btn btn-light delete-button btn-sm"><i class="fa-solid fa-bars" style="color: #8f8f8f;" ></i>&nbsp;삭제</a>
 	</c:if>
-	<a href="/workboard/list" class="btn btn-light"><i class="fa-solid fa-bars" style="color: #8f8f8f;"></i>&nbsp;목록</a>
+	<a href="/workboard/list" class="btn btn-light btn-sm"><i class="fa-solid fa-bars" style="color: #8f8f8f;"></i>&nbsp;목록</a>
 	
 	<!-- 제목 -->
 	<div class="row">

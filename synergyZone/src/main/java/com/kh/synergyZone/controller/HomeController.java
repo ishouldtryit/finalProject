@@ -52,20 +52,7 @@ public class HomeController {
 	        	  
 	            // 프로필 사진 조회
 	            EmployeeProfileDto profile = employeeProfileRepo.find(empNo); // 프로필 정보 조회
-	            model.addAttribute("profile", profile);
-	            List<MessageDto> msg = mainRepo.msg();
-	            List<BoardDto> free = mainRepo.free();
-	            List<NoticeDto> notice = mainRepo.notice();
-	            
-	            //json으로 변경
-	            ObjectMapper objectMapper = new ObjectMapper();
-	            String msgJson = objectMapper.writeValueAsString(msg);
-	            String freeJson = objectMapper.writeValueAsString(free);
-	            String noticeJson = objectMapper.writeValueAsString(notice);
-
-	            model.addAttribute("msgJson", msgJson);
-	            model.addAttribute("freeJson", freeJson);
-	            model.addAttribute("noticeJson", noticeJson);
+	            model.addAttribute("profile", profile);	      
 	            
 	              return "main"; // 로그인된 사용자는 메인 페이지로 이동
 	          }

@@ -11,47 +11,48 @@
 	src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 
 <script type="text/javascript">
-  $(function() {
-     $('[name=workContent]').summernote({
-           placeholder: '내용 작성',
-           tabsize: 4,
-           height: 250,
-           toolbar: [
-               ['style', ['style']],
-               ['font', ['bold', 'underline', 'clear']],
-               ['color', ['color']],
-               ['para', ['ul', 'ol', 'paragraph']],
-               ['table', ['table']],
-           ]
-       });
+	$(function() {
+		$('[name=workContent]').summernote(
+				{
+					placeholder : '내용 작성',
+					tabsize : 4,
+					height : 250,
+					toolbar : [ [ 'style', [ 'style' ] ],
+							[ 'font', [ 'bold', 'underline', 'clear' ] ],
+							[ 'color', [ 'color' ] ],
+							[ 'para', [ 'ul', 'ol', 'paragraph' ] ],
+							[ 'table', [ 'table' ] ], ]
+				});
 
+		//---------추가부분-------------
+		var attachmentList = [];
 
-  });
-  
-  
+		$('.delete-btn').click(function() {
+			var attachmentNo = $(this).data('attachment');
+			attachmentList.push(attachmentNo);
+			console.log(attachmentList);
+			updateAttachmentListInput();
 
-  function validateForm() {
-    if ($('#workSecretCheck').is(':checked')) {
-      $("#workSecret").val("Y");
-    } else {
-      $("#workSecret").val("N");
-    }
-    
-    return true;
-  }
-  
-  var attachmentList = [];
+			var divId = "attachment_" + attachmentNo;
+			$('#' + divId).remove();
+		});
 
-  function addToAttachmentList(attachmentNo) {
-      attachmentList.push(attachmentNo);
-      console.log(attachmentList);
-      updateAttachmentListInput();
-  }
+		function updateAttachmentListInput() {
+			var attachmentListInput = $('#attachmentList');
+			attachmentListInput.val(attachmentList.join(','));
+		}
+		//------------------------------------
+	});
 
-  function updateAttachmentListInput() {
-      var attachmentListInput = document.getElementById('attachmentList');
-      attachmentListInput.value = attachmentList.join(',');
-  }
+	function validateForm() {
+		if ($('#workSecretCheck').is(':checked')) {
+			$("#workSecret").val("Y");
+		} else {
+			$("#workSecret").val("N");
+		}
+
+		return true;
+	}
 </script>
 
 <form action="edit" method="post" enctype="multipart/form-data">
@@ -124,23 +125,26 @@
 						multiple="multiple">
 
 					<!-- 
-		                  수정사항 
+		                  프론트 수정사항 
 		                  
 		                  아이콘추가 버튼추가 
-		                  버튼 클릭시 list에 ${file.attachmentNo} 해당 값을 저장 
-		                  form으로 전송시 해당 list 값과 select한 값을 비교하여 있는것만 삭제 없으면 버림
-		                  (controller if문 참고)
+		                  버튼 클릭시 deleteList에 ${file.attachmentNo} 해당 값을 저장 
+		                  form으로 전송후 해당 list 값과 DB에서 select한 값을 비교하여 있는것만 삭제
+		                  (controller for문 참고)
 		                  추가된값은 그대로 진행
+		                  
+		                  삭제버튼을 누를경우 해당 div를 삭제해서 프론트쪽에만 안보이게처리(새로고침하면 다시나타남)
+		                  		                  
 		
 		               -->
 					첨부파일목록
 					<c:forEach var="file" items="${files}">
-						<div class="attachment">
+						<div class="attachment" id="attachment_${file.attachmentNo}">
 							<li><span
 								href="/attachment/download?attachmentNo=${file.attachmentNo}">
 									${file.attachmentNo} </span>
-								<button class="btn btn-sm" type="button"
-									onclick="addToAttachmentList(${file.attachmentNo})">
+								<button class="btn btn-sm delete-btn" type="button"
+									data-attachment="${file.attachmentNo}">
 									<i class="fa-solid fa-xmark"></i>
 								</button></li>
 						</div>

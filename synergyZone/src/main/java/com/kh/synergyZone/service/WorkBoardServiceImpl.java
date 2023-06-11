@@ -84,9 +84,8 @@ public class WorkBoardServiceImpl implements WorkBoardService{
 
 	@Override
 	public void deleteFile(int attachmentNo,int workNo) {
-		//이거왜 null?
+		//workNo로 파일이 있는지 확인 그 후 attachmentNo를 제외한 기존코드 동일
 		WorkFileDto file = workFileRepo.selectOne(workNo);
-		System.out.println("검색리스트"+file);
 		if(file != null) {
 			File target = new File(dir, String.valueOf(attachmentNo));
 			if(target.exists()) {

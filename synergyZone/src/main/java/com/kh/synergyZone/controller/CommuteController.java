@@ -184,7 +184,7 @@ public class CommuteController {
 		
 		//출장조회 필요한것들
 		
-		return "/commute/tripDetail";
+		return "/commute/detail";
 	}
 	
 	//관리자 상세 페이지

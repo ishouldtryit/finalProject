@@ -102,34 +102,57 @@
 				<table class="table">
 					<tbody>
 						<tr>
-							<th class="table-secondary">유형/구분</th>
+							<th class="table-secondary col-2">유형/구분</th>
 							<td>${list.vacationName}</td>
 						</tr>
-							<th class="table-secondary">대상자</th>
 						<tr>
 							<th class="table-secondary">대상자</th>
-							<td><label class="form-label">${list.startDate}</label>  
-							<label class="form-label">${list.endDate}</label></td>
+							<td><table class="table">
+									<thead class="table-secondary">
+										<tr>
+											<th>부서</th>
+											<th>직급</th>
+											<th>이름</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>1</td>
+											<td>2</td>
+											<td>3</td>
+										</tr>
+									</tbody>
+								</table></td>
 						</tr>
 						<tr>
-							<th class="table-secondary"></th>
+							<th class="table-secondary">일시</th>
 							<td></td>
 						</tr>
 						<tr>
-							<th class="table-secondary">연차일수</th>
-							<td><div class="ml-2">
-									<label>잔여연차:${one.total}</label> <label class="ml-3">신청연차:${list.useCount}</label>
-								</div></td>
+							<th class="table-secondary">출발지</th>
+							<td></td>
 						</tr>
 						<tr>
-							<th class="align-middle table-secondary">휴가사유</th>
-							<td class="align-middle">
-								<div class="col-6">
-									<input type="text" disabled="disabled" value="${list.reason}"
-										class="form-control">
-								</div>
-							</td>
+							<th class="align-middle table-secondary">목적지</th>
+							<td class="align-middle"></td>
 						</tr>
+						<tr>
+							<th class="align-middle table-secondary">장소</th>
+							<td class="align-middle"></td>
+						</tr>
+						<tr>
+							<th class="align-middle table-secondary">이동수단</th>
+							<td class="align-middle"></td>
+						</tr>
+						<tr>
+							<th class="align-middle table-secondary">목적</th>
+							<td class="align-middle"></td>
+						</tr>
+						<tr>
+							<th class="align-middle table-secondary">비고</th>
+							<td class="align-middle"></td>
+						</tr>
+						
 					</tbody>
 				</table>
 			</div>
@@ -139,8 +162,7 @@
 			<div class="text-right">
 				<button class="btn btn-info" id="N" type="submit" value="2"
 					name="btn">반려</button>
-				<button class="btn btn-" id="Y" type="submit" value="1"
-					name="btn">결재</button>
+				<button class="btn btn-" id="Y" type="submit" value="1" name="btn">결재</button>
 			</div>
 		</div>
 	</form>

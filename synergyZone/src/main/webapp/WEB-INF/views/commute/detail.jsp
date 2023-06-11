@@ -102,7 +102,7 @@
 				<table class="table">
 					<tbody>
 						<tr>
-							<th class="table-secondary">휴가종류</th>
+							<th class="table-secondary col-1">휴가종류</th>
 							<td>${list.vacationName}</td>
 						</tr>
 						<tr>

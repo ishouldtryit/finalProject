@@ -67,7 +67,20 @@
            } else {
                popup.style.display = "block";
            }
+           
        }
+       function logout() {
+    	   var form = document.createElement("form");
+    	    form.setAttribute("id", "logoutForm");
+    	    form.setAttribute("action", "/logout");
+    	    form.setAttribute("method", "post");
+
+    	    // form 내용을 추가하세요.
+    	    // 예: form 내부에 필요한 input 요소, 버튼 등을 추가할 수 있습니다.
+
+    	    document.body.appendChild(form);
+    	    form.submit();
+    	}
     </script>
 
 <style>
@@ -157,9 +170,9 @@ article {
 						</div>
 						<div id="popup" class="popup">
 							<ul class="text-sm list-unstyled list-inline">
-								<li><a href="#">기본정보</a></li>
-								<li><a href="#">비밀번호 변경</a></li>
-								<li><a href="#">로그아웃</a></li>
+								<li><a href="/employee/mypage">기본정보</a></li>
+								<li><a href="/employee/password">비밀번호 변경</a></li>
+								<li><a href="#" onclick="logout()">로그아웃</a></li>
 							</ul>
 						</div>
 					</div>

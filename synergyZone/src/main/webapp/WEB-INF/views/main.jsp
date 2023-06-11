@@ -31,6 +31,13 @@ a {
 	color: white;
 }
 
+a.pop{
+	color: black;
+}
+a.pop:hover{
+	
+}
+
 a:hover {
 	color: #FFEDCB;
 }
@@ -72,7 +79,43 @@ html, body {
 	color: red;
 	font-weight: bold;
 }
+
+.popup {
+	display: none;
+	position: absolute;
+	width: 125px;
+	padding: 10px;
+	background-color: white;
+	border: 1px solid black;
+	border-radius: 5px;
+	z-index: 9999;
+	top: 50px;
+	color: black;
+}
 </style>
+<script type="text/javascript">
+function togglePopup() {
+    var popup = document.getElementById("popup");
+    if (popup.style.display === "block") {
+        popup.style.display = "none";
+    } else {
+        popup.style.display = "block";
+    }
+    
+}
+function logout() {
+	   var form = document.createElement("form");
+	    form.setAttribute("id", "logoutForm");
+	    form.setAttribute("action", "/logout");
+	    form.setAttribute("method", "post");
+
+	    // form 내용을 추가하세요.
+	    // 예: form 내부에 필요한 input 요소, 버튼 등을 추가할 수 있습니다.
+
+	    document.body.appendChild(form);
+	    form.submit();
+	}
+</script>
 </head>
 <body>
 
@@ -123,10 +166,18 @@ html, body {
 					class="bi bi-power fs-2 ms-3 me-2" data-bs-toggle="modal"
 					data-bs-target="#logoutModal"></i></a>
 
-				<div class="profile-image employee-name">
+				<div class="profile-image employee-name1">
 					<img width="34" height="34"
-						:src="getProfileImageUrl(employeeInfo.attachmentNo)" alt=""
-						style="border-radius: 50%; margin-top: 8px; margin-right: 7px; margin-left: 7px;">
+						src="getProfileImageUrl(employeeInfo.attachmentNo)" alt=""
+						style="border-radius: 50%; margin-top: 0px; margin-right: 7px; margin-left: 7px;"
+						onclick="togglePopup()">
+				</div>
+				<div id="popup" class="popup">
+					<ul class="text-sm list-unstyled list-inline">
+						<li><a href="/employee/mypage" class="pop">기본정보</a></li>
+						<li><a href="/employee/password" class="pop">비밀번호 변경</a></li>
+						<li><a href="#" onclick="logout()" class="pop">로그아웃</a></li>
+					</ul>
 				</div>
 			</div>
 
@@ -240,9 +291,6 @@ html, body {
 
 					<div class="bg-light border"
 						style="height: 315px; width: 348px; margin-top: 320px; margin-left: 102px;">
-						<form action="/logout" method="post">
-							<button type="submit">로그아웃</button>
-						</form>
 					</div>
 				</div>
 

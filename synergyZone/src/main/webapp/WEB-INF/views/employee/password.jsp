@@ -61,7 +61,7 @@
                         <div class="row mt-4">
                             <div class="col">
                                 <div class="alert custom-alert" role="alert">
-                                    비밀번호를 정확하게 입력해 주세요.
+                                    현재 비밀번호를 정확하게 입력해 주세요.
                                 </div>
                             </div>
                         </div>

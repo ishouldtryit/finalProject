@@ -133,8 +133,6 @@ public class EmployeeController {
 			
 			//이메일 일치 시 임시 비밀번호 생성
 			emailService.sendTemporaryPw(empNo, empEmail);
-			System.out.println(empEmail);
-			System.out.println(empNo);
 			return "redirect:findPwResult";
 		}
 		
@@ -176,5 +174,33 @@ public class EmployeeController {
 		@GetMapping("/passwordFinish") 
 		public String passwordFinish() {
 			return "employee/passwordFinish";
+		}
+		
+		// 사원 정보 수정
+		@GetMapping("/edit")
+		public String edit(HttpSession session, Model model) {
+			String empNo = (String) session.getAttribute("empNo");
+
+			model.addAttribute("employeeDto", employeeRepo.selectOne(empNo));
+			model.addAttribute("departments", departmentRepo.list());
+			model.addAttribute("jobs", jobRepo.list());
+
+			model.addAttribute("profile", employeeProfileRepo.find(empNo));
+
+			return "employee/edit";
+		}
+
+		@PostMapping("/edit")
+		public String edit(@ModelAttribute EmployeeDto employeeDto, @RequestParam String empNo, HttpSession session, @RequestParam MultipartFile attach)
+				throws IllegalStateException, IOException {
+//			employeeDto.setDeptNo(deptNo);
+//			employeeDto.setJobNo(jobNo);
+
+			employeeService.deleteProfile(empNo);
+			employeeService.updateProfile(empNo, attach);
+
+			employeeRepo.employeeUpdate(employeeDto);
+			
+			return "redirect:/";
 		}
 }

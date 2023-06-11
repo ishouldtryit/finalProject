@@ -63,9 +63,16 @@
     <!-- 사원 정보 수정 -->
 	<update id="edit">
 		update employee set
-		emp_name = #{empName}, emp_password = #{empPassword}, emp_email = #{empEmail},
+		emp_name = #{empName}, emp_email = #{empEmail},
 		emp_phone = #{empPhone}, emp_hire_date = #{empHireDate}, 
 		cp_number = #{cpNumber}, job_no = #{jobNo}, dept_no = #{deptNo}
+		where emp_no = #{empNo}
+	</update>
+	
+	<!-- 사원 정보 수정 -->
+	<update id="employeeEdit">
+		update employee set
+		emp_email = #{empEmail}, emp_phone = #{empPhone}
 		where emp_no = #{empNo}
 	</update>
 	

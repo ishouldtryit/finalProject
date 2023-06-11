@@ -246,11 +246,11 @@
                            	</c:if>
                            	
                               <li>
-                              <a href="#employeeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">관리자 페이지</a>
+                              <a href="#employeeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">마이 페이지</a>
                               <ul class="collapse list-unstyled" id="employeeSubmenu">
                               
                                       <li>
-                                      <a href="${pageContext.request.contextPath}/employee/mypage">기본정보</a>
+                                      <a href="${pageContext.request.contextPath}/employee/edit">기본정보</a>
                                       </li>
                                       <li>
                                           <a href="${pageContext.request.contextPath}/employee/password">비밀번호 변경</a>

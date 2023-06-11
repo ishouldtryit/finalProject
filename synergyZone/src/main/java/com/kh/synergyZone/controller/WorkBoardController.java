@@ -77,7 +77,6 @@ public class WorkBoardController {
 		int workNo = workBoardRepo.sequence();
 		workBoardDto.setWorkNo(workNo);
 
-// 		System.out.println(workBoardDto.getWorkSecret());
 
 		workBoardService.write(workBoardDto, attachments);
 		
@@ -290,7 +289,6 @@ public class WorkBoardController {
 
 			RedirectAttributes attr) throws IllegalStateException, IOException {
 //      workBoardService.deleteFile(workNo);
-		System.out.println(attachments);
 		workBoardService.updateFile(workNo, attachments);
 
 		workBoardRepo.update(workBoardDto);

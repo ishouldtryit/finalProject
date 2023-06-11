@@ -14,7 +14,13 @@ public interface EmployeeRepo {
 	   void insert(EmployeeDto employeeDto);
 	   EmployeeDto selectOne(String empNo);
 	   List<EmployeeInfoDto> list();
+	   
+	   //사원의 정보 수정
+	   void employeeUpdate(EmployeeDto employeeDto);
+	   
+	   //관리자의 정보 수정
 	   void update(EmployeeDto employeeDto);
+	   
 	   
 	   //부서별 사원목록
 	   List<DeptEmpListVO> treeSelect(String empName);

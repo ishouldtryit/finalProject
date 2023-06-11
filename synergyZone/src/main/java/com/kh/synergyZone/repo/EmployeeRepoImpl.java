@@ -51,6 +51,12 @@ public class EmployeeRepoImpl implements EmployeeRepo {
 	public void update(EmployeeDto employeeDto) {
 		sqlSession.update("employee.edit", employeeDto);
 	}
+	
+	@Override
+	public void employeeUpdate(EmployeeDto employeeDto) {
+		sqlSession.update("employee.employeeEdit", employeeDto);
+	}
+
 
 	// 퇴사
 	@Override

@@ -618,7 +618,7 @@
             },
             methods:{
                 async loadData(){
-                    const resp = await axios.get("/rest/approval/waitApproverList");
+                    const resp = await axios.get(contextPath+"/rest/approval/waitApproverList");
                     this.ApprovalWithPageVO = resp.data;
                     this.approvalDataVO = this.ApprovalWithPageVO.approvalDataVO;
                     this.empTarget = 0;
@@ -634,7 +634,7 @@
                 async move(page) {
                 	 this.ApprovalWithPageVO.paginationVO.page = page;
                 	 this.ApprovalWithPageVO.paginationVO.pageStatus = this.pageStatus; // pageStatus 추가
-                	  const resp = await axios.post("/rest/approval/waitApproverMoveList", this.ApprovalWithPageVO.paginationVO);
+                	  const resp = await axios.post(contextPath+"/rest/approval/waitApproverMoveList", this.ApprovalWithPageVO.paginationVO);
                 	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
                 	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
                       this.approvalDataVO = this.ApprovalWithPageVO.approvalDataVO;
@@ -646,7 +646,7 @@
                		if(!this.ApprovalWithPageVO.paginationVO.prev) return;
                		this.ApprovalWithPageVO.paginationVO.pageStatus = this.pageStatus; // pageStatus 추가
                 	 this.ApprovalWithPageVO.paginationVO.page = this.ApprovalWithPageVO.paginationVO.prevPage;
-                	  const resp = await axios.post("/rest/approval/waitApproverMoveList", this.ApprovalWithPageVO.paginationVO);
+                	  const resp = await axios.post(contextPath+"/rest/approval/waitApproverMoveList", this.ApprovalWithPageVO.paginationVO);
                 	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
                 	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
                       this.approvalDataVO = this.ApprovalWithPageVO.approvalDataVO;
@@ -658,7 +658,7 @@
                			if(!this.ApprovalWithPageVO.paginationVO.next) return;
                 	 this.ApprovalWithPageVO.paginationVO.page = this.ApprovalWithPageVO.paginationVO.nextPage;
                 	 this.ApprovalWithPageVO.paginationVO.pageStatus = this.pageStatus; // pageStatus 추가
-                	  const resp = await axios.post("/rest/approval/waitApproverMoveList", this.ApprovalWithPageVO.paginationVO);
+                	  const resp = await axios.post(contextPath+"/rest/approval/waitApproverMoveList", this.ApprovalWithPageVO.paginationVO);
                 	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
                 	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
                       this.approvalDataVO = this.ApprovalWithPageVO.approvalDataVO;
@@ -670,7 +670,7 @@
                		if(this.ApprovalWithPageVO.paginationVO.page == 1) return;
                 	 this.ApprovalWithPageVO.paginationVO.page = 1;
                 	 this.ApprovalWithPageVO.paginationVO.pageStatus = this.pageStatus; // pageStatus 추가
-                	  const resp = await axios.post("/rest/approval/waitApproverMoveList", this.ApprovalWithPageVO.paginationVO);
+                	  const resp = await axios.post(contextPath+"/rest/approval/waitApproverMoveList", this.ApprovalWithPageVO.paginationVO);
                 	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
                 	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
                       this.approvalDataVO = this.ApprovalWithPageVO.approvalDataVO;
@@ -682,7 +682,7 @@
                			if(this.ApprovalWithPageVO.paginationVO.page == this.ApprovalWithPageVO.paginationVO.totalPage) return;
                 	 this.ApprovalWithPageVO.paginationVO.page = this.ApprovalWithPageVO.paginationVO.totalPage;
                 	 this.ApprovalWithPageVO.paginationVO.pageStatus = this.pageStatus; // pageStatus 추가
-                	  const resp = await axios.post("/rest/approval/waitApproverMoveList", this.ApprovalWithPageVO.paginationVO);
+                	  const resp = await axios.post(contextPath+"/rest/approval/waitApproverMoveList", this.ApprovalWithPageVO.paginationVO);
                 	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
                 	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
                       this.approvalDataVO = this.ApprovalWithPageVO.approvalDataVO;
@@ -693,7 +693,7 @@
                	async changeSize() {
              			this.ApprovalWithPageVO.paginationVO.page = 1;
              			this.ApprovalWithPageVO.paginationVO.pageStatus = this.pageStatus; // pageStatus 추가
-                	  const resp = await axios.post("/rest/approval/waitApproverMoveList", this.ApprovalWithPageVO.paginationVO);
+                	  const resp = await axios.post(contextPath+"/rest/approval/waitApproverMoveList", this.ApprovalWithPageVO.paginationVO);
                 	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
                 	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
                       this.approvalDataVO = this.ApprovalWithPageVO.approvalDataVO;
@@ -702,7 +702,7 @@
                	
  				//상세페이지 이동
                 goToDetail(draftNo) {
-                    window.location.href = 'detail?draftNo=' + draftNo;
+                    window.location.href = contextPath+"/approval/detail?draftNo=" + draftNo;
                 },
                 
                 //전체 항목 조회
@@ -711,7 +711,7 @@
                   this.pageStatus = "allPage";
                	  this.ApprovalWithPageVO.paginationVO.pageStatus = this.pageStatus; // pageStatus 추가
                	  this.ApprovalWithPageVO.paginationVO.page = 1;
-               	  const resp = await axios.post("/rest/approval/waitApproverMoveList", this.ApprovalWithPageVO.paginationVO);
+               	  const resp = await axios.post(contextPath+"/rest/approval/waitApproverMoveList", this.ApprovalWithPageVO.paginationVO);
                	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
                	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
                   this.approvalDataVO = this.ApprovalWithPageVO.approvalDataVO;
@@ -729,7 +729,7 @@
                	  this.ApprovalWithPageVO.paginationVO.pageStatus = this.pageStatus; // pageStatus 추가
                	  this.ApprovalWithPageVO.paginationVO.isemergency = this.isemergency; // pageStatus 추가
                	  this.ApprovalWithPageVO.paginationVO.page = 1;
-               	  const resp = await axios.post("/rest/approval/waitApproverMoveList", this.ApprovalWithPageVO.paginationVO);
+               	  const resp = await axios.post(contextPath+"/rest/approval/waitApproverMoveList", this.ApprovalWithPageVO.paginationVO);
                	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
                	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
                   this.approvalDataVO = this.ApprovalWithPageVO.approvalDataVO;
@@ -742,7 +742,7 @@
                   this.pageStatus = "ingPage";
                	  this.ApprovalWithPageVO.paginationVO.pageStatus = this.pageStatus; // pageStatus 추가
                	  this.ApprovalWithPageVO.paginationVO.page = 1;
-               	  const resp = await axios.post("/rest/approval/waitApproverMoveList", this.ApprovalWithPageVO.paginationVO);
+               	  const resp = await axios.post(contextPath+"/rest/approval/waitApproverMoveList", this.ApprovalWithPageVO.paginationVO);
                	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
                	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
                   this.approvalDataVO = this.ApprovalWithPageVO.approvalDataVO;
@@ -755,7 +755,7 @@
                   this.pageStatus = "recallPage";
                	  this.ApprovalWithPageVO.paginationVO.pageStatus = this.pageStatus; // pageStatus 추가
                	  this.ApprovalWithPageVO.paginationVO.page = 1;
-               	  const resp = await axios.post("/rest/approval/waitApproverMoveList", this.ApprovalWithPageVO.paginationVO);
+               	  const resp = await axios.post(contextPath+"/rest/approval/waitApproverMoveList", this.ApprovalWithPageVO.paginationVO);
                	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
                	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
                   this.approvalDataVO = this.ApprovalWithPageVO.approvalDataVO;
@@ -768,7 +768,7 @@
                   this.pageStatus = "returnPage";
                	  this.ApprovalWithPageVO.paginationVO.pageStatus = this.pageStatus; // pageStatus 추가
                	  this.ApprovalWithPageVO.paginationVO.page = 1;
-               	  const resp = await axios.post("/rest/approval/waitApproverMoveList", this.ApprovalWithPageVO.paginationVO);
+               	  const resp = await axios.post(contextPath+"/rest/approval/waitApproverMoveList", this.ApprovalWithPageVO.paginationVO);
                	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
                	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
                   this.approvalDataVO = this.ApprovalWithPageVO.approvalDataVO;
@@ -781,7 +781,7 @@
                   this.pageStatus = "endPage";
                	  this.ApprovalWithPageVO.paginationVO.pageStatus = this.pageStatus; // pageStatus 추가
                	  this.ApprovalWithPageVO.paginationVO.page = 1;
-               	  const resp = await axios.post("/rest/approval/waitApproverMoveList", this.ApprovalWithPageVO.paginationVO);
+               	  const resp = await axios.post(contextPath+"/rest/approval/waitApproverMoveList", this.ApprovalWithPageVO.paginationVO);
                	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
                	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
                   this.approvalDataVO = this.ApprovalWithPageVO.approvalDataVO;
@@ -792,7 +792,7 @@
                 async changeSearchPage() {
                	  this.ApprovalWithPageVO.paginationVO.pageStatus = this.pageStatus; // pageStatus 추가
                	  this.ApprovalWithPageVO.paginationVO.page = 1;
-               	  const resp = await axios.post("/rest/approval/waitApproverMoveList", this.ApprovalWithPageVO.paginationVO);
+               	  const resp = await axios.post(contextPath+"/rest/approval/waitApproverMoveList", this.ApprovalWithPageVO.paginationVO);
                	  this.ApprovalWithPageVO = {}; // 기존 데이터 비우기
                	  this.ApprovalWithPageVO = resp.data; // 새로운 데이터 추가
                   this.approvalDataVO = this.ApprovalWithPageVO.approvalDataVO;
@@ -837,9 +837,9 @@
                 
                 getAttachmentUrl(attachmentNo) { //프로필 사진 주소
                     if (attachmentNo === null) {
-                      return "/static/img/dummydog.jpg";
+                      return contextPath+"/static/img/dummydog.jpg";
                     } else {
-                      return "/attachment/download?attachmentNo=" + attachmentNo;
+                      return contextPath+"/attachment/download?attachmentNo=" + attachmentNo;
                     }
                  },
                 

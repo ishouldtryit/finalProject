@@ -22,6 +22,38 @@
 </style>
 
 
+ <nav class="navbar navbar-expand-lg navbar-light bg-light">
+     <div class="container-fluid">
+
+         <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+             <i class="fa fa-bars"></i>
+         </button>
+         
+         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+             <ul class="nav navbar-nav ml-auto">
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/">홈</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/approval/write">신규 결재</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/approval/myList">나의 기안 문서함</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/approval/waitApproverList">결재 수신 문서함</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/approval/recipientList">참조 문서함</a>
+                 </li> 
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/approval/readerList">열람 문서함</a>
+                 </li>
+             </ul>
+         </div>
+     </div>
+ </nav>
+
 <div id="app">
 	<div class="container-fluid">
 	     	<div class="row">
@@ -465,7 +497,7 @@
     methods: {
     	
       async loadEmpData() { //부서별 사원 데이터 호출(로드)
-    	  const resp = await axios.get("/rest/approval/",{ 
+    	  const resp = await axios.get(contextPath+"/rest/approval/",{ 
     			  params :{
     		  		searchName : this.searchName
     			  }
@@ -477,7 +509,7 @@
           const urlParams = new URLSearchParams(window.location.search);
           const draftNo = urlParams.get("draftNo");
           
-          const resp = await axios.get("/rest/approval/detail/"+draftNo);
+          const resp = await axios.get(contextPath+"/rest/approval/detail/"+draftNo);
           this.ApprovalDataVO = resp.data; 	  
           
           this.ApprovalDataVO.approverList.forEach(approver => {	//결재자 정보 넣어주기
@@ -538,9 +570,9 @@
     	},
 		getAttachmentUrl(attachmentNo) { //프로필 사진 주소
    	      if (attachmentNo === null) {
-   	        return "/static/img/dummydog.jpg";
+   	        return contextPath+"/static/img/dummydog.jpg";
    	      } else {
-   	        return "/attachment/download?attachmentNo=" + attachmentNo;
+   	        return contextPath+"/attachment/download?attachmentNo=" + attachmentNo;
    	      }
    	    },
       async sendData(){	//데이터 전송
@@ -554,9 +586,9 @@
     	  }
           const urlParams = new URLSearchParams(window.location.search);
           const draftNo = urlParams.get("draftNo");
-    	  const url = "/rest/approval/edit/"+draftNo;
+    	  const url = contextPath+"/rest/approval/edit/"+draftNo;
     	  const resp = await axios.post(url, this.ApprovalDataVO);
-    	  window.location.href = "/approval/detail?draftNo="+resp.data;
+    	  window.location.href = contextPath+"/approval/detail?draftNo="+resp.data;
       },
       
       emergencyCheck(event) {	//긴급 문서 여부

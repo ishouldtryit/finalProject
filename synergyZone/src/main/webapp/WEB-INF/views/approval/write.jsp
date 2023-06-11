@@ -469,7 +469,7 @@
     methods: {
        
       async loadData() { //데이터 호출(로드)
-         const resp = await axios.get("/rest/approval/",{ 
+         const resp = await axios.get(contextPath+"/rest/approval/",{ 
                params :{
                   searchName : this.searchName
                }
@@ -494,9 +494,9 @@
        },
       getAttachmentUrl(attachmentNo) { //프로필 사진 주소
             if (attachmentNo === null) {
-              return "/static/img/dummydog.jpg";
+              return contextPath+"/static/img/dummydog.jpg";
             } else {
-              return "/attachment/download?attachmentNo=" + attachmentNo;
+              return contextPath+"/attachment/download?attachmentNo=" + attachmentNo;
             }
           },
       async sendData(){   //데이터 전송
@@ -508,9 +508,9 @@
                }, 1000);
                return;
          }
-         const url = "/rest/approval/write";
+         const url = contextPath+"/rest/approval/write";
          const resp = await axios.post(url, this.approvalVO);
-         window.location.href = "/approval/detail?draftNo="+resp.data;
+         window.location.href = contextPath+"/approval/detail?draftNo="+resp.data;
       },
       
       emergencyCheck(event) {   //긴급 문서 여부

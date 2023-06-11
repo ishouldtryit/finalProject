@@ -456,7 +456,7 @@
             const urlParams = new URLSearchParams(window.location.search);
             const draftNo = urlParams.get("draftNo");
             
-            const resp = await axios.get("/rest/approval/detail/"+draftNo);
+            const resp = await axios.get(contextPath+"/rest/approval/detail/"+draftNo);
             this.ApprovalDataVO = Vue.readonly(resp.data); //개발툴에서 조작 금지
         },
         
@@ -531,46 +531,46 @@
         async approvalRecall(){	//문서 회수
             const urlParams = new URLSearchParams(window.location.search);
             const draftNo = urlParams.get("draftNo");
-            const resp = await axios.patch("/rest/approval/recall/"+draftNo);
+            const resp = await axios.patch(contextPath+"/rest/approval/recall/"+draftNo);
             location.reload();
         },
         
         async reApproval(){	//재기안
             const urlParams = new URLSearchParams(window.location.search);
             const draftNo = urlParams.get("draftNo");
-            const resp = await axios.patch("/rest/approval/reApproval/"+draftNo);
+            const resp = await axios.patch(contextPath+"/rest/approval/reApproval/"+draftNo);
             location.reload();        	
         },
         
         async draftDelete(){	//삭제
             const urlParams = new URLSearchParams(window.location.search);
             const draftNo = urlParams.get("draftNo");
-            const resp = await axios.delete("/rest/approval/draftDelete/"+draftNo);
-            window.location.href = "/approval/adminList";	
+            const resp = await axios.delete(contextPath+"/rest/approval/draftDelete/"+draftNo);
+            window.location.href = contextPath+"/approval/adminList";	
         },
         
         async draftApproval(){	//결재하기
             const urlParams = new URLSearchParams(window.location.search);
             const draftNo = urlParams.get("draftNo");
-            const resp = await axios.patch("/rest/approval/draftApproval/"+draftNo,{
+            const resp = await axios.patch(contextPath+"/rest/approval/draftApproval/"+draftNo,{
             	approvalReason : this.approvalReason //결재의견 포함
             });
-            window.location.href = "/approval/waitApproverList";	
+            window.location.href = contextPath+"/approval/waitApproverList";	
         },
         
         async draftReturn(){	//반려하기
             const urlParams = new URLSearchParams(window.location.search);
             const draftNo = urlParams.get("draftNo");
-            const resp = await axios.patch("/rest/approval/draftReturn/"+draftNo,{
+            const resp = await axios.patch(contextPath+"/rest/approval/draftReturn/"+draftNo,{
             	returnReason : this.returnReason //결재의견 포함
             });
-            window.location.href = "/approval/waitApproverList";  	
+            window.location.href = contextPath+"/approval/waitApproverList";  	
         },
         
         async draftEdit(){	//수정하기
             const urlParams = new URLSearchParams(window.location.search);
             const draftNo = urlParams.get("draftNo");
-            window.location.href = "edit?draftNo=" + draftNo;	
+            window.location.href = contextPath+"/approval/edit?draftNo=" + draftNo;	
         },
 
     },

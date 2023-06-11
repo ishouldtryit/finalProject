@@ -247,9 +247,11 @@
                            <ul class="collapse list-unstyled" id="commuteSubmenu">
                               <li><a href="${pageContext.request.contextPath}/commute/write">휴가 신청 </a></li>
                               <li><a href="${pageContext.request.contextPath}/commute/trip">출장 신청</a></li>
-                              <li><a href="${pageContext.request.contextPath}/commute/record">근무시간 집계현황 </a></li>
-                              <li><a href="${pageContext.request.contextPath}/commute/vacation">휴가 신청내역</a></li>
-                              <li><a href="${pageContext.request.contextPath}/commute/tripList">출장 신청내역</a></li>
+                              <li><a href="${pageContext.request.contextPath}/commute/record">내 근무시간 집계현황 </a></li>
+                              <li><a href="${pageContext.request.contextPath}/commute/vacation">내 휴가 사용내역</a></li>
+                              <li><a href="${pageContext.request.contextPath}/commute/tripList">내 출장 사용내역</a></li>
+                              <li><a href="${pageContext.request.contextPath}/commute/adminList">연차결재(관리자)</a></li>
+                              <li><a href="${pageContext.request.contextPath}/commute/adminList">출장결재(관리자)</a></li>
                            </ul></li>
                        </ul>
                </div>

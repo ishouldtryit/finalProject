@@ -51,20 +51,7 @@ public class CommuteController {
 	
 	@Autowired
 	private TripPersonRepoImpl personRepoImpl;
-	
-	
-	//근태관리 메인
-	@GetMapping("/")
-	public String commute(Model model, HttpSession session,CommuteRecordDto commuteRecordDto) {
-		//사원번호
-		String empNo = (String) session.getAttribute("empNo");
-		//오늘 근무정보
-		model.addAttribute("w",commuteRecordRepo.today(empNo));
 		
-		
-		return "/commute/commute";
-	}
-	
 	// 출/퇴근 변경
 	@PostMapping("/change")
 	public String changeCommute(Model model, HttpSession session,HttpServletRequest request) {
@@ -89,6 +76,14 @@ public class CommuteController {
 			dto.setEndIp(ipAddress);
 			
 			commuteRecordRepo.update(dto);
+		}
+		//다시출근
+		else if(status==3) {
+			String ipAddress = employeeService.getLocation(request);
+			CommuteRecordDto dto=new CommuteRecordDto();
+			dto.setEmpNo(empNo);
+			dto.setEndIp(ipAddress);			
+			commuteRecordRepo.delete(dto);
 		}
 		
 		return "redirect:/";
@@ -140,7 +135,6 @@ public class CommuteController {
 	public String trip(Model model,HttpSession session) {
 		//신청내역받아야함
 		
-//		model.addAttribute(session);
 		return "/commute/write2";
 	}
 	@PostMapping("/trip")
@@ -175,15 +169,18 @@ public class CommuteController {
 	
 	//관리자 상세 페이지
 	@GetMapping("/detail")
-	public String detail(@RequestParam int vacationNo,Model model,HttpSession session) {
-		
-		//연차조회 필요한것들
+	public String detail(@RequestParam(required = false) Integer vacationNo,Model model,HttpSession session,@RequestParam(required = false) Integer tripNo) {
 		String empNo=(String) session.getAttribute("empNo");
 		Integer jobNo=(Integer) session.getAttribute("jobNo");
-		model.addAttribute("list",vacationRepo.oneList(vacationNo));
 		model.addAttribute("id",employeeRepoImpl.getId(empNo));
 		model.addAttribute("job",jobRepoImpl.name(jobNo));
+		model.addAttribute("one",vacationInfoRepo.one(empNo));
+		
+		//연차조회 필요한것들
+		model.addAttribute("list",vacationRepo.oneList(vacationNo));
 		//여기까지
+		
+		//출장조회 필요한것들
 		
 		return "/commute/detail";
 	}
@@ -211,15 +208,21 @@ public class CommuteController {
 	@PostMapping("/approval2")
 	public String tripApproval() {
 		//status 받아서 0 일때 반려 1일때 결재 처리
-		
 		return "redirect:/commute/adminList";
 	}
 	
 	
-	//개인 출장내역페이지
-	@GetMapping("tripList")
+	//어드민 출장내역페이지
+	@GetMapping("/adminList2")
 	public String tripList() {
-		return "";
+		return "/commute/tripList";
+	}
+	
+	@GetMapping("/tripList")
+	public String tripList2(HttpSession session,Model model) {
+		String empNo = (String) session.getAttribute("empNo");
+		model.addAttribute("one",vacationInfoRepo.one(empNo));
+		return "/commute/trip";
 	}
 	
 }

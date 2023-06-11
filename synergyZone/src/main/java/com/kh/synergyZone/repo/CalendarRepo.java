@@ -10,13 +10,13 @@ public interface CalendarRepo {
 
    List<Map<String,Object>> getDate(CalendarVO vo);
 
-   int deleteDate(CalendarVO vo);
+   boolean deleteDate(CalendarVO vo);
 
    Map<String, Object> detailView(CalendarVO vo);
    
    CalendarVO detailView2(int seq);
    
-   void updateDate(CalendarVO vo);
+   boolean updateDate(CalendarVO vo);
    
    
    

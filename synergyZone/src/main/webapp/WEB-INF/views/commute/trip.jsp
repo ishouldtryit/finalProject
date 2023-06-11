@@ -41,65 +41,15 @@
 </head>
 <body>
 	<div class="container">
-		<h3>내 연차내역</h3>
+		<h4>내 출장신청 내역</h4>
 		<div class="row justify-content-center">
 			<div class="col-auto d-flex">
 				<h4 id="currentDate"></h4>
 				<button class="btn ml-2" type="button" id="today-btn">오늘</button>
 			</div>
 		</div>
-		<hr>
-		<!-- 해당 페이지도 view로 다시 묶어서 해야함 -->
-		<div>
-			<div>
-				<div class="outer-border">
-					<div class="row justify-content-start mt-5">
-						<div class="my-card text-center">
-							<!-- 변경된 클래스 이름 -->
-							<img width="50" height="50"
-								src="<c:choose>
-                       <c:when test="${one.attachmentNo > 0}">
-                         /attachment/download?attachmentNo=${one.attachmentNo}
-                       </c:when>
-                       <c:otherwise>
-                         https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg
-                       </c:otherwise>
-                            </c:choose>"
-								style="border-radius: 50%;" class="my-card-img">
-							<div class="my-card-body">
-								<!-- 변경된 클래스 이름 -->
-								<h5 class="card-title">${one.empName}${one.jobName}</h5>
-							</div>
-						</div>
-						<div class="my-card text-center">
-							<!-- 변경된 클래스 이름 -->
-							<div class="my-card-body">
-								<!-- 변경된 클래스 이름 -->
-								<h5 class="card-title">총 연차</h5>
-								<p class="card-text">${one.total}</p>
-							</div>
-						</div>
-						<div class="my-card text-center">
-							<!-- 변경된 클래스 이름 -->
-							<div class="my-card-body">
-								<!-- 변경된 클래스 이름 -->
-								<h5 class="card-title">사용 연차</h5>
-								<p class="card-text">${one.used}</p>
-							</div>
-						</div>
-						<div class="my-card text-center">
-							<!-- 변경된 클래스 이름 -->
-							<div class="my-card-body">
-								<!-- 변경된 클래스 이름 -->
-								<h5 class="card-title">잔여 연차</h5>
-								<p class="card-text">${one.residual}</p>
-							</div>
+		
 							<input class="empDate" type="hidden" value="${one.empHireDate}">
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
 		<hr>
 		<div class="row">
 			<div class="col-2">
@@ -129,7 +79,7 @@
 		$(function() {
 			//페이지 로딩시 가져옴
 			$.ajax({
-				url : "http://localhost:8080/rest/vacation/",
+				url : "http://localhost:8080/rest/vacation/trip",
 				type : "GET",
 				data : {
 					selectedValue : getCurrentYear()
@@ -142,43 +92,46 @@
 			});
 
 			function createTable(data) {
-				var tableElement = $("<table class='table table-hover'>");
+				  var tableElement = $("<table class='table table-hover'>");
 
-				var headerRow = $("<tr>");
-				headerRow.append($("<th>").text("이름"));
-				headerRow.append($("<th>").text("부서명"));
-				headerRow.append($("<th>").text("연차사용날짜"));
-				headerRow.append($("<th>").text("휴가 종류"));
-				headerRow.append($("<th>").text("사유"));
-				headerRow.append($("<th>").text("사용 연차"));
-				tableElement.append(headerRow);
+				  var headerRow = $("<tr>");
+				  headerRow.append($("<th>").text("출장종류"));
+				  headerRow.append($("<th>").text("출장신청날짜"));
+				  headerRow.append($("<th>").text("기간"));
+				  headerRow.append($("<th>").text("출발지"));
+				  headerRow.append($("<th>").text("경유지"));
+				  headerRow.append($("<th>").text("목적지"));
+				  headerRow.append($("<th>").text("장소"));
+				  headerRow.append($("<th>").text("이동수단"));
+				  headerRow.append($("<th>").text("목적"));
+				  headerRow.append($("<th>").text("비고"));
+				  tableElement.append(headerRow);
 
-				if (data.length === 0) {
-					var emptyRow = $("<tr>").append(
-							$("<td colspan=''>").text("목록이 없습니다."));
-					tableElement.append(emptyRow);
-					var emptyRowContainer = $(
-							"<div class='empty-row-container'>").append(
-							tableElement);
-					return emptyRowContainer;
-				} else {
-					for (var i = 0; i < data.length; i++) {
-						var rowData = data[i];
-						var row = $("<tr>");
+				  if (data.length === 0) {
+				    var emptyRow = $("<tr>").append($("<td colspan='11'>").text("목록이 없습니다."));
+				    tableElement.append(emptyRow);
+				    var emptyRowContainer = $("<div class='empty-row-container'>").append(tableElement);
+				    return emptyRowContainer;
+				  } else {
+				    for (var i = 0; i < data.length; i++) {
+				      var rowData = data[i];
+				      var row = $("<tr>");
+				      row.append($("<td>").text(rowData.name));
+				      row.append($("<td>").text(rowData.startDate + " ~ " + rowData.endDate));
+				      row.append($("<td>").text(rowData.period));
+				      row.append($("<td>").text(rowData.startPlace));
+				      row.append($("<td>").text(rowData.middlePlace));
+				      row.append($("<td>").text(rowData.endPlace));
+				      row.append($("<td>").text(rowData.place));
+				      row.append($("<td>").text(rowData.work));
+				      row.append($("<td>").text(rowData.purpose));
+				      row.append($("<td>").text(rowData.notes));
 
-						row.append($("<td>").text(rowData.empName));
-						row.append($("<td>").text(rowData.deptName));
-						row.append($("<td>").text(
-								rowData.startDate + ' ~ ' + rowData.endDate));
-						row.append($("<td>").text(rowData.vacationName));
-						row.append($("<td>").text(rowData.reason));
-						row.append($("<td>").text(rowData.useCount));
-
-						tableElement.append(row);
-					}
-					return tableElement;
+				      tableElement.append(row);
+				    }
+				    return tableElement;
+				  }
 				}
-			}
 
 			// 현재 년도를 가져오는 함수
 			function getCurrentYear() {
@@ -224,7 +177,7 @@
 				var selectedValue = selectElement.val();
 				// AJAX 요청
 				$.ajax({
-					url : "http://localhost:8080/rest/vacation/",
+					url : "http://localhost:8080/rest/vacation/trip",
 					type : "GET",
 					data : {
 						selectedValue : selectedValue
@@ -242,7 +195,7 @@
 			$("#today-btn").click(function() {
 			      $("#year-select option:first").prop("selected", true);
 			      $.ajax({
-						url : "http://localhost:8080/rest/vacation/",
+						url : "http://localhost:8080/rest/vacation/trip",
 						type : "GET",
 						data : {
 							selectedValue : getCurrentYear()

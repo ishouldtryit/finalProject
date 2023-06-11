@@ -21,7 +21,7 @@
 	
 	<!-- 개인출장 리스트조회 -->
 	<select id="tripList" resultType="TripDto">
-		select * from trip where emp_no = #{emp_no} where status=0
+		SELECT * FROM trip WHERE emp_no = #{empNo} AND status = 1 AND EXTRACT(YEAR FROM usedDate) = #{selectedValue}
 	</select>
 	
 	<!-- 출장대상자 리스트 조회 -->

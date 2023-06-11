@@ -16,9 +16,6 @@
 			case "병가":
 				applicationType = "병가 신청";
 				break;
-			case "공가":
-				applicationType = "공가 신청";
-				break;
 			default:
 				applicationType = "신청유형을 선택해주세요";
 				break;
@@ -137,16 +134,12 @@
 			if (vacationName === "") {
 				event.preventDefault(); // 폼 전송을 막습니다.
 				alert("휴가 종류를 선택해주세요."); // 경고 메시지를 표시합니다.
-			}
-			if (startDate === "" || endDate === "") {
+			}else if (startDate === "" || endDate === "") {
 				alert("신청일시를 입력해주세요.");
 				event.preventDefault(); // 폼 제출 막기
-			}
-			if (vacationName === "공가") {
+			} else 	if (vacationName === "공가") {
 				return true; // "공가"인 경우 폼을 전송합니다.
-			}
-
-			if (useCount > totalValue) {
+			}else	if (useCount > totalValue) {
 				alert("잔여 연차일보다 연차 사용량이 더 많습니다. 다시 등록해주세요");
 				event.preventDefault(); // 잔여 연차일보다 사용량이 더 많은 경우 폼 전송을 막습니다.
 			}
@@ -186,11 +179,11 @@
 			</div>
 			<table class="table table-bordered">
 				<tr>
-					<th class=" ">대상자</th>
+					<th class="table-secondary ">대상자</th>
 					<td><label class="font-weight-bold">${one.empName}</label><br>
 						<br>
 						<table class="table table-bordered">
-							<thead class="table-success">
+							<thead class="table-secondary">
 								<tr>
 									<td>연차기준년도</td>
 									<td>연차기간</td>
@@ -213,7 +206,7 @@
 						</table></td>
 				</tr>
 				<tr>
-					<th class=" ">신청유형</th>
+					<th class="table-secondary ">신청유형</th>
 					<td><div class="row">
 							<div class="col-2">
 								<select id="vacationName" name="vacationName"
@@ -221,13 +214,12 @@
 									<option value="">선택</option>
 									<option value="연차">연차</option>
 									<option value="병가">병가</option>
-									<option value="공가">공가</option>
 								</select>
 							</div>
 						</div></td>
 				</tr>
 				<tr>
-					<th class=" ">신청일시</th>
+					<th class="table-secondary ">신청일시</th>
 					<td>
 						<div class="row">
 							<div class="col-2">
@@ -244,7 +236,7 @@
 				</tr>
 
 				<tr>
-					<th class=" ">반차여부</th>
+					<th class="table-secondary ">반차여부</th>
 					<td>
 						<div class="d-flex">
 							<div class="form-check">
@@ -263,16 +255,16 @@
 					</td>
 				</tr>
 				<tr>
-					<th class=" ">근무계획정보</th>
+					<th class="table-secondary ">근무계획정보</th>
 					<td><label class="form-label">[근무일] 09:30 ~ 18:30</label><br>
 						<label class="form-label">(휴게:12:30 ~ 13:30)</label></td>
 				</tr>
 				<tr>
-					<th class=" ">신청정보</th>
+					<th class="table-secondary ">신청정보</th>
 					<td id="vacation">신청유형을 선택해주세요</td>
 				</tr>
 				<tr>
-					<th class=" ">사유</th>
+					<th class="table-secondary ">사유</th>
 					<td>
 						<div class="col-6">
 							<input type="text" class="form-control" name="reason"
@@ -284,7 +276,7 @@
 			<input type="hidden" name="leave" id="leave" value="0"> <input
 				type="hidden" name="useCount" id="useCount" value="0">
 			<div class="d-flex justify-content-end">
-				<button class="btn btn-secondary">등록</button>
+				<button class="btn btn-info">등록</button>
 			</div>
 		</form>
 		<br>
@@ -298,13 +290,13 @@
 		<table class="table table-hover">
 			<thead>
 				<tr>
-					<th>이름</th>
-					<th>부서명</th>
-					<th>연차사용날짜</th>
-					<th>휴가종류</th>
-					<th>사유</th>
-					<th>사용연차</th>
-					<th>승인 상태</th>
+					<th class="table-secondary">이름</th>
+					<th class="table-secondary">부서명</th>
+					<th class="table-secondary">연차사용날짜</th>
+					<th class="table-secondary">휴가종류</th>
+					<th class="table-secondary">사유</th>
+					<th class="table-secondary">사용연차</th>
+					<th class="table-secondary">승인 상태</th>
 				</tr>
 			</thead>
 			<tbody class="data-work-status">
@@ -316,7 +308,7 @@
 						<td class="">${item.vacationName}</td>
 						<td class="">${item.reason}</td>
 						<td class="">${item.useCount}</td>
-						<td class="work-status mt-1 ml-3"><span>${item.status}</span></td>
+						<td class="work-status mt-1 ml-3">${item.status}</td>
 					</tr>
 				</c:forEach>
 			</tbody>

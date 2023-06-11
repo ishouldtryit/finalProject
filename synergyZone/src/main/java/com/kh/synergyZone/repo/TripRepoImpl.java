@@ -22,8 +22,8 @@ public class TripRepoImpl implements TripRepo{
 
 	//개인 출장 리스트조회
 	@Override
-	public List<TripDto> list() {
-		return session.selectList("trip.tripList");
+	public List<TripDto> list(TripDto dto) {
+		return session.selectList("trip.tripList",dto);
 	}
 	
 	

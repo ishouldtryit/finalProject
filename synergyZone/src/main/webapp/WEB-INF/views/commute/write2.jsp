@@ -39,10 +39,10 @@
 		<form action="/commute/trip" method="post" v-on:submit="submitForm">
 			<table class="table">
 				<tr>
-					<th>유형/구분</th>
+					<th class="table-secondary">유형/구분</th>
 					<td><div class="row ml-1">
 							<div class="col-2">
-								<select id="name" name="name">
+								<select class="form-select form-select-sm" id="name" name="name">
 									<option value="">선택</option>
 									<option value="출장">출장</option>
 									<option value="외근">외근</option>
@@ -51,14 +51,14 @@
 						</div></td>
 				</tr>
 				<tr>
-					<th>대상자</th>
+					<th class="table-secondary">대상자</th>
 					<td>
 						<div class="d-flex justify-content-end">
-							<button type="button" class="btn btn-primary mb-2"
+							<button type="button" class="btn btn-info mb-2"
 								v-on:click="showSupModal">대상자 추가</button>
 						</div>
 						<table class="table" id="supListTable">
-							<thead class="table-success">
+							<thead class="table-secondary">
 								<tr>
 									<td></td>
 									<td>부서</td>
@@ -78,7 +78,7 @@
 					</td>
 				</tr>
 				<tr>
-					<th>신청일시</th>
+					<th class="table-secondary">신청일시</th>
 					<td>
 						<div class="d-flex align-items-center">
 							<div class="flex-grow-1 col-2">
@@ -102,19 +102,19 @@
 
 				</tr>
 				<tr>
-					<th>기간</th>
+					<th class="table-secondary">기간</th>
 					<td><span class="ml-2">기간 <label>{{ weekdays
 								}}일(총 {{ diffInDays * 8 }}시간 0분)</label></span></td>
 				</tr>
 				<tr>
-					<th>출발지</th>
+					<th class="table-secondary">출발지</th>
 					<td>
 						<div class="d-flex align-items-center">
 							<div class="col-6">
 								<input type="text" name="startPlace" class="form-control"
 									placeholder="출발지를 입력해주세요">
 							</div>
-							<button class="add-btn btn btn-sm btn-primary ml-1" type="button">경유지
+							<button class="add-btn btn btn-sm btn-info ml-1" type="button">경유지
 								추가</button>
 						</div>
 					</td>
@@ -122,34 +122,34 @@
 				</tr>
 
 				<tr id="hide" style="display: none;">
-					<th>경유지</th>
+					<th class="table-secondary">경유지</th>
 					<td>
 						<div class="d-flex align-items-center">
 							<div class="col-6">
 								<input type="text" name="middlePlace" class="form-control"
 									placeholder="경유지를 입력해주세요">
 							</div>
-							<button class="del-btn btn btn-sm btn-primary ml-1" type="button">삭제</button>
+							<button class="del-btn btn btn-sm btn-info ml-1" type="button">삭제</button>
 						</div>
 					</td>
 				</tr>
 
 				<tr>
-					<th>목적지</th>
+					<th class="table-secondary">목적지</th>
 					<td><div class="col-6">
 							<input type="text" name="endPlace" class="form-control"
 								placeholder="목적지를 입력해주세요">
 						</div></td>
 				</tr>
 				<tr>
-					<th>장소</th>
+					<th class="table-secondary">장소</th>
 					<td><div class="col-6">
 							<input type="text" name="place" class="form-control"
 								placeholder="출장장소를 입력해주세요">
 						</div></td>
 				</tr>
 				<tr>
-					<th>이동수단</th>
+					<th class="table-secondary">이동수단</th>
 					<td>
 						<div class="row ml-1">
 							<div class="col-2">
@@ -168,14 +168,14 @@
 					</td>
 				</tr>
 				<tr>
-					<th>목적</th>
+					<th class="table-secondary">목적</th>
 					<td><div class="col-6">
 							<input type="text" class="form-control" name="purpose"
 								placeholder="목적을 입력해주세요">
 						</div></td>
 				</tr>
 				<tr>
-					<th>비고</th>
+					<th class="table-secondary">비고</th>
 					<td><div class="col-6">
 							<input type="text" class="form-control" name="notes"
 								placeholder="비고를 입력해주세요">
@@ -184,7 +184,7 @@
 			</table>
 			<input type="hidden" name="">
 			<div class="d-flex justify-content-end">
-				<button class="btn btn-primary" type="submit">등록</button>
+				<button class="btn btn-info" type="submit">등록</button>
 			</div>
 			<br>
 			<hr>
@@ -193,13 +193,13 @@
 			<table class="table table-hover">
 				<thead>
 					<tr>
-						<th>이름</th>
-						<th>부서명</th>
-						<th>연차사용날짜</th>
-						<th>휴가종류</th>
-						<th>사유</th>
-						<th>사용연차</th>
-						<th>승인 상태</th>
+						<th class="table-secondary">이름</th>
+						<th class="table-secondary">부서명</th>
+						<th class="table-secondary">연차사용날짜</th>
+						<th class="table-secondary">휴가종류</th>
+						<th class="table-secondary">사유</th>
+						<th class="table-secondary">사용연차</th>
+						<th class="table-secondary">승인 상태</th>
 					</tr>
 				</thead>
 				<tbody>

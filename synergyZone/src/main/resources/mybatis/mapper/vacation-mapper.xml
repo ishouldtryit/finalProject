@@ -13,7 +13,7 @@
      
      <!-- 관리자 연차조회 -->
      <select id="adminList" resultType="VacationVO">
-		SELECT * FROM EMP_VACATION_VIEW WHERE status = 0     
+		SELECT * FROM EMP_VACATION_VIEW WHERE status = 0 ORDER BY used_Date ASC
      </select>
      
      <!-- 연차 대기열 대기 / 반려만 보여줌-->
@@ -34,7 +34,7 @@
      <!--  결재 반려 처리 -->
      <update id="appoval">
      	UPDATE vacation
-		SET status = #{status} and RETURN_REASON = #{returnReason}
+		SET status = #{status} , RETURN_REASON = #{returnReason}
 		WHERE emp_no = #{empNo} and vacation_no= #{vacationNo}
      </update>
      

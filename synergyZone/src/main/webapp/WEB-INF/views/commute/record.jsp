@@ -41,16 +41,16 @@
 		<div class="row justify-content-center">
 			<div class="col-auto">
 				<button class="btn mb-3" onclick="decrementMonth()">
-					<i class="fa-regular fa-left"></i> 왼쪽버튼
+					<i class="fa-solid fa-angle-left"></i>
 				</button>
 			</div>
-			<div class="col-auto">
+			<div class="col-auto d-flex">
 				<h3><span id="year" required></span> <span>.</span> <span id="month"
-					required></span></h3>
+					required></span></h3><button class="btn ml-2" type="button" id="today-btn">오늘</button>
 			</div>
 			<div class="col-auto">
 				<button class="btn mb-3" onclick="incrementMonth()">
-					<i class="fa-solid fa-right"></i> 아이콘이안나와
+					<i class="fa-solid fa-angle-right"></i>
 				</button>
 			</div>
 		</div>
@@ -60,6 +60,9 @@
 	<script>
 		$(function() {
 			setYearMonth();
+			$("#today-btn").click(function() {
+			    setYearMonth(); // 날짜를 오늘로 변경하는 함수 호출
+			});
 		});
 
 		function setYearMonth() {
@@ -79,7 +82,7 @@
 			var startDate = new Date(year, month - 1, 1);
 			var endDate = new Date(year, month, 0);
 
-			var tableHTML = "<table class='table table-hover '>" + "<tr class='table-success'>"
+			var tableHTML = "<table class='table table-hover '>" + "<tr class='table-secondary'>"
 					+ "<th>일자</th>" + "<th>출근시간</th>" + "<th>퇴근시간</th>"
 					+ "<th>근무시간</th>" + "</tr>";
 
@@ -238,6 +241,9 @@
 
 			showAttendance();
 		}
+		
+		
+		
 	</script>
 
 

@@ -23,30 +23,28 @@
 
 
 <div id="app">
-   <div class="container-fluid">
+   <div>
            <div class="row">
-       <div class="col-10 offset-sm-1">  
+       <div class="col-10 offset-1">  
       <div class="row mb-3"> 
          <div class="col">
            <h3>신규 결재</h3>
          </div>
       </div>
      <div class="row mb-2">
-        <div class="col-4">
-            <button type="button" class="btn mb-2" :class="approvalVO.approverList.length ? 'btn-info' : 'btn-secondary'" @click="showApproverModal">
+        <div class="d-flex align-items-center mb-2">
+            <button type="button" class="btn" :class="approvalVO.approverList.length ? 'btn-info' : 'btn-secondary'" @click="showApproverModal">
               {{ approvalVO.approverList.length ? '결재자 정보' : '결재자 추가' }}
          </button>
-            <button type="button" class="btn ms-3 mb-2" :class="approvalVO.recipientList.length ? 'btn-info' : 'btn-secondary'" @click="showRecipientModal">
+            <button type="button" class="btn ms-3" :class="approvalVO.recipientList.length ? 'btn-info' : 'btn-secondary'" @click="showRecipientModal">
               {{ approvalVO.recipientList.length ? '참조자 정보' : '참조자 추가' }}
          </button>
-            <button type="button" class="btn ms-3 mb-2" :class="approvalVO.readerList.length ? 'btn-info' : 'btn-secondary'" @click="showReaderModal">
+            <button type="button" class="btn ms-3" :class="approvalVO.readerList.length ? 'btn-info' : 'btn-secondary'" @click="showReaderModal">
               {{ approvalVO.readerList.length ? '열람자 정보' : '열람자 추가' }}
          </button>
-        </div>
-        <div class="col-2 d-flex align-items-center justify-content-center">
-           <div class="form-check form-switch d-flex">
-           <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" :checked="approvalVO.approvalDto.isemergency === 1" @change="emergencyCheck">
-           <label class="form-check-label" for="flexSwitchCheckDefault">긴급 문서</label>
+           <div class="form-check form-switch d-flex ms-3">
+	           <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" :checked="approvalVO.approvalDto.isemergency === 1" @change="emergencyCheck">
+	           <label class="form-check-label" for="flexSwitchCheckDefault">긴급 문서</label>
          </div>
         </div>
      </div>

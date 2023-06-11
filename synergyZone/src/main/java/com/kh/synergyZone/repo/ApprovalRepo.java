@@ -43,7 +43,8 @@ public interface ApprovalRepo {
 	void reApproval(int draftNo);	// 기안서 회수
 	void draftApproval(ApproverDto approverDto); //기안서 결재
 	void draftApprovalReason(ApproverDto approverDto); //기안서 결재 의견
-	void approved(ApproverDto approverDto); //결재 완료
+	void draftCompletedDate(int draftNo); // 결재 완료일
+	void approved(ApproverDto approverDto); //결재 최종 완료
 	void draftReturn(ApproverDto approverDto); //결재 반려
 	void draftReturnReason(ApproverDto approverDto); //결재 반려 의견
 	void approverInsert(ApproverDto approverDto);	//결재자 등록

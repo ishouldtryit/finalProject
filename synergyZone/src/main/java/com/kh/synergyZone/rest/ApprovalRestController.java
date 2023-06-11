@@ -371,6 +371,7 @@ public class ApprovalRestController {
 		@PatchMapping("/recall/{draftNo}")
 		public void approvalRecall(@PathVariable int draftNo) {
 			approvalRepoImpl.recallApproval(draftNo);
+			approvalRepoImpl.draftCompletedDate(draftNo);
 		}
 		
 		//재기안
@@ -392,6 +393,7 @@ public class ApprovalRestController {
 			int approverCount = approvalRepoImpl.approverCount(draftNo);
 			if(statusCode==approverCount) {	//결재 완료
 				approvalRepoImpl.approved(dto);
+				approvalRepoImpl.draftCompletedDate(draftNo);//결재완료일
 			}
 		}
 		
@@ -403,6 +405,7 @@ public class ApprovalRestController {
 			dto.setDraftNo(draftNo);
 			approvalRepoImpl.draftReturn(dto);	//결재 승인
 			approvalRepoImpl.draftReturnReason(dto);	//결재 의견
+			approvalRepoImpl.draftCompletedDate(draftNo); //결재완료일
 		}
 	
 }

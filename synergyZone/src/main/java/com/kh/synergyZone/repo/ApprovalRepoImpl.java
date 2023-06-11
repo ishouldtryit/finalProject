@@ -205,6 +205,11 @@ public class ApprovalRepoImpl implements ApprovalRepo {
 		return sqlSession.selectOne("approval.approverCount", draftNo);
 	}
 
+	@Override
+	public void draftCompletedDate(int draftNo) {
+		sqlSession.update("approval.draftCompletedDate", draftNo);
+	}
+
 
 	
 

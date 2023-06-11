@@ -61,7 +61,8 @@
     		update approval
     		<set>
     			result_code = 0,
-    			status_code = 0
+    			status_code = 0,
+    			completion_date = null
     		</set>
     		where draft_no = #{draftNo}
     	</update>
@@ -115,6 +116,14 @@
     		where draft_no = #{draftNo} and approver_no = #{approverNo}
     	</update>
     	
+    	<!-- 결재 완료일 갱신 -->
+    	<update id="draftCompletedDate">
+ 			update approval
+ 			<set>
+ 				completion_date = sysdate
+ 			</set>
+ 			where draft_no = #{draftNo}
+    	</update>
 		
 		<!-- 기안서 삭제 -->
 		<delete id="remove">
@@ -169,6 +178,7 @@
 				<result column="draft_title" property="draftTitle"/>
 				<result column="draft_content" property="draftContent"/>
 				<result column="draft_date" property="draftDate"/>
+				<result column="completion_date" property="completionDate"/>
 				<result column="drafter_no" property="drafterNo"/>
 				<result column="status_code" property="statusCode"/>
 				<result column="result_code" property="resultCode"/>

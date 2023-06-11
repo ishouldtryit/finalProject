@@ -160,9 +160,6 @@
                                    <li>
                                        <a href="/approval/readerList">열람 문서함</a>
                                    </li>
-                                   <li>
-                                       <a href="#">부서 문서함</a>
-                                   </li>
                                </ul>
                            </li>
    
@@ -256,44 +253,15 @@
         <!-- Page Content  -->
         <article>
    
-   <!--   <div id="content" class="p-4 p-md-5" style="height:200px;">     -->           
                
-               <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                   <div class="container-fluid">
-   
-                       <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                           <i class="fa fa-bars"></i>
-                       </button>
-                       
-                       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                           <ul class="nav navbar-nav ml-auto">
-                               <li class="nav-item">
-                                   <a class="nav-link" href="${pageContext.request.contextPath}/">홈</a>
-                               </li>
-                               <li class="nav-item">
-                                   <a class="nav-link" href="${pageContext.request.contextPath}/calendar/calendar">일정</a>
-                               </li>
-                               <li class="nav-item">
-                                   <a class="nav-link" href="${pageContext.request.contextPath}/message/receive">쪽지</a>
-                               </li>
-                               <li class="nav-item">
-                                   <a class="nav-link" href="${pageContext.request.contextPath}/workboard/write">업무</a>
-                               </li>
-                               <li class="nav-item active">
-                                   <a class="nav-link" href="${pageContext.request.contextPath}/board/list">게시판</a>
-                               </li> 
-                               <li class="nav-item">
-                                   <a class="nav-link" href="${pageContext.request.contextPath}/address/list">주소록</a>
-                               </li>
-                           </ul>
-                       </div>
-                   </div>
-               </nav>
+
  <script>
  Vue.createApp({
 	  data() {
 	    return {
-	      employeeInfo: null,
+	      employeeInfo: {
+	    	  empName : "",
+	      },
 	    };
 	  },
 	  methods: {

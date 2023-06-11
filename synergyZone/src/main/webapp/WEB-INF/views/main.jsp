@@ -142,7 +142,7 @@ html, body {
                <p class="text-center">쪽지</p>
             </a> 
             
-            <a href="${pageContext.request.contextPath}/approval/write">
+            <a href="${pageContext.request.contextPath}/approval/myList">
             	<i class="bi bi-check2-square fs-3 d-flex justify-content-center mt-3"></i>
                 <p class="text-center">결재</p>
             </a>

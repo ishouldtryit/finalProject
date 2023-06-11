@@ -29,7 +29,7 @@ import com.kh.synergyZone.repo.VacationRepoImpl;
 import com.kh.synergyZone.service.EmployeeService;
 import com.kh.synergyZone.vo.VacationVO;
 
-@Controller
+@Controller      
 @RequestMapping("/commute")
 public class CommuteController {
 	@Autowired

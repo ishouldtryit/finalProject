@@ -1,6 +1,8 @@
 package com.kh.synergyZone.repo;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +41,15 @@ public class WorkReportRepoImpl implements WorkReportRepo {
 			return workSups;
 		}
 		return null;
+	}
+
+	@Override
+	public List<SupWithWorkDto> searchSupList(String column, String keyword, String workSup) {
+		Map<String, Object> params = new HashMap<>();
+		 params.put("column", column);
+		 params.put("keyword", keyword);
+		 params.put("workSup", workSup);
+		 return sqlSession.selectList("workBoard.searchSupList", params);
 	}
 
 

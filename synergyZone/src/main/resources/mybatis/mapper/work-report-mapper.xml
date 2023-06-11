@@ -31,4 +31,8 @@
 		select * from sup_with_work where work_sup = #{workSup}
 	</select>
 	
+	<select id="searchSupList" resultType="SupWithWorkDto">
+		select * from sup_with_work where instr(${column}, #{keyword}) > 0 and work_sup = #{workSup} order by ${column} asc
+	</select>
+	
 </mapper>

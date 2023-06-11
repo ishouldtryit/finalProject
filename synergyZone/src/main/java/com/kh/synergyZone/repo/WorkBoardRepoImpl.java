@@ -54,11 +54,12 @@ public class WorkBoardRepoImpl implements WorkBoardRepo {
 	}
 
 	@Override
-	public List<WorkEmpInfo> SearchMyWorkList(String column, String keyword) {
+	public List<WorkEmpInfo> SearchMyWorkList(String column, String keyword, String empNo) {
 		 Map<String, Object> params = new HashMap<>();
 		 params.put("column", column);
 		 params.put("keyword", keyword);
-		 return sqlSession.selectList("workBoard.SearchMyWorkList",params);
+		 params.put("empNo", empNo);
+		 return sqlSession.selectList("workBoard.searchMyWorkList", params);
 	}
 
 	@Override
@@ -68,6 +69,16 @@ public class WorkBoardRepoImpl implements WorkBoardRepo {
         params.put("empNo", empNo);
         return sqlSession.selectList("workBoard.listByJobNoWithSecret", params);
     }
+
+	@Override
+	public List<WorkEmpInfo> SearchlistByJobNoWithSecret(String column, String keyword, String empNo, int deptNo) {
+		Map<String, Object> params = new HashMap<>();
+		 params.put("column", column);
+		 params.put("keyword", keyword);
+		 params.put("empNo", empNo);
+		 params.put("deptNo", deptNo);
+		 return sqlSession.selectList("workBoard.searchListByJobNoWithSecret", params);
+	}
 
 	
 	

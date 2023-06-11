@@ -414,11 +414,8 @@ public class AdminController {
 	@GetMapping("/log/list")
 	public String logList(@ModelAttribute("vo") PaginationVO vo,
 					      @ModelAttribute LoginRecordSearchVO loginRecordSearchVO, Model model) {
-		System.out.println(vo);
 		int totalCount = loginRecordRepo.selectCount(vo);
 		vo.setCount(totalCount);
-		System.out.println(vo.isLogPageSearch());
-		System.out.println(vo.getLogParameter());
 		List<LoginRecordInfoDto> list = loginRecordRepo.selectListByPaging(vo);
 		model.addAttribute("list", list);
 		return "admin/log/list";

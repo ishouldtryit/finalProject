@@ -81,9 +81,10 @@ $(document).ready(function(){
 
 <div class="container-800" style="margin-left: 5%;">
     <!-- 검색창 -->
-    <form class="d-flex" action="myWorkList" id="workForm" method="get">
+    <form class="d-flex" action="list" id="workForm" method="get">
         <select name="column" class="form-input me-sm-2" onchange="submitForm()">
             <option value="work_title" ${column eq 'work_title' ? 'selected' : ''}>제목</option>
+            <option value="emp_name" ${column eq 'emp_name' ? 'selected' : ''}>보고자</option>
         </select>
         <input class="form-control me-sm-2" type="search" placeholder="검색어" name="keyword" value="${param.keyword}" style="width: 13%;">
         <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
@@ -129,17 +130,17 @@ $(document).ready(function(){
 		<div style="display: flex; justify-content: center;">
 		  <ul class="pagination" style="width: 20%;">
 		    <li class="page-item ${vo.isFirst() ? 'disabled' : ''}">
-		      <a class="page-link" href="${vo.isFirst() ? '#' : pageContext.request.contextPath}/workboard/myWorkList?page=${vo.getPrevPage()}&sort=${vo.getSort()}${vo.getQueryString()}">&laquo;</a>
+		      <a class="page-link" href="${vo.isFirst() ? '#' : pageContext.request.contextPath}/workboard/list?page=${vo.getPrevPage()}&sort=${vo.getSort()}${vo.getQueryString()}">&laquo;</a>
 		    </li>
 		    <c:forEach var="i" begin="${vo.getStartBlock()}" end="${vo.getFinishBlock()}">
 		      <li class="page-item">
-		        <a class="page-link ${vo.getPage() eq i ? 'active' : ''}" href="${pageContext.request.contextPath}/workboard/myWorkList?page=${i}&sort=${vo.getSort()}${vo.getQueryString()}">
+		        <a class="page-link ${vo.getPage() eq i ? 'active' : ''}" href="${pageContext.request.contextPath}/workboard/list?page=${i}&sort=${vo.getSort()}${vo.getQueryString()}">
 		          <span class="text-info">${i}</span>
 		        </a>
 		      </li>
 		    </c:forEach> 
 		    <li class="page-item ${vo.isLast() ? 'disabled' : ''}">
-		      <a class="page-link" href="${vo.isLast() ? '#' : pageContext.request.contextPath}/workboard/myWorkList?page=${vo.getNextPage()}&sort=${vo.getSort()}${vo.getQueryString()}">
+		      <a class="page-link" href="${vo.isLast() ? '#' : pageContext.request.contextPath}/workboard/list?page=${vo.getNextPage()}&sort=${vo.getSort()}${vo.getQueryString()}">
 		        <span class="text-info">&raquo;</span>
 		      </a>
 		    </li>

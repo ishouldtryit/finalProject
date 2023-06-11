@@ -1,7 +1,6 @@
 package com.kh.synergyZone.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.kh.synergyZone.dto.SupWithWorkDto;
 import com.kh.synergyZone.dto.WorkBoardDto;
 import com.kh.synergyZone.dto.WorkEmpInfo;
 import com.kh.synergyZone.dto.WorkFileDto;
@@ -107,10 +107,37 @@ public class WorkBoardController {
 
 	// 참조자 보관함
 	@GetMapping("/supList")
-	public String supList(HttpSession session, Model model) {
+	public String supList(@ModelAttribute("vo") PaginationVO vo,
+						  @RequestParam(required = false, defaultValue = "") String column,
+						  @RequestParam(required = false, defaultValue = "") String keyword, 
+						  HttpSession session, Model model) {
 		String workSup = (String) session.getAttribute("empNo");
+		
+		List<SupWithWorkDto> supList;
+		
+		// 검색
+		if (!column.isEmpty() && !keyword.isEmpty()) {
+			supList = workReportRepo.searchSupList(column, keyword, workSup);
+		} else {
+			supList = workReportRepo.supList(workSup);
+		}
 
-		model.addAttribute("supList", workReportRepo.supList(workSup));
+		// 페이징
+		int totalCount = supList.size();
+		vo.setCount(totalCount);
+
+		int size = vo.getSize(); // 페이지당 표시할 데이터 개수
+		int page = vo.getPage(); // 현재 페이지 번호
+
+		int startIndex = (page - 1) * size; // 데이터의 시작 인덱스
+		int endIndex = Math.min(startIndex + size, totalCount); // 데이터의 종료 인덱스
+
+		List<SupWithWorkDto> pagedSupList = supList.subList(startIndex, endIndex);
+
+		// selected 유지
+		model.addAttribute("column", column);
+
+		model.addAttribute("supList", pagedSupList);
 
 		return "workboard/supList";
 	}
@@ -127,7 +154,7 @@ public class WorkBoardController {
 
 		// 검색
 		if (!column.isEmpty() && !keyword.isEmpty()) {
-			myWorkList = workBoardRepo.SearchMyWorkList(column, keyword);
+			myWorkList = workBoardRepo.SearchMyWorkList(column, keyword, empNo);
 		} else {
 			myWorkList = workBoardRepo.myWorkList(empNo);
 		}
@@ -152,6 +179,7 @@ public class WorkBoardController {
 		return "workboard/myWorkList";
 	}
 
+	// 부서 업무일지
 	@GetMapping("/list")
 	public String list(HttpSession session, Model model, @ModelAttribute("vo") PaginationVO vo,
 			@RequestParam(required = false, defaultValue = "member_regdate desc") String sort,
@@ -164,15 +192,42 @@ public class WorkBoardController {
 
 		List<WorkEmpInfo> workList;
 
-		if (empAdmin != null && empAdmin.equals("Y")) {
-			// 관리자인 경우, 모든 부서의 업무일지를 가져옴
-			workList = workBoardRepo.list(deptNo);
+		if (!column.isEmpty() && !keyword.isEmpty()) {
+			// 검색인 경우
+			if (empAdmin != null && empAdmin.equals("Y")) {
+				// 관리자인 경우, 모든 부서의 업무일지를 가져옴
+				workList = workBoardRepo.SearchlistByJobNoWithSecret(column, keyword, empNo, deptNo);
+			} else {
+				// 작성자인 경우, 자신의 비밀글을 포함한 업무일지를 가져옴
+				workList = workBoardRepo.SearchlistByJobNoWithSecret(column, keyword, empNo, deptNo);
+			}
 		} else {
-			// 작성자인 경우, 자신의 비밀글을 포함한 업무일지를 가져옴
-			workList = workBoardRepo.listByJobNoWithSecret(deptNo, empNo);
+			// 검색이 아닌 경우
+			if (empAdmin != null && empAdmin.equals("Y")) {
+				// 관리자인 경우, 모든 부서의 업무일지를 가져옴
+				workList = workBoardRepo.list(deptNo);
+			} else {
+				// 작성자인 경우, 자신의 비밀글을 포함한 업무일지를 가져옴
+				workList = workBoardRepo.listByJobNoWithSecret(deptNo, empNo);
+			}
 		}
 
-		model.addAttribute("list", workList);
+		// 페이징
+		int totalCount = workList.size();
+		vo.setCount(totalCount);
+
+		int size = vo.getSize(); // 페이지당 표시할 데이터 개수
+		int page = vo.getPage(); // 현재 페이지 번호
+
+		int startIndex = (page - 1) * size; // 데이터의 시작 인덱스
+		int endIndex = Math.min(startIndex + size, totalCount); // 데이터의 종료 인덱스
+
+		List<WorkEmpInfo> pagedWorkList = workList.subList(startIndex, endIndex);
+
+		// selected 유지
+		model.addAttribute("column", column);
+
+		model.addAttribute("list", pagedWorkList);
 
 		return "workboard/list";
 	}

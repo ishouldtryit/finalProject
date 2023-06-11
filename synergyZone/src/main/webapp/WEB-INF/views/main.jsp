@@ -195,28 +195,14 @@ html, body {
 						<hr>
 						<table class="table table-hover">
 							<tbody>
-								<tr>
-									<td>ㄱㄴㄷ</td>
-									<td>1111111111</td>
-									<td>2023.05.17</td>
-								</tr>
-								<tr>
-									<td>ㄱㄴㄷ</td>
-									<td>1111111111</td>
-									<td>2023.05.17</td>
-								</tr>
-								<tr>
-									<td>ㄱㄴㄷ</td>
-									<td>1111111111</td>
-									<td>2023.05.17</td>
-								</tr>
-								<tr>
-									<td>ㄱㄴㄷ</td>
-									<td>1111111111</td>
-									<td>2023.05.17</td>
+								<tr v-for="item in msg" :key="item.messageNo">
+									<td>{{ item.messageTitle }}</td>
+									<td>{{ item.messageSender }}</td>
+									<td>{{ item.messageSendTime }}</td>
 								</tr>
 							</tbody>
 						</table>
+
 					</div>
 
 					<div class="bg-info text-light border"
@@ -290,20 +276,12 @@ html, body {
 						<hr>
 						<table class="table table-hover">
 							<tbody>
-								<tr>
-									<td>aㅁㄴㅇㄻㄴㄻ</td>
-								</tr>
-								<tr>
-									<td>aㅁㄴㅇㄻㄴㄻ</td>
-								</tr>
-								<tr>
-									<td>aㅁㄴㅇㄻㄴㄻ</td>
-								</tr>
-								<tr>
-									<td>aㅁㄴㅇㄻㄴㄻ</td>
+								<tr v-for="item in notice" :key="item.noticeNo">
+									<td>{{ item.noticeTitle }}</td>
 								</tr>
 							</tbody>
 						</table>
+
 					</div>
 
 					<div class="bg-light border p-2"
@@ -312,14 +290,8 @@ html, body {
 						<hr>
 						<table class="table table-hover">
 							<tbody>
-								<tr>
-									<td>ddddd</td>
-								</tr>
-								<tr>
-									<td>ddddd</td>
-								</tr>
-								<tr>
-									<td>ddddd</td>
+								<tr v-for="item in free" :key="item.freeNo">
+									<td>{{ item.boardTitle }}</td>
 								</tr>
 							</tbody>
 						</table>
@@ -388,7 +360,7 @@ html, body {
 										</c:when>
 										<c:otherwise>
 											<button class="btn btn-outline-info btn-lg me-2"
-												type="submit" value="3" name="status" 
+												type="submit" value="3" name="status"
 												onclick="return confirm('다시 출근하시겠습니까?')">출근하기</button>
 											<button class="btn btn-outline-info btn-lg me-2"
 												type="submit" value="2" name="status" disabled>퇴근하기</button>
@@ -446,6 +418,9 @@ html, body {
                 isTextareaEnabled: false,
                 memoText: localStorage.getItem('memo') || '',
                 employeeInfo: null,
+                msg: [],
+                free: [],
+                notice: [],
             };
         },
         mounted() {
@@ -461,6 +436,37 @@ html, body {
             });
         },
         methods: {
+        	loadMsg() {
+        		  axios.get("/rest/home/msg")
+        		    .then(resp => {
+        		      console.log(resp);
+        		      this.msg.push(...resp.data);
+        		    })
+        		    .catch(error => {
+        		      console.error(error);
+        		    });
+        		},
+        		loadFree() {
+        		  axios.get("/rest/home/free")
+        		    .then(resp => {
+        		      console.log(resp);
+        		      this.free.push(...resp.data);
+        		    })
+        		    .catch(error => {
+        		      console.error(error);
+        		    });
+        		},
+        		loadNotice() {
+        		  axios.get("/rest/home/notice")
+        		    .then(resp => {
+        		      console.log(resp);
+        		      this.notice.push(...resp.data);
+        		    })
+        		    .catch(error => {
+        		      console.error(error);
+        		    });
+        		},
+
            initSwiper() {
                 this.swiper = new Swiper('.swiper-container', {
                     autoplay: true,
@@ -531,16 +537,22 @@ html, body {
                       return 'https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg';
                     }
                   },
+                  
+                 
         },
        
         created() {
             this.updateTime();
             this.updateRemainingTime();
             this.fetchEmployeeInfo();
+            this.loadMsg();
+            this.loadFree();
+            this.loadNotice();
         },
     }).mount("#app");
     app.component('datepicker', {
         mounted() {
+        	this.fetchData();
             const datepicker = this.$refs.datepicker;
             $(datepicker).datepicker({
             format: 'yyyy-mm-dd',

@@ -170,6 +170,20 @@
     		)
     	</insert>
     	
+    	<!-- 나의 결재선 추가 -->
+    	<insert id="myApproverInsert">
+    		insert into my_approver(
+    		my_approver_no ,drafter_no , my_approver_order, approver_no
+    		)
+    		values(
+    		my_approver_seq.nextval , #{drafterNo}, #{myApproverOrder}, #{ApproverNo}
+    		)
+    	</insert>
+    	
+    	<delete id="myApproverDelete">
+    		delete my_approver where draft_no = #{draftNo} and my_approver_order = #{myApproverOrder}
+    	</delete>
+    	
     	
     	<!-- 계층형 조회 resultMap -->
 		<resultMap type="ApprovalDataVO" id="ApprovalDataVO">

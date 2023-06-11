@@ -7952,11 +7952,7 @@ h1, h2, h3, h4, h5,
   max-width: 300px;
   background: #1d1919;
   color: #fff;
-  -webkit-transition: all 0.3s;
-  -o-transition: all 0.3s;
-  transition: all 0.3s; }
-  #sidebar.active {
-    margin-left: -300px; }
+}
   #sidebar .logo {
     display: block;
     width: 120px;
@@ -7982,11 +7978,6 @@ h1, h2, h3, h4, h5,
     #sidebar ul li.active > a {
       background: transparent;
       color: #f8b739; }
-  @media (max-width: 991.98px) {
-    #sidebar {
-      margin-left: -300px; }
-      #sidebar.active {
-        margin-left: 0; } }
 
 a[data-toggle="collapse"] {
   position: relative; }

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -94,6 +95,12 @@ public class ApprovalRestController {
 	    	approvalRepoImpl.readerInsert(reader);
 	    }
 	    return draftNo;
+	}
+	
+	//기안서 삭제(관리자)
+	@DeleteMapping("/draftDelete/{draftNo}")
+	public void draftDelete(@PathVariable int draftNo) {
+		approvalRepoImpl.delete(draftNo);
 	}
 	
 	// 기안서 수정
@@ -362,8 +369,10 @@ public class ApprovalRestController {
 		@GetMapping("/detail/{draftNo}")
 		public ApprovalDataVO approvalDetail(@PathVariable int draftNo, HttpSession session) {
 			String empNo = session.getAttribute("empNo") == null ? null : (String) session.getAttribute("empNo");
+			
 			ApprovalDataVO approvalDataVO = approvalRepoImpl.approvalDataSelectOne(draftNo);
 			approvalDataVO.setLoginUser(empNo);
+			approvalDataVO.setIsAdmin(employeeRepoImpl.selectOne(empNo).getEmpAdmin());
 			return approvalDataVO;
 		}
 

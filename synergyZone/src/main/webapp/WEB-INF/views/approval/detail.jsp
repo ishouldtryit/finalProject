@@ -81,6 +81,10 @@
 					<i class="fa-solid fa-circle-exclamation"></i>
 					결재 정보
 				</button>
+				<button type="button" class="btn btn-outline-primary ms-2" @click="showDraftDeleteModal" v-if=" ApprovalDataVO.isAdmin=='Y'">
+					<i class="fa-solid fa-circle-exclamation"></i>
+					삭제
+				</button>
 			</div>
 		</div>
 		<div class="row">
@@ -274,6 +278,34 @@
             </div>
            </div>
        </div>
+   
+	<!-- 삭제 modal -->
+	<div class="modal" tabindex="-1" role="dialog" ref="draftDeleteModal"  >
+        <div class="modal-dialog modal-dialog-centered modal-md" role="document" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">삭제</h5>
+                </div>
+                <div class="modal-body">
+                	<div class="container-fluid" >
+                		<div class="row">
+                			<h5 class="text-primary">정말 삭제 하시겠습니까??</h5>
+                			<span class="text-primary">삭제된 데이터는 복구되지 않습니다.</span>
+                		</div>
+      				</div>  	
+                </div>
+                	
+                <div class="modal-footer">
+                	<div class="row">
+	                	<div class="col">
+	                  	  <button type="button" class="btn btn-danger ms-2" data-bs-dismiss="modal" @click="draftDelete">확인</button>
+	                  	  <button type="button" class="btn btn-secondary ms-2" data-bs-dismiss="modal" @click="hideDraftDeleteModal">닫기</button>
+	                	</div>
+                    </div>
+                </div>
+            </div>
+           </div>
+       </div>
        
 	<!-- 문서 수정 modal -->
 	<div class="modal" tabindex="-1" role="dialog" ref="draftEditModal"  >
@@ -386,6 +418,7 @@
     	  reApprovalModal : null,
     	  draftEditModal : null,
     	  draftApprovalModal : null,
+    	  draftDeleteModal : null,
     	  
     	  approvalReason : "",
     	  returnReason : "",
@@ -463,6 +496,14 @@
         	this.reApprovalModal.hide();
         },
         
+        showDraftDeleteModal(){	//삭제 모달 보이기
+        	this.draftDeleteModal.show();
+        },
+        
+        hideDraftDeleteModal(){	//삭제 모달 숨기기
+        	this.draftDeleteModal.hide();
+        },
+        
         showDraftApprovalModal(){	//결재 모달 보이기
         	this.draftApprovalModal.show();
         },
@@ -501,6 +542,13 @@
             location.reload();        	
         },
         
+        async draftDelete(){	//삭제
+            const urlParams = new URLSearchParams(window.location.search);
+            const draftNo = urlParams.get("draftNo");
+            const resp = await axios.delete("/rest/approval/draftDelete/"+draftNo);
+            window.location.href = "/approval/adminList";	
+        },
+        
         async draftApproval(){	//결재하기
             const urlParams = new URLSearchParams(window.location.search);
             const draftNo = urlParams.get("draftNo");
@@ -534,7 +582,9 @@
     	this.draftApprovalModal = new bootstrap.Modal(this.$refs.draftApprovalModal);
     	this.draftReturnModal = new bootstrap.Modal(this.$refs.draftReturnModal);
     	this.draftEditModal = new bootstrap.Modal(this.$refs.draftEditModal);
+    	this.draftDeleteModal = new bootstrap.Modal(this.$refs.draftDeleteModal);
     },
+    
     created() {
       this.loadData();
     },

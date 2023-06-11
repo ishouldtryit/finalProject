@@ -121,8 +121,8 @@
     <aside>
         <div class="wrapper d-flex align-items-stretch" >
                <nav id="sidebar" class="bg-info">
-                   <div class="p-4 pt-5" style=" min-height: 70vh;">
-                       <a href="#"><h3 class="text-light mb-5">그룹웨어</h3></a>
+                   <div class="p-4 pt-5" style="height: 100%;">
+                       <h3 class="text-light mb-5">그룹웨어</h3>
                        <ul class="list-unstyled components mb-5">
                         <li>
                                <a href="${pageContext.request.contextPath}/calendar/calendar">일정</a>

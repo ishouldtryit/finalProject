@@ -12,6 +12,39 @@
 	}
 </style>
 
+
+ <nav class="navbar navbar-expand-lg navbar-light bg-light">
+     <div class="container-fluid">
+
+         <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+             <i class="fa fa-bars"></i>
+         </button>
+         
+         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+             <ul class="nav navbar-nav ml-auto">
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/">홈</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/approval/write">신규 결재</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/approval/myList">나의 기안 문서함</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/approval/waitApproverList">결재 수신 문서함</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/approval/recipientList">참조 문서함</a>
+                 </li> 
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/approval/readerList">열람 문서함</a>
+                 </li>
+             </ul>
+         </div>
+     </div>
+ </nav>
+
 <div id="app">
 	<div class="container-fluid" v-if="ApprovalDataVO.approverList.length > 0">
 	    <div class="row">

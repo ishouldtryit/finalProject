@@ -32,7 +32,7 @@
                  <li class="nav-item">
                      <a class="nav-link" href="${pageContext.request.contextPath}/approval/write">신규 결재</a>
                  </li>
-                 <li class="nav-item">
+                 <li class="nav-item active">
                      <a class="nav-link" href="${pageContext.request.contextPath}/approval/myList">나의 기안 문서함</a>
                  </li>
                  <li class="nav-item">
@@ -41,7 +41,7 @@
                  <li class="nav-item">
                      <a class="nav-link" href="${pageContext.request.contextPath}/approval/recipientList">참조 문서함</a>
                  </li> 
-                 <li class="nav-item active">
+                 <li class="nav-item">
                      <a class="nav-link" href="${pageContext.request.contextPath}/approval/readerList">열람 문서함</a>
                  </li>
              </ul>

@@ -172,10 +172,10 @@ public class AdminController {
 
 		return "admin/list";
 	}
-	
-	//대기자 목록
+
+	// 대기자 목록
 	@GetMapping("/waitingList")
-	public String exitWaitingList(@ModelAttribute("vo") PaginationVO vo,
+	public String waitingList(@ModelAttribute("vo") PaginationVO vo,
 			@RequestParam(required = false, defaultValue = "") String empNo,
 			@RequestParam(required = false, defaultValue = "member_regdate desc") String sort,
 			@RequestParam(required = false, defaultValue = "") String column,
@@ -225,6 +225,58 @@ public class AdminController {
 		return "admin/waitingList";
 	}
 
+	// 최종 퇴사자 목록
+	@GetMapping("/exitList")
+	public String exitList(@ModelAttribute("vo") PaginationVO vo,
+			@RequestParam(required = false, defaultValue = "") String empNo,
+			@RequestParam(required = false, defaultValue = "member_regdate desc") String sort,
+			@RequestParam(required = false, defaultValue = "") String column,
+			@RequestParam(required = false, defaultValue = "") String keyword, Model model) {
+		List<EmployeeInfoDto> exitList;
+
+		// 대기 목록 조회
+		if (!column.isEmpty() && !keyword.isEmpty()) {
+			exitList = employeeRepo.searchExitEmployees(column, keyword);
+		} else {
+			exitList = employeeRepo.exitList();
+		}
+
+		model.addAttribute("exitList", exitList);
+
+		List<DepartmentDto> departments = departmentRepo.list();
+		List<JobDto> jobs = jobRepo.list();
+
+		model.addAttribute("departments", departments);
+		model.addAttribute("jobs", jobs);
+
+		if (empNo != null) {
+			model.addAttribute("profile", employeeProfileRepo.find(empNo));
+		}
+
+		// selected 유지
+		model.addAttribute("column", column);
+
+		// 페이징 처리
+		int totalCount = exitList.size(); // 전체 데이터 개수
+		vo.setCount(totalCount); // PaginationVO 객체의 count 값을 설정
+
+		int size = vo.getSize(); // 페이지당 표시할 데이터 개수
+		int page = vo.getPage(); // 현재 페이지 번호
+
+		int startIndex = (page - 1) * size; // 데이터의 시작 인덱스
+		int endIndex = Math.min(startIndex + size, totalCount); // 데이터의 종료 인덱스
+
+		List<EmployeeInfoDto> pagedEmployees = exitList.subList(startIndex, endIndex); // 페이지에 해당하는 데이터만 추출
+
+		// 프로필 사진 조회
+		EmployeeProfileDto profile = employeeProfileRepo.find(empNo); // 프로필 정보 조회
+		model.addAttribute("profile", profile);
+
+		model.addAttribute("employees", pagedEmployees);
+
+		return "admin/exitList";
+	}
+
 	// 사원 정보 수정
 	@GetMapping("/edit")
 	public String edit(@RequestParam String empNo, Model model) {
@@ -272,22 +324,22 @@ public class AdminController {
 		employeeRepo.delete(empNo);
 		return "redirect:/admin/waitingList";
 	}
-	
-	//사원 퇴사
+
+	// 사원 퇴사
 	@GetMapping("/exit")
 	public String exitEmployee(@RequestParam String empNo) {
 		employeeRepo.exit(empNo);
 		return "redirect:/admin/list";
 	}
-	
-	//사원 퇴사 취소
+
+	// 사원 퇴사 취소
 	@GetMapping("/exitCancel")
 	public String exitCancel(@RequestParam String empNo) {
 		employeeRepo.cancelExit(empNo);
 		return "redirect:/admin/waitingList";
 	}
-	
-	//사원 최종 퇴사
+
+	// 사원 최종 퇴사
 	@GetMapping("/finalExit")
 	public String finalExit(@RequestParam String empNo) {
 		EmployeeDto employeeDto = employeeRepo.selectOne(empNo);
@@ -360,24 +412,16 @@ public class AdminController {
 
 	// 접속로그 목록
 	@GetMapping("/log/list")
-	public String logList(// @ModelAttribute("vo") PaginationVO vo,
-			@ModelAttribute("vo") LoginRecordSearchVO loginRecordSearchVO, Model model) {
-		// 검색
-		List<LoginRecordInfoDto> logList = loginRecordRepo.logList(loginRecordSearchVO);
-
-		// 페이징 처리
-//			int totalCount = logList.size(); // 전체 데이터 개수
-//			vo.setCount(totalCount); // PaginationVO 객체의 count 값을 설정
-//
-//			int size = vo.getSize(); // 페이지당 표시할 데이터 개수
-//			int page = vo.getPage(); // 현재 페이지 번호
-//
-//			int startIndex = (page - 1) * size; // 데이터의 시작 인덱스
-//			int endIndex = Math.min(startIndex + size, totalCount); // 데이터의 종료 인덱스
-//
-//			List<LoginRecordInfoDto> pagedEmployees = logList.subList(startIndex, endIndex); // 페이지에 해당하는 데이터만 추출
-
-		model.addAttribute("logList", logList);
+	public String logList(@ModelAttribute PaginationVO vo,
+					      @ModelAttribute LoginRecordSearchVO loginRecordSearchVO, Model model) {
+		vo.setEmpName(loginRecordSearchVO.getEmpName());
+		vo.setSearchLoginDays(loginRecordSearchVO.getSearchLoginDays());
+		
+		int totalCount = loginRecordRepo.selectCount(vo);
+		vo.setCount(totalCount);
+ 		
+		List<LoginRecordInfoDto> list = loginRecordRepo.selectListByPaging(vo);
+		model.addAttribute("list", list);
 		return "admin/log/list";
 	}
 

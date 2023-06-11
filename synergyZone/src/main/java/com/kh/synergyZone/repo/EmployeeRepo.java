@@ -15,9 +15,6 @@ public interface EmployeeRepo {
 	   EmployeeDto selectOne(String empNo);
 	   List<EmployeeInfoDto> list();
 	   void update(EmployeeDto employeeDto);
-	   void exit(String empNo);
-	   void cancelExit(String empNo);
-	   void delete(String empNo);
 	   
 	   //부서별 사원목록
 	   List<DeptEmpListVO> treeSelect(String empName);
@@ -42,13 +39,24 @@ public interface EmployeeRepo {
 	   List<EmployeeDto> getEmployeeList(PaginationVO vo);
 	   List<EmployeeInfoDto> searchEmployees(String column, String keyword);
 	   
-	   //퇴사자 목록 검색
-	   void finalExit(EmployeeDto employeeDto);
+	   //퇴사 대기
+	   void exit(String empNo);
+	   void delete(String empNo);
+	   
 	   List<EmployeeInfoDto> waitingList();
 	   int waitingEmployeesCount();
 	   List<EmployeeInfoDto> WaitingEmployeeList(PaginationVO vo);
 	   List<EmployeeInfoDto> searchWaitingEmployees(String column, String keyword);
 	   
+	   //최종 퇴사
+	   void finalExit(EmployeeDto employeeDto);
 	   
+	   List<EmployeeInfoDto> exitList();
+	   int exitEmployeesCount();
+	   List<EmployeeInfoDto> exitEmployeeList(PaginationVO vo);
+	   List<EmployeeInfoDto> searchExitEmployees(String column, String keyword);
+	   
+	   //퇴사 취소
+	   void cancelExit(String empNo);
 	
 }

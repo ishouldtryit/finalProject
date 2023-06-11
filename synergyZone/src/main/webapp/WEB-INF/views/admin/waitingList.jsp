@@ -11,8 +11,8 @@
 </style>
 
 <div class="container-800" style="margin-left: 5%;">
-
 		<!-- 검색창 -->
+
 		<form class="d-flex" action="waitingList" method="get">
 		  <select name="column" class="form-input me-sm-2">
 		    <option value="emp_name" ${column eq 'emp_name' ? 'selected' : ''}>이름</option>
@@ -24,96 +24,98 @@
 		  <input class="form-control me-sm-2" type="search" placeholder="검색어" name="keyword" value="${param.keyword}" style="width: 13%;">
 		  <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
 		  
-
-		
 		</form>
 		
     	<!-- 사원 목록 테이블 -->
-		<div class="row">
-		  <div class="col" style="margin: 0 auto;">
-		    <form id="employeeForm">
-		      <table class="table table-hover mt-2" style="width: 90%;">
-		        <thead>
-		          <tr>
-		            <th>
-<!-- 		            <div class="p-2"> -->
-<!-- 	                <input type="checkbox" id="selectAllBtn" class="btn btn-primary my-2 my-sm-0"> -->
-<!-- 	              </div> -->
-	              </th>
-		            <th>프로필</th>
-		            <th>사원번호</th>
-		            <th>이름</th>
-		            <th>전화번호</th>
-		            <th>이메일</th>
-		            <th>주소</th>
-		            <th>상세주소</th>
-		            <th>부서</th>
-		            <th>직위</th>
-	                <th>퇴사여부</th>
-	                <th>관리</th>
-		          </tr>
-		        </thead>
-		        <tbody>
-		          <c:forEach var="employeeDto" items="${waitingList}">
-		            <tr>
-		              <td class="align-middle">
-<!-- 		                <div class="p-2"> -->
-<%-- 		                  <input type="checkbox" name="selectedEmployees" value="${employeeDto.empNo}"> --%>
-<!-- 		                </div> -->
-		              </td>
-		              <td class="align-middle">
-		                <div class="profile-image employee-name" data-empno="${employeeDto.empNo}" 
-			                    data-empname="${employeeDto.empName}" data-empphone="${employeeDto.empPhone}" 
-			                    data-empemail="${employeeDto.empEmail}" data-empaddress="${employeeDto.empAddress}" 
-			                    data-empdetailaddress="${employeeDto.empDetailAddress}" data-attachmentno="${employeeDto.attachmentNo}">
-		                  <img width="50" height="50" src="<c:choose>
-		                    <c:when test="${employeeDto.attachmentNo > 0}">
-		                      /attachment/download?attachmentNo=${employeeDto.attachmentNo}
-		                    </c:when>
-		                    <c:otherwise>
-		                      https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg
-		                    </c:otherwise>
-			                      </c:choose>" alt="" style="border-radius: 50%;">
-		                </div>
-		               
-		              </td>
-		              <td class="align-middle emp-no">${employeeDto.empNo}</td>
-		              <td class="align-middle employee-name" data-empno="${employeeDto.empNo}" data-empname="${employeeDto.empName}" 
-		                data-empphone="${employeeDto.empPhone}" data-empemail="${employeeDto.empEmail}" 
-		                data-empaddress="${employeeDto.empAddress}" data-empdetailaddress="${employeeDto.empDetailAddress}"
-		                data-attachmentno="${employeeDto.attachmentNo}">
-		                ${employeeDto.empName}
-		              </td>
-		              <td class="align-middle">${employeeDto.empPhone}</td>
-		              <td class="align-middle">${employeeDto.empEmail}</td>
-		              <td class="align-middle">${employeeDto.empAddress}</td>
-		              <td class="align-middle">${employeeDto.empDetailAddress}</td>
-		              <td class="align-middle">
-		                <c:forEach var="departmentDto" items="${departments}">
-		                  <c:if test="${departmentDto.deptNo == employeeDto.deptNo}">
-		                    ${departmentDto.deptName}
-		                  </c:if>
-		                </c:forEach>
-		              </td>
-		              <td class="align-middle">
-		                <c:forEach var="jobDto" items="${jobs}">
-		                  <c:if test="${jobDto.jobNo == employeeDto.jobNo}">
-		                    ${jobDto.jobName}
-		                  </c:if>
-		                </c:forEach>
-		              </td>
-	                  <td class="align-middle">${employeeDto.isLeave}</td>
-	                  <td class="align-middle">
-	                    <a href="exitCancel?empNo=${employeeDto.empNo}" class="exit-cancel-button">퇴사취소</a>
-	                    <a href="finalExit?empNo=${employeeDto.empNo}" class="final-exit-button">퇴사처리</a>
-	                  </td>
-		            </tr>
-		          </c:forEach>
-		        </tbody>
-		      </table>
-		    </form>
-		  </div>
-		</div>
+	<div class="row">
+	  <div class="col" style="margin: 0 auto;">
+	    <form id="employeeForm">
+	      <table class="table table-hover mt-2" style="width: 90%;">
+	        <thead>
+	          <tr>
+	            <th>
+	            <div class="p-2">
+                <input type="checkbox" id="selectAllBtn" class="btn btn-primary my-2 my-sm-0">
+              </div>
+              </th>
+				<th>프로필</th>
+				<th>사원번호</th>
+				<th>이름</th>
+				<th>전화번호</th>
+				<th>이메일</th>
+				<th>주소</th>
+				<th>상세주소</th>
+				<th>부서</th>
+				<th>직위</th>
+				<th>퇴사여부</th>
+				<th>관리</th>
+	          </tr>
+	        </thead>
+	        <tbody>
+	          <c:forEach var="employeeDto" items="${employees}">
+	            <tr>
+	              <td class="align-middle">
+	                <div class="p-2">
+	                  <input type="checkbox" name="selectedEmployees" value="${employeeDto.empNo}">
+	                </div>
+	              </td>
+	              <td class="align-middle">
+	                <div class="profile-image employee-name" data-empno="${employeeDto.empNo}" 
+		                    data-empname="${employeeDto.empName}" data-empphone="${employeeDto.empPhone}" 
+		                    data-empemail="${employeeDto.empEmail}" data-empaddress="${employeeDto.empAddress}" 
+		                    data-empdetailaddress="${employeeDto.empDetailAddress}" data-attachmentno="${employeeDto.attachmentNo}">
+	                  <img width="50" height="50" src="<c:choose>
+	                    <c:when test="${employeeDto.attachmentNo > 0}">
+	                      /attachment/download?attachmentNo=${employeeDto.attachmentNo}
+	                    </c:when>
+	                    <c:otherwise>
+	                      https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg
+	                    </c:otherwise>
+		                      </c:choose>" alt="" style="border-radius: 50%;">
+	                </div>
+	               
+	              </td>
+	              <td class="align-middle emp-no">${employeeDto.empNo}</td>
+	              <td class="align-middle employee-name" data-empno="${employeeDto.empNo}" data-empname="${employeeDto.empName}" 
+	                data-empphone="${employeeDto.empPhone}" data-empemail="${employeeDto.empEmail}" 
+	                data-empaddress="${employeeDto.empAddress}" data-empdetailaddress="${employeeDto.empDetailAddress}"
+	                data-attachmentno="${employeeDto.attachmentNo}">
+	                ${employeeDto.empName}
+	              </td>
+	              <td class="align-middle">${employeeDto.empPhone}</td>
+	              <td class="align-middle">${employeeDto.empEmail}</td>
+	              <td class="align-middle">${employeeDto.empAddress}</td>
+	              <td class="align-middle">${employeeDto.empDetailAddress}</td>
+	              <td class="align-middle">
+	                <c:forEach var="departmentDto" items="${departments}">
+	                  <c:if test="${departmentDto.deptNo == employeeDto.deptNo}">
+	                    ${departmentDto.deptName}
+	                  </c:if>
+	                </c:forEach>
+	              </td>
+	              <td class="align-middle">
+	                <c:forEach var="jobDto" items="${jobs}">
+	                  <c:if test="${jobDto.jobNo == employeeDto.jobNo}">
+	                    ${jobDto.jobName}
+	                  </c:if>
+	                </c:forEach>
+	              </td>
+				  <td class="align-middle">${employeeDto.isLeave}</td>
+				  <td class="align-middle">
+					<a href="exitCancel?empNo=${employeeDto.empNo}" class="exit-cancel-button">퇴사취소</a>
+	                <a href="finalExit?empNo=${employeeDto.empNo}" class="final-exit-button">퇴사처리</a>
+				  </td>
+	            </tr>
+	          </c:forEach>
+	        </tbody>
+	        	<!-- 데이터 없음 알림 -->
+				<c:if test="${empty employees}">
+				    <td colspan="15" class="text-center">검색 결과가 없습니다.</td>
+				</c:if>
+	      </table>
+	    </form>
+	  </div>
+	</div>
 
 
 
@@ -170,22 +172,24 @@
 		<div style="display: flex; justify-content: center;">
 		  <ul class="pagination" style="width: 20%;">
 		    <li class="page-item ${vo.isFirst() ? 'disabled' : ''}">
-		      <a class="page-link" href="${vo.isFirst() ? '#' : pageContext.request.contextPath}/admin/list?page=${vo.getPrevPage()}">&laquo;</a>
+		      <a class="page-link" href="${vo.isFirst() ? '#' : pageContext.request.contextPath}/admin/waitingList?page=${vo.getPrevPage()}&sort=${vo.getSort()}${vo.getQueryString()}">&laquo;</a>
 		    </li>
 		    <c:forEach var="i" begin="${vo.getStartBlock()}" end="${vo.getFinishBlock()}">
 		      <li class="page-item">
-		        <a class="page-link ${vo.getPage() eq i ? 'active' : ''}" href="${pageContext.request.contextPath}/admin/list?page=${i}&sort=${vo.getSort()}">
+		        <a class="page-link ${vo.getPage() eq i ? 'active' : ''}" href="${pageContext.request.contextPath}/admin/waitingList?page=${i}&sort=${vo.getSort()}${vo.getQueryString()}">
 		          <span class="text-info">${i}</span>
 		        </a>
 		      </li>
 		    </c:forEach> 
 		    <li class="page-item ${vo.isLast() ? 'disabled' : ''}">
-		      <a class="page-link" href="${vo.isLast() ? '#' : pageContext.request.contextPath}/admin/list?page=${vo.getNextPage()}">
+		      <a class="page-link" href="${vo.isLast() ? '#' : pageContext.request.contextPath}/admin/waitingList?page=${vo.getNextPage()}&sort=${vo.getSort()}${vo.getQueryString()}">
 		        <span class="text-info">&raquo;</span>
 		      </a>
 		    </li>
 		  </ul>
 		</div>
+
+
 	</div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
      <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
@@ -235,14 +239,14 @@
 
       $('#employeeInfoModal').modal('show');
     });
-    
-    $(".emp-no").click(function(){
+
+	$(".emp-no").click(function(){
     	var empNo = $(this).text(); // 클릭한 요소의 텍스트 값을 가져옴
     	  var editUrl = "edit?empNo=" + empNo; // 수정하기 링크 URL 생성
     	  window.location.href = editUrl; // 링크로 이동
     });
     
-    $(".exit-cancel-button").click(function(){
+	$(".exit-cancel-button").click(function(){
     	var result = confirm("퇴사취소 처리 하시겠습니까?");
     	
     	if(result){
@@ -275,7 +279,22 @@
     $('select[name="column"] option[value="' + selectedColumn + '"]').prop('selected', true);
   });
 </script>
-    
+
+<script>
+  // 체크박스 전체선택 기능
+  $(document).ready(function() {
+    const selectAllBtn = $('#selectAllBtn');
+    const checkboxes = $('input[name="selectedEmployees"]');
+
+    let selectAll = false;
+
+    selectAllBtn.on('click', function() {
+      selectAll = !selectAll;
+
+      checkboxes.prop('checked', selectAll);
+    });
+  });
+</script>
     
   <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
     

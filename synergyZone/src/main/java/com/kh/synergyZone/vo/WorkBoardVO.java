@@ -21,5 +21,6 @@ public class WorkBoardVO {
 	private String workSecret;
 	private String workType;
 	
+	
 	private List<WorkAttachVO> attachList;
 }

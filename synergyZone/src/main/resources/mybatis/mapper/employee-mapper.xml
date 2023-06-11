@@ -144,7 +144,7 @@
 	
 	<!-- 관리자 목록 -->
 	<select id="adminList" resultType="employeeDto">
-		select * from employee where emp_admin = 'Y'
+		select * from search_info where emp_admin = 'Y'
 	</select>
 	
 	<!-- 퇴사 -->
@@ -162,12 +162,12 @@
 
 	<!--퇴사 대기 목록 -->
 	<select id="waitingList" resultType="employeeInfoDto">
-		select * from employee where is_leave = 'D'
+		select * from search_info where is_leave = 'D'
 	</select>
 	
 	<!-- 퇴사 대기 사원 카운트 -->
 	<select id="waitingEmployeesCount" resultType="int">
-	 	 SELECT COUNT(*) FROM employee where is_leave = 'D'
+	 	 SELECT COUNT(*) FROM search_info where is_leave = 'D'
 	</select>
 	
 	<!-- 퇴사 대기 검색 -->
@@ -185,7 +185,7 @@
 	  SELECT *
 	  FROM (
 	    SELECT e.*, ROWNUM AS rn
-	    FROM employee e
+	    FROM search_info e
 	    WHERE is_leave = 'D' AND ROWNUM <= #{end}
 	  )
 	  WHERE rn >= #{begin}
@@ -206,13 +206,18 @@
 	 	 SELECT COUNT(*) FROM employee where is_leave = 'Y'
 	</select>
 	
+	<!--퇴사 대기 목록 -->
+	<select id="exitEmployeesList" resultType="employeeInfoDto">
+		select * from search_info where is_leave = 'Y'
+	</select>
+	
 	<!-- 최종 퇴사 대기 검색 -->
 	<select id="searchExitEmployees" resultType="EmployeeInfoDto">
-	    SELECT *
-	    FROM search_info
-	    WHERE is_leave = 'Y'
-	      AND instr(${column}, #{keyword}) > 0
-	    ORDER BY ${column} ASC
+	  select distinct *
+	  from search_info
+	  where instr(${column}, #{keyword}) > 0
+	    and is_leave = 'Y'
+	  order by ${column} asc
 	</select>
 
 	<!--최종 퇴사 페이지네이션 -->
@@ -221,7 +226,7 @@
 	  SELECT *
 	  FROM (
 	    SELECT e.*, ROWNUM AS rn
-	    FROM employee e
+	    FROM search_info e
 	    WHERE is_leave = 'Y' AND ROWNUM <= #{end}
 	  )
 	  WHERE rn >= #{begin}

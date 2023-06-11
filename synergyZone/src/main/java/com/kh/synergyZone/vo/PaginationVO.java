@@ -170,5 +170,8 @@ public class PaginationVO {
 	        return "&column=" + this.column + "&keyword=" + this.keyword + "&sort=" + this.sort;
 	    }
 	}
+	
+	private String empName;
+	private Integer searchLoginDays;
 
 }

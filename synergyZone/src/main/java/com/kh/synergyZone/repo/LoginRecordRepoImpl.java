@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.synergyZone.dto.LoginRecordDto;
 import com.kh.synergyZone.dto.LoginRecordInfoDto;
 import com.kh.synergyZone.vo.LoginRecordSearchVO;
+import com.kh.synergyZone.vo.PaginationVO;
 
 @Repository
 public class LoginRecordRepoImpl implements LoginRecordRepo {
@@ -25,12 +26,22 @@ public class LoginRecordRepoImpl implements LoginRecordRepo {
 	}
 
 	@Override
-	public List<LoginRecordDto> list() {
+	public List<LoginRecordInfoDto> list() {
 		return sqlSession.selectList("loginRecord.list");
 	}
 
+//	@Override
+//	public List<LoginRecordInfoDto> logList(LoginRecordSearchVO vo) {
+//		return sqlSession.selectList("loginRecord.complexSearch", vo);
+//	}
+
 	@Override
-	public List<LoginRecordInfoDto> logList(LoginRecordSearchVO vo) {
+	public int selectCount(PaginationVO vo) {
+		return sqlSession.selectOne("loginRecord.count", vo);
+	}
+
+	@Override
+	public List<LoginRecordInfoDto> selectListByPaging(PaginationVO vo) {
 		return sqlSession.selectList("loginRecord.complexSearch", vo);
 	}
 }

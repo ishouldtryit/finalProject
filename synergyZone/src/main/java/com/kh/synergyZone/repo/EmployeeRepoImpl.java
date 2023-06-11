@@ -195,6 +195,37 @@ public class EmployeeRepoImpl implements EmployeeRepo {
 		  return resultList;
 	}
 
+	@Override
+	public List<EmployeeInfoDto> exitList() {
+		return sqlSession.selectList("employee.exitEmployeesList");
+		
+	}
+	
+	@Override
+	public int exitEmployeesCount() {
+		return sqlSession.selectOne("employee.exitEmployeesCount");
+	}
+
+	@Override
+	public List<EmployeeInfoDto> exitEmployeeList(PaginationVO vo) {
+		 int begin = vo.getBegin();
+	      int end = vo.getEnd();
+
+	      Map<String, Object> params = new HashMap<>();
+	      params.put("begin", begin);
+	      params.put("end", end);
+
+	      return sqlSession.selectList("employee.getExitList", params);
+	}
+
+	@Override
+	public List<EmployeeInfoDto> searchExitEmployees(String column, String keyword) {
+		Map<String, Object> params = new HashMap<>();
+		   params.put("column", column);
+		   params.put("keyword", keyword);
+		   return sqlSession.selectList("searchExitEmployees", params);
+	}
+
 
 
 }

@@ -11,5 +11,6 @@ public interface WorkReportRepo {
 	List<WorkReportDto> selectAll(int workNo);
 	List<SupWithWorkDto> supList(String workSup);
 	List<SupWithWorkDto> searchSupList(String column, String keyword, String workSup);
+	
 }
 

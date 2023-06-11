@@ -123,6 +123,19 @@ public class WorkBoardServiceImpl implements WorkBoardService{
 	        }
 	    }
 	}
+	
+	//결재 완료 상태 변경
+	@Override
+	public void updateResult(int workNo) {
+		WorkBoardDto workBoardDto = workBoardRepo.selectOnly(workNo);
+		
+		int statusCode = workBoardDto.getStatusCode();
+		int supCount = workBoardRepo.countSupList(workNo);
+		
+		if(statusCode == supCount) {
+			workBoardRepo.signed(workBoardDto);
+		}
+	}
 
 	
 }

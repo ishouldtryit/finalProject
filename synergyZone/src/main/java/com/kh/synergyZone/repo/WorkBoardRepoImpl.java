@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.synergyZone.dto.WorkBoardDto;
 import com.kh.synergyZone.dto.WorkEmpInfo;
+import com.kh.synergyZone.dto.WorkReportDto;
 
 @Repository
 public class WorkBoardRepoImpl implements WorkBoardRepo {
@@ -79,6 +80,40 @@ public class WorkBoardRepoImpl implements WorkBoardRepo {
 		 params.put("deptNo", deptNo);
 		 return sqlSession.selectList("workBoard.searchListByJobNoWithSecret", params);
 	}
+	
+	// 결재 승인
+	@Override
+	public void signed(WorkBoardDto workBoardDto) {
+		sqlSession.update("workBoard.signed", workBoardDto);
+	}
+
+	// 반려
+	@Override
+	public void workReturn(WorkBoardDto workBoardDto) {
+		sqlSession.update("workBoard.workReturn", workBoardDto);
+	}
+
+	// 결재 승인 카운트
+	@Override
+	public int signedCount(int workNo) {
+		Integer count = sqlSession.selectOne("workBoard.signedCount", workNo);
+	    return (count != null) ? count.intValue() : 0;
+	}
+
+	@Override
+	public WorkBoardDto selectOnly(int workNo) {
+		return sqlSession.selectOne("workBoard.findOnly", workNo);
+	}
+
+	@Override
+	public int countSupList(int workNo) {
+		return sqlSession.selectOne("workBoard.countSupList", workNo);
+	}
+
+//	@Override
+//	public int statusCode(int workNo) {
+//		return sqlSession.selectOne("workBoard.statusCode", workNo);
+//	}
 
 	
 	

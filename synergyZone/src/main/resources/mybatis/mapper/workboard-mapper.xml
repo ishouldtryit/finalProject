@@ -23,6 +23,10 @@
 		)
 	</insert>
 	
+	<select id="findOnly" resultType="WorkBoardDto">
+		select * from work_board where work_no = #{workNo}
+	</select>
+	
 	<select id="find" resultType="WorkEmpInfo">
 		select * from work_emp_info where work_no = #{workNo}
 	</select>
@@ -80,5 +84,44 @@
 		  WHERE rn >= #{begin}
 		  ]]>
 	</select>
+	
+		<!-- 결재 승인 -->
+	<update id="signedCount">
+		update work_board
+		<set>
+			status_code = status_code + 1,
+		</set>
+		where work_no = #{workNo}
+	</update>
+	
+	<!-- 결재 완료-->
+	<update id="signed">
+		update work_board
+		<set>
+			result_code = 2
+		</set>
+		where work_no = #{workNo}
+	</update>
+	
+	<!-- 결재 반려 -->
+	<update id="workReturn">
+		update work_board
+		<set>
+			result_code = 1
+		</set>
+		where work_no = #{workNo}
+	</update>
+	
+	<!-- 참조자 수 -->
+	<select id="countSupList" resultType="int">
+		select COUNT(work_sup) from work_report
+		where work_no = #{workNo}
+	</select>
+	
+
+<!-- 	<select id="statusCode" resultType="int"> -->
+<!-- 		select status_code from work_board -->
+<!-- 		where work_no = #{workNo} -->
+<!-- 	</select> -->
 	
 </mapper>

@@ -155,7 +155,7 @@ $(document).ready(function(){
 $(document).ready(function() {
     $(".work-title").click(function(){
         var workNo = $(this).data("work-no"); // Retrieve the workNo from the data attribute
-        var detailUrl = "detail?workNo=" + workNo; // Construct the detail page URL
+        var detailUrl = "sign?workNo=" + workNo; // Construct the detail page URL
         window.location.href = detailUrl; // Redirect to the detail page
     });
 });

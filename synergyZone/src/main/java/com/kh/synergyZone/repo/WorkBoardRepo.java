@@ -4,11 +4,13 @@ import java.util.List;
 
 import com.kh.synergyZone.dto.WorkBoardDto;
 import com.kh.synergyZone.dto.WorkEmpInfo;
+import com.kh.synergyZone.dto.WorkReportDto;
 
 public interface WorkBoardRepo {
 	int sequence();
 	void insert(WorkBoardDto workBoardDto);
 	List<WorkEmpInfo> list(int deptNo);
+	WorkBoardDto selectOnly(int workNo);
 	WorkEmpInfo selectOne(int workNo);
 	void update(WorkBoardDto workBoardDto);
 	void delete(int workNo);
@@ -25,4 +27,15 @@ public interface WorkBoardRepo {
 	
 	//내 업무일지 검색
 	List<WorkEmpInfo> SearchMyWorkList(String column, String keyword, String empNo);
+	
+	// 결재
+	void signed(WorkBoardDto workBoardDto);
+
+	void workReturn(WorkBoardDto workBoardDto);
+
+	int signedCount(int workNo);
+	
+	//결재 결과
+	int countSupList(int workNo);
+//	int statusCode(int workNo);
 }

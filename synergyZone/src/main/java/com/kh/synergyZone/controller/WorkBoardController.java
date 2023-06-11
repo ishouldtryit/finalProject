@@ -128,6 +128,46 @@ public class WorkBoardController {
 		return "redirect:detail";
 	}
 
+	
+	// 결재
+	@GetMapping("/sign")
+	public String sign(@RequestParam int workNo, Model model, HttpSession session) {
+		model.addAttribute("employees", employeeRepo.list());
+		model.addAttribute("workBoardDto", workBoardRepo.selectOne(workNo));
+
+		model.addAttribute("files", workFileRepo.selectAll(workNo));
+		model.addAttribute("workSups", workReportRepo.selectAll(workNo));
+
+		return "workboard/sign";
+	}
+
+	@PostMapping("/sign")
+	public String sign(@ModelAttribute WorkReportDto workReportDto,
+	                   @RequestParam int workNo,
+	                   HttpSession session,
+	                   RedirectAttributes attr) {
+	    WorkBoardDto workBoardDto = workBoardRepo.selectOnly(workNo);
+	    workBoardRepo.signedCount(workBoardDto.getWorkNo());
+
+	    workBoardService.updateResult(workNo);
+
+	    attr.addAttribute("workNo", workNo);
+
+	    return "redirect:detail";
+	}
+	
+	@GetMapping("/workReturn")
+	public String workReturn(@RequestParam int workNo, RedirectAttributes attr) {
+	    WorkBoardDto workBoardDto = workBoardRepo.selectOnly(workNo);
+	    workBoardRepo.workReturn(workBoardDto);
+	    attr.addAttribute("workNo", workNo);
+	    return "redirect:detail";
+	}
+
+	
+	
+
+
 	// 참조자 보관함
 	@GetMapping("/supList")
 	public String supList(@ModelAttribute("vo") PaginationVO vo,
@@ -177,6 +217,7 @@ public class WorkBoardController {
 
 	    model.addAttribute("supList", pagedSupList);
 
+
 	    return "workboard/supList";
 	}
 
@@ -210,6 +251,15 @@ public class WorkBoardController {
 		int endIndex = Math.min(startIndex + size, totalCount); // 데이터의 종료 인덱스
 
 		List<WorkEmpInfo> pagedMyWorkList = myWorkList.subList(startIndex, endIndex);
+		
+		 // 업무 상태 수와 참조자 수 계산
+	    for (WorkEmpInfo work : pagedMyWorkList) {
+	        int statusCount = work.getStatusCode();
+	        int supCount = workBoardRepo.countSupList(work.getWorkNo());
+
+	        work.setStatusCount(statusCount);
+	        work.setSupCount(supCount);
+	    }
 
 		// selected 유지
 		model.addAttribute("column", column);
@@ -345,5 +395,6 @@ public class WorkBoardController {
 
 		return "redirect:list";
 	}
+
 
 }

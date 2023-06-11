@@ -23,8 +23,8 @@
 		)
 	</insert>
 	
-	<select id="find" resultType="workBoardDto">
-		select * from work_board where work_no = #{workNo}
+	<select id="find" resultType="WorkEmpInfo">
+		select * from work_emp_info where work_no = #{workNo}
 	</select>
 	
 	<update id="edit">

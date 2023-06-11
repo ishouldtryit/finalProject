@@ -23,5 +23,6 @@ public class WorkEmpInfo {
 	private String empName;
 	private int jobNo;
 	private int deptNo;
+	private int attachmentNo;
 
 }

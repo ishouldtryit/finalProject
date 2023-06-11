@@ -9,7 +9,7 @@ public interface WorkBoardRepo {
 	int sequence();
 	void insert(WorkBoardDto workBoardDto);
 	List<WorkEmpInfo> list(int deptNo);
-	WorkBoardDto selectOne(int workNo);
+	WorkEmpInfo selectOne(int workNo);
 	void update(WorkBoardDto workBoardDto);
 	void delete(int workNo);
 	

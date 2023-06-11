@@ -262,18 +262,18 @@
 					</div>
 
 				</c:if>
-				<div class="row mt-4">
-					<div class="col">
-						<input type="hidden" name="workNo" id="workNo"
-							value="${workBoardDto.workNo}">
-						<!-- 나머지 입력 필드들 -->
-						<button type="submit" class="btn btn-primary">보고</button>
-					</div>
-				</div>
 			</div>
 			<br>
 		</div>
+	<div class="row mt-4">
+		<div class="col">
+			<input type="hidden" name="workNo" id="workNo"
+				value="${workBoardDto.workNo}">
+			<!-- 나머지 입력 필드들 -->
+		</div>
+	</div>
 	</form>
+			<button type="submit" class="btn btn-primary" @click="report()">보고</button>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -400,15 +400,16 @@
     	},
 
       
-      report() {
-    	  if (this.supList === null || this.supList.length === 0) {
-    	    alert("참조자를 선택해 주세요.");
-    	    return;
-    	  }
+    	report() {
+    		  if (this.supList === null || this.supList.length === 0) {
+    		    alert("참조자를 선택해 주세요."); // 선택하지 않은 경우 알림 창을 띄웁니다.
+    		    return; // form이 넘어가지 않도록 return 문을 추가합니다.
+    		  }
 
-    	  // Submit the form
-    	  document.querySelector("form").submit();
-    	},
+    		  // Submit the form
+    		  document.querySelector("form").submit();
+    		},
+
 
       
   	   

@@ -6,6 +6,9 @@
   .employee-name {
     color: dodgerblue;
   }
+  .work-title {
+    cursor: pointer;
+  }
   
 </style>
 <!-- 스크립트 -->

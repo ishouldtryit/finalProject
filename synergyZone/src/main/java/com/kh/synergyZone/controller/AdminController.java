@@ -103,7 +103,7 @@ public class AdminController {
 
 		vacationRepo.add(info);
 
-		return "redirect:/";
+		return "redirect:/admin/list";
 	}
 
 	// 프로필 이미지 수정

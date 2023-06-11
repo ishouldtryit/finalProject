@@ -5,6 +5,11 @@
 <style>
   .employee-name {
     color: dodgerblue;
+    cursor: pointer;
+  }
+  
+  .emp-no {
+    cursor: pointer;
   }
   
   

@@ -82,8 +82,8 @@
                 <div class="d-flex align-items-center">
                     <div class="profile-image employee-name">
                         <img width="24" height="24" src="<c:choose>
-                                <c:when test="${profile.empNo == workBoardDto.empNo}">
-                                    /attachment/download?attachmentNo=${profile.attachmentNo}
+                                <c:when test="${workBoardDto.attachmentNo > 0}">
+                                    /attachment/download?attachmentNo=${workBoardDto.attachmentNo}
                                 </c:when>
                                 <c:otherwise>
                                     https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg

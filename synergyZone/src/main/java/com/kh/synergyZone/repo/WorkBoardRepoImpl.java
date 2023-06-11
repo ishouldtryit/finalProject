@@ -33,7 +33,7 @@ public class WorkBoardRepoImpl implements WorkBoardRepo {
 	}
 
 	@Override
-	public WorkBoardDto selectOne(int workNo) {
+	public WorkEmpInfo selectOne(int workNo) {
 		return sqlSession.selectOne("workBoard.find", workNo);
 	}
 

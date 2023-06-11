@@ -96,7 +96,7 @@ public class WorkBoardController {
 		model.addAttribute("workSups", workReportRepo.selectAll(workNo));
 		
 		// 글 작성자 판단
-		WorkBoardDto workBoardDto = workBoardRepo.selectOne(workNo);
+		WorkEmpInfo workBoardDto = workBoardRepo.selectOne(workNo);
 		String empNo = (String) session.getAttribute("empNo");
 		boolean owner = workBoardDto.getEmpNo() != null && workBoardDto.getEmpNo().equals(empNo);
 		model.addAttribute("owner", owner);
@@ -311,7 +311,7 @@ public class WorkBoardController {
 		model.addAttribute("workSups", workReportRepo.selectAll(workNo));
 
 		// 글 작성자 판단
-		WorkBoardDto workBoardDto = workBoardRepo.selectOne(workNo);
+		WorkEmpInfo workBoardDto = workBoardRepo.selectOne(workNo);
 		String empNo = (String) session.getAttribute("empNo");
 		boolean owner = workBoardDto.getEmpNo() != null && workBoardDto.getEmpNo().equals(empNo);
 		model.addAttribute("owner", owner);

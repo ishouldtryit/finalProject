@@ -6,6 +6,10 @@
   .employee-name {
     color: dodgerblue;
   }
+    .work-title {
+    cursor: pointer;
+  }
+  
   
 </style>
 <!-- 스크립트 -->
@@ -95,7 +99,7 @@ $(document).ready(function(){
         <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
     </form>
     
-    <!-- 사원 목록 테이블 -->
+    <!-- 내 업무일지 테이블 -->
     <div class="row">
         <div class="col" style="margin: 0 auto;">
             <table class="table table-hover mt-2" style="width: 90%;">

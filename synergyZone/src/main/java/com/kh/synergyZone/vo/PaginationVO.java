@@ -59,9 +59,9 @@ public String getLogParameter() {
 		  buffer.append(empName);
 		  buffer.append("&searchLoginDays=");
 		  buffer.append(searchLoginDays);
-	  } else {	
-		  buffer.append("&empName=&searchLoginDays=");
-	  }
+	  }  else {   
+	        buffer.append("&empName=&searchLoginDays=0");
+	  } 
 	  return buffer.toString();
 }
 

@@ -33,7 +33,7 @@ $(document).ready(function(){
                 break;
             case 3:
                 badgeText = '보류';
-                $(this).addClass("bg-dangers");
+                $(this).addClass("bg-secondary");
                 break;
             default:
                 break;
@@ -121,7 +121,9 @@ $(document).ready(function(){
 					        </tr>
 					    </c:forEach>
 					</tbody>
-
+					<c:if test="${empty list}">
+				    <td colspan="15" class="text-center">검색 결과가 없습니다.</td>
+				</c:if>
             </table>
         </div>
     </div>

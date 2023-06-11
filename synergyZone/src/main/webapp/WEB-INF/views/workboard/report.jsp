@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <style>
@@ -16,179 +18,228 @@
 	.btn{
 	width: 120px;
 	}
+	.badge {
+    display: inline-block; /* 또는 display: inline-flex; */
+    margin-right: 5px; /* 원하는 간격으로 수정 */
+}
 </style>
+
+    <script>
+    	const empNo = "${sessionScope.empNo}";
+    </script>
 
 
 <div id="app">
 	<div class="container-fluid">
-	 
-        <div>
-            <button type="button" class="btn btn-primary" v-on:click="showSupModal">참조자 추가</button>
-        </div>
-        
-        <div class="container">
-           
-        </div>
-  </div>
-  
-<!-- 결재자 선택 modal -->
-	<div class="modal" tabindex="-1" role="dialog" data-bs-backdrop="static" ref="SupModal" >
-        <div class="modal-dialog modal-dialog-centered  modal-lg" role="document" >
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">결재 정보 - 결재자</h5>
-                </div>
-                <div class="modal-body">
-                    <!-- 모달에서 표시할 실질적인 내용 구성 -->
-	   	       		<div v-if="showDuplicateAlert" class="duplicate-alert-container w-20">
+
+		<div>
+			<button type="button" class="btn btn-primary"
+				v-on:click="showSupModal">참조자 추가</button>
+		</div>
+
+		<div class="container"></div>
+	</div>
+
+	<!-- 결재자 선택 modal -->
+	<div class="modal" tabindex="-1" role="dialog"
+		data-bs-backdrop="static" ref="SupModal">
+		<div class="modal-dialog modal-dialog-centered  modal-lg"
+			role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">결재 정보 - 결재자</h5>
+				</div>
+				<div class="modal-body">
+					<!-- 모달에서 표시할 실질적인 내용 구성 -->
+					<div v-if="showDuplicateAlert"
+						class="duplicate-alert-container w-20">
 						<div class="alert alert-dismissible alert-primary">
-						  <span>중복된 대상입니다.</span>
+							<span>중복된 대상입니다.</span>
 						</div>
 					</div>
-                    <div class="container-fluid">
-      						<div class="row">
-          						<div class="col-4" style="overflow-y: scroll; height:400px;">
-          						<div class="row mb-3 d-flex justify-content-center align-items-center">
-	          						<div class="col-8 p-1" >
-								      <input type="text" class="form-control " placeholder="이름" v-model="searchName">
-	          						</div>
-	          						<div class="col-2 border rounded">
-								      <span @click="search" style="cursor: pointer;" title="검색" class="d-flex justify-content-center align-items-center">
-								      	<i class="fa-solid fa-magnifying-glass p-2"></i>
-								      </span>
-	          						</div>
-	          						<div class="col-2 border rounded" >
-								      <span @click="searchAll" style="cursor: pointer;" title="전체 목록" class="d-flex justify-content-center align-items-center">
-								      	<i class="fa-solid fa-list p-2" ></i>
-								      </span>
-	          						</div>
-          						</div>
-			                      <ul style="margin:0; padding:0;">
-							        <li v-for="(department, index) in deptEmpList" class="custom-list-item"> 
-							        	<span v-on:click="toggleEmployeeList(index)">
-								           <i class="fa-regular" :class="{'fa-square-plus': !department.showEmployeeList, 'fa-square-minus': department.showEmployeeList}"></i>
-								          {{ department.departmentDto.deptName }}
-							        	</span>
-							          <ul  v-show="department.showEmployeeList">
-							            <li v-for="(employee, index) in department.employeeList" class="custom-list-item">
-							             <span @click="addToSup(employee, department)">
-							              <img width="25" height="25"  class="rounded-circle" :src="getAttachmentUrl(employee.attachmentNo)" >
-							              {{ employee.empName }}.{{ employee.jobName }}
-							            </span>
-							            </li>
-							          </ul>
-							        </li>
-							      </ul>
-							      <hr>
-							     </div>
-       							<div class="col-8" style="overflow-y: scroll; height:400px;">
-	       							<div class="row mb-1">
-		       							<div class="col-6 text-center">
-		       								참조자 목록
-		       							</div>
-		       							<div class="col-2 text-center">
-		       								제거
-		       							</div>
-		       						</div>
-                                       <div class="row" v-for="(sup, index) in supList">
-                                        <div class="col-6">
-                                          <div class="badge bg-danger w-100">
-                                            {{index+1}}.{{sup.department.deptName}} : {{sup.supList.empName}}
-                                          </div>
-                                        </div>
-                                        <div class="col-2 text-center">
-                                          <i class="fa-regular fa-trash-can" @click="removeSup(index)"></i>
-                                        </div>
-                                      </div>
-       							</div>
-   							</div>
+					<div v-if="showMeAlert" class="duplicate-alert-container w-20">
+						<div class="alert alert-dismissible alert-primary">
+							<span>자신은 선택할 수 없습니다.</span>
 						</div>
-	                </div>
-                <div class="modal-footer">
-                    <div class="row">
-                        <button type="button" class="btn btn-secondary ml-auto" data-bs-dismiss="modal" @click="hideEmployeeList">닫기</button>
-                    </div>
-                </div>
-            </div>      
+					</div>
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-4" style="overflow-y: scroll; height: 400px;">
+								<div
+									class="row mb-3 d-flex justify-content-center align-items-center">
+									<div class="col-8 p-1">
+										<input type="text" class="form-control " placeholder="이름"
+											v-model="searchName">
+									</div>
+									<div class="col-2 border rounded">
+										<span @click="search" style="cursor: pointer;" title="검색"
+											class="d-flex justify-content-center align-items-center">
+											<i class="fa-solid fa-magnifying-glass p-2"></i>
+										</span>
+									</div>
+									<div class="col-2 border rounded">
+										<span @click="searchAll" style="cursor: pointer;"
+											title="전체 목록"
+											class="d-flex justify-content-center align-items-center">
+											<i class="fa-solid fa-list p-2"></i>
+										</span>
+									</div>
+								</div>
+								<ul style="margin: 0; padding: 0;">
+									<li v-for="(department, index) in deptEmpList"
+										class="custom-list-item"><span
+										v-on:click="toggleEmployeeList(index)"> <i
+											class="fa-regular"
+											:class="{'fa-square-plus': !department.showEmployeeList, 'fa-square-minus': department.showEmployeeList}"></i>
+											{{ department.departmentDto.deptName }}
+									</span>
+										<ul v-show="department.showEmployeeList">
+											<li v-for="(employee, index) in department.employeeList"
+												class="custom-list-item"><span
+												@click="addToSup(employee, department)"> <img
+													width="25" height="25" class="rounded-circle"
+													:src="getAttachmentUrl(employee.attachmentNo)"> {{
+													employee.empName }}.{{ employee.jobName }}
+											</span></li>
+										</ul></li>
+								</ul>
+								<hr>
+							</div>
+							<div class="col-8" style="overflow-y: scroll; height: 400px;">
+								<div class="row mb-1">
+									<div class="col-6 text-center">참조자 목록</div>
+									<div class="col-2 text-center">제거</div>
+								</div>
+								<div class="row" v-for="(sup, index) in supList">
+									<div class="col-6">
+										<div class="badge bg-danger w-100">
+											{{index+1}}.{{sup.department.deptName}} :
+											{{sup.supList.empName}}</div>
+									</div>
+									<div class="col-2 text-center">
+										<i class="fa-regular fa-trash-can" @click="removeSup(index)"></i>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<div class="row">
+						<button type="button" class="btn btn-secondary ml-auto"
+							data-bs-dismiss="modal" @click="hideEmployeeList">닫기</button>
+					</div>
+				</div>
+			</div>
 
-        </div>
+		</div>
 
+	</div>
+
+	<form action="report" method="post" enctype="multipart/form-data">
+		<div class="container-fluid mt-4">
+			<div class="row mt-4">
+				<div class="col-md-10 offset-md-1">
+					<div class="d-flex align-items-center">
+						<div class="col">
+							<label class="form-label"></label>
+							<div v-for="(sup, index) in supList" :key="index"
+								class="badge badge-pill badge-light text-dark">
+								{{ sup.department.deptName }} : {{sup.supList.empName }} <input
+									type="hidden" name="supList" :key="index"
+									:value="sup.supList.empNo"> </br>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- 제목 -->
+			<div class="row">
+				<div class="row mt-4">
+					<div class="col-md-10 offset-md-1">
+						<div class="d-flex align-items-center">
+							<h3 class="me-2">${workBoardDto.workTitle}</h3>
+							<span class="badge badge-pill secretBadge"
+								data-work-secret="${workBoardDto.workSecret}"></span>
+						</div>
+
+						<div class="d-flex align-items-center">
+							<div class="profile-image employee-name">
+								<img width="24" height="24"
+									src="<c:choose>
+                                <c:when test="${profile.empNo == workBoardDto.empNo}">
+                                    /attachment/download?attachmentNo=${profile.attachmentNo}
+                                </c:when>
+                                <c:otherwise>
+                                    https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg
+                                </c:otherwise>
+                            </c:choose>"
+									alt="" style="border-radius: 50%;">
+							</div>
+							<h6 class="text"
+								style="margin-left: 10px; margin-top: 10px; font-weight: nomal">
+								<c:forEach var="employeeDto" items="${employees}">
+									<c:if test="${employeeDto.empNo == workBoardDto.empNo}">
+                                ${employeeDto.empName}
+                            </c:if>
+								</c:forEach>
+								<span class="ms-2 text-secondary"
+									style="font-weight: lighter; font-size: 14px;"> <fmt:formatDate
+										value="${workBoardDto.workReportDate}"
+										pattern="y년 M월 d일 H시 m분 " />
+								</span>
+							</h6>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- 게시글 내용 -->
+			<div class="row mt-4" style="min-height: 350px;">
+				<div class="col-md-10 offset-md-1"
+					value="${workBoardDto.workContent}">
+					${workBoardDto.workContent}</div>
+
+				<c:if test="${files != null}">
+
+					<div class="col-md-10 offset-md-1">
+						<div class="row mt-4">
+							<div class="col-lg-12">
+								<div class="card shadow mb-4">
+									<div class="card-header py-3">
+										<h4 class="m-0 font-weight-bold text-info">File Attach</h4>
+									</div>
+									<div class="card-body">
+										<div class="text-info">
+											<c:forEach var="file" items="${files}">
+												<a
+													href="/attachment/download?attachmentNo=${file.attachmentNo}"
+													data-file-size="${file.attachmentSize}">
+													${file.attachmentName} </a>
+												<br />
+											</c:forEach>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</c:if>
+				<div class="row mt-4">
+					<div class="col">
+						<input type="hidden" name="workNo" id="workNo"
+							value="${workBoardDto.workNo}">
+						<!-- 나머지 입력 필드들 -->
+						<button type="submit" class="btn btn-primary">보고</button>
+					</div>
+				</div>
+			</div>
+			<br>
+		</div>
+	</form>
 </div>
 
-<form action="report" method="post" enctype="multipart/form-data">
-    <div class="container-fluid mt-4">
- 
-         <div class="row">
-             <div class="offset-md-2 col-md-8">
-
-                 <div class="row mt-4">
-                     <div class="col">
-                         <label class="form-label">제목</label>
-                         ${workBoardDto.workTitle}
-                     </div>
-                 </div>
-
-                 <div class="row mt-4">
-                     <div class="col">
-                         <label class="form-label">작성자</label>
-                          <c:forEach var="employeeDto" items="${employees}">
-                            <c:if test="${employeeDto.empNo == workBoardDto.empNo}">
-                               ${employeeDto.empName}
-                            </c:if>
-                         </c:forEach>
-                     </div>
-                 </div>
-                 
-                 <div class="row mt-4">
-                     <div class="col">
-                         <label class="form-label">첨부파일</label>
-                         <c:forEach var="file" items="${files}">
-                           <a href="/attachment/download?attachmentNo=${file.attachmentNo}">${file.attachmentNo}</a>                
-                         </c:forEach>
-                     </div>
-                 </div>
-             
-               <div class="row mt-4">
-                     <div class="col">
-                         ${workBoardDto.workReportDate}
-                     </div>
-               </div>
-               
-               <div class="row mt-4">
-                   <div class="col">
-                     ${workBoardDto.workContent}
-                   </div>
-               </div>
-               
-               <div class="row mt-4">
-			    <div class="col">
-			      <label class="form-label">참조자 목록</label>
-			      <div v-for="(sup, index) in supList" :key="index">
-			        {{ index + 1 }}. {{ sup.department.deptName }} : {{ sup.supList.empName }}
-			        <input type="hidden" name="supList" :key="index" :value="sup.supList.empNo">
-			      </div>
-			    </div>
-			  </div>
-              
-
-               
-             <div class="row mt-4">
-                 <div class="col">
-                     <input type="hidden" name="workNo" id="workNo" value="${workBoardDto.workNo}">
-                <!-- 나머지 입력 필드들 -->
-                <button type="button" class="btn btn-primary" @click="report">보고</button>
-                 </div>
-             </div>
-                
-
-             </div>
-         </div>
- 
-         
-     </div>
-    </form>
-   </div>
-   
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
@@ -202,6 +253,7 @@
         supModal: null,
         supList: [],
         showDuplicateAlert: false,
+        showMeAlert : false,
         
       }
     },
@@ -277,29 +329,40 @@
       },
       
       addToSup(employee, department) {
-        var supData = {
-          supList: employee,
-          department: department.departmentDto,
-        };
+    	  if (employee.empNo === empNo) {
+//     		    alert("자기 자신을 선택할 수 없습니다.");
+	 			this.showMeAlert = true;
+	
+	    	    setTimeout(() => {
+	    	      this.showMeAlert = false;
+	    	    }, 1000);
+    		    return;
+    		  }
+    	  
+    	  var supData = {
+    	    supList: employee,
+    	    department: department.departmentDto,
+    	  };
 
-        var check = false;
-        for (var i = 0; i < this.supList.length; i++) {
-          if (this.supList[i].supList.empNo === employee.empNo) {
-            check = true;
-            break;
-          }
-        }
+    	  var check = false;
+    	  for (var i = 0; i < this.supList.length; i++) {
+    	    if (this.supList[i].supList.empNo === employee.empNo) {
+    	      check = true;
+    	      break;
+    	    }
+    	  }
 
-        if (!check) {
-          this.supList.push(supData);
-        } else {
-          this.showDuplicateAlert = true;
+    	  if (!check) {
+    	    this.supList.push(supData);
+    	  } else {
+    	    this.showDuplicateAlert = true;
 
-          setTimeout(() => {
-            this.showDuplicateAlert = false;
-          }, 1000);
-        }
-      },
+    	    setTimeout(() => {
+    	      this.showDuplicateAlert = false;
+    	    }, 1000);
+    	  }
+    	},
+
       
       report() {
     	  if (this.supList === null || this.supList.length === 0) {

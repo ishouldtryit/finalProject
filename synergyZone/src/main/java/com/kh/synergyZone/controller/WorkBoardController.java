@@ -83,16 +83,23 @@ public class WorkBoardController {
 	// 업무일지 보고
 	@GetMapping("/report")
 	public String report(@RequestParam int workNo, Model model) {
+		model.addAttribute("employees", employeeRepo.list());
 		model.addAttribute("workBoardDto", workBoardRepo.selectOne(workNo));
+
 		model.addAttribute("files", workFileRepo.selectAll(workNo));
+		model.addAttribute("workSups", workReportRepo.selectAll(workNo));
+
 
 		return "workboard/report";
 	}
 
 	@PostMapping("/report")
-	public String report(@ModelAttribute WorkReportDto workReportDto, @ModelAttribute WorkBoardDto workBoardDto,
-			@RequestParam int workNo, HttpSession session, @RequestParam List<String> supList,
-			RedirectAttributes attr) {
+	public String report(@ModelAttribute WorkReportDto workReportDto, 
+						 @ModelAttribute WorkBoardDto workBoardDto,
+						 @RequestParam int workNo, 
+						 HttpSession session, 
+						 @RequestParam List<String> supList,
+						 RedirectAttributes attr) {
 
 		for (String empNo : supList) {
 			WorkReportDto dto = new WorkReportDto();

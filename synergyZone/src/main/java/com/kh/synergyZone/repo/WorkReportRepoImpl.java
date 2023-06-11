@@ -49,7 +49,7 @@ public class WorkReportRepoImpl implements WorkReportRepo {
 		 params.put("column", column);
 		 params.put("keyword", keyword);
 		 params.put("workSup", workSup);
-		 return sqlSession.selectList("workBoard.searchSupList", params);
+		 return sqlSession.selectList("workReport.searchSupList", params);
 	}
 
 

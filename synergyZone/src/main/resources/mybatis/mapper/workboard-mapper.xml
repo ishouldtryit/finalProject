@@ -42,7 +42,7 @@
 	</delete>
 	
 	<select id="list" resultType="WorkEmpInfo">
-		select * from work_emp_info where dept_no = #{deptNo} order by work_no desc
+		select * from work_emp_info where dept_no = #{deptNo} order by work_report_date desc
 	</select>
 	
 	<select id="listByJobNoWithSecret" resultType="WorkEmpInfo">
@@ -66,7 +66,7 @@
 	</select>
 
 	<select id="myWorkList" resultType="WorkEmpInfo">
-		select * from work_emp_info where emp_no = #{empNo}
+		select * from work_emp_info where emp_no = #{empNo} order by work_report_date desc
 	</select>
 	
 	<select id="getMyWorkList" resultType="WorkEmpInfo">

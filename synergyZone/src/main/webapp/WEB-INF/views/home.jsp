@@ -8,8 +8,8 @@
     	const contextPath = "${pageContext.request.contextPath}";
     	const memberId = "${sessionScope.memberId}";
     	const memberLevel = "${sessionScope.memberLevel}";
-    	var empNo = "${sessionScope.empNo}";
-        var empAdmin = "${sessionScope.empAdmin}";
+    	const empNo = "${sessionScope.empNo}";
+        const empAdmin = "${sessionScope.empAdmin}";
     </script>
 
 <h1>파이널 프로젝트에 오신것을 환영합니다.</h1>

@@ -368,9 +368,24 @@ public class AdminController {
 
 	// 부서 목록
 	@GetMapping("/department/list")
-	public String departmentList(Model model) {
+	public String departmentList(@ModelAttribute("vo") PaginationVO vo,
+			  					 @RequestParam(required = false, defaultValue = "member_regdate desc") String sort,
+								 Model model) {
 		List<DepartmentDto> departments = departmentRepo.list();
-		model.addAttribute("departments", departments);
+		
+		// 페이징 처리
+		int totalCount = departments.size(); // 전체 데이터 개수
+		vo.setCount(totalCount); // PaginationVO 객체의 count 값을 설정
+
+		int size = vo.getSize(); // 페이지당 표시할 데이터 개수
+		int page = vo.getPage(); // 현재 페이지 번호
+
+		int startIndex = (page - 1) * size; // 데이터의 시작 인덱스
+		int endIndex = Math.min(startIndex + size, totalCount); // 데이터의 종료 인덱스
+
+		List<DepartmentDto> pagedDeptList = departments.subList(startIndex, endIndex); // 페이지에 해당하는 데이터만 추출
+
+		model.addAttribute("departments", pagedDeptList);
 		return "admin/department/list";
 	}
 
@@ -395,9 +410,24 @@ public class AdminController {
 
 	// 직위 목록
 	@GetMapping("/job/list")
-	public String jobList(Model model) {
+	public String jobList(@ModelAttribute("vo") PaginationVO vo,
+						  @RequestParam(required = false, defaultValue = "member_regdate desc") String sort,
+						  Model model) {
 		List<JobDto> jobs = jobRepo.list();
-		model.addAttribute("jobs", jobs);
+		
+		// 페이징 처리
+		int totalCount = jobs.size(); // 전체 데이터 개수
+		vo.setCount(totalCount); // PaginationVO 객체의 count 값을 설정
+
+		int size = vo.getSize(); // 페이지당 표시할 데이터 개수
+		int page = vo.getPage(); // 현재 페이지 번호
+
+		int startIndex = (page - 1) * size; // 데이터의 시작 인덱스
+		int endIndex = Math.min(startIndex + size, totalCount); // 데이터의 종료 인덱스
+
+		List<JobDto> pagedJobList = jobs.subList(startIndex, endIndex); // 페이지에 해당하는 데이터만 추출
+
+		model.addAttribute("jobs", pagedJobList);
 		return "admin/job/list";
 	}
 
@@ -423,21 +453,46 @@ public class AdminController {
 
 	// 관리자
 	@GetMapping("/add")
-	public String add(@RequestParam(required = false, defaultValue = "") String empNo, Model model,
+	public String add(@ModelAttribute("vo") PaginationVO vo,
+			@RequestParam(required = false, defaultValue = "") String empNo,
+			@RequestParam(required = false, defaultValue = "member_regdate desc") String sort,
+			@RequestParam(required = false, defaultValue = "") String column,
+			@RequestParam(required = false, defaultValue = "") String keyword, Model model,
 			HttpSession session) {
 
-		model.addAttribute("adminList", employeeRepo.adminList());
-		model.addAttribute("jobs", jobRepo.list());
-		model.addAttribute("departments", departmentRepo.list());
+		List<EmployeeInfoDto> adminList;
 
-		// 프로필 사진 조회
-		EmployeeProfileDto profile = employeeProfileRepo.find(empNo); // 프로필 정보 조회
-		model.addAttribute("profile", profile);
+		// 대기 목록 조회
+		if (!column.isEmpty() && !keyword.isEmpty()) {
+			adminList = employeeRepo.searchAdminList(column, keyword);
+		} else {
+			adminList = employeeRepo.adminList();
+		}
 
-		// 관리자 판단
-		String empAdmin = (String) session.getAttribute("empAdmin");
-		boolean admin = empAdmin != null && empAdmin.equals("Y");
-		model.addAttribute("admin", admin);
+		List<DepartmentDto> departments = departmentRepo.list();
+		List<JobDto> jobs = jobRepo.list();
+
+		model.addAttribute("departments", departments);
+		model.addAttribute("jobs", jobs);
+		
+		// selected 유지
+		model.addAttribute("column", column);
+
+		// 페이징 처리
+		int totalCount = adminList.size(); // 전체 데이터 개수
+		vo.setCount(totalCount); // PaginationVO 객체의 count 값을 설정
+
+		int size = vo.getSize(); // 페이지당 표시할 데이터 개수
+		int page = vo.getPage(); // 현재 페이지 번호
+
+		int startIndex = (page - 1) * size; // 데이터의 시작 인덱스
+		int endIndex = Math.min(startIndex + size, totalCount); // 데이터의 종료 인덱스
+
+		List<EmployeeInfoDto> pagedadminList = adminList.subList(startIndex, endIndex); // 페이지에 해당하는 데이터만 추출
+
+
+		model.addAttribute("adminList", pagedadminList);
+		
 
 		return "admin/add";
 	}
@@ -445,7 +500,7 @@ public class AdminController {
 	@PostMapping("/add")
 	public String add(@RequestParam List<String> adminList, HttpSession session) {
 		for (String empNo : adminList) {
-			employeeRepo.authorityAdmin(empNo);
+		    employeeRepo.authorityAdmin(empNo);
 		}
 
 		return "redirect:/admin/add";

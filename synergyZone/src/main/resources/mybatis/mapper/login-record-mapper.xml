@@ -6,28 +6,28 @@
 
 <mapper namespace="loginRecord">
 
-	<insert id="save">
-		insert into log(
-		emp_no, log_login, log_ip, log_browser
-		)
-		values(
-		#{empNo}, #{logLogin}, #{logIp}, #{logBrowser}
-		)
-	</insert>
+   <insert id="save">
+      insert into log(
+      emp_no, log_login, log_ip, log_browser
+      )
+      values(
+      #{empNo}, #{logLogin}, #{logIp}, #{logBrowser}
+      )
+   </insert>
 
-<!-- 	<select id="list" resultType="LoginRecordInfoDto"> -->
-<!-- 		select * from search_log_info order -->
-<!-- 		by log_login desc -->
-<!-- 	</select> -->
-	
-	<select id="count" parameterType="PaginationVO" resultType="int">
+<!--    <select id="list" resultType="LoginRecordInfoDto"> -->
+<!--       select * from search_log_info order -->
+<!--       by log_login desc -->
+<!--    </select> -->
+   
+   <select id="count" parameterType="PaginationVO" resultType="int">
 
   <if test="logPageSearch">
     select count(*)
     from search_log_info
     <where>
       <!-- 사원명 -->
-      <if test="empName">
+      <if test="!empName.equals('')">
         and emp_name = '${empName}'
       </if>
 
@@ -59,7 +59,7 @@
 
     <where>
       <!-- 사원명 -->
-      <if test="empName">
+      <if test="!empName.equals('')">
         and emp_name = #{empName}
       </if>
 

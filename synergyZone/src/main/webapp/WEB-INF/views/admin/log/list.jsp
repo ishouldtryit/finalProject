@@ -85,6 +85,10 @@
             </tr>
           </c:forEach>
         </tbody>
+        <!-- 데이터 없음 알림 -->
+				<c:if test="${empty list}">
+				    <td colspan="15" class="text-center">검색 결과가 없습니다.</td>
+				</c:if>
       </table>
 
       <div class="mt-4" style="display: flex; justify-content: center;">

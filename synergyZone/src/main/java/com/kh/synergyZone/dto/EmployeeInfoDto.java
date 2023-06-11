@@ -27,4 +27,5 @@ public class EmployeeInfoDto {	//회원 정보 통합 뷰
     private String jobName;
     private String empNo;
     private String deptName;
+    private String empAdmin;
 }

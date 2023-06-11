@@ -143,8 +143,13 @@
 	</update>
 	
 	<!-- 관리자 목록 -->
-	<select id="adminList" resultType="employeeDto">
-		select * from search_info where emp_admin = 'Y'
+	<select id="adminList" resultType="employeeInfoDto">
+		select * from search_info where emp_admin = 'Y' order by emp_no asc
+	</select>
+	
+	<!-- 관리자 목록 -->
+	<select id="searchAdminList" resultType="employeeInfoDto">
+		select * from search_info where instr(${column}, #{keyword}) > 0 and emp_admin = 'Y' order by ${column} asc
 	</select>
 	
 	<!-- 퇴사 -->

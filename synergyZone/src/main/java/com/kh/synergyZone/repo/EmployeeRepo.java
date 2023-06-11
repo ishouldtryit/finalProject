@@ -32,7 +32,8 @@ public interface EmployeeRepo {
 	   boolean authorityAdmin(String empNo);
 	   
 	   //관리자 목록
-	   List<EmployeeDto> adminList();
+	   List<EmployeeInfoDto> adminList();
+	   List<EmployeeInfoDto> searchAdminList(String column, String keyword);
 	   
 	   //사원 검색
 	   int getCount();
@@ -58,5 +59,6 @@ public interface EmployeeRepo {
 	   
 	   //퇴사 취소
 	   void cancelExit(String empNo);
+	  
 	
 }

@@ -3,38 +3,46 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-    
+
 <mapper namespace="workFile">
 
 	<insert id="insertFile">
 		insert into work_file(
-			work_no, attachment_no
+		work_no, attachment_no
 		)
 		values(
-			#{workNo}, #{attachmentNo}
+		#{workNo}, #{attachmentNo}
 		)
 	</insert>
-	
+
 	<select id="find" resultType="workFileDto">
-		SELECT wf.*, a.attachment_name, a.attachment_type, a.attachment_size
+		SELECT wf.*, a.attachment_name,
+		a.attachment_type, a.attachment_size
 		FROM work_file wf
-		LEFT JOIN attachment a ON wf.attachment_no = a.attachment_no
-		WHERE work_no = #{workNo}
+		LEFT JOIN
+		attachment a ON wf.attachment_no = a.attachment_no
+		WHERE work_no =
+		#{workNo}
 	</select>
-	
+
 	<update id="updateFile">
 		update work_file
 		set attachment_no = #{attachmentNo}
 		where work_no = #{workNo}
 	</update>
 	
-		<!-- 기존코드는 boardfile 전체를 지우는코드 -->
-	   <delete id="deleteALLFile">
-	      delete from work_file where work_no = #{workNo}
-	   </delete>
-	
-	   <!-- 해당파일만 지울수 잇도록 추가 -->
-	   <delete id="deleteFile">
-	      delete from work_file where attachment_no = #{attachmentNo};
-	   </delete> 
+	<!-- 업무일지 삭제 시 파일 삭제 -->
+	<delete id="deleteFile">
+		delete from work_file where work_no = #{workNo}
+	</delete>
+
+	<!-- 기존코드는 boardfile 전체를 지우는코드 -->
+	<delete id="deleteALLFile">
+		delete from work_file where work_no = #{workNo}
+	</delete>
+
+	<!-- 해당파일만 지울수 잇도록 추가 -->
+	<delete id="deleteSelectFile">
+		delete from work_file where attachment_no = #{attachmentNo};
+	</delete>
 </mapper>

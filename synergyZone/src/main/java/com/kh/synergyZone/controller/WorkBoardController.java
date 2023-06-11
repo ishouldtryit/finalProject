@@ -1,7 +1,10 @@
 package com.kh.synergyZone.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -66,7 +69,8 @@ public class WorkBoardController {
 
 	@PostMapping("/write")
 	public String write(@ModelAttribute WorkBoardDto workBoardDto, HttpSession session,
-			@RequestParam("attachments") List<MultipartFile> attachments) throws IllegalStateException, IOException {
+						@RequestParam("attachments") List<MultipartFile> attachments,
+						RedirectAttributes attr) throws IllegalStateException, IOException {
 		String empNo = (String) session.getAttribute("empNo");
 		workBoardDto.setEmpNo(empNo);
 
@@ -76,18 +80,31 @@ public class WorkBoardController {
 // 		System.out.println(workBoardDto.getWorkSecret());
 
 		workBoardService.write(workBoardDto, attachments);
+		
+		attr.addAttribute("workNo", workNo);
 
-		return "redirect:/";
+		return "redirect:detail";
 	}
 
 	// 업무일지 보고
 	@GetMapping("/report")
-	public String report(@RequestParam int workNo, Model model) {
+	public String report(@RequestParam int workNo, Model model, HttpSession session) {
 		model.addAttribute("employees", employeeRepo.list());
 		model.addAttribute("workBoardDto", workBoardRepo.selectOne(workNo));
 
 		model.addAttribute("files", workFileRepo.selectAll(workNo));
 		model.addAttribute("workSups", workReportRepo.selectAll(workNo));
+		
+		// 글 작성자 판단
+		WorkBoardDto workBoardDto = workBoardRepo.selectOne(workNo);
+		String empNo = (String) session.getAttribute("empNo");
+		boolean owner = workBoardDto.getEmpNo() != null && workBoardDto.getEmpNo().equals(empNo);
+		model.addAttribute("owner", owner);
+
+		// 관리자 판단
+		String empAdmin = (String) session.getAttribute("empAdmin");
+		boolean admin = empAdmin != null && empAdmin.equals("Y");
+		model.addAttribute("admin", admin);
 
 
 		return "workboard/report";
@@ -115,45 +132,62 @@ public class WorkBoardController {
 	// 참조자 보관함
 	@GetMapping("/supList")
 	public String supList(@ModelAttribute("vo") PaginationVO vo,
-						  @RequestParam(required = false, defaultValue = "") String column,
-						  @RequestParam(required = false, defaultValue = "") String keyword, 
-						  HttpSession session, Model model) {
-		String workSup = (String) session.getAttribute("empNo");
-		
-		List<SupWithWorkDto> supList;
-		
-		// 검색
-		if (!column.isEmpty() && !keyword.isEmpty()) {
-			supList = workReportRepo.searchSupList(column, keyword, workSup);
-		} else {
-			supList = workReportRepo.supList(workSup);
-		}
+	                      @RequestParam(required = false, defaultValue = "") String column,
+	                      @RequestParam(required = false, defaultValue = "") String keyword, 
+	                      HttpSession session, Model model) {
+	    String workSup = (String) session.getAttribute("empNo");
+	    
+	    List<SupWithWorkDto> supList;
+	    
+	    // 검색
+	    if (!column.isEmpty() && !keyword.isEmpty()) {
+	        supList = workReportRepo.searchSupList(column, keyword, workSup);
+	    } else {
+	        supList = workReportRepo.supList(workSup);
+	    }
+	    
+	    // 중복 제거를 위한 Set 생성
+	    Set<Integer> uniqueWorkNoSet = new HashSet<>();
+	    
+	    // 중복 제거된 결과를 담을 리스트
+	    List<SupWithWorkDto> filteredSupList = new ArrayList<>();
+	    
+	    // 중복 제거 로직 수행
+	    for (SupWithWorkDto dto : supList) {
+	        int workNo = dto.getWorkNo();
+	        if (!uniqueWorkNoSet.contains(workNo)) {
+	            uniqueWorkNoSet.add(workNo);
+	            filteredSupList.add(dto);
+	        }
+	    }
 
-		// 페이징
-		int totalCount = supList.size();
-		vo.setCount(totalCount);
+	    // 페이징
+	    int totalCount = filteredSupList.size();
+	    vo.setCount(totalCount);
 
-		int size = vo.getSize(); // 페이지당 표시할 데이터 개수
-		int page = vo.getPage(); // 현재 페이지 번호
+	    int size = vo.getSize(); // 페이지당 표시할 데이터 개수
+	    int page = vo.getPage(); // 현재 페이지 번호
 
-		int startIndex = (page - 1) * size; // 데이터의 시작 인덱스
-		int endIndex = Math.min(startIndex + size, totalCount); // 데이터의 종료 인덱스
+	    int startIndex = (page - 1) * size; // 데이터의 시작 인덱스
+	    int endIndex = Math.min(startIndex + size, totalCount); // 데이터의 종료 인덱스
 
-		List<SupWithWorkDto> pagedSupList = supList.subList(startIndex, endIndex);
+	    List<SupWithWorkDto> pagedSupList = filteredSupList.subList(startIndex, endIndex);
 
-		// selected 유지
-		model.addAttribute("column", column);
+	    // selected 유지
+	    model.addAttribute("column", column);
 
-		model.addAttribute("supList", pagedSupList);
+	    model.addAttribute("supList", pagedSupList);
 
-		return "workboard/supList";
+	    return "workboard/supList";
 	}
+
 
 	// 내 보관함
 	@GetMapping("/myWorkList")
 	public String reportList(HttpSession session, @ModelAttribute("vo") PaginationVO vo,
-			@RequestParam(required = false, defaultValue = "") String column,
-			@RequestParam(required = false, defaultValue = "") String keyword, Model model) {
+							 @RequestParam(required = false, defaultValue = "") String column,
+							 @RequestParam(required = false, defaultValue = "") String keyword, 
+							 Model model) {
 
 		String empNo = (String) session.getAttribute("empNo");
 
@@ -182,6 +216,7 @@ public class WorkBoardController {
 		model.addAttribute("column", column);
 
 		model.addAttribute("myWorkList", pagedMyWorkList);
+		
 
 		return "workboard/myWorkList";
 	}

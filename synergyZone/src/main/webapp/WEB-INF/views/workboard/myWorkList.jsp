@@ -73,6 +73,12 @@ $(document).ready(function(){
      	// 모든 statusBadge 요소에 뱃지 내용 업데이트 및 클래스 추가/제거
         $(".statusBadge").text(badgeText).removeClass("bg-primary bg-warning bg-success bg-danger").addClass(badgeClass);
     });
+ 
+    $(".work-title").click(function(){
+        var workNo = $(this).data("work-no"); // Retrieve the workNo from the data attribute
+        var detailUrl = "detail?workNo=" + workNo; // Construct the detail page URL
+        window.location.href = detailUrl; // Redirect to the detail page
+    });
 
 });
 
@@ -108,7 +114,7 @@ $(document).ready(function(){
                     <c:forEach var="work" items="${myWorkList}">
                         <tr>
                             <td class="align-middle">${work.workReportDate}</td>
-                            <td class="align-middle">${work.workTitle}</td>
+                            <td class="align-middle work-title" data-work-no="${work.workNo}">${work.workTitle}</td>
                             <td class="align-middle">
                                 <span class="badge statusBadge" data-work-status="${work.workStatus}"></span>
                             </td>

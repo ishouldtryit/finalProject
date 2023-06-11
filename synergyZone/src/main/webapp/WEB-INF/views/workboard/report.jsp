@@ -31,23 +31,25 @@
 
 <div id="app">
 	<div class="container-fluid">
-
-		<div>
-			<button type="button" class="btn btn-primary"
-				v-on:click="showSupModal">참조자 추가</button>
-		</div>
+		
+		<c:if test="${workSups == null}">
+			<div>
+				<button type="button" class="btn btn-primary"
+					v-on:click="showSupModal">참조자 추가</button>
+			</div>		
+		</c:if>
 
 		<div class="container"></div>
 	</div>
 
-	<!-- 결재자 선택 modal -->
+	<!-- 참조자 선택 modal -->
 	<div class="modal" tabindex="-1" role="dialog"
 		data-bs-backdrop="static" ref="SupModal">
 		<div class="modal-dialog modal-dialog-centered  modal-lg"
 			role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">결재 정보 - 결재자</h5>
+					<h5 class="modal-title">참조자 정보 - 참조자</h5>
 				</div>
 				<div class="modal-body">
 					<!-- 모달에서 표시할 실질적인 내용 구성 -->
@@ -137,7 +139,41 @@
 	</div>
 
 	<form action="report" method="post" enctype="multipart/form-data">
+		
+		
 		<div class="container-fluid mt-4">
+		
+		    <div class="d-flex justify-content-end col-md-10 offset-md-1">
+		        <c:if test="${owner}">
+		            <a href="/workboard/edit?workNo=${workBoardDto.workNo}" class="btn btn-light btn-sm ms-2">
+		                <i class="fa-regular fa-pen-to-square" style="color: #8f8f8f;"></i>&nbsp;수정
+		            </a>
+		        </c:if>
+		        <c:if test="${owner || admin}">
+		            <a href="/workboard/delete?workNo=${workBoardDto.workNo}" class="btn btn-light delete-button btn-sm ms-2">
+		                <i class="fa-solid fa-trash-can" style="color: #8f8f8f;"></i>&nbsp;삭제
+		            </a>
+		        </c:if>
+		        <a href="/workboard/list" class="btn btn-light btn-sm ms-2">
+		            <i class="fa-solid fa-bars" style="color: #8f8f8f;"></i>&nbsp;목록
+		        </a>
+		    </div>
+		    
+		<div class="row mt-4">
+				<div class="col-md-10 offset-md-1">
+					<div class="d-flex align-items-center">
+						<div class="col">
+							<c:if test="${workSups != null}">
+								<c:forEach var="employeeDto" items="${workSups}">
+								<div class="badge badge-pill badge-light text-dark">
+							          ${employeeDto.empName}								
+								</div>
+								</c:forEach>
+							</c:if>
+						</div>
+					</div>
+				</div>
+			</div>
 			<div class="row mt-4">
 				<div class="col-md-10 offset-md-1">
 					<div class="d-flex align-items-center">
@@ -181,8 +217,8 @@
 								style="margin-left: 10px; margin-top: 10px; font-weight: nomal">
 								<c:forEach var="employeeDto" items="${employees}">
 									<c:if test="${employeeDto.empNo == workBoardDto.empNo}">
-                                ${employeeDto.empName}
-                            </c:if>
+		                                ${employeeDto.empName}
+		                            </c:if>
 								</c:forEach>
 								<span class="ms-2 text-secondary"
 									style="font-weight: lighter; font-size: 14px;"> <fmt:formatDate

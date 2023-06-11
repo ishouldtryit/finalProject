@@ -90,7 +90,14 @@ $(document).ready(function(){
         <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
     </form>
     
-    <!-- 사원 목록 테이블 -->
+    <!-- 작성 링크 -->
+     <div class="d-flex justify-content-end col-md-10 offset-md-1">
+            <a href="/workboard/write" class="btn btn-light btn-sm ms-2">
+                <i style="color: #8f8f8f;"></i>&nbsp;작성
+            </a>
+    </div>
+    
+    <!-- 업무일지 목록 테이블 -->
     <div class="row">
         <div class="col" style="margin: 0 auto;">
             <table class="table table-hover mt-2" style="width: 90%;">

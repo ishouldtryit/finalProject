@@ -66,46 +66,46 @@ public class HomeController {
 
 	@PostMapping("/login")
 	public String login(@ModelAttribute EmployeeDto employeeDto, HttpSession session, HttpServletRequest request,
-			RedirectAttributes attr) {
-		
-		//최종 퇴사 사원 로그인 제한
-		String empNo = employeeDto.getEmpNo();
-		EmployeeDto exitDto = employeeRepo.selectOne(empNo);
-		boolean isFinalExit = exitDto.getIsLeave().equals("Y");
-		
+	        RedirectAttributes attr) {
+	    
+	    // 최종 퇴사 사원 로그인 제한
+	    String empNo = employeeDto.getEmpNo();
+	    EmployeeDto exitDto = employeeRepo.selectOne(empNo);
+	    boolean isFinalExit = exitDto != null && exitDto.getIsLeave().equals("Y");
+	    
 	    if (isFinalExit) {
 	        attr.addAttribute("mode", "error");
 	        return "redirect:login";
+	    } else {
+	        EmployeeDto findDto = employeeService.login(employeeDto);
+
+	        if (findDto != null) {
+	            // 로그인 시 세션 저장
+	            session.setAttribute("empName", findDto.getEmpName());
+	            session.setAttribute("empNo", findDto.getEmpNo());
+	            session.setAttribute("jobNo", findDto.getJobNo());
+	            session.setAttribute("deptNo", findDto.getDeptNo());
+	            session.setAttribute("empAdmin", findDto.getEmpAdmin());
+
+	            String ipAddress = employeeService.getLocation(request);
+	            String browserAddress = employeeService.getBrowser(request);
+
+	            // 로그인 접속 시간
+	            LoginRecordDto loginRecordDto = new LoginRecordDto();
+	            loginRecordDto.setEmpNo(findDto.getEmpNo());
+	            loginRecordDto.setLogIp(ipAddress);
+	            loginRecordDto.setLogBrowser(browserAddress);
+
+	            loginRecordRepo.insert(loginRecordDto);
+	        } else {
+	            attr.addAttribute("mode", "error");
+	            return "redirect:login";
+	        }
+
+	        return "redirect:/";
 	    }
-
-		
-		EmployeeDto findDto = employeeService.login(employeeDto);
-
-		if (findDto != null) {
-			// 로그인 시 세션 저장
-			session.setAttribute("empName", findDto.getEmpName());
-			session.setAttribute("empNo", findDto.getEmpNo());
-			session.setAttribute("jobNo", findDto.getJobNo());
-			session.setAttribute("deptNo", findDto.getDeptNo());
-			session.setAttribute("empAdmin", findDto.getEmpAdmin());
-
-			String ipAddress = employeeService.getLocation(request);
-			String browserAddress = employeeService.getBrowser(request);
-
-			// 로그인 접속 시간
-			LoginRecordDto loginRecordDto = new LoginRecordDto();
-			loginRecordDto.setEmpNo(findDto.getEmpNo());
-			loginRecordDto.setLogIp(ipAddress);
-			loginRecordDto.setLogBrowser(browserAddress);
-
-			loginRecordRepo.insert(loginRecordDto);
-		} else {
-			attr.addAttribute("mode", "error");
-			return "redirect:login";
-		}
-
-		return "redirect:/";
 	}
+
 
 	@GetMapping("/testHome")
 	public String testHome() {

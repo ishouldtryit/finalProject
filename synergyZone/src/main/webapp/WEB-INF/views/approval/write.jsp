@@ -164,15 +164,6 @@
                                </ul>
                              </li>
                            </ul>
-                           <hr>
-                           <ul style="margin:0; padding:0;">
-                              <li class="custom-list-item">
-                                 <span>
-                                 <i class="fa-regular fa-square-plus"></i>            
-                                     자주쓰는 결재선
-                                 </span>
-                              </li>
-                           </ul>
                           </div>
                             <div class="col-8" style="overflow-y: scroll; height:400px;">
                                <div class="row mb-1">
@@ -275,15 +266,6 @@
                                </ul>
                              </li>
                            </ul>
-                              <hr>
-                           <ul style="margin:0; padding:0;">
-                              <li class="custom-list-item">
-                                 <span>
-                                 <i class="fa-regular fa-square-plus"></i>            
-                                     자주쓰는 결재선
-                                 </span>
-                              </li>
-                           </ul>
                            
                           </div>
                             <div class="col-8" style="overflow-y: scroll; height:400px;">
@@ -382,15 +364,6 @@
                                  </li>
                                </ul>
                              </li>
-                           </ul>
-                           <hr>
-                           <ul style="margin:0; padding:0;">
-                              <li class="custom-list-item">
-                                 <span>
-                                 <i class="fa-regular fa-square-plus"></i>            
-                                     자주쓰는 결재선
-                                 </span>
-                              </li>
                            </ul>
                           </div>
                             <div class="col-8" style="overflow-y: scroll; height:400px;">

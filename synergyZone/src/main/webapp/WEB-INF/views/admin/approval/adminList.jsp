@@ -120,9 +120,10 @@
 						<table class="table table-hover">
 							<thead>
 								<tr class="col-12">
-									<th class="col-md-1"><span class="ms-3"> 기안일자 </span></th>
+									<th class="col-1"><span class="ms-3"> 기안일자 </span></th>
+									<th class="col-1">완료일자</th>
 									<th class="col-1">긴급</th>
-									<th class="col-3">제목</th>
+									<th class="col-2">제목</th>
 									<th class="col-2">기안자</th>
 									<th class="col-2">현재 결재자</th>
 									<th class="col-2">최종 결재자</th>
@@ -139,6 +140,16 @@
 									v-for="(approval, index) in ApprovalWithPageVO.approvalDataVO">
 									<td><span class="ms-3">
 											{{approval.approvalWithDrafterDto.draftDateForm}} </span></td>
+									<td v-if="approval.approvalWithDrafterDto.completionDateForm != null">
+										<span>
+												{{approval.approvalWithDrafterDto.completionDateForm}} 
+										</span>
+									</td>
+									<td v-else>
+										<span>
+												- 
+										</span>
+									</td>
 									<td><span class="badge bg-primary"
 										v-if="approval.approvalWithDrafterDto.isemergency == 1">긴급</span>
 									</td>

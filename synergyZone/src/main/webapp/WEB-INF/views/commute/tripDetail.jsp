@@ -56,7 +56,7 @@
 			<div class="container-md border border-dark border-1 p-5 mb-3">
 				<div class="row justify-content-center mb-2">
 					<div class="col-auto">
-						<h3>연차신청서</h3>
+						<h3>출장 신청서</h3>
 					</div>
 
 				</div>
@@ -102,54 +102,18 @@
 				<table class="table">
 					<tbody>
 						<tr>
-							<th class="table-secondary">휴가종류</th>
+							<th class="table-secondary">유형/구분</th>
 							<td>${list.vacationName}</td>
 						</tr>
+							<th class="table-secondary">대상자</th>
 						<tr>
-							<th class="table-secondary">기간일시</th>
-							<td><label class="form-label">${list.startDate}</label> ~ <label
-								class="form-label">${list.endDate}</label></td>
+							<th class="table-secondary">대상자</th>
+							<td><label class="form-label">${list.startDate}</label>  
+							<label class="form-label">${list.endDate}</label></td>
 						</tr>
 						<tr>
-							<th class="table-secondary">반차여부</th>
-							<td><c:choose>
-									<c:when test="${list.leave == 0}">
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="checkbox"
-												id="morningHalfDay" disabled> <label
-												class="form-check-label" for="morningHalfDay">오전반차</label>
-										</div>
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="checkbox"
-												id="afternoonHalfDay" disabled> <label
-												class="form-check-label" for="afternoonHalfDay">오후반차</label>
-										</div>
-									</c:when>
-									<c:when test="${list.leave == 1}">
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="checkbox"
-												id="morningHalfDay" disabled checked> <label
-												class="form-check-label" for="morningHalfDay">오전반차</label>
-										</div>
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="checkbox"
-												id="afternoonHalfDay" disabled> <label
-												class="form-check-label" for="afternoonHalfDay">오후반차</label>
-										</div>
-									</c:when>
-									<c:when test="${list.leave == 2}">
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="checkbox"
-												id="morningHalfDay" disabled> <label
-												class="form-check-label" for="morningHalfDay">오전반차</label>
-										</div>
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="checkbox"
-												id="afternoonHalfDay" disabled checked> <label
-												class="form-check-label" for="afternoonHalfDay">오후반차</label>
-										</div>
-									</c:when>
-								</c:choose></td>
+							<th class="table-secondary"></th>
+							<td></td>
 						</tr>
 						<tr>
 							<th class="table-secondary">연차일수</th>

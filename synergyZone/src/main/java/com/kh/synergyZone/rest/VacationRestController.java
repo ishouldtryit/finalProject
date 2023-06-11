@@ -44,4 +44,11 @@ public class VacationRestController {
 		dto.setSelectedValue(selectedValue);
 		return tripRepo.list(dto);
 	}
+	
+	@GetMapping("/queue")
+	public List<TripDto> list3(HttpSession session){
+		TripDto dto=new TripDto();
+		String empNo=(String)session.getAttribute("empNo");
+		return tripRepo.queue(empNo);
+	}
 }

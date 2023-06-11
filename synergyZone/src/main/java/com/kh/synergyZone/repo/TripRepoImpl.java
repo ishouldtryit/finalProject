@@ -25,6 +25,15 @@ public class TripRepoImpl implements TripRepo{
 	public List<TripDto> list(TripDto dto) {
 		return session.selectList("trip.tripList",dto);
 	}
+	@Override
+	public List<TripDto> queue(String empNo) {
+		return session.selectList("trip.queue",empNo);
+	}
+	@Override
+	public List<TripDto> adminList() {
+		return session.selectList("trip.adminList");
+		
+	}
 	
 	
 }

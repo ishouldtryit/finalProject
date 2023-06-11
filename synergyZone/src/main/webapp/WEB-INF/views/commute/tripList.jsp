@@ -15,26 +15,37 @@
 		<table class="table table-hover">
 			<thead>
 				<tr>
-					<th>이름</th>
-					<th>부서명</th>
-					<th>연차사용날짜</th>
-					<th>휴가종류</th>
-					<th>사용연차</th>
-					<th>승인 상태</th>
-					<th>사용 날짜</th>
+					<th>신청자</th>
+					<th>출장종류</th>
+					<th>출장 기간</th>
+					<th></th>
+					<th>출발지</th>
+					<th>경유지</th>
+					<th>목적지</th>
+					<th>장소</th>
+					<th>이동수단</th>
+					<th>목적</th>
+					<th>비고</th>
+					<th>신청상태</th>
+					<th>신청날짜</th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:forEach items="${list}" var="item">
-					<tr class=""
-						onclick="location.href='detail?vacationNo=${item.vacationNo}'">
+					<tr	onclick="location.href='tripDetail?tripNo=${item.tripNo}'">
 						<td>${item.empName}</td>
-						<td>${item.deptName}</td>
-						<td>${item.startDate}~${item.endDate}</td>
-						<td>${item.vacationName}</td>
-						<td>${item.useCount}</td>
+						<td>${item.name}</td>
+						<td>${item.startDate} ~ ${item.endDate}</td>
+						<td>${item.period}일</td>
+						<td>${item.startPlace}</td>
+						<td>${item.middlePlace}</td>
+						<td>${item.endPlace}</td>
+						<td>${item.place}</td>
+						<td>${item.work}</td>
+						<td>${item.purpose}</td>
+						<td>${item.notes}</td>
 						<td><c:choose>
-								<c:when test="${item.status == 0}">대기중</c:when>
+								<c:when test="${item.status == 0}"><label class="badge bg-success">대기중</label></c:when>
 							</c:choose></td>
 						<td>${item.usedDate}</td>
 					</tr>

@@ -26,6 +26,18 @@
 		$('#startDate, #endDate').change(function() {
 			updateUseCount();
 		});
+		$("#check").change(function() {
+		    if ($(this).is(":checked")) {
+		      // 체크되었을 때
+		      $("input[name='check']").val(1);
+		    } else {
+		      // 체크가 해제되었을 때
+		      $("input[name='check']").val(0);
+		    }
+		    
+		    // 값이 변경되었을 때 계산 함수 호출
+		    calculateDateDifference();
+		  });
 		
 
 });
@@ -83,18 +95,21 @@
 						<div class="d-flex align-items-center">
 							<div class="flex-grow-1 col-2">
 								<input type="date" v-model="startDate" class="form-control"
-									min="YYYY-01-01" max="YYYY-12-31" @change="updateUseCount">
+									name="startDate" min="YYYY-01-01" max="YYYY-12-31"
+									@change="updateUseCount">
 							</div>
 							<div class="mx-2">~</div>
 							<div class="d-flex align-items-center">
 								<div>
 									<input type="date" v-model="endDate" class="form-control"
-										min="YYYY-01-01" max="YYYY-12-31" @change="updateUseCount">
+										name="endDate" min="YYYY-01-01" max="YYYY-12-31"
+										@change="updateUseCount">
 								</div>
 								<div class="ml-5">
-									<input type="checkbox" class="form-check-input"
-										v-model="includeHolidays" @change="calculateDateDifference">
-									<label class="form-check-label">휴일포함</label>
+									<input type="checkbox" class="form-check-input" name="check"
+										id="check" v-model="includeHolidays"
+										@change="calculateDateDifference"> <label
+										class="form-check-label">휴일포함</label>
 								</div>
 							</div>
 						</div>
@@ -105,6 +120,7 @@
 					<th class="table-secondary">기간</th>
 					<td><span class="ml-2">기간 <label>{{ weekdays
 								}}일(총 {{ diffInDays * 8 }}시간 0분)</label></span></td>
+					<input type="hidden" name="period" :value="weekdays">
 				</tr>
 				<tr>
 					<th class="table-secondary">출발지</th>
@@ -193,20 +209,35 @@
 			<table class="table table-hover">
 				<thead>
 					<tr>
-						<th class="table-secondary">이름</th>
-						<th class="table-secondary">부서명</th>
-						<th class="table-secondary">연차사용날짜</th>
-						<th class="table-secondary">휴가종류</th>
-						<th class="table-secondary">사유</th>
-						<th class="table-secondary">사용연차</th>
-						<th class="table-secondary">승인 상태</th>
+						<th class="table-secondary">출장종류</th>
+						<th class="table-secondary">출장신청날짜</th>
+						<th class="table-secondary">기간</th>
+						<th class="table-secondary">출발지</th>
+						<th class="table-secondary">목적지</th>
+						<th class="table-secondary">장소</th>
+						<th class="table-secondary">이동수단</th>
+						<th class="table-secondary">목적</th>
+						<th class="table-secondary">비고</th>
+						<th class="table-secondary">신청상태</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td></td>
+					<tr v-for="item in queue" :key="item.tripNo">
+						<td>{{ item.name }}</td>
+						<td>{{ item.startDate }} ~ {{ item.endDate }}</td>
+						<td>{{ item.period }}일</td>
+						<td>{{ item.startPlace }}</td>
+						<td>{{ item.endPlace }}</td>
+						<td>{{ item.place }}</td>
+						<td>{{ item.work }}</td>
+						<td>{{ item.purpose }}</td>
+						<td>{{ item.notes }}</td>
+						<td><span v-if="item.status === 0" class="badge bg-success">요청</span>
+							<span v-else-if="item.status === 2" class="badge">반려</span> <!-- 다른 상태값에 따른 처리 -->
+						</td>
 					</tr>
 				</tbody>
+
 			</table>
 			<!-- 결재자 선택 modal -->
 			<div class="modal" tabindex="-1" role="dialog"
@@ -330,6 +361,7 @@
         weekdays: 0,
         weekendsIncludedDiffInDays: 0,
         weekendsIncludedWeekdays: 0,
+        queue:[],
         
       }
     },
@@ -354,6 +386,12 @@
          });
           this.deptEmpList.push(...resp.data);
       },
+      
+      async loadQueue() { //데이터 호출(로드)
+          const resp = await axios.get("/rest/vacation/queue");
+      	  console.log(resp);
+           this.queue.push(...resp.data);
+       },
       
       searchAll() {   //이름 검색
             this.searchName ="";
@@ -527,6 +565,7 @@
    	},
     created() {
       this.loadData();
+      this.loadQueue();
     },
   }).mount("#app");
 </script>

@@ -22,6 +22,8 @@ public class TripDto {
 	private String selectedValue;
 	private int period;
 	private String empName;
+	private int check;
+	private Date usedDate;
 }
 
 

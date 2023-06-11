@@ -134,7 +134,9 @@ public class CommuteController {
 	@GetMapping("/trip")
 	public String trip(Model model,HttpSession session) {
 		//신청내역받아야함
-		
+		String empNo=(String) session.getAttribute("empNo");
+		List<TripDto> list=tripRepoImpl.queue(empNo);
+		model.addAttribute("list",list);
 		return "/commute/write2";
 	}
 	@PostMapping("/trip")
@@ -169,7 +171,7 @@ public class CommuteController {
 	
 	//관리자 상세 페이지
 	@GetMapping("/detail")
-	public String detail(@RequestParam(required = false) Integer vacationNo,Model model,HttpSession session,@RequestParam(required = false) Integer tripNo) {
+	public String detail(@RequestParam int vacationNo,Model model,HttpSession session) {
 		String empNo=(String) session.getAttribute("empNo");
 		Integer jobNo=(Integer) session.getAttribute("jobNo");
 		model.addAttribute("id",employeeRepoImpl.getId(empNo));
@@ -182,8 +184,25 @@ public class CommuteController {
 		
 		//출장조회 필요한것들
 		
-		return "/commute/detail";
+		return "/commute/tripDetail";
 	}
+	
+	//관리자 상세 페이지
+		@GetMapping("/tripDetail")
+		public String detail2(Model model,HttpSession session,@RequestParam(required = false) Integer tripNo) {
+			String empNo=(String) session.getAttribute("empNo");
+			Integer jobNo=(Integer) session.getAttribute("jobNo");
+			model.addAttribute("id",employeeRepoImpl.getId(empNo));
+			model.addAttribute("job",jobRepoImpl.name(jobNo));
+			model.addAttribute("one",vacationInfoRepo.one(empNo));
+			
+			
+			//여기까지
+			
+			//출장조회 필요한것들
+			
+			return "/commute/tripDetail";
+		}
 	
 	//관리자 연차결재 완료
 	@PostMapping("/approval")
@@ -214,7 +233,10 @@ public class CommuteController {
 	
 	//어드민 출장내역페이지
 	@GetMapping("/adminList2")
-	public String tripList() {
+	public String tripList(Model model) {
+		List<TripDto> list=tripRepoImpl.adminList();
+		model.addAttribute("list",list);
+		System.err.println(list);
 		return "/commute/tripList";
 	}
 	

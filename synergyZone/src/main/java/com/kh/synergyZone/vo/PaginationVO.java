@@ -35,6 +35,37 @@ public class PaginationVO {
   // 특수조건
   private String special = "";
 
+  
+  private String empName = "";
+  private Integer searchLoginDays = 0;
+  
+//로그페이지 검색 여부 판단
+  public boolean isLogPageSearch() {
+	   return  !empName.equals("") || searchLoginDays!=0;
+}
+
+//로그페이지 리스트 
+public boolean isLogPageList() {
+   return !isLogPageSearch();
+}
+  
+//로그페이지 파라미터 자동 생성
+public String getLogParameter() {
+	  StringBuilder buffer = new StringBuilder();
+	  buffer.append("size=");
+	  buffer.append(size);
+	  if (isLogPageSearch()) {
+		  buffer.append("&empName=");
+		  buffer.append(empName);
+		  buffer.append("&searchLoginDays=");
+		  buffer.append(searchLoginDays);
+	  } else {	
+		  buffer.append("&empName=&searchLoginDays=");
+	  }
+	  return buffer.toString();
+}
+
+
   // 검색 여부 판단
   public boolean isSearch() {
     return !keyword.equals("");
@@ -76,7 +107,7 @@ public class PaginationVO {
     }
     return buffer.toString();
   }
-
+  
   public String getAddParameter() {
     StringBuilder buffer = new StringBuilder();
     buffer.append("&item=");
@@ -171,7 +202,6 @@ public class PaginationVO {
 	    }
 	}
 	
-	private String empName;
-	private Integer searchLoginDays;
+
 
 }

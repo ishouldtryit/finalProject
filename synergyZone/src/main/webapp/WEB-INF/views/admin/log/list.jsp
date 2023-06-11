@@ -55,7 +55,7 @@
             <div class="col-6">
               <label class="form-label">기간</label>
               <select name="searchLoginDays" class="form-select">
-                <option value="">선택하세요</option>
+                <option value="0" ${vo.searchLoginDays == 0 ? 'selected' : ''}>선택하세요</option>
                 <option value="7" ${vo.searchLoginDays == 7 ? 'selected' : ''}>최근 7일</option>
                 <option value="30" ${vo.searchLoginDays == 30 ? 'selected' : ''}>최근 1개월</option>
                 <option value="365" ${vo.searchLoginDays == 365 ? 'selected' : ''}>최근 1년</option>
@@ -90,24 +90,27 @@
       <div class="mt-4" style="display: flex; justify-content: center;">
         <ul class="pagination" style="width: 20%;">
           <li class="page-item ${vo.isFirst() ? 'disabled' : ''}">
-            <a class="page-link" href="${vo.isFirst() ? '#' : pageContext.request.contextPath}/admin/log/list?page=${vo.getPrevPage()}">
+            <a class="page-link" href="${pageContext.request.contextPath}/admin/log/list?${vo.logParameter}&page=${vo.getPrevPage()}">
               <i class="fa-solid fa-angles-left"></i>
             </a>
           </li>
           <c:forEach var="i" begin="${vo.getStartBlock()}" end="${vo.getFinishBlock()}">
             <li class="page-item">
-              <a class="page-link ${vo.getPage() eq i ? 'active' : ''}" href="${pageContext.request.contextPath}/admin/log/list?page=${i}&sort=${vo.getSort()}">
+            
+              <a class="page-link ${vo.getPage() eq i ? 'active' : ''}" href="${pageContext.request.contextPath}/admin/log/list?${vo.logParameter}&page=${i}">
                 <span class="text-info">${i}</span>
               </a>
+              
             </li>
           </c:forEach>
           <li class="page-item ${vo.isLast() ? 'disabled' : ''}">
-            <a class="page-link" href="${vo.isLast() ? '#' : pageContext.request.contextPath}/admin/log/list?page=${vo.getNextPage()}">
+            <a class="page-link" href="${pageContext.request.contextPath}/admin/log/list?${vo.logParameter}&page=${vo.getNextPage()}">
               <span class="text-info"><i class="fa-solid fa-angles-right"></i></span>
             </a>
           </li>
         </ul>
       </div>
+      
     </div>
   </div>
 </div>

@@ -412,14 +412,13 @@ public class AdminController {
 
 	// 접속로그 목록
 	@GetMapping("/log/list")
-	public String logList(@ModelAttribute PaginationVO vo,
+	public String logList(@ModelAttribute("vo") PaginationVO vo,
 					      @ModelAttribute LoginRecordSearchVO loginRecordSearchVO, Model model) {
-		vo.setEmpName(loginRecordSearchVO.getEmpName());
-		vo.setSearchLoginDays(loginRecordSearchVO.getSearchLoginDays());
-		
+		System.out.println(vo);
 		int totalCount = loginRecordRepo.selectCount(vo);
 		vo.setCount(totalCount);
- 		
+		System.out.println(vo.isLogPageSearch());
+		System.out.println(vo.getLogParameter());
 		List<LoginRecordInfoDto> list = loginRecordRepo.selectListByPaging(vo);
 		model.addAttribute("list", list);
 		return "admin/log/list";

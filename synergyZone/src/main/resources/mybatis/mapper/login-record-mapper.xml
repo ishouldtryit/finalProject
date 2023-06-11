@@ -21,20 +21,18 @@
 <!-- 	</select> -->
 	
 	<select id="count" parameterType="PaginationVO" resultType="int">
-  <bind name="empNameExist" value="empName != null and empName != ''" />
-  <bind name="searchLoginDaysExist" value="searchLoginDays != null" />
 
-  <if test="search">
+  <if test="logPageSearch">
     select count(*)
     from search_log_info
     <where>
       <!-- 사원명 -->
-      <if test="empNameExist">
+      <if test="empName">
         and emp_name = '${empName}'
       </if>
 
       <!-- 최근 기록 -->
-      <if test="searchLoginDaysExist">
+      <if test="searchLoginDays">
         and log_login between
         to_date(
           to_char(sysdate - ${searchLoginDays}, 'YYYY-MM-DD'),
@@ -44,17 +42,15 @@
       </if>
     </where>
   </if>
-  <if test="!search">
+  <if test="logPageList">
     select count(*)
     from search_log_info
   </if>
 </select>
 
-<select id="complexSearch" parameterType="PaginationVO" resultType="LoginRecordInfoDto">
-  <bind name="empNameExist" value="empName != null and empName != ''" />
-  <bind name="searchLoginDaysExist" value="searchLoginDays != null" />
+<select id="complexSearch"  resultType="LoginRecordInfoDto">
 
-  <if test="search">
+  <if test="logPageSearch">
     select *
     from (
     select rownum rn, TMP.*
@@ -63,15 +59,15 @@
 
     <where>
       <!-- 사원명 -->
-      <if test="empNameExist">
-        and emp_name = '${empName}'
+      <if test="empName">
+        and emp_name = #{empName}
       </if>
 
       <!-- 최근 기록 -->
-      <if test="searchLoginDaysExist">
+      <if test="searchLoginDays">
         and log_login between
         to_date(
-        to_char(sysdate - ${searchLoginDays}, 'YYYY-MM-DD'),
+        to_char(sysdate - #{searchLoginDays}, 'YYYY-MM-DD'),
         'YYYY-MM-DD'
         )
         and
@@ -83,7 +79,8 @@
     )
     WHERE rn between #{begin} and #{end}
   </if>
-  <if test="!search">
+  
+  <if test="logPageList">
     select *
     from (
       select rownum rn, TMP.*

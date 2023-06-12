@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,11 +21,15 @@ import com.kh.synergyZone.dto.ReaderDto;
 import com.kh.synergyZone.dto.RecipientDto;
 import com.kh.synergyZone.repo.ApprovalRepoImpl;
 import com.kh.synergyZone.repo.EmployeeRepoImpl;
+import com.kh.synergyZone.vo.AgreeorVO;
 import com.kh.synergyZone.vo.ApprovalDataVO;
 import com.kh.synergyZone.vo.ApprovalPaginationVO;
 import com.kh.synergyZone.vo.ApprovalVO;
 import com.kh.synergyZone.vo.ApprovalWithPageVO;
+import com.kh.synergyZone.vo.ApproverVO;
 import com.kh.synergyZone.vo.DeptEmpListVO;
+import com.kh.synergyZone.vo.ReaderVO;
+import com.kh.synergyZone.vo.RecipientVO;
 
 @RestController
 @RequestMapping("/rest/approval")
@@ -55,6 +60,9 @@ public class ApprovalRestController {
 		
 		int draftNo = approvalRepoImpl.approvalSequence();
 	    int approverOrder = 1;
+	    int agreeorOrder = 1;
+	    int recipientOrder = 1;
+	    int readerOrder = 1;
 	    approvalVO.getApprovalDto().setDrafterNo(empNo);
 	    approvalVO.getApprovalDto().setDraftNo(draftNo);
 	    approvalRepoImpl.insert(approvalVO.getApprovalDto());	//기안서 등록
@@ -68,62 +76,84 @@ public class ApprovalRestController {
 	    
 	    for (AgreeorDto agreeor : agreeorList) {	//합의자 등록
 	    	agreeor.setDraftNo(draftNo);
+	    	agreeor.setAgreeorOrder(agreeorOrder);
+	    	agreeorOrder++;
 	    	approvalRepoImpl.agreeorInsert(agreeor);
 	    }
 	    
 	    for (RecipientDto recipient : recipientList) {	//참조자 등록
 	    	recipient.setDraftNo(draftNo);
+	    	recipient.setRecipientOrder(recipientOrder);
+	    	recipientOrder++;
 	    	approvalRepoImpl.recipientInsert(recipient);
 	    }
 	    
 	    for (ReaderDto reader : readerList) {	//열람자 등록
 	    	reader.setDraftNo(draftNo);
+	    	reader.setReaderOrder(readerOrder);
+	    	readerOrder++;
 	    	approvalRepoImpl.readerInsert(reader);
 	    }
 	    return draftNo;
 	}
 	
-	// 기안서 작성
-//	@PostMapping("/edit")
-//	public int edit(@RequestBody ApprovalWithPageVO approvalWithPageVO, HttpSession session) {
-//		
-//		
-//		String empNo = session.getAttribute("empNo") == null ? null : (String) session.getAttribute("empNo");
-//		
-//		List<ApproverDto> approverList = approvalVO.getApproverList();
-//		List<AgreeorDto> agreeorList = approvalVO.getAgreeorList();
-//		List<RecipientDto> recipientList = approvalVO.getRecipientList();
-//		List<ReaderDto> readerList = approvalVO.getReaderList();
-//		
-//		int draftNo = approvalRepoImpl.approvalSequence();
-//		int approverOrder = 1;
-//		approvalVO.getApprovalDto().setDrafterNo(empNo);
-//		approvalVO.getApprovalDto().setDraftNo(draftNo);
-//		approvalRepoImpl.insert(approvalVO.getApprovalDto());	//기안서 등록
-//		
-//		for (ApproverDto approver : approverList) {	//결재자 등록
-//			approver.setDraftNo(draftNo);
-//			approver.setApproverOrder(approverOrder);
-//			approverOrder++;
-//			approvalRepoImpl.approverInsert(approver);
-//		}
-//		
-//		for (AgreeorDto agreeor : agreeorList) {	//합의자 등록
-//			agreeor.setDraftNo(draftNo);
-//			approvalRepoImpl.agreeorInsert(agreeor);
-//		}
-//		
-//		for (RecipientDto recipient : recipientList) {	//참조자 등록
-//			recipient.setDraftNo(draftNo);
-//			approvalRepoImpl.recipientInsert(recipient);
-//		}
-//		
-//		for (ReaderDto reader : readerList) {	//열람자 등록
-//			reader.setDraftNo(draftNo);
-//			approvalRepoImpl.readerInsert(reader);
-//		}
-//		return draftNo;
-//	}
+	//기안서 삭제(관리자)
+	@DeleteMapping("/draftDelete/{draftNo}")
+	public void draftDelete(@PathVariable int draftNo) {
+		approvalRepoImpl.delete(draftNo);
+	}
+	
+	// 기안서 수정
+	@PostMapping("/edit/{draftNo}")
+	public int edit(@PathVariable int draftNo ,@RequestBody ApprovalDataVO approvalDataVO, HttpSession session) {
+		String empNo = session.getAttribute("empNo") == null ? null : (String) session.getAttribute("empNo");
+
+		//기존 기안서 삭제
+		int oldDraftNo = draftNo;
+		approvalRepoImpl.delete(oldDraftNo);
+		
+		List<ApproverVO> approverList = approvalDataVO.getApproverList();
+		List<AgreeorVO> agreeorList = approvalDataVO.getAgreeorList();
+		List<RecipientVO> recipientList = approvalDataVO.getRecipientList();
+		List<ReaderVO> readerList = approvalDataVO.getReaderList();
+		int newDraftNo = approvalRepoImpl.approvalSequence();
+		int approverOrder = 1;
+	    int agreeorOrder = 1;
+	    int recipientOrder = 1;
+	    int readerOrder = 1;
+		approvalDataVO.getApprovalWithDrafterDto().setDrafterNo(empNo);
+		approvalDataVO.getApprovalWithDrafterDto().setDraftNo(newDraftNo);
+		approvalRepoImpl.edit(approvalDataVO.getApprovalWithDrafterDto());	//기안서 등록
+		
+		for (ApproverVO approver : approverList) {	//결재자 등록
+			approver.setDraftNo(newDraftNo);
+			approver.setApproverOrder(approverOrder);
+			approverOrder++;
+			approvalRepoImpl.approverEdit(approver);
+		}
+		
+		for (AgreeorVO agreeor : agreeorList) {	//합의자 등록
+			agreeor.setDraftNo(newDraftNo);
+			agreeor.setAgreeorOrder(agreeorOrder);
+			agreeorOrder++;			
+			approvalRepoImpl.agreeorEdit(agreeor);
+		}
+		
+		for (RecipientVO recipient : recipientList) {	//참조자 등록
+			recipient.setDraftNo(newDraftNo);
+			recipient.setRecipientOrder(recipientOrder);
+			recipientOrder++;			
+			approvalRepoImpl.recipientEdit(recipient);
+		}
+		
+		for (ReaderVO reader : readerList) {	//열람자 등록
+			reader.setDraftNo(newDraftNo);
+			reader.setReaderOrder(readerOrder);
+			readerOrder++;			
+			approvalRepoImpl.readerEdit(reader);
+		}
+		return newDraftNo;
+	}
 	
 		//목록 첫화면 (관리자)
 		@GetMapping("/adminList")
@@ -339,8 +369,10 @@ public class ApprovalRestController {
 		@GetMapping("/detail/{draftNo}")
 		public ApprovalDataVO approvalDetail(@PathVariable int draftNo, HttpSession session) {
 			String empNo = session.getAttribute("empNo") == null ? null : (String) session.getAttribute("empNo");
+			
 			ApprovalDataVO approvalDataVO = approvalRepoImpl.approvalDataSelectOne(draftNo);
 			approvalDataVO.setLoginUser(empNo);
+			approvalDataVO.setIsAdmin(employeeRepoImpl.selectOne(empNo).getEmpAdmin());
 			return approvalDataVO;
 		}
 
@@ -348,6 +380,7 @@ public class ApprovalRestController {
 		@PatchMapping("/recall/{draftNo}")
 		public void approvalRecall(@PathVariable int draftNo) {
 			approvalRepoImpl.recallApproval(draftNo);
+			approvalRepoImpl.draftCompletedDate(draftNo);
 		}
 		
 		//재기안
@@ -369,6 +402,7 @@ public class ApprovalRestController {
 			int approverCount = approvalRepoImpl.approverCount(draftNo);
 			if(statusCode==approverCount) {	//결재 완료
 				approvalRepoImpl.approved(dto);
+				approvalRepoImpl.draftCompletedDate(draftNo);//결재완료일
 			}
 		}
 		
@@ -380,6 +414,7 @@ public class ApprovalRestController {
 			dto.setDraftNo(draftNo);
 			approvalRepoImpl.draftReturn(dto);	//결재 승인
 			approvalRepoImpl.draftReturnReason(dto);	//결재 의견
+			approvalRepoImpl.draftCompletedDate(draftNo); //결재완료일
 		}
 	
 }

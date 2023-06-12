@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 public class RecipientVO {
 
 	private String recipientNo;	//참조자 사원번호
+	private int recipientOrder;	//참조자 순서
 	private int draftNo;	//기안서 번호
 	private String empName;
     private String empEmail;

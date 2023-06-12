@@ -313,11 +313,11 @@ article {
 											href="${pageContext.request.contextPath}/commute/tripList">출장
 												신청내역</a></li>
 												<li><a
-											href="${pageContext.request.contextPath}/commute/adminList">출장
-												신청내역</a></li>
+											href="${pageContext.request.contextPath}/commute/adminList">연차결재(관리자)
+												</a></li>
 												<li><a
-											href="${pageContext.request.contextPath}/commute/adminList2">출장
-												신청내역</a></li>
+											href="${pageContext.request.contextPath}/commute/adminList2">출장결재(관리자)
+												</a></li>
 												
 									</ul></li>
 							</ul>

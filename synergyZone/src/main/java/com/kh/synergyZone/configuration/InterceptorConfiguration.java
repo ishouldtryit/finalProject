@@ -41,8 +41,6 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
 										"/notice/**",
 										"/board/**",
 										"/bookmark/**"
-										
-										
 								)
 								.excludePathPatterns(
 										"/employee/findPw",

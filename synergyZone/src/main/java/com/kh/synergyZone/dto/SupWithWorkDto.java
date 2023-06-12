@@ -23,5 +23,6 @@ public class SupWithWorkDto {
 	private String empName;
 	private int deptNo;
 	private String deptName;
-
+	private int statusCode;
+	private int resultCode;
 }

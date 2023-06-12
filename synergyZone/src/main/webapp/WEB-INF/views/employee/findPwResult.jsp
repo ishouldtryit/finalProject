@@ -14,7 +14,7 @@
 <h2>로그인 후 원하는 비밀번호로 변경해주시기 바랍니다. </h2>
 	</div>
 <div class="row center">
-<h2><a href="${pageContext.request.contextPath}/employee/login">로그인 하러가기</a></h2>
+<h2><a href="${pageContext.request.contextPath}/login">로그인 하러가기</a></h2>
 	</div>
 </div>
 

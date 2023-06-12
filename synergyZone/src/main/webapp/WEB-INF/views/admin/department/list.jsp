@@ -37,6 +37,27 @@
 		    </form>
 		  </div>
 		</div>
+		
+		<!-- 페이징 영역 -->
+		<div style="display: flex; justify-content: center;">
+		  <ul class="pagination" style="width: 20%;">
+		    <li class="page-item ${vo.isFirst() ? 'disabled' : ''}">
+		      <a class="page-link" href="${vo.isFirst() ? '#' : pageContext.request.contextPath}/admin/department/list?page=${vo.getPrevPage()}&sort=${vo.getSort()}${vo.getQueryString()}">&laquo;</a>
+		    </li>
+		    <c:forEach var="i" begin="${vo.getStartBlock()}" end="${vo.getFinishBlock()}">
+		      <li class="page-item">
+		        <a class="page-link ${vo.getPage() eq i ? 'active' : ''}" href="${pageContext.request.contextPath}/admin/department/list?page=${i}&sort=${vo.getSort()}${vo.getQueryString()}">
+		          <span class="text-info">${i}</span>
+		        </a>
+		      </li>
+		    </c:forEach> 
+		    <li class="page-item ${vo.isLast() ? 'disabled' : ''}">
+		      <a class="page-link" href="${vo.isLast() ? '#' : pageContext.request.contextPath}/admin/department/list?page=${vo.getNextPage()}&sort=${vo.getSort()}${vo.getQueryString()}">
+		        <span class="text-info">&raquo;</span>
+		      </a>
+		    </li>
+		  </ul>
+		</div>
 
 </div>		
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>

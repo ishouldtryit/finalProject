@@ -19,9 +19,22 @@
 		select * from work_report order by work_no asc
 	</select>
 	
+	<select id="find" resultType="workReportDto">
+		SELECT wr.*, e.emp_name
+		FROM work_report wr
+		LEFT JOIN employee e ON wr.work_sup = e.emp_no
+		where work_no = #{workNo}
+	</select>
+	
 	<!-- 보고받은 업무일지 -->
 	<select id="supList" resultType="SupWithWorkDto">
-		select * from sup_with_work where work_sup = #{workSup}
+		select * from sup_with_work where work_sup = #{workSup} order by work_report_date desc
 	</select>
+	
+	<select id="searchSupList" resultType="SupWithWorkDto">
+		select * from sup_with_work where instr(${column}, #{keyword}) > 0 and work_sup = #{workSup} order by ${column} asc
+	</select>
+	
+	
 	
 </mapper>

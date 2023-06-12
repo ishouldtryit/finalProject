@@ -26,6 +26,8 @@ public class EmployeeDto {
     private int jobNo;
     private int deptNo;
     private String empAdmin;
+    private int statusCode;
+    private int resultCode;
     private Integer attachmentNo;
 
 }

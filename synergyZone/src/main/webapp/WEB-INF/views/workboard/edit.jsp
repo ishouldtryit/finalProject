@@ -2,7 +2,30 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+<style>
+   .uploadResult {
+       width: 100%;
+   }
 
+   .uploadResult ul {
+       display: flex;
+       flex-flow: row;
+       justify-content: center;
+       align-items: center;
+       padding: 0;
+   }
+
+   .uploadResult ul li {
+       list-style: none;
+       padding: 10px;
+   }
+
+   .uploadResult ul li img {
+       width: 100px;
+   }
+   
+   .uploadResult ul li span {color: dimgray;}
+</style>
 <!-- summernote cdn -->
 <link
 	href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css"
@@ -42,20 +65,158 @@
 			attachmentListInput.val(attachmentList.join(','));
 		}
 		//------------------------------------
-	});
+		
+		 // 파일 선택 시 파일 목록 표시
+	       $(document).on('change', '#attachments', function() {
+	           const fileListContainer = document.getElementById('fileList');
+	           const existingFiles = Array.from(document.querySelectorAll('#fileList li'));
+	           const newFiles = Array.from(this.files);
 
-	function validateForm() {
-		if ($('#workSecretCheck').is(':checked')) {
-			$("#workSecret").val("Y");
-		} else {
-			$("#workSecret").val("N");
+	           const mergedFiles = existingFiles.map(fileItem => {
+	               const fileName = fileItem.querySelector('span').innerText;
+	               return {
+	                   name: fileName,
+	                   file: null
+	               };
+	           });
+
+	           newFiles.forEach(file => {
+	               mergedFiles.push({
+	                   name: file.name,
+	                   file: file
+	               });
+	           });
+
+	           displayFileList(mergedFiles);
+	       });
+
+	       // Delete all files
+	       const deleteAll = () => {
+//	            $('#attachments').val('');
+	           $('#fileList').empty();
+	       }
+
+	       // Delete a specific file
+	       const deleteFile = (fileName) => {
+		    const fileListContainer = document.getElementById('fileList');
+		    const listItem = Array.from(fileListContainer.querySelectorAll('li')).find(item => {
+		        const span = item.querySelector('span');
+		        return span.innerText === fileName;
+		    });
+		    if (listItem) {
+		        fileListContainer.removeChild(listItem);
+		
+		        // Remove the file from the dataTransfer object
+		        for (let i = 0; i < dataTransfer.files.length; i++) {
+		            if (dataTransfer.files[i].name === fileName) {
+		                dataTransfer.items.remove(i);
+		                break;
+		            }
+		        }
+		        document.getElementById("attachments").files = dataTransfer.files;
+		        console.log("dataTransfer after deletion =>", dataTransfer.files);
+		        console.log("input Files after deletion =>", document.getElementById("attachments").files);
+		    }
 		}
 
-		return true;
+
+	       // Display file list
+	       function displayFileList(files) {
+	           const fileListContainer = document.getElementById('fileList');
+	           fileListContainer.innerHTML = '';
+
+	           for (let i = 0; i < files.length; i++) {
+	               const file = files[i];
+	               const fileId = `file-${i}`;
+	               const listItem = document.createElement('li');
+	               listItem.id = fileId;
+
+	               const fileName = document.createElement('span');
+	               fileName.innerText = file.name;
+
+	               const removeButton = document.createElement('button');
+	               removeButton.type = 'button';
+	               removeButton.className = 'remove_button btn btn btn-sm';
+	               removeButton.dataset.fileName = file.name;
+	               removeButton.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+	               removeButton.addEventListener('click', () => deleteFile(file.name));
+
+	               listItem.appendChild(fileName);
+	               listItem.appendChild(removeButton);
+	               fileListContainer.appendChild(listItem);
+	           }
+	       }
+
+	       // FileListWrapper class definition
+	       function FileListWrapper(files) {
+	           const dataTransfer = new DataTransfer();
+	           for (let i = 0; i < files.length; i++) {
+	               dataTransfer.items.add(files[i]);
+	           }
+	           return dataTransfer.files;
+	       }
+
+	       // New code for managing file uploads
+	       const dataTransfer = new DataTransfer();
+
+	       $("#attachments").change(function() {
+	           let fileArr = document.getElementById("attachments").files;
+
+	           if (fileArr != null && fileArr.length > 0) {
+	              deleteAll();
+	              
+	               // =====DataTransfer 파일 관리========
+	               for (var i = 0; i < fileArr.length; i++) {
+	                   dataTransfer.items.add(fileArr[i]);
+	               }
+	               document.getElementById("attachments").files = dataTransfer.files;
+	               console.log("dataTransfer =>", dataTransfer.files);
+	               console.log("input FIles =>", document.getElementById("attachments").files);
+	               // ==========================================
+	           }
+	       });
+
+	       $("#fileList").click(function(event) {
+	           let fileArr = document.getElementById("attachments").files;
+	           if (event.target.className == 'remove_button') {
+	               targetFile = event.target.dataset.fileName;
+
+	               // ============DataTransfer================
+	               for (var i = 0; i < dataTransfer.files.length; i++) {
+	                   if (dataTransfer.files[i].name == targetFile) {
+	                       // 총용량에서 삭제
+	                       total_file_size -= dataTransfer.files[i].size;
+
+	                       dataTransfer.items.remove(i);
+	                       break;
+	                   }
+	               }
+	               document.getElementById("attachments").files = dataTransfer.files;
+
+//	                const removeTarget = document.getElementById(targetFile);
+//	                removeTarget.remove();
+
+	               console.log("dataTransfer 삭제후=>", dataTransfer.files);
+	               console.log('input FIles 삭제후=>', document.getElementById("attachments").files);
+	           }
+	           
+	           
+	       });
+	});
+	
+
+	function validateForm() {
+		var workSecretCheck = $("#workSecretCheck").val("");
+		
+		if ($('#workSecretCheck').is(':checked')) {
+		      $("#workSecret").val("Y");
+		    } else {
+		      $("#workSecret").val("N");
+		    }
 	}
 </script>
 
-<form action="edit" method="post" enctype="multipart/form-data">
+<form action="edit" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
 
 	<input type="hidden" name="workNo" value="${workBoardDto.workNo}">
 	<div class="container-fluid mt-4">
@@ -118,51 +279,52 @@
 						<textarea name="workContent" id="workContent">${workBoardDto.workContent}</textarea>
 					</div>
 				</div>
-
-				<div class="col">
-					<label class="form-label">파일첨부</label> <input
-						class="form-control rounded" type="file" name="attachments"
-						multiple="multiple">
-
-					<!-- 
-		                  프론트 수정사항 
-		                  
-		                  아이콘추가 버튼추가 
-		                  버튼 클릭시 deleteList에 ${file.attachmentNo} 해당 값을 저장 
-		                  form으로 전송후 해당 list 값과 DB에서 select한 값을 비교하여 있는것만 삭제
-		                  (controller for문 참고)
-		                  추가된값은 그대로 진행
-		                  
-		                  삭제버튼을 누를경우 해당 div를 삭제해서 프론트쪽에만 안보이게처리(새로고침하면 다시나타남)
-		                  		                  
-		
-		               -->
-					첨부파일목록
-					<c:forEach var="file" items="${files}">
-						<div class="attachment" id="attachment_${file.attachmentNo}">
-							<li><span
-								href="/attachment/download?attachmentNo=${file.attachmentNo}">
-									${file.attachmentNo} </span>
-								<button class="btn btn-sm delete-btn" type="button"
-									data-attachment="${file.attachmentNo}">
-									<i class="fa-solid fa-xmark"></i>
-								</button></li>
-						</div>
-					</c:forEach>
-
+				
+				<div class="row mt-4">
+				   <div class="col-lg-12">
+				      <div class="card shadow mb-4">
+				         <div class="card-header py-3">
+				            <h4 class="m-0 font-weight-bold text-info">File Attach</h4>
+				         </div>
+				         <div class="card-body">
+					                  <label class="form-label">파일첨부</label> <input
+					                     class="form-control rounded" type="file" id="attachments"
+					                     name="attachments" multiple="multiple">
+				            <div class="row mt-2">
+				               <div class="col">
+				                  <label class="form-label"></label>
+				                  <c:forEach var="file" items="${files}">
+										<div class="attachment" id="attachment_${file.attachmentNo}">
+											<li><span
+												href="/attachment/download?attachmentNo=${file.attachmentNo}">
+													${file.attachmentName} </span>
+												<button class="btn btn-sm delete-btn" type="button"
+													data-attachment="${file.attachmentNo}">
+													<i class="fa-solid fa-xmark"></i>
+												</button></li>
+										</div>
+									</c:forEach>
+				                  <div id="preview"></div>
+				                  <div id="fileList"></div>
+				               </div>
+				            </div>
+				         </div>
+				      </div>
+				   </div>
 				</div>
 
 
 				<div class="row mt-4">
 					<div class="col">
-						<label class="form-label">공개여부</label> <input type="checkbox"
-							id="workSecretCheck" value="${workBoardDto.workSecret}">
-						<input type="hidden" id="workSecret" name="workSecret" value="Y">
+					<div class="form-check form-switch">
+<!-- 						<label class="form-label">공개여부</label> -->
+						<input class="form-check-input" type="checkbox" id="workSecretCheck" ${workBoardDto.workSecret == 'Y' ? 'checked' : ''}>
+						<label class="form-check-label" for="flexSwitchCheckDefault">비공개</label>
+						<input type="hidden" id="workSecret" name="workSecret">
+					</div>
 						<input type="hidden" id="attachmentList" name="attachmentList">
-						<button type="submit" class="btn btn-primary">등록</button>
 					</div>
 				</div>
-
 
 
 				<div class="row mt-4">
@@ -184,3 +346,4 @@
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
+<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include> 

@@ -231,64 +231,68 @@ article {
 										</ul>
 									</c:if></li>
 
-								<li><a href="#workSubmenu" data-toggle="collapse"
-									aria-expanded="false" class="dropdown-toggle">업무</a>
-									<ul class="collapse list-unstyled" id="workSubmenu">
-										<li><a
-											href="${pageContext.request.contextPath}/workboard/write">일지
-												작성</a></li>
-										<li><a
-											href="${pageContext.request.contextPath}/workboard/list">부서
-												업무일지</a></li>
-										<li><a
-											href="${pageContext.request.contextPath}/workboard/myWorkList">내
-												업무일지</a></li>
-										<li><a
-											href="${pageContext.request.contextPath}/workboard/supList">공유받은
-												업무일지</a></li>
-									</ul></li>
-
-								<c:if test="${empAdmin == 'Y'}">
-									<li><a href="#adminSubmenu" data-toggle="collapse"
-										aria-expanded="false" class="dropdown-toggle">관리자 페이지</a>
-										<ul class="collapse list-unstyled" id="adminSubmenu">
-											<li><a
-												href="${pageContext.request.contextPath}/admin/join">사원
-													등록</a></li>
-											<li><a
-												href="${pageContext.request.contextPath}/admin/list">사원
-													통합관리</a></li>
-											<li><a
-												href="${pageContext.request.contextPath}/admin/waitingList">사원
-													퇴사관리</a></li>
-											<li><a
-												href="${pageContext.request.contextPath}/admin/add">관리자
-													통합관리</a></li>
-											<li><a
-												href="${pageContext.request.contextPath}/admin/log/list">사원
-													접근로그</a></li>
-											<li><a
-												href="${pageContext.request.contextPath}/admin/department/list">부서
-													관리</a></li>
-											<li><a
-												href="${pageContext.request.contextPath}/admin/job/list">직위
-													관리</a></li>
-										</ul></li>
-
-								</c:if>
-
-								<li><a href="#employeeSubmenu" data-toggle="collapse"
-									aria-expanded="false" class="dropdown-toggle">관리자 페이지</a>
-									<ul class="collapse list-unstyled" id="employeeSubmenu">
-
-										<li><a
-											href="${pageContext.request.contextPath}/employee/mypage">기본정보</a>
-										</li>
-										<li><a
-											href="${pageContext.request.contextPath}/employee/password">비밀번호
-												변경</a></li>
-
-									</ul></li>
+								
+                               <li>
+                           <a href="#workSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">업무</a>
+                           <ul class="collapse list-unstyled" id="workSubmenu">
+                                   <li>
+                                   <a href="${pageContext.request.contextPath}/workboard/write">일지 작성</a>
+                                   </li>
+                                   <li>
+                                       <a href="${pageContext.request.contextPath}/workboard/list">부서 업무일지</a>
+                                   </li>
+                                   <li>
+                                       <a href="${pageContext.request.contextPath}/workboard/myWorkList">내 업무일지</a>
+                                   </li>
+                                    <li>
+                                       <a href="${pageContext.request.contextPath}/workboard/supList">공유받은 업무일지</a>
+                                   </li>
+                               </ul>
+                           </li>
+                           	
+                           	<c:if test="${empAdmin == 'Y'}">
+                              <li>
+                              <a href="#adminSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">관리자 페이지</a>
+                              <ul class="collapse list-unstyled" id="adminSubmenu">
+                                      <li>
+                                      <a href="${pageContext.request.contextPath}/admin/join">사원 등록</a>
+                                      </li>
+                                      <li>
+                                          <a href="${pageContext.request.contextPath}/admin/list">사원 통합관리</a>
+                                      </li>
+                                      <li>
+                                          <a href="${pageContext.request.contextPath}/admin/waitingList">사원 퇴사관리</a>
+                                      </li>
+                                      <li>
+                                          <a href="${pageContext.request.contextPath}/admin/add">관리자 통합관리</a>
+                                      </li>
+                                      <li>
+                                          <a href="${pageContext.request.contextPath}/admin/log/list">사원 접근로그</a>
+                                      </li>
+                                      <li>
+                                          <a href="${pageContext.request.contextPath}/admin/department/list">부서 관리</a>
+                                      </li>
+                                      <li>
+                                          <a href="${pageContext.request.contextPath}/admin/job/list">직위 관리</a>
+                                      </li>
+                                  </ul>
+                              </li>
+   
+                           	</c:if>
+                           	
+                              <li>
+                              <a href="#employeeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">마이 페이지</a>
+                              <ul class="collapse list-unstyled" id="employeeSubmenu">
+                              
+                                      <li>
+                                      <a href="${pageContext.request.contextPath}/employee/edit">기본정보</a>
+                                      </li>
+                                      <li>
+                                          <a href="${pageContext.request.contextPath}/employee/password">비밀번호 변경</a>
+                                      </li>
+                        
+                                  </ul>
+                              </li>
 
 								<li><a href="#commuteSubmenu" data-toggle="collapse"
 									aria-expanded="false" class="dropdown-toggle">근태관리</a>
@@ -344,5 +348,3 @@ article {
 	  },
 	}).mount("#app1");
 </script>
-
-				<!-- 내용 -->

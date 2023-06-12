@@ -12,13 +12,12 @@
     cursor: pointer;
   }
   
-  
 </style>
 
-<div class="container">
+<div class="container-800" style="margin-left: 5%;">
 		<!-- 검색창 -->
 
-		<form class="d-flex" action="list" method="get">
+		<form class="d-flex" action="exitList" method="get">
 		  <select name="column" class="form-input me-sm-2">
 		    <option value="emp_name" ${column eq 'emp_name' ? 'selected' : ''}>이름</option>
 		    <option value="emp_no" ${column eq 'emp_no' ? 'selected' : ''}>사원번호</option>
@@ -107,7 +106,7 @@
 	              </td>
 				  <td class="align-middle">${employeeDto.isLeave}</td>
 				  <td class="align-middle">
-					<a href="exit?empNo=${employeeDto.empNo}" class="exit-button">퇴사처리</a>
+					<a href="exitCancel?empNo=${employeeDto.empNo}" class="exit-cancel-button">퇴사취소</a>
 				  </td>
 	            </tr>
 	          </c:forEach>
@@ -176,17 +175,17 @@
 		<div style="display: flex; justify-content: center;">
 		  <ul class="pagination" style="width: 20%;">
 		    <li class="page-item ${vo.isFirst() ? 'disabled' : ''}">
-		      <a class="page-link" href="${vo.isFirst() ? '#' : pageContext.request.contextPath}/admin/list?page=${vo.getPrevPage()}&sort=${vo.getSort()}${vo.getQueryString()}">&laquo;</a>
+		      <a class="page-link" href="${vo.isFirst() ? '#' : pageContext.request.contextPath}/admin/exitList?page=${vo.getPrevPage()}&sort=${vo.getSort()}${vo.getQueryString()}">&laquo;</a>
 		    </li>
 		    <c:forEach var="i" begin="${vo.getStartBlock()}" end="${vo.getFinishBlock()}">
 		      <li class="page-item">
-		        <a class="page-link ${vo.getPage() eq i ? 'active' : ''}" href="${pageContext.request.contextPath}/admin/list?page=${i}&sort=${vo.getSort()}${vo.getQueryString()}">
+		        <a class="page-link ${vo.getPage() eq i ? 'active' : ''}" href="${pageContext.request.contextPath}/admin/exitList?page=${i}&sort=${vo.getSort()}${vo.getQueryString()}">
 		          <span class="text-info">${i}</span>
 		        </a>
 		      </li>
 		    </c:forEach> 
 		    <li class="page-item ${vo.isLast() ? 'disabled' : ''}">
-		      <a class="page-link" href="${vo.isLast() ? '#' : pageContext.request.contextPath}/admin/list?page=${vo.getNextPage()}&sort=${vo.getSort()}${vo.getQueryString()}">
+		      <a class="page-link" href="${vo.isLast() ? '#' : pageContext.request.contextPath}/admin/exitList?page=${vo.getNextPage()}&sort=${vo.getSort()}${vo.getQueryString()}">
 		        <span class="text-info">&raquo;</span>
 		      </a>
 		    </li>
@@ -243,15 +242,17 @@
 
       $('#employeeInfoModal').modal('show');
     });
-
+	
+    //사원번호 클릭 시 수정
 	$(".emp-no").click(function(){
     	var empNo = $(this).text(); // 클릭한 요소의 텍스트 값을 가져옴
     	  var editUrl = "edit?empNo=" + empNo; // 수정하기 링크 URL 생성
     	  window.location.href = editUrl; // 링크로 이동
     });
     
-    $(".exit-button").click(function(){
-    	var result = confirm("정말 퇴사처리 하시겠습니까?");
+    //퇴사취소 처리
+	$(".exit-cancel-button").click(function(){
+    	var result = confirm("퇴사취소 처리 하시겠습니까?");
     	
     	if(result){
     		return true;
@@ -289,5 +290,5 @@
   });
 </script>
     
-
+  <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
     

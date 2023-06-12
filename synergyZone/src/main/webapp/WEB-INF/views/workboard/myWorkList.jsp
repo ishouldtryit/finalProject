@@ -6,6 +6,10 @@
   .employee-name {
     color: dodgerblue;
   }
+    .work-title {
+    cursor: pointer;
+  }
+  
   
 </style>
 <!-- 스크립트 -->
@@ -33,7 +37,7 @@ $(document).ready(function(){
                 break;
             case 3:
                 badgeText = '보류';
-                $(this).addClass("bg-dangers");
+                $(this).addClass("bg-secondary");
                 break;
             default:
                 break;
@@ -43,43 +47,109 @@ $(document).ready(function(){
         $(this).text(badgeText);
     });
 
- // workStatus 변경 시 뱃지 내용 업데이트
-    $("#workStatus").change(function(){
-        var selectedValue = parseInt($(this).val());  // 선택한 값을 정수로 변환
+//  // workStatus 변경 시 뱃지 내용 업데이트
+//     $("#workStatus").change(function(){
+//         var selectedValue = parseInt($(this).val());  // 선택한 값을 정수로 변환
+//         var badgeText = "";
+
+//         // 선택한 값에 따라 뱃지 내용 설정
+//         switch (selectedValue) {
+//             case 0:
+//                 badgeText = '요청';
+//                 badgeClass = "bg-primary";
+//                 break;
+//             case 1:
+//                 badgeText = '진행';
+//                 badgeClass = "bg-warning";
+//                 break;
+//             case 2:
+//                 badgeText = '완료';
+//                 badgeClass = "bg-success";
+//                 break;
+//             case 3:
+//                 badgeText = '보류';
+//                 badgeClass = "bg-secondary";
+//                 break;
+//             default:
+//                 break;
+//         }
+
+//      	// 모든 statusBadge 요소에 뱃지 내용 업데이트 및 클래스 추가/제거
+//         $(".statusBadge").text(badgeText).removeClass("bg-primary bg-warning bg-success bg-secondary").addClass(badgeClass);
+//     });
+ 
+    $(".work-title").click(function(){
+        var workNo = $(this).data("work-no"); // Retrieve the workNo from the data attribute
+        var detailUrl = "detail?workNo=" + workNo; // Construct the detail page URL
+        window.location.href = detailUrl; // Redirect to the detail page
+    });
+    
+    // 각 뱃지 요소에 대해 처리
+    $(".signBadge").each(function() {
+        var resultCode = $(this).data("result-code");
+        var statusCode = $("#statusCode").val();
+        var supCount = $("#supCount").val();
         var badgeText = "";
 
-        // 선택한 값에 따라 뱃지 내용 설정
-        switch (selectedValue) {
-            case 0:
-                badgeText = '요청';
-                badgeClass = "bg-primary";
-                break;
+        // workStatus 값에 따라 뱃지 내용 설정
+        switch (resultCode) {
+	        case 0:
+	            if (supCount === 0) {
+	                badgeText = '보고 전';
+	            } else {
+	                badgeText = '진행중' + ' ' + statusCode + '/' + supCount;
+	            }
+	            $(this).addClass("bg-secondary");
+	            break;
             case 1:
-                badgeText = '진행';
-                badgeClass = "bg-warning";
+                badgeText = '반려';
+                $(this).addClass("bg-warning");
                 break;
             case 2:
-                badgeText = '완료';
-                badgeClass = "bg-success";
-                break;
-            case 3:
-                badgeText = '보류';
-                badgeClass = "bg-danger";
+                badgeText = '결재';
+                $(this).addClass("bg-success");
                 break;
             default:
                 break;
         }
 
-     	// 모든 statusBadge 요소에 뱃지 내용 업데이트 및 클래스 추가/제거
-        $(".statusBadge").text(badgeText).removeClass("bg-primary bg-warning bg-success bg-danger").addClass(badgeClass);
+        // 뱃지 내용 업데이트
+        $(this).text(badgeText);
     });
+
+//  // workStatus 변경 시 뱃지 내용 업데이트
+//     $("#resultCode").change(function(){
+//         var selectedValue = parseInt($(this).val());  // 선택한 값을 정수로 변환
+//         var badgeText = "";
+
+//         // 선택한 값에 따라 뱃지 내용 설정
+//         switch (selectedValue) {
+// 	        case 0:
+// 	            badgeText = '진행중';
+// 	            $(this).addClass("bg-secondary");
+// 	            break;
+// 	        case 1:
+// 	            badgeText = '반려';
+// 	            $(this).addClass("bg-warning");
+// 	            break;
+// 	        case 2:
+// 	            badgeText = '결재';
+// 	            $(this).addClass("bg-success");
+// 	            break;
+// 	        default:
+// 	            break;
+// 	    }
+
+//      	// 모든 statusBadge 요소에 뱃지 내용 업데이트 및 클래스 추가/제거
+//         $(".signBadge").text(badgeText).removeClass("bg-secondary bg-warning bg-success").addClass(badgeClass);
+//     });
 
 });
 
 </script>
 
 
-<div class="container" style="margin-left:13%">
+<div class="container-800" style="margin-left: 5%;">
     <!-- 검색창 -->
     <form class="d-flex" action="myWorkList" id="workForm" method="get">
         <select name="column" class="form-input me-sm-2" onchange="submitForm()">
@@ -89,7 +159,7 @@ $(document).ready(function(){
         <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
     </form>
     
-    <!-- 사원 목록 테이블 -->
+    <!-- 내 업무일지 테이블 -->
     <div class="row">
         <div class="col" style="margin: 0 auto;">
             <table class="table table-hover mt-2" style="width: 90%;">
@@ -108,17 +178,24 @@ $(document).ready(function(){
                     <c:forEach var="work" items="${myWorkList}">
                         <tr>
                             <td class="align-middle">${work.workReportDate}</td>
-                            <td class="align-middle">${work.workTitle}</td>
+                            <td class="align-middle work-title" data-work-no="${work.workNo}">${work.workTitle}</td>
                             <td class="align-middle">
                                 <span class="badge statusBadge" data-work-status="${work.workStatus}"></span>
                             </td>
                             <td class="align-middle">${work.workType}</td>
                             <td class="align-middle">${work.empName}</td>
-                            <td class="align-middle">${work.workResult}</td>
+                            <td class="align-middle">
+                                <span class="badge signBadge" data-result-code="${work.resultCode}"></span>
+                                <input type="hidden" id="statusCode" value="${work.statusCode}">
+                                <input type="hidden" id="supCount" value="${work.supCount}">
+                            </td>
                             <td><a href="report?workNo=${work.workNo}">보고</a></td>
                         </tr>
                     </c:forEach>
                 </tbody>
+                <c:if test="${empty myWorkList}">
+				    <td colspan="15" class="text-center">검색 결과가 없습니다.</td>
+				</c:if>
             </table>
         </div>
     </div>
@@ -148,3 +225,4 @@ $(document).ready(function(){
 
 
 
+<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

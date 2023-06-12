@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.List;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -15,7 +16,7 @@ import com.kh.synergyZone.dto.EmployeeInfoDto;
 public interface EmployeeService {
 
 	EmployeeDto login(EmployeeDto employeeDto);
-	void join(EmployeeDto employeeDto, MultipartFile attach) throws IllegalStateException, IOException;
+	void join(EmployeeDto employeeDto, MultipartFile attach) throws IllegalStateException, IOException, MessagingException;
 	void updateProfile(String empNo, MultipartFile attach) throws IllegalStateException, IOException;
 	void deleteProfile(String empNo);
 	

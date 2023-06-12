@@ -9,4 +9,5 @@ import lombok.NoArgsConstructor;
 public class WorkReportDto {
 	private int workNo;
 	private String workSup;
+	private String empName;
 }

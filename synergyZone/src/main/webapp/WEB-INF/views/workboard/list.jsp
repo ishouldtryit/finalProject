@@ -6,6 +6,9 @@
   .employee-name {
     color: dodgerblue;
   }
+  .work-title {
+    cursor: pointer;
+  }
   
 </style>
 <!-- 스크립트 -->
@@ -33,7 +36,7 @@ $(document).ready(function(){
                 break;
             case 3:
                 badgeText = '보류';
-                $(this).addClass("bg-dangers");
+                $(this).addClass("bg-secondary");
                 break;
             default:
                 break;
@@ -81,15 +84,23 @@ $(document).ready(function(){
 
 <div class="container-800" style="margin-left: 5%;">
     <!-- 검색창 -->
-    <form class="d-flex" action="myWorkList" id="workForm" method="get">
+    <form class="d-flex" action="list" id="workForm" method="get">
         <select name="column" class="form-input me-sm-2" onchange="submitForm()">
             <option value="work_title" ${column eq 'work_title' ? 'selected' : ''}>제목</option>
+            <option value="emp_name" ${column eq 'emp_name' ? 'selected' : ''}>보고자</option>
         </select>
         <input class="form-control me-sm-2" type="search" placeholder="검색어" name="keyword" value="${param.keyword}" style="width: 13%;">
         <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
     </form>
     
-    <!-- 사원 목록 테이블 -->
+    <!-- 작성 링크 -->
+     <div class="d-flex justify-content-end col-md-10 offset-md-1">
+            <a href="/workboard/write" class="btn btn-light btn-sm ms-2">
+                <i style="color: #8f8f8f;"></i>&nbsp;작성
+            </a>
+    </div>
+    
+    <!-- 업무일지 목록 테이블 -->
     <div class="row">
         <div class="col" style="margin: 0 auto;">
             <table class="table table-hover mt-2" style="width: 90%;">
@@ -99,28 +110,30 @@ $(document).ready(function(){
                         <th>제목</th>
                         <th>업무상태</th>
                         <th>업무종류</th>
-<!--                         <th>보고자</th> -->
-<!--                         <th>참조자</th> -->
+                        <th>보고자</th>
 <!--                         <th>결재상태</th> -->
 						<th>부서번호(나중에삭제)</th>
+<!-- 						<th>관리</th> -->
                     </tr>
                 </thead>
-                <tbody>
-                    <c:forEach var="work" items="${list}">
-                        <tr>
-                            <td class="align-middle">${work.workReportDate}</td>
-                            <td class="align-middle">${work.workTitle}</td>
-                            <td class="align-middle">
-                                <span class="badge statusBadge" data-work-status="${work.workStatus}"></span>
-                            </td>
-                            <td class="align-middle">${work.workType}</td>
-<%--                             <td class="align-middle">${work.workSup}</td> --%>
-<%--                             <td class="align-middle">${work.workResult}</td> --%>
-							<td class="align-middle">${work.jobNo}</td>
-
-                        </tr>
-                    </c:forEach>
-                </tbody>
+					<tbody>
+					    <c:forEach var="work" items="${list}">
+					        <tr>
+					            <td class="align-middle">${work.workReportDate}</td>
+					            <td class="align-middle work-title" data-work-no="${work.workNo}">${work.workTitle}</td>
+					            <td class="align-middle">
+					                <span class="badge statusBadge" data-work-status="${work.workStatus}"></span>
+					            </td>
+					            <td class="align-middle">${work.workType}</td>
+					            <td class="align-middle">${work.empName}</td>
+					            <td class="align-middle">${work.deptNo}</td>
+<%-- 					            <td><a href="report?workNo=${work.workNo}">보고하기</a></td> --%>
+					        </tr>
+					    </c:forEach>
+					</tbody>
+					<c:if test="${empty list}">
+				    <td colspan="15" class="text-center">검색 결과가 없습니다.</td>
+				</c:if>
             </table>
         </div>
     </div>
@@ -129,23 +142,36 @@ $(document).ready(function(){
 		<div style="display: flex; justify-content: center;">
 		  <ul class="pagination" style="width: 20%;">
 		    <li class="page-item ${vo.isFirst() ? 'disabled' : ''}">
-		      <a class="page-link" href="${vo.isFirst() ? '#' : pageContext.request.contextPath}/workboard/myWorkList?page=${vo.getPrevPage()}&sort=${vo.getSort()}${vo.getQueryString()}">&laquo;</a>
+		      <a class="page-link" href="${vo.isFirst() ? '#' : pageContext.request.contextPath}/workboard/list?page=${vo.getPrevPage()}&sort=${vo.getSort()}${vo.getQueryString()}">&laquo;</a>
 		    </li>
 		    <c:forEach var="i" begin="${vo.getStartBlock()}" end="${vo.getFinishBlock()}">
 		      <li class="page-item">
-		        <a class="page-link ${vo.getPage() eq i ? 'active' : ''}" href="${pageContext.request.contextPath}/workboard/myWorkList?page=${i}&sort=${vo.getSort()}${vo.getQueryString()}">
+		        <a class="page-link ${vo.getPage() eq i ? 'active' : ''}" href="${pageContext.request.contextPath}/workboard/list?page=${i}&sort=${vo.getSort()}${vo.getQueryString()}">
 		          <span class="text-info">${i}</span>
 		        </a>
 		      </li>
 		    </c:forEach> 
 		    <li class="page-item ${vo.isLast() ? 'disabled' : ''}">
-		      <a class="page-link" href="${vo.isLast() ? '#' : pageContext.request.contextPath}/workboard/myWorkList?page=${vo.getNextPage()}&sort=${vo.getSort()}${vo.getQueryString()}">
+		      <a class="page-link" href="${vo.isLast() ? '#' : pageContext.request.contextPath}/workboard/list?page=${vo.getNextPage()}&sort=${vo.getSort()}${vo.getQueryString()}">
 		        <span class="text-info">&raquo;</span>
 		      </a>
 		    </li>
 		  </ul>
 		</div>
 </div>
+
+<!-- 스크립트 -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $(".work-title").click(function(){
+        var workNo = $(this).data("work-no"); // Retrieve the workNo from the data attribute
+        var detailUrl = "detail?workNo=" + workNo; // Construct the detail page URL
+        window.location.href = detailUrl; // Redirect to the detail page
+    });
+});
+
+</script>
 
 
 

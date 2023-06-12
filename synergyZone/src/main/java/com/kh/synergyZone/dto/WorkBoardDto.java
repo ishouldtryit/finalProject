@@ -19,5 +19,6 @@ public class WorkBoardDto {
 	private Date workReportDate;
 	private String workSecret;
 	private String workType;
-	private int workResult;
+	private int resultCode;
+	private int statusCode;
 }

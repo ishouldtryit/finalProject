@@ -141,8 +141,8 @@ article {
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col col-7 bg-info text-light">
-						<a href="http://localhost:8080/"> <img
-							src="/static/img/logo.png" id="rogo-img" class="p-1">
+						<a href="${pageContext.request.contextPath}/"> <img
+							src="${pageContext.request.contextPath}/static/img/logo.png" id="rogo-img" class="p-1">
 						</a>
 					</div>
 
@@ -164,7 +164,7 @@ article {
 						</div>
 						<div id="popup" class="popup">
 							<ul class="text-sm list-unstyled list-inline">
-								<li><a href="${pageContext.request.contextPath}/employee/mypage">기본정보</a></li>
+								<li><a href="${pageContext.request.contextPath}/employee/edit">기본정보</a></li>
 								<li><a href="${pageContext.request.contextPath}/employee/password">비밀번호 변경</a></li>
 								<li><a href="#" onclick="logout()">로그아웃</a></li>
 							</ul>
@@ -199,12 +199,10 @@ article {
 									aria-expanded="false" class="dropdown-toggle">전자결재</a>
 									<ul class="collapse list-unstyled" id="pageSubmenu">
 										<li><a href="/approval/write">신규 결재</a></li>
-										<li><a href="/approval/adminList">전체 문서함 (관리자)</a></li>
 										<li><a href="/approval/myList">나의 기안 문서함</a></li>
 										<li><a href="/approval/waitApproverList">결재 수신 문서함</a></li>
 										<li><a href="/approval/recipientList">참조 문서함</a></li>
 										<li><a href="/approval/readerList">열람 문서함</a></li>
-										<li><a href="#">부서 문서함</a></li>
 									</ul></li>
 
 								<li><a href="#addressSubmenu" data-toggle="collapse"
@@ -275,6 +273,7 @@ article {
                                       <li>
                                           <a href="${pageContext.request.contextPath}/admin/job/list">직위 관리</a>
                                       </li>
+                                      <li><a href="/approval/adminList">기안서 전체 문서함</a></li>
                                   </ul>
                               </li>
    

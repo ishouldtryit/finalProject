@@ -3,6 +3,7 @@ $(function () {
   // URL에서 selectedEmployees 파라미터 값 가져오기
   const urlParams = new URLSearchParams(window.location.search);
   const selectedEmployeesData = urlParams.get('selectedEmployees');
+	
 
   if (selectedEmployeesData) {
     // 데이터가 존재하는 경우 처리 로직 작성
@@ -287,27 +288,6 @@ $(function () {
       return;
     }
 
-    // 메세지 보내는 대상자 확인
-    let result = true;
-    $(".message-recipient-ele").each(function () {
-      $.ajax({
-        url:contextPath+
-          "/rest/member/memberId/" +
-          $(this).find("[name=messageRecipient]").val(),
-        method: "get",
-        async: false,
-        success: function (response) {
-          result &&= response === "N";
-        },
-        error: function () {
-          console.log("멤버 확인 통신오류!!!!");
-        },
-      });
-    });
-    if (!result) {
-      alert("쪽지를 보낼 수 없습니다\n받는 주소를 확인해주세요");
-      return;
-    }
 
     // 다수 쪽지 보내기 처리
     const test = [];

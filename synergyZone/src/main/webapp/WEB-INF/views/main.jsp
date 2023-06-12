@@ -154,7 +154,7 @@ function logout() {
 
       <div class="row">
          <div class="col col-7 bg-info text-light">
-            <img src="static/img/logo.png" id="img" class="p-1">
+            <img src="${pageContext.request.contextPath}static/img/logo.png" id="img" class="p-1">
          </div>
 
          <div class="col col-1 bg-info text-light p-2"></div>
@@ -175,7 +175,7 @@ function logout() {
             </div>
             <div id="popup" class="popup">
                <ul class="text-sm list-unstyled list-inline">
-                  <li><a href="${pageContext.request.contextPath}/employee/mypage" class="pop">기본정보</a></li>
+                  <li><a href="${pageContext.request.contextPath}/employee/edit" class="pop">기본정보</a></li>
                   <li><a href="${pageContext.request.contextPath}/employee/password" class="pop">비밀번호 변경</a></li>
                   <li><a href="#" onclick="logout()" class="pop">로그아웃</a></li>
                </ul>
@@ -186,7 +186,7 @@ function logout() {
          <div class="row">
             <div class="col-1 bg-info text-light"
                style="width: 75px; height: 913px;">
-               <a href="#"> <i
+               <a href="${pageContext.request.contextPath}/"> <i
                   class="bi bi-house fs-3 d-flex justify-content-center mt-3"></i>
                   <p class="text-center">홈</p>
                </a> <a href="${pageContext.request.contextPath}/calendar/calendar"><i
@@ -316,7 +316,7 @@ function logout() {
                </div>
 
                <div class="bg-light border"
-                  style="height: 315px; width: 349px; margin-top: 320px; margin-left: 102px;">
+                  style="height: 315px; width: 349px; margin-top: 320px; margin-left: 102px;">            
                </div>
             </div>
 

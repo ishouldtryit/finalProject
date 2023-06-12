@@ -142,19 +142,20 @@ public class CommuteController {
 		return "/commute/write2";
 	}
 	@PostMapping("/trip")
-	public String insert(@ModelAttribute TripDto tripDto,HttpSession session,@RequestParam List<String> supList) {
+	public String insert(@ModelAttribute TripDto tripDto,HttpSession session,@RequestParam(required = false) List<String> supList) {
 		String emp=(String) session.getAttribute("empNo");
 		tripDto.setEmpNo(emp);
 		tripRepoImpl.insert(tripDto);
 		String no =personRepoImpl.one(emp);
 		//tripNo 조회
-		
+		if(supList!=null) {
 		for (String empNo : supList) {
 			   TripPersonDto dto = new TripPersonDto();
 	           dto.setEmpNo(empNo);
 	           dto.setTripNo(no);
 	           personRepoImpl.insert(dto);
 	       }
+		}
 		return "redirect:/commute/trip";
 	}
 	

@@ -82,7 +82,7 @@
          </div>
      </div>
  </nav>
-	<form action="/commute/approval" method="post">
+	<form action="${pageContext.request.contextPath}/commute/approval" method="post">
 		<div class="container">
 			<div class="container-md border border-dark border-1 p-5 mb-3 mt-5">
 				<div class="row justify-content-center mb-2">

@@ -63,21 +63,21 @@
                  <li class="nav-item">
                      <a class="nav-link" href="${pageContext.request.contextPath}/">홈</a>
                  </li>
-                 <li class="nav-item active" >
-                     <a class="nav-link" href="${pageContext.request.contextPath}/approval/write">신규 결재</a>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/commute/write">휴가신청 </a>
                  </li>
                  <li class="nav-item">
-                     <a class="nav-link" href="${pageContext.request.contextPath}/approval/myList">나의 기안 문서함</a>
+                     <a class="nav-link" href="${pageContext.request.contextPath}/commute/trip">출장신청 </a>
                  </li>
                  <li class="nav-item">
-                     <a class="nav-link" href="${pageContext.request.contextPath}/approval/waitApproverList">결재 수신 문서함</a>
+                     <a class="nav-link" href="${pageContext.request.contextPath}/commute/record">근무시간 집계현황</a>
                  </li>
                  <li class="nav-item">
-                     <a class="nav-link" href="${pageContext.request.contextPath}/approval/recipientList">참조 문서함</a>
+                     <a class="nav-link" href="${pageContext.request.contextPath}/commute/vacation">내 휴가 신청내역</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/commute/tripList">내 출장 신청내역</a>
                  </li> 
-                 <li class="nav-item">
-                     <a class="nav-link" href="${pageContext.request.contextPath}/approval/readerList">열람 문서함</a>
-                 </li>
              </ul>
          </div>
      </div>
@@ -147,13 +147,13 @@
 										</tr>
 									</thead>
 									<tbody>
-									<c:forEach items="${person}" var="item">
-										<tr>
-											<td>${item.deptName}</td>
-											<td>${item.jobName}</td>
-											<td>${item.empName}</td>
-										</tr>
-									</c:forEach>
+										<c:forEach items="${person}" var="item">
+											<tr>
+												<td>${item.deptName}</td>
+												<td>${item.jobName}</td>
+												<td>${item.empName}</td>
+											</tr>
+										</c:forEach>
 									</tbody>
 								</table></td>
 						</tr>
@@ -185,7 +185,7 @@
 							<th class="align-middle table-secondary">비고</th>
 							<td class="align-middle">${list.notes}</td>
 						</tr>
-						
+
 					</tbody>
 				</table>
 			</div>

@@ -16,7 +16,28 @@
         line-height: 35px; /* 원하는 높이로 조정하세요 */
     }
 </style>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+     <div class="container-fluid">
 
+         <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+             <i class="fa fa-bars"></i>
+         </button>
+         
+         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+             <ul class="nav navbar-nav ml-auto">
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/">홈</a>
+                 </li>
+                 <li class="nav-item" >
+                     <a class="nav-link" href="${pageContext.request.contextPath}/address/list">주소록</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/bookmark/mylist">나만의 주소록</a>
+                 </li>
+             </ul>
+         </div>
+     </div>
+ </nav>
 
 <div class="container-800" style="margin-left: 5%;">
     <!-- 검색창 -->
@@ -31,6 +52,8 @@
 	    <input class="form-control me-sm-2" type="search" placeholder="검색어" name="keyword" value="${param.keyword}" style="width: 13%;">
 	    <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
 	    <button type="button" id="deleteBtn" class="btn btn-danger">선택된 사원 삭제</button>
+	    <!-- 선택된 사원 쪽지 보내기 -->		  
+		  <button type="button" id="sendMessageBtn" class="btn btn-primary">쪽지보내기</button>
 	</form>
 	
 	<!-- 데이터 없음 알림 -->
@@ -356,4 +379,23 @@
 </script>
 
 
-    
+<script>
+$(document).ready(function() {
+	  $('#sendMessageBtn').on('click', function() {
+	    var selectedEmployees = [];
+	    $('input[name="selectedEmployees"]:checked').each(function() {
+	      selectedEmployees.push($(this).val());
+	    });
+
+	    if (selectedEmployees.length > 0) {
+	      console.log(selectedEmployees); // selectedEmployees 배열을 콘솔에 출력
+	      localStorage.setItem('selectedEmployees', JSON.stringify(selectedEmployees));
+	      window.location.href = '/message/write';
+	    } else {
+	      alert('선택된 직원이 없습니다.');
+	    }
+	  });
+	});
+
+</script>    
+<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

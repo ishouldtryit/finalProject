@@ -160,6 +160,12 @@ function logout() {
 					<strong>{{ employeeInfo.empName }}</strong> 님 환영합니다.
 				</h5>
 
+				<a href="${pageContext.request.contextPath}/address/list"><i
+					class="bi bi-diagram-3 fs-2"></i></a> <a href=#><i
+					class="bi bi-bell fs-2 ms-3"></i></a> <a href=#><i
+					class="bi bi-power fs-2 ms-3 me-2" data-bs-toggle="modal"
+					data-bs-target="#logoutModal"></i></a>
+
 				<div class="profile-image employee-name1 d-flex align-items-center">
 					<img width="34" height="34"
 						:src="getProfileImageUrl(employeeInfo.attachmentNo)" alt=""

@@ -146,10 +146,10 @@ article {
 						</a>
 					</div>
 
-					<div class="col col-2 bg-info text-light"></div>
+					<div class="col col-1 bg-info text-light"></div>
 
 					<div id="app1"
-						class="col col-3 bg-info text-light p-1 d-flex justify-content-end align-items-center">
+						class="col col-4 bg-info text-light p-1 d-flex justify-content-end align-items-center">
 						<h5 class="text-light mt-3 me-4"
 							style="margin-bottom: 10px; color: black; font-weight: normal;">
 							<strong>{{ employeeInfo.empName }}</strong> 님 환영합니다.

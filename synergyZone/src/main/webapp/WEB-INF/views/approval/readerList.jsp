@@ -128,7 +128,7 @@
 							</thead>
 							<tbody v-if="ApprovalWithPageVO.approvalDataVO.length === 0">
 								<tr>
-									<td colspan="7" class="text-center">문서가 없습니다.</td>
+									<td colspan="8" class="text-center">문서가 없습니다.</td>
 								</tr>
 							</tbody>
 							<tbody v-else>

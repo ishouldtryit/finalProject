@@ -199,12 +199,10 @@ article {
 									aria-expanded="false" class="dropdown-toggle">전자결재</a>
 									<ul class="collapse list-unstyled" id="pageSubmenu">
 										<li><a href="/approval/write">신규 결재</a></li>
-										<li><a href="/approval/adminList">전체 문서함 (관리자)</a></li>
 										<li><a href="/approval/myList">나의 기안 문서함</a></li>
 										<li><a href="/approval/waitApproverList">결재 수신 문서함</a></li>
 										<li><a href="/approval/recipientList">참조 문서함</a></li>
 										<li><a href="/approval/readerList">열람 문서함</a></li>
-										<li><a href="#">부서 문서함</a></li>
 									</ul></li>
 
 								<li><a href="#addressSubmenu" data-toggle="collapse"
@@ -275,6 +273,7 @@ article {
                                       <li>
                                           <a href="${pageContext.request.contextPath}/admin/job/list">직위 관리</a>
                                       </li>
+                                      <li><a href="/approval/adminList">기안서 전체 문서함</a></li>
                                   </ul>
                               </li>
    

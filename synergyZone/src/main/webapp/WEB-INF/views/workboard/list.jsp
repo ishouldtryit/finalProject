@@ -129,7 +129,7 @@ $(document).ready(function(){
     
     <!-- 작성 링크 -->
      <div class="d-flex justify-content-end col-md-10 offset-md-1">
-            <a href="/workboard/write" class="btn btn-light btn-sm ms-2">
+            <a href="${pageContext.request.contextPath}/workboard/write" class="btn btn-light btn-sm ms-2">
                 <i style="color: #8f8f8f;"></i>&nbsp;작성
             </a>
     </div>

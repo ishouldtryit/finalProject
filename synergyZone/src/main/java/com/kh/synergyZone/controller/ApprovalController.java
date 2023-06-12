@@ -16,7 +16,7 @@ public class ApprovalController {
 	//관리자 페이지
 	@GetMapping("/adminList")
 	public String adminList() {
-		return "/admin/approval/adminList";
+		return "/approval/adminList";
 	}
 	
 	//내 기안서 목록

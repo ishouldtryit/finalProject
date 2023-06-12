@@ -141,8 +141,8 @@ article {
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col col-7 bg-info text-light">
-						<a href="http://localhost:8080/"> <img
-							src="/static/img/logo.png" id="rogo-img" class="p-1">
+						<a href="${pageContext.request.contextPath}/"> <img
+							src="${pageContext.request.contextPath}/static/img/logo.png" id="rogo-img" class="p-1">
 						</a>
 					</div>
 

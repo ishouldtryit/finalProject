@@ -44,7 +44,33 @@
 		}
 </style>
 
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+     <div class="container-fluid">
+
+         <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+             <i class="fa fa-bars"></i>
+         </button>
+         
+         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+             <ul class="nav navbar-nav ml-auto">
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/">홈</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/board/write">글쓰기</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link active" href="${pageContext.request.contextPath}/board/list">자유게시판</a>
+                 </li>
+             </ul>
+         </div>
+     </div>
+ </nav>
+
 <div class="container">
+<div class="row mb-4">
+  <h3 style="margin:0;">자유게시판</h3>
+  </div>
     <div class="row mb-3 d-flex">
  <form class="d-flex" action="list" method="get">
     <c:choose>

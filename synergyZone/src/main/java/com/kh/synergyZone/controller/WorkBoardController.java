@@ -64,7 +64,7 @@ public class WorkBoardController {
 	// 업무일지 작성
 	@GetMapping("/write")
 	public String write(Model model) {
-		return "workboard/write";
+		return "/workboard/write";
 	}
 
 	@PostMapping("/write")
@@ -82,7 +82,7 @@ public class WorkBoardController {
 		
 		attr.addAttribute("workNo", workNo);
 
-		return "redirect:detail";
+		return "redirect:/workboard/detail";
 	}
 
 	// 업무일지 보고
@@ -106,7 +106,7 @@ public class WorkBoardController {
 		model.addAttribute("admin", admin);
 
 
-		return "workboard/report";
+		return "/workboard/report";
 	}
 
 	@PostMapping("/report")
@@ -125,7 +125,7 @@ public class WorkBoardController {
 		}
 
 		attr.addAttribute("workNo", workNo);
-		return "redirect:detail";
+		return "redirect:/workboard/detail";
 	}
 
 	
@@ -138,7 +138,7 @@ public class WorkBoardController {
 		model.addAttribute("files", workFileRepo.selectAll(workNo));
 		model.addAttribute("workSups", workReportRepo.selectAll(workNo));
 
-		return "workboard/sign";
+		return "/workboard/sign";
 	}
 
 	@PostMapping("/sign")
@@ -153,7 +153,7 @@ public class WorkBoardController {
 
 	    attr.addAttribute("workNo", workNo);
 
-	    return "redirect:detail";
+	    return "redirect:/workboard/detail";
 	}
 	
 	@GetMapping("/workReturn")
@@ -218,7 +218,7 @@ public class WorkBoardController {
 	    model.addAttribute("supList", pagedSupList);
 
 
-	    return "workboard/supList";
+	    return "/workboard/supList";
 	}
 
 
@@ -267,7 +267,7 @@ public class WorkBoardController {
 		model.addAttribute("myWorkList", pagedMyWorkList);
 		
 
-		return "workboard/myWorkList";
+		return "/workboard/myWorkList";
 	}
 
 	// 부서 업무일지
@@ -320,7 +320,7 @@ public class WorkBoardController {
 
 		model.addAttribute("list", pagedWorkList);
 
-		return "workboard/list";
+		return "/workboard/list";
 	}
 
 	// 업무일지 수정
@@ -330,10 +330,10 @@ public class WorkBoardController {
 		model.addAttribute("workBoardDto", workBoardRepo.selectOne(workNo));
 
 		model.addAttribute("files", workFileRepo.selectAll(workNo));
-		return "workboard/edit";
+		return "/workboard/edit";
 	}
 
-	   @PostMapping("/edit")
+	  @PostMapping("/edit")
 	   public String edit(@ModelAttribute WorkBoardDto workBoardDto,
 	                  @RequestParam int workNo,
 	                  @RequestParam("attachments") List<MultipartFile> attachments,
@@ -345,11 +345,11 @@ public class WorkBoardController {
 	      //기존업데이트 그대로진행
 	      workBoardService.updateFile(workNo, attachments);
 	      workBoardRepo.update(workBoardDto);
-	      
+
 	      //service에서 기존코드는 업무번호를 받는것으로 되어있어서 파일번호를 받게 변경
 	      //기존처럼 업무번호를 받으면 해당 업무번호의 파일전체를 삭제하게 되버림 --> DB구문 workNo가 아닌 attachmentNo를 받아서 단일로 찾도록 변경
 	      //아래는 단일로 찾은 attachmentNo를 이중for문을 돌려서 정확하게 일치시 삭제하는 문장
-	      
+
 	      //2중 for문
 	      for (Integer no : deleteList) {
 	    	  //no값 들어올때마다 
@@ -364,7 +364,7 @@ public class WorkBoardController {
 	      }
 
 	      attr.addAttribute("workNo", workBoardDto.getWorkNo());
-	      return "redirect:detail";
+	      return "redirect:/workboard/detail";
 	   }
 
 	// 업무일지 상세
@@ -389,7 +389,7 @@ public class WorkBoardController {
 		boolean admin = empAdmin != null && empAdmin.equals("Y");
 		model.addAttribute("admin", admin);
 
-		return "workboard/detail";
+		return "/workboard/detail";
 	}
 
 	// 업무일지 삭제
@@ -413,7 +413,7 @@ public class WorkBoardController {
 		// 게시물 삭제
 		workBoardRepo.delete(workNo);
 
-		return "redirect:list";
+		return "redirect:/workboard/list";
 	}
 
 

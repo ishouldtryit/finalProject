@@ -109,13 +109,13 @@ public class EmployeeController {
 			
 			model.addAttribute("employeeDto", employeeRepo.selectOne(empNo));
 			model.addAttribute("profile", employeeProfileRepo.find(empNo));
-			return "employee/mypage";
+			return "/employee/mypage";
 		}
 		
 		//비밀번호 찾기
 		@GetMapping("/findPw")
 		public String findPw() {
-			return "employee/findPw";
+			return "/employee/findPw";
 		}
 		
 		@PostMapping("/findPw")
@@ -133,19 +133,19 @@ public class EmployeeController {
 			
 			//이메일 일치 시 임시 비밀번호 생성
 			emailService.sendTemporaryPw(empNo, empEmail);
-			return "redirect:findPwResult";
+			return "redirect:/employee/findPwResult";
 		}
 		
 		
 		@GetMapping("/findPwResult")
 		public String findPwResult() {
-			return "employee/findPwResult";
+			return "/employee/findPwResult";
 		}
 		
 		//비밀번호 변경
 		@GetMapping("/password")
 		public String password() {
-			return "employee/password";
+			return "/employee/password";
 		}
 		
 		@PostMapping("/password")
@@ -168,12 +168,12 @@ public class EmployeeController {
 		    employeeDto.setEmpPassword(encrypt);
 		    
 		    employeeRepo.changePw(employeeDto);
-		    return "redirect:passwordFinish";
+		    return "redirect:/employee/passwordFinish";
 		}
 		
 		@GetMapping("/passwordFinish") 
 		public String passwordFinish() {
-			return "employee/passwordFinish";
+			return "/employee/passwordFinish";
 		}
 		
 		// 사원 정보 수정
@@ -187,11 +187,12 @@ public class EmployeeController {
 
 			model.addAttribute("profile", employeeProfileRepo.find(empNo));
 
-			return "employee/edit";
+			return "/employee/edit";
 		}
 
 		@PostMapping("/edit")
-		public String edit(@ModelAttribute EmployeeDto employeeDto, @RequestParam String empNo, HttpSession session, @RequestParam MultipartFile attach)
+		public String edit(@ModelAttribute EmployeeDto employeeDto, @RequestParam String empNo, HttpSession session, @RequestParam MultipartFile attach,
+							RedirectAttributes attr)
 				throws IllegalStateException, IOException {
 //			employeeDto.setDeptNo(deptNo);
 //			employeeDto.setJobNo(jobNo);
@@ -201,6 +202,8 @@ public class EmployeeController {
 
 			employeeRepo.employeeUpdate(employeeDto);
 			
-			return "redirect:/";
+			attr.addAttribute("empNo", empNo);
+			
+			return "redirect:/employee/edit";
 		}
 }

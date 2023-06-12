@@ -231,6 +231,26 @@
 	           
 	           
 	       });
+	       
+	       $("#workStart").change(function() {
+	    	      var workStart = new Date($(this).val());
+	    	      var workDeadline = new Date($("#workDeadline").val());
+
+	    	      // 이전 날짜 선택 못함
+	    	      if (workDeadline < workStart) {
+	    	         $("#workDeadline").val($("#workStart").val());
+	    	      }
+	    	   });
+
+	    	   $("#workDeadline").change(function() {
+	    	      var workStart = new Date($("#workStart").val());
+	    	      var workDeadline = new Date($(this).val());
+
+	    	      // 이전 날짜 선택 못함
+	    	      if (workDeadline < workStart) {
+	    	         $("#workStart").val($("#workDeadline").val());
+	    	      }
+	    	   });
 	});
 	
 
@@ -282,7 +302,7 @@
 	}
 </script>
 
-<form action="${pageContext.request.contextPath}/workdboard/edit" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+<form action="${pageContext.request.contextPath}/workboard/edit" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
 
 	<input type="hidden" name="workNo" value="${workBoardDto.workNo}">
 	<div class="container-fluid mt-4">
@@ -333,14 +353,14 @@
 				</div>
 
 				<div class="row mt-4">
-					<div class="col">
-						<label class="form-label">업무일</label> <input
-							class="form-control rounded" type="date" name="workStart"
-							value="${workBoardDto.workStart}"> ~ <input
-							class="form-control rounded" type="date" name="workDeadline"
-							value="${workBoardDto.workDeadline}">
-					</div>
-				</div>
+			   <div class="col">
+			      <label class="form-label">업무일</label>
+			      <div class="d-flex">
+			         <input class="form-control rounded me-2" type="date" id="workStart" name="workStart" value="${workBoardDto.workStart}" placeholder="YYYY-MM-DD">
+			         <input class="form-control rounded" type="date" id="workDeadline" name="workDeadline" value="${workBoardDto.workDeadline}" placeholder="YYYY-MM-DD">
+			      </div>
+			   </div>
+			</div>
 
 				<div class="row mt-4">
 					<div class="col">
@@ -364,7 +384,7 @@
 				                  <c:forEach var="file" items="${files}">
 										<div class="attachment" id="attachment_${file.attachmentNo}">
 											<li><span
-												href="/attachment/download?attachmentNo=${file.attachmentNo}">
+												href="${pageContext.request.contextPath}/attachment/download?attachmentNo=${file.attachmentNo}">
 													${file.attachmentName} </span>
 												<button class="btn btn-sm delete-btn" type="button"
 													data-attachment="${file.attachmentNo}">

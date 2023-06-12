@@ -182,6 +182,17 @@
                </div>
            
       </c:if>
+      <c:if test="${files == null}">
+      	<div class="row mt-4">
+                   <div class="col-lg-12">
+                       <div class="card shadow mb-4">
+                           <div class="card-header py-3">
+                               <h4 class="m-0 font-weight-bold text-info">File Attach[0]</h4>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+      </c:if>
 	
     </div>
     <br>

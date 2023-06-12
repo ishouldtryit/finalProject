@@ -38,10 +38,10 @@
                  <li class="nav-item">
                      <a class="nav-link" href="${pageContext.request.contextPath}/admin/list">사원 통합관리</a>
                  </li>
-                 <li class="nav-item active">
+                 <li class="nav-item">
                      <a class="nav-link" href="${pageContext.request.contextPath}/admin/waitingList">사원 퇴사관리</a>
                  </li>
-                 <li class="nav-item">
+                 <li class="nav-item active">
                      <a class="nav-link" href="${pageContext.request.contextPath}/admin/add">관리자 통합관리</a>
                  </li> 
                  <li class="nav-item">
@@ -176,7 +176,7 @@
         
       </form>
       
-   <form action="add" method="post" enctype="multipart/form-data">
+   <form action="${pageContext.request.contextPath}/admin/add" method="post" enctype="multipart/form-data">
             <div>
             <!-- 사원 목록 테이블 -->
                 <form id="adminListForm">
@@ -198,7 +198,7 @@
                             <div class="profile-image employee-name">
                               <img width="50" height="50" src="<c:choose>
                                 <c:when test="${adminList.attachmentNo > 0}">
-                                  /attachment/download?attachmentNo=${adminList.attachmentNo}
+                                 ${pageContext.request.contextPath}/attachment/download?attachmentNo=${adminList.attachmentNo}
                                 </c:when>
                                 <c:otherwise>
                                   https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg
@@ -218,6 +218,9 @@
                         </tr>
                       </c:forEach>
                     </tbody>
+                    <c:if test="${empty adminList}">
+		                <td colspan="15" class="text-center">검색 결과가 없습니다.</td>
+		            </c:if>
                   </table>
                   </c:when>
                   <c:otherwise>
@@ -281,7 +284,7 @@
     
     methods: {
       async loadData() {
-        const resp = await axios.get("/rest/approval/", {
+        const resp = await axios.get(contextPath+"/rest/approval/", {
           params: {
             searchName: this.searchName,
           },

@@ -77,7 +77,7 @@ public class AdminController {
 		model.addAttribute("departments", departments);
 		model.addAttribute("jobs", jobs);
 
-		return "admin/join";
+		return "/admin/join";
 	}
 
 	// 회원가입 처리
@@ -170,7 +170,7 @@ public class AdminController {
 
 		model.addAttribute("employees", pagedEmployees);
 
-		return "admin/list";
+		return "/admin/list";
 	}
 
 	// 대기자 목록
@@ -222,7 +222,7 @@ public class AdminController {
 
 		model.addAttribute("employees", pagedEmployees);
 
-		return "admin/waitingList";
+		return "/admin/waitingList";
 	}
 
 	// 최종 퇴사자 목록
@@ -274,7 +274,7 @@ public class AdminController {
 
 		model.addAttribute("employees", pagedEmployees);
 
-		return "admin/exitList";
+		return "/admin/exitList";
 	}
 
 	// 사원 정보 수정
@@ -293,7 +293,7 @@ public class AdminController {
 
 		model.addAttribute("profile", employeeProfileRepo.find(empNo));
 
-		return "admin/edit";
+		return "/admin/edit";
 	}
 
 	@PostMapping("/edit")
@@ -315,7 +315,7 @@ public class AdminController {
 	public String detail(@RequestParam String empNo, Model model) {
 		model.addAttribute("employeeDto", employeeRepo.selectOne(empNo));
 		model.addAttribute("profile", employeeProfileRepo.find(empNo));
-		return "admin/detail";
+		return "/admin/detail";
 	}
 
 //	// 사원 삭제
@@ -351,13 +351,13 @@ public class AdminController {
 		employeeDto.setIsLeave("Y");
 
 		employeeRepo.finalExit(employeeDto);
-		return "redirect:/admin/waitingList";
+		return "redirect:/admin/exitList";
 	}
 
 	// 부서 등록
 	@GetMapping("/department/register")
 	public String departmentRegister() {
-		return "admin/department/register";
+		return "/admin/department/register";
 	}
 
 	@PostMapping("/department/register")
@@ -386,7 +386,7 @@ public class AdminController {
 		List<DepartmentDto> pagedDeptList = departments.subList(startIndex, endIndex); // 페이지에 해당하는 데이터만 추출
 
 		model.addAttribute("departments", pagedDeptList);
-		return "admin/department/list";
+		return "/admin/department/list";
 	}
 
 	// 부서 삭제
@@ -399,7 +399,7 @@ public class AdminController {
 	// 직위 등록
 	@GetMapping("/job/register")
 	public String jobRegister() {
-		return "admin/job/register";
+		return "/admin/job/register";
 	}
 
 	@PostMapping("/job/register")
@@ -428,7 +428,7 @@ public class AdminController {
 		List<JobDto> pagedJobList = jobs.subList(startIndex, endIndex); // 페이지에 해당하는 데이터만 추출
 
 		model.addAttribute("jobs", pagedJobList);
-		return "admin/job/list";
+		return "/admin/job/list";
 	}
 
 	// 직위 삭제
@@ -448,7 +448,7 @@ public class AdminController {
 		vo.setCount(totalCount);
 		List<LoginRecordInfoDto> list = loginRecordRepo.selectListByPaging(vo);
 		model.addAttribute("list", list);
-		return "admin/log/list";
+		return "/admin/log/list";
 	}
 
 	// 관리자
@@ -494,7 +494,7 @@ public class AdminController {
 		model.addAttribute("adminList", pagedadminList);
 		
 
-		return "admin/add";
+		return "/admin/add";
 	}
 
 	@PostMapping("/add")

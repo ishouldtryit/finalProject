@@ -59,11 +59,19 @@ a:hover{color:blue;}
        const empNo = "${sessionScope.empNo}";
     </script>
 
-   <form action="sign" method="post" enctype="multipart/form-data">
+   <form action="${pageContext.request.contextPath}/workboard/sign" method="post" enctype="multipart/form-data">
       
       
       <div class="container mt-4">
       <div class="container-fluid mt-4">
+      
+          <div class="d-flex justify-content-end col-md-10 offset-md-1">
+
+        <a href="${pageContext.request.contextPath}/workboard/supList" class="btn btn-outline-secondary ms-2">
+
+            <i class="fa-solid fa-bars" style="color: #8f8f8f;"></i>&nbsp;목록
+        </a>
+    </div>
    
       
       <div class="row mt-4">
@@ -96,7 +104,7 @@ a:hover{color:blue;}
                         <img width="24" height="24"
                            src="<c:choose>
                                 <c:when test="${profile.empNo == workBoardDto.empNo}">
-                                    /attachment/download?attachmentNo=${profile.attachmentNo}
+                                    ${pageContext.request.contextPath}/attachment/download?attachmentNo=${profile.attachmentNo}
                                 </c:when>
                                 <c:otherwise>
                                     https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg
@@ -153,6 +161,17 @@ a:hover{color:blue;}
               
 
             </c:if>
+            <c:if test="${files == null}">
+		      	<div class="row mt-4">
+		                   <div class="col-lg-12">
+		                       <div class="card shadow mb-4">
+		                           <div class="card-header py-3">
+		                               <h4 class="m-0 font-weight-bold text-info">File Attach[0]</h4>
+		                           </div>
+		                       </div>
+		                   </div>
+		               </div>
+		      </c:if>
          </div>
          <br>
       </div>

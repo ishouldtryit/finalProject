@@ -348,12 +348,21 @@ function logout() {
                   <p>공지사항</p>
                   <hr>
                   <table class="table table-hover">
+                  	<thead>
+                  		<tr>
+                  			<th>제목</th>                				
+                  			<th>글쓴이</th>
+                  		</tr>
+                  	</thead>
                      <tbody>
                         <tr v-for="item in notice" :key="item.noticeNo">
                            <td>
                               <a :href="'/notice/detail?noticeNo='+item.noticeNo" style="color:inherit">
                                  {{ item.noticeTitle }}
                               </a>   
+                           </td>
+                           <td>
+                           	{{item.empName}}
                            </td>
                         </tr>
 
@@ -368,11 +377,20 @@ function logout() {
                   <hr>
                   <table class="table table-hover">
                      <tbody>
+                    	<thead>
+	                  		<tr>
+	                  			<th>제목</th>                				
+	                  			<th>글쓴이</th>
+	                  		</tr>
+	                  	</thead>
                          <tr v-for="item in free" :key="item.freeNo">
                            <td>
                               <a :href="'/board/detail?boardNo='+item.boardNo" style="color:inherit">
                                  {{ item.boardTitle }}
                               </a>
+                           </td>
+                                   <td>
+                           	{{item.empName}}
                            </td>
                         </tr>
 

@@ -60,11 +60,11 @@
 	</div>
 	 <div class="row p-3" >
 	      <label for="draftTitle" class="form-label">제목</label>
-	      <input type="text" id="draftTitle" name="boardTitle" v-model="boardlVO.boardDto.boardTitle" class="form-control" v-on:input="boardVO.boardDto.boardTitle = $event.target.value">
+	      <input type="text" id="draftTitle" name="boardTitle" class="form-control" value="${boardDto.boardTitle}">
 	    </div>
 	    <div class="row p-3">
 	      <label for="draftContent" class="form-label">내용</label>
-	      <textarea id="draftContent" name="boardContent" required style="min-height: 300px;" v-model="boardVO.boardDto.boardContent" class="form-control" v-on:input="boardVO.boardDto.boardContent = $event.target.value"></textarea>
+	      <textarea id="draftContent" name="boardContent" required style="min-height: 300px;"class="form-control">${boardDto.boardContent}</textarea>
 	    </div>
 	<div class="row">
 		<button type="submit" class="btn btn-info w-80 mt-3 reply-insert-btn">변경</button>

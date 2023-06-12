@@ -49,10 +49,10 @@ public class BoardManageInterceptor implements HandlerInterceptor{
 		boolean isOwner = writer.equals(writerId);
 		
 		//현재 로그인 회원의 등급 확인 코드
-		String jobName = (String)session.getAttribute("jobNo");
+		String admin = (String)session.getAttribute("empAdmin");
 		
 
-		boolean isAdmin = jobName.equals("80");
+		boolean isAdmin = admin.equals("Y");
 		
 		if(isAdmin) {//관리자
 			//삭제 페이지로 이동한다면

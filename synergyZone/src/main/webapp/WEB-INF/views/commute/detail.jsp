@@ -53,7 +53,7 @@
 <body>
 	<form action="/commute/approval" method="post">
 		<div class="container">
-			<div class="container-md border border-dark border-1 p-5 mb-3">
+			<div class="container-md border border-dark border-1 p-5 mb-3 mt-5">
 				<div class="row justify-content-center mb-2">
 					<div class="col-auto">
 						<h3>연차신청서</h3>
@@ -169,6 +169,7 @@
 					</tbody>
 				</table>
 			</div>
+			<hr>
 			<input type="hidden" name="used" value="${list.useCount}"> <input
 				type="hidden" name="empNo" value="${list.empNo}"> <input
 				type="hidden" name="vacationNo" value="${list.vacationNo}">

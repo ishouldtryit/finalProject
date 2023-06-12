@@ -34,17 +34,14 @@
 		#{empNo} AND (status = 0 or status = 2)
 	</select>
 
-	<!-- 출장대상자 리스트 조회 -->
-	<select id="personList" resultType="TripPersonDto">
-		select * from trip_person
-		where trip_no= #{tripNo}
-	</select>
 
 	<select id="adminList" resultType="TripDto">
 		SELECT t.*, e.emp_name
-		FROM trip t
+		FROM
+		trip t
 		JOIN employee e ON t.emp_no = e.emp_no
-		WHERE t.status = 0 ORDER BY usedDate ASC
+		WHERE t.status = 0 ORDER
+		BY usedDate ASC
 
 	</select>
 
@@ -53,5 +50,39 @@
 		from trip where emp_no= #{empNo} order by trip_no DESC) where ROWNUM =
 		1
 	</select>
+
+	<!-- 관리자페이지 사원 연차 사용조회 -->
+	<select id="oneList" resultType="TripDto">
+		SELECT e.emp_Name,d.dept_name,
+		t.*
+		FROM trip t
+		JOIN employee e ON t.emp_no = e.emp_no
+		join DEPARTMENT d
+		on e.dept_no= d.dept_no
+		WHERE t.trip_no = #{tripNo}
+
+	</select>
+	<!-- 출장대상자 리스트 조회 -->
+	<select id="personList" resultType="TripPersonDto">
+		SELECT e.EMP_Name,
+		j.JOB_NAME, d.DEPT_NAME
+		FROM trip_person tp
+		JOIN trip t ON tp.TRIP_NO =
+		t.TRIP_NO
+		JOIN employee e ON tp.EMP_NO = e.EMP_NO
+		JOIN job j ON e.JOB_NO
+		= j.JOB_NO
+		JOIN department d ON e.DEPT_NO = d.DEPT_NO
+		WHERE t.TRIP_NO =
+		#{tripNo}
+
+	</select>
+
+	<update id="status">
+		UPDATE trip
+		SET status = #{status}
+		WHERE trip_no = #{tripNo}
+	</update>
+
 
 </mapper>

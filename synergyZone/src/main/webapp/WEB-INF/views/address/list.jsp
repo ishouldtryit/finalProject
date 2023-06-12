@@ -330,8 +330,10 @@ $(document).ready(function() {
 
 	    if (selectedEmployees.length > 0) {
 	      console.log(selectedEmployees); // selectedEmployees 배열을 콘솔에 출력
-	      localStorage.setItem('selectedEmployees', JSON.stringify(selectedEmployees));
-	      window.location.href = '/message/write';
+
+	      // 배열 데이터를 URL 파라미터로 전달
+	      const selectedEmployeesData = JSON.stringify(selectedEmployees);
+	      window.location.href = '/message/write?selectedEmployees=' + encodeURIComponent(selectedEmployeesData);
 	    } else {
 	      alert('선택된 직원이 없습니다.');
 	    }

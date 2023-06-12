@@ -16,9 +16,9 @@ public class AdminInterceptor implements HandlerInterceptor{
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		HttpSession session = request.getSession();
-		Integer jobNo = (Integer) session.getAttribute("jobNo");
+		String admin = (String) session.getAttribute("empAdmin");
 		
-		if(jobNo != null && jobNo == 80) {
+		if(admin != null && admin.equals("Y")) {
 			return true;
 		}
 		else {

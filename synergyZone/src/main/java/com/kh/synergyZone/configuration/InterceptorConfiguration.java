@@ -20,18 +20,34 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(adminInterceptor)
-								.addPathPatterns("/admin/job/register");
+								.addPathPatterns(
+										"/admin/**",
+										"/approval/adminList",
+										"/notice/write",
+										"/commute/adminList",
+										"/commute/adminList2"
+										
+								);
 		
 		registry.addInterceptor(employeeInterceptor)
 								.addPathPatterns(
 										"/",
-										"/admin/**",
 										"/employee/**",
-										"/workboard/**"
+										"/workboard/**",
+										"/commute/**",
+										"/calendar/**",
+										"/address/**",
+										"/message/**",
+										"/notice/**",
+										"/board/**",
+										"/bookmark/**"
+										
+										
 								)
 								.excludePathPatterns(
 										"/employee/findPw",
-										"/employee/findPwResult"
+										"/employee/findPwResult",
+										"/login"
 								);
 								
 	}

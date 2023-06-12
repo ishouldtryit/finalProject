@@ -42,16 +42,16 @@
 <body>
 	<div class="container">
 		<div class="d-flex">
-			<h1>내 연차내역</h1>
-			<h1 id="currentDate"></h1>
+			<h3 class="mb-4 me-2">내 연차내역</h3>
+			<h3 id="currentDate"></h3>
 		</div>
-		<hr>
+
 		<!-- 해당 페이지도 view로 다시 묶어서 해야함 -->
 		<div>
 			<div>
-				<div class="outer-border">
-					<div class="row justify-content-start mt-5">
-						<div class="my-card text-center">
+				<div class="outer-border ">
+					<div class="row justify-content-start mt-4">
+						<div class="my-card text-center ">
 							<!-- 변경된 클래스 이름 -->
 							<img width="50" height="50"
 								src="<c:choose>
@@ -97,8 +97,8 @@
 				</div>
 			</div>
 		</div>
-		<hr>
-		<select name="year" id="year-select"></select>
+
+		<select class="mb-2 mt-2" name="year" id="year-select"></select>
 		<div>
 			<div id="table-container"></div>
 		</div>

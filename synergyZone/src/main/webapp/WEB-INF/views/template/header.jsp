@@ -73,7 +73,7 @@
             }
             html,body{
                 height: 100%;
-/*                 overflow: hidden; */
+               overflow-x: hidden;
             }
             .wrapper{
                 height: 100%;

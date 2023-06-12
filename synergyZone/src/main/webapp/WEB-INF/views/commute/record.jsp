@@ -36,14 +36,14 @@
 	<div class="container">
 
 
-		<h1>근태기록 페이지</h1>
+		<h4 class="mb-4">근태기록 페이지</h4>
 
-		<div>
-			<button onclick="decrementMonth()">&lt;</button>
+		<div class="mb-2">
+			<button class="btn btn-outline-secondary me-2" onclick="decrementMonth()">&lt;</button>
 			<!-- 이전 월로 이동하는 버튼 -->
-			<span id="year" required></span> <span>.</span> <span id="month"
-				required></span>
-			<button onclick="incrementMonth()">&gt;</button>
+			<strong><span id="year" required></span> <span>.</span> <span id="month"
+				required></span></strong>
+			<button class="btn btn-outline-secondary ms-2" onclick="incrementMonth()">&gt;</button>
 			<!-- 다음 월로 이동하는 버튼 -->
 		</div>
 		<div id="attendanceTable"></div>

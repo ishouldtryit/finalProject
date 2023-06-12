@@ -9,6 +9,14 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 
+	<style>
+		.table-hover tbody tr:hover {
+    		background-color: inherit;
+  		}
+  		a{
+  			text-decoration: none;
+  		}
+	</style>
 <script>
     $(function(){
     	$(".add-btn").click(function() {
@@ -28,8 +36,9 @@
 </head>
 <body>
 	<div class="container" id="app">
+	<h4 class="mb-3">출장 신청서</h4>
 		<form action="/commute/trip" method="post">
-			<table class="table table-hover">
+			<table class="table">
 				<tr>
 					<th>유형/구분</th>
 					<td><select id="name" name="name">
@@ -41,9 +50,9 @@
 				<tr>
 					<th>대상자</th>
 					<td>
-						<button type="button" class="btn btn-primary"
+						<button type="button" class="btn btn-outline-info me-2 mb-2"
 							data-bs-toggle="modal" data-bs-target="#myModal">대상자추가</button>
-						<button type="button">선택 삭제</button> <br>
+						<button type="button" class="btn btn-outline-secondary mb-2">선택 삭제</button> <br>
 						<table class="table">
 							<thead>
 								<tr>
@@ -69,7 +78,7 @@
 					<td><input type="date" id="startDate" name="startDate"
 						min="YYYY-01-01" max="YYYY-12-31"> ~ <input type="date"
 						id="endDate" name="endDate" min="YYYY-01-01" max="YYYY-12-31">
-						<input type="checkbox">휴일포함</td>
+						<input type="checkbox" class="ms-2">휴일포함</td>
 				</tr>
 				<tr>
 					<th>기간</th>
@@ -79,7 +88,7 @@
 					<th>출발지</th>
 					<td><input type="text" name="startPlace"
 						placeholder="출발지를 입력해주세요">
-						<button class="add-btn" type="button">경유지 추가</button></td>
+						<button class="add-btn btn btn-outline-info ms-2 btn-sm mb-1" type="button">경유지 추가</button></td>
 				</tr>
 
 				<tr id="hide" style="display: none;">
@@ -120,11 +129,13 @@
 				</tr>
 			</table>
 			<input type="hidden" name="">
-			<button>등록</button>
+			<div class="d-grid gap-2 col-6 mx-auto">
+			<button class="btn btn-outline-info">등록</button>
+			</div>
 			<br>
 			<hr>
 			<br>
-			<h4>*신청내역</h4>
+			<h4>* 신청내역</h4>
 			<table class="table table-hover">
 				<thead>
 					<tr>

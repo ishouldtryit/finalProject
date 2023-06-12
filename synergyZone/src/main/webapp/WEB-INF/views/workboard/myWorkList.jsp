@@ -79,7 +79,7 @@ $(document).ready(function(){
 </script>
 
 
-<div class="container-800" style="margin-left: 5%;">
+<div class="container" style="margin-left:13%">
     <!-- 검색창 -->
     <form class="d-flex" action="myWorkList" id="workForm" method="get">
         <select name="column" class="form-input me-sm-2" onchange="submitForm()">

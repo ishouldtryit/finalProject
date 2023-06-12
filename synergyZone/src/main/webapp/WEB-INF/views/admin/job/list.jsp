@@ -8,7 +8,7 @@
     }
 </style>
 
-<div class="container-800" style="margin-left: 5%;">
+<div class="container-fulid" style="margin-left: 5%;">
 		<button class="btn btn-light"><a href="/admin/job/register">추가</a></button>
 		
     	<!-- 사원 목록 테이블 -->
@@ -43,6 +43,3 @@
 	  
 <!-- 스크립트 -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-  <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
-    

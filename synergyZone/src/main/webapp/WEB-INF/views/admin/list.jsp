@@ -10,7 +10,7 @@
   
 </style>
 
-<div class="container-800" style="margin-left: 5%;">
+<div class="container">
 		<!-- 검색창 -->
 
 		<form class="d-flex" action="list" method="get">
@@ -320,5 +320,5 @@ function addToMyList() {
   });
 </script>
     
-  <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
+
     

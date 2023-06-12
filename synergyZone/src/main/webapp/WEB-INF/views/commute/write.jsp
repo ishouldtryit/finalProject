@@ -2,6 +2,13 @@
 	pageEncoding="UTF-8"%>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<style>
+	.table-hover tbody tr:hover {
+    background-color: inherit;
+  }
+</style>
+
 <script>
 	$(function() {
 		// 정보변경
@@ -123,8 +130,8 @@
 <body>
 	<div class="container">
 		<form action="/commute/write" method="post">
-			<h4>*신청정보</h4>
-			<table class="table table-hover">
+			<h4>* 신청정보</h4>
+			<table class="table">
 				<tr>
 					<th>대상자</th>
 					<td>${one.empName}<br>
@@ -172,9 +179,10 @@
 				<tr>
 					<th>반차여부</th>
 					<td><input type="checkbox" id="morningLeave"
-						onchange="updateUseCountByCheckbox()" disabled>오전 반차 <input
+						onchange="updateUseCountByCheckbox()" disabled> 오전 반차 
+						<input class="ms-2"
 						type="checkbox" id="afternoonLeave"
-						onchange="updateUseCountByCheckbox()" disabled>오후 반차</td>
+						onchange="updateUseCountByCheckbox()" disabled> 오후 반차</td>
 				</tr>
 				<tr>
 					<th>근무계획정보</th>
@@ -191,12 +199,14 @@
 				</tr>
 			</table>
 			<input type="hidden" name="useCount" id="useCount" value="0">
-			<button>등록</button>
+			<div class="d-grid gap-2 col-6 mx-auto">
+				<button class="btn btn-outline-info">등록</button>
+			</div>
 		</form>
 		<br>
 		<hr>
 		<br>
-		<h4>*신청내역</h4>
+		<h4>* 신청내역</h4>
 		<table class="table table-hover">
 			<thead>
 				<tr>

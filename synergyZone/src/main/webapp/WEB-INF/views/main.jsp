@@ -33,13 +33,13 @@ a:hover {
 }
 
 html, body {
-   height: 100%;
+   height: 100vh;
    overflow: hidden;
 }
 
 .container-fluid {
    height: 100%;
-   overflow-y: auto;
+   overflow-y: hidden;
 }
 
 .swiper-container {
@@ -57,7 +57,7 @@ html, body {
    width: 400px;
    height: 300px;
    font-size: 18px;
-}
+}	
 
 #slide-img {
    height: 100%;
@@ -127,7 +127,7 @@ html, body {
 
       <div class="row">
          <div class="col-1 bg-info text-light"
-            style="width: 75px; height: 913px;">
+            style="width: 75px; height: 100vh;">
             <a href="#"> <i
                class="bi bi-house fs-3 d-flex justify-content-center mt-3"></i>
                <p class="text-center">홈</p>
@@ -185,7 +185,7 @@ html, body {
 
 
             <div class="bg-light border p-2"
-               style="width: 755px; height: 280px; margin-left: 15px; margin-top: 20px;">
+               style="width: 752px; height: 280px; margin-left: 15px; margin-top: 20px;">
                <p>쪽지함</p>
                <hr>
                <table class="table table-hover">
@@ -322,7 +322,7 @@ html, body {
          </div>
 
          <div class="col mt-4 mb-4">
-            <div class="bg-light border p-2" style="height: 100%; width: 500px;">
+            <div class="bg-light border p-2 mb-4" style="height: 865px; width: 500px;">
 
                <div class="d-flex justify-content-center mt-4">
                   <h2>

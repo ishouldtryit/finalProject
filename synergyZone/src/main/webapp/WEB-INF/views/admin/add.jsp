@@ -23,12 +23,8 @@
 <div id="app">
 	<div class="container-fluid">
 
-		<div>
-			<button type="button" class="btn btn-primary" v-on:click="showAdminModal">관리자 추가</button>
-		</div>
+	
 
-		<div class="container"></div>
-	</div>
 
 	<!-- 결재자 선택 modal -->
 	<div class="modal" tabindex="-1" role="dialog" data-bs-backdrop="static" ref="AdminModal">
@@ -131,6 +127,11 @@
 
 	<form action="add" method="post" enctype="multipart/form-data">
 		<div class="container-fluid mt-4">
+		
+		<div class="d-flex justify-content-end" style="margin-right:370px">
+			<button type="button" class="btn btn-outline-primary" v-on:click="showAdminModal">관리자 추가</button>
+		</div>
+		
 			<div class="row">
 				<div class="offset-md-2 col-md-8">
 				<!-- 사원 목록 테이블 -->
@@ -190,6 +191,7 @@
 			</div>
 		</div>
 	</form>
+</div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -310,4 +312,3 @@
   }).mount("#app");
 </script>
 
-<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

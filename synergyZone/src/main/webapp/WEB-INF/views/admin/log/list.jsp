@@ -10,13 +10,13 @@
   
 </style>
 
-<div class="container-800" style="margin-left: 5%;">
+<div class="container-fluid" style="margin-left:5%">
 
     <form method="get" class="mb-3">
         <div class="row">
             <div class="col-4">
                 <label class="form-label">사원명</label>
-                <input type="text" name="empName" value="${vo.empName}" class="form-control w-75">
+                <input type="text" name="empName" value="${vo.empName}" class="form-control w-100">
             </div>
             <div class="col-6">
                 <label class="form-label">기간</label>
@@ -27,8 +27,10 @@
                     <option value="365" ${vo.searchLoginDays == 365 ? 'selected' : ''}>최근 1년</option>
                 </select>
             </div>
+            <div class="col">
+		        <button type="submit" class="btn btn-outline-info" style="margin-top:32px">검색</button>
+            </div>
         </div>
-        <button type="submit" class="btn btn-primary mt-3 ">검색</button>
     </form>
 		
 
@@ -70,17 +72,15 @@
 		  </div>
 		</div>
 		
-		
-		
-		
-		
+			
 		
 </div>
+
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
      <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 	  
 <!-- 스크립트 -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-  <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
     

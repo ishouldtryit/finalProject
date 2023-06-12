@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +25,7 @@ public class HomeRestController {
 	@GetMapping("/msg")
 	public List<MessageWithNickDto> msg(HttpSession session) {
 		String empNo = session.getAttribute("empNo") == null ? null : (String) session.getAttribute("empNo");
+
         return mainRepo.msg(empNo);
     }
 	

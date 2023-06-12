@@ -109,43 +109,14 @@ public class HomeController {
 	    }
 	}
 
-	@GetMapping("/testHome")
-	public String testHome() {
-		return "/home";
-	}
-
-	@PostMapping("/testuser1")
-	public String loginTestuser1(HttpSession session) {
-		session.removeAttribute("empNo");
-		session.removeAttribute("jobNo");
-		session.setAttribute("empNo", "202399001");
-		session.setAttribute("jobNo", "99");
-		return "redirect:/";
-	}
-
-	@PostMapping("/testuser2")
-	public String loginTestuser2(HttpSession session) {
-		session.removeAttribute("empNo");
-		session.removeAttribute("jobNo");
-		session.setAttribute("empNo", "202399002");
-		session.setAttribute("jobNo", "99");
-		return "redirect:/";
-	}
-
-	@PostMapping("/testuser3")
-	public String loginTestuser3(HttpSession session) {
-		session.removeAttribute("empNo");
-		session.removeAttribute("jobNo");
-		session.setAttribute("empNo", "202399003");
-		session.setAttribute("jobNo", "99");
-		return "redirect:/";
-	}
-
 	@PostMapping("/logout")
 	public String logout(HttpSession session) {
 		session.removeAttribute("empNo");
 		session.removeAttribute("jobNo");
-		return "redirect:/";
+		session.removeAttribute("deptNo");
+		session.removeAttribute("empName");
+		session.removeAttribute("empAdmin");
+		return "redirect:/"; 
 	}
 
 }

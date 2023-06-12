@@ -70,6 +70,7 @@
             수정과 삭제가 password 페이지를 거쳐서 갈 수 있도록 링크 수정
             - 주소는 /password/edit 또는 delete/번호 형태로 경로 변수 처리 
          -->
+         
          <c:if test="${owner}">
          <a href="/board/edit?boardNo=${boardDto.boardNo}" class="btn btn-light"><i class="fa-regular fa-pen-to-square" style="color: #8f8f8f;"></i>&nbsp;수정</a>
          </c:if>

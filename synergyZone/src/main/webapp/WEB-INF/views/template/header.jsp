@@ -71,7 +71,7 @@
        function logout() {
     	   var form = document.createElement("form");
     	    form.setAttribute("id", "logoutForm");
-    	    form.setAttribute("action", "/logout");
+    	    form.setAttribute("action", "${pageContext.request.contextPath}/logout");
     	    form.setAttribute("method", "post");
 
     	    // form 내용을 추가하세요.
@@ -164,8 +164,8 @@ article {
 						</div>
 						<div id="popup" class="popup">
 							<ul class="text-sm list-unstyled list-inline">
-								<li><a href="/employee/mypage">기본정보</a></li>
-								<li><a href="/employee/password">비밀번호 변경</a></li>
+								<li><a href="${pageContext.request.contextPath}/employee/mypage">기본정보</a></li>
+								<li><a href="${pageContext.request.contextPath}/employee/password">비밀번호 변경</a></li>
 								<li><a href="#" onclick="logout()">로그아웃</a></li>
 							</ul>
 						</div>
@@ -312,6 +312,13 @@ article {
 										<li><a
 											href="${pageContext.request.contextPath}/commute/tripList">출장
 												신청내역</a></li>
+												<li><a
+											href="${pageContext.request.contextPath}/commute/adminList">출장
+												신청내역</a></li>
+												<li><a
+											href="${pageContext.request.contextPath}/commute/adminList2">출장
+												신청내역</a></li>
+												
 									</ul></li>
 							</ul>
 						</div>

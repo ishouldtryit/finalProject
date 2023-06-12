@@ -13,4 +13,8 @@ public class CalendarVO {
 	String emp_name;
 	String start_dtm;
 	String end_dtm;
+	String empNo;
+	String empName;
+	String startDtm;
+	String endDtm;
 }

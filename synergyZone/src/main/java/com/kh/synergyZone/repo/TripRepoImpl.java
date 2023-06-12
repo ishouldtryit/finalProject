@@ -34,6 +34,15 @@ public class TripRepoImpl implements TripRepo{
 		return session.selectList("trip.adminList");
 		
 	}
+	@Override
+	public TripDto oneList(int tripNo) {
+		return session.selectOne("trip.oneList",tripNo);
+	}
+
+	@Override
+	public boolean update(TripDto dto) {
+		return session.update("trip.status",dto)>0;
+	}
 	
 	
 }

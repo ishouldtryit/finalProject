@@ -12,6 +12,7 @@ public interface CommuteRecordRepo {
 	//조회
 	 CommuteRecordDto today(String empNo);
 	 List<CommuteRecordDto> allList(String empNo);
+	 boolean delete(CommuteRecordDto dto);
 	 
 	 
 	

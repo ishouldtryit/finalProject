@@ -22,14 +22,14 @@ public class CalendarRepoImpl implements CalendarRepo{
    }
 
    @Override
-   public void updateDate(CalendarVO calendarVO) {
-      sqlSession.update("Calendar.updateDate", calendarVO);
+   public boolean updateDate(CalendarVO calendarVO) {
+      return sqlSession.update("Calendar.updateDate", calendarVO)>0;
    }
 
    @Override
-   public int deleteDate(CalendarVO calendarVO) {
-      int rs = sqlSession.delete("Calendar.deleteDate", calendarVO);
-      return rs ;
+   public boolean deleteDate(CalendarVO calendarVO) {
+      return sqlSession.delete("Calendar.deleteDate", calendarVO)>0;
+
    }
 
    @Override

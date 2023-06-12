@@ -8,6 +8,6 @@ public interface WorkFileRepo {
 	void insert(WorkFileDto workFileDto);
 	WorkFileDto selectOne(int workNo); 
 	List<WorkFileDto> selectAll(int workNo);
-	void delete(int workNo);
+	void delete(int attachmentNo);
 	void update(int workNo);
 }

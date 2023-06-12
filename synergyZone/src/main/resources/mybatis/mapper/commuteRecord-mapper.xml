@@ -30,6 +30,11 @@
       select * from commute_record where emp_no= #{empNo}
    </select>
    
+   <!-- 다시출근을  -->
+   <update id="delete">
+   		UPDATE commute_record SET start_time = SYSDATE , END_TIME = NULL, WORK_TIME = NULL, END_IP = NULL 
+   			where TO_CHAR(work_date, 'YY/MM/DD') = TO_CHAR(CURRENT_DATE, 'YY/MM/DD') and emp_no= #{empNo}
+   </update>
    
 
 

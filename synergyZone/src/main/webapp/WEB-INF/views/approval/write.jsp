@@ -781,4 +781,3 @@
     },
   }).mount("#app");
 </script>
-

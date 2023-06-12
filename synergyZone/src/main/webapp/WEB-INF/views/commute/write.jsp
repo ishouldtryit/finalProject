@@ -16,9 +16,6 @@
 			case "병가":
 				applicationType = "병가 신청";
 				break;
-			case "공가":
-				applicationType = "공가 신청";
-				break;
 			default:
 				applicationType = "신청유형을 선택해주세요";
 				break;
@@ -112,10 +109,62 @@
 				$('#useCount').val(1);
 				$('#result').text(1);
 			}
+
+			if (morningLeaveChecked && afternoonLeaveChecked) { // 두 개 모두 체크되어 있는 경우
+				$('#leave').val(0); //종일
+			} else if (morningLeaveChecked) {
+				$('#leave').val(1); //오전
+			} else if (afternoonLeaveChecked) {
+				$('#leave').val(2); //오후
+			} else {
+				$('#leave').val(0); //모두 체크풀림
+			}
 		});
 
 		$('#useCount').val(0);
 		$('#result').text(0);
+
+		$("form").submit(function(event) {
+			var useCount = parseInt($("#useCount").val());
+			var totalValue = parseInt($("#value").text());
+			var vacationName = $("#vacationName").val();
+			var startDate = $("#startDate").val();
+			var endDate = $("#endDate").val();
+
+			if (vacationName === "") {
+				event.preventDefault(); // 폼 전송을 막습니다.
+				alert("휴가 종류를 선택해주세요."); // 경고 메시지를 표시합니다.
+			}else if (startDate === "" || endDate === "") {
+				alert("신청일시를 입력해주세요.");
+				event.preventDefault(); // 폼 제출 막기
+			} else 	if (vacationName === "공가") {
+				return true; // "공가"인 경우 폼을 전송합니다.
+			}else	if (useCount > totalValue) {
+				alert("잔여 연차일보다 연차 사용량이 더 많습니다. 다시 등록해주세요");
+				event.preventDefault(); // 잔여 연차일보다 사용량이 더 많은 경우 폼 전송을 막습니다.
+			}
+		});
+
+		$('.data-work-status').find('tr').each(function() {
+			var itemStatus = $(this).find('.work-status').text();
+
+			switch (itemStatus) {
+			case '0':
+				var statusText = "요청";
+				$(this).find('.work-status').text(statusText);
+				$(this).find('.work-status').addClass('badge bg-success');
+				break;
+
+			case '2':
+				var statusText = "반려";
+				$(this).find('.work-status').text(statusText);
+				$(this).find('.work-status').addClass('badge bg-primary');
+				break;
+
+			default:
+				break;
+			}
+		});
 
 	});
 </script>
@@ -123,13 +172,18 @@
 <body>
 	<div class="container">
 		<form action="/commute/write" method="post">
-			<h4>*신청정보</h4>
-			<table class="table table-hover">
+			<div class="row mb-3">
+				<div class="col">
+					<h4>*신청정보</h4>
+				</div>
+			</div>
+			<table class="table table-bordered">
 				<tr>
-					<th>대상자</th>
-					<td>${one.empName}<br>
-						<table>
-							<thead>
+					<th class="table-secondary ">대상자</th>
+					<td><label class="font-weight-bold">${one.empName}</label><br>
+						<br>
+						<table class="table table-bordered">
+							<thead class="table-secondary">
 								<tr>
 									<td>연차기준년도</td>
 									<td>연차기간</td>
@@ -145,87 +199,116 @@
 									<td id="yearRange"></td>
 									<td>${one.total}</td>
 									<td>${one.used}</td>
-									<td>${one.residual}</td>
+									<td id="value">${one.residual}</td>
 									<td id="result"></td>
 								</tr>
 							</tbody>
-						</table>
+						</table></td>
+				</tr>
+				<tr>
+					<th class="table-secondary ">신청유형</th>
+					<td><div class="row">
+							<div class="col-2">
+								<select id="vacationName" name="vacationName"
+									class="form-select">
+									<option value="">선택</option>
+									<option value="연차">연차</option>
+									<option value="병가">병가</option>
+								</select>
+							</div>
+						</div></td>
+				</tr>
+				<tr>
+					<th class="table-secondary ">신청일시</th>
+					<td>
+						<div class="row">
+							<div class="col-2">
+								<input type="date" id="startDate" name="startDate"
+									class="form-control" min="YYYY-01-01" max="YYYY-12-31">
+							</div>
+							~
+							<div class="col-2">
+								<input type="date" id="endDate" name="endDate"
+									class="form-control" min="YYYY-01-01" max="YYYY-12-31">
+							</div>
+						</div>
+					</td>
+				</tr>
 
+				<tr>
+					<th class="table-secondary ">반차여부</th>
+					<td>
+						<div class="d-flex">
+							<div class="form-check">
+								<input type="checkbox" id="morningLeave"
+									class="form-check-input" onchange="updateUseCountByCheckbox()"
+									disabled><label class="form-check-label">오전 반차
+								</label>
+							</div>
+							<div class="form-check ml-3">
+								<input type="checkbox" class="form-check-input"
+									id="afternoonLeave" onchange="updateUseCountByCheckbox()"
+									disabled><label class="form-check-label">오후 반차
+								</label>
+							</div>
+						</div>
 					</td>
 				</tr>
 				<tr>
-					<th>신청유형</th>
-					<td><select id="vacationName" name="vacationName">
-							<option value="">선택</option>
-							<option value="연차">연차</option>
-							<option value="병가">병가</option>
-							<option value="공가">공가</option>
-					</select></td>
+					<th class="table-secondary ">근무계획정보</th>
+					<td><label class="form-label">[근무일] 09:30 ~ 18:30</label><br>
+						<label class="form-label">(휴게:12:30 ~ 13:30)</label></td>
 				</tr>
 				<tr>
-					<th>신청일시</th>
-					<td><input type="date" id="startDate" name="startDate"
-						min="YYYY-01-01" max="YYYY-12-31"> ~ <input type="date"
-						id="endDate" name="endDate" min="YYYY-01-01" max="YYYY-12-31">
-					</td>
-				</tr>
-				<tr>
-					<th>반차여부</th>
-					<td><input type="checkbox" id="morningLeave"
-						onchange="updateUseCountByCheckbox()" disabled>오전 반차 <input
-						type="checkbox" id="afternoonLeave"
-						onchange="updateUseCountByCheckbox()" disabled>오후 반차</td>
-				</tr>
-				<tr>
-					<th>근무계획정보</th>
-					<td><label>[근무일] 09:30 ~ 18:30</label><br> <label>(휴게:12:30
-							~ 13:30)</label></td>
-				</tr>
-				<tr>
-					<th>신청정보</th>
+					<th class="table-secondary ">신청정보</th>
 					<td id="vacation">신청유형을 선택해주세요</td>
 				</tr>
 				<tr>
-					<th>사유</th>
-					<td><input type="text" name="reason"></td>
+					<th class="table-secondary ">사유</th>
+					<td>
+						<div class="col-6">
+							<input type="text" class="form-control" name="reason"
+								required="required">
+						</div>
+					</td>
 				</tr>
 			</table>
-			<input type="hidden" name="useCount" id="useCount" value="0">
-			<button>등록</button>
+			<input type="hidden" name="leave" id="leave" value="0"> <input
+				type="hidden" name="useCount" id="useCount" value="0">
+			<div class="d-flex justify-content-end">
+				<button class="btn btn-info">등록</button>
+			</div>
 		</form>
 		<br>
 		<hr>
 		<br>
-		<h4>*신청내역</h4>
+		<div class="row mb-3">
+			<div class="col">
+				<h4>*신청내역</h4>
+			</div>
+		</div>
 		<table class="table table-hover">
 			<thead>
 				<tr>
-					<th>이름</th>
-					<th>부서명</th>
-					<th>연차사용날짜</th>
-					<th>휴가종류</th>
-					<th>사유</th>
-					<th>사용연차</th>
-					<th>승인 상태</th>
+					<th class="table-secondary">이름</th>
+					<th class="table-secondary">부서명</th>
+					<th class="table-secondary">연차사용날짜</th>
+					<th class="table-secondary">휴가종류</th>
+					<th class="table-secondary">사유</th>
+					<th class="table-secondary">사용연차</th>
+					<th class="table-secondary">승인 상태</th>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody class="data-work-status">
 				<c:forEach items="${list}" var="item">
 					<tr>
-						<td>${item.empName}</td>
-						<td>${item.deptName}</td>
-						<td>${item.startDate}~${item.endDate}</td>
-						<td>${item.vacationName}</td>
-						<td>${item.reason}</td>
-						<td>${item.useCount}</td>
-						<td><c:choose>
-								<c:when test="${item.status == 0}">
-				                   대기중
-				            </c:when>
-								<c:otherwise>
-				                  	반려
-				            </c:otherwise>
-							</c:choose></td>
+						<td class="">${item.empName}</td>
+						<td class="">${item.deptName}</td>
+						<td class="">${item.startDate}~${item.endDate}</td>
+						<td class="">${item.vacationName}</td>
+						<td class="">${item.reason}</td>
+						<td class="">${item.useCount}</td>
+						<td class="work-status mt-1 ml-3">${item.status}</td>
 					</tr>
 				</c:forEach>
 			</tbody>

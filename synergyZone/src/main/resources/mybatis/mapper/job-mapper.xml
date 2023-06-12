@@ -23,4 +23,8 @@
 		delete from job where job_no = #{jobNo}
 	</delete>
 	
+	<select id="jobName" resultType="jobDto">
+		select job_name from job where job_no = #{jobNo}
+	</select>
+	
 </mapper>

@@ -216,7 +216,7 @@
 	}
 </script>
 
-<form action="edit" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+<form action="${pageContext.request.contextPath}/workdboard/edit" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
 
 	<input type="hidden" name="workNo" value="${workBoardDto.workNo}">
 	<div class="container-fluid mt-4">

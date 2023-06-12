@@ -71,7 +71,7 @@
 		                    data-empdetailaddress="${employeeDto.empDetailAddress}" data-attachmentno="${employeeDto.attachmentNo}">
 	                  <img width="50" height="50" src="<c:choose>
 	                    <c:when test="${employeeDto.attachmentNo > 0}">
-	                      /attachment/download?attachmentNo=${employeeDto.attachmentNo}
+	                      ${pageContext.request.contextPath}/attachment/download?attachmentNo=${employeeDto.attachmentNo}
 	                    </c:when>
 	                    <c:otherwise>
 	                      https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg
@@ -131,7 +131,7 @@
 		        <h5 class="modal-title" id="employeeModalLabel"></h5>
 		        
 		     <div class="profile-image">
-			    <img id="profileImage" width="200" height="300" src="/attachment/download?attachmentNo=" alt="프로필 이미지">
+			    <img id="profileImage" width="200" height="300" src="${pageContext.request.contextPath}/attachment/download?attachmentNo=" alt="프로필 이미지">
 			</div>
 			
 			  <div class="modal-body">

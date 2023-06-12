@@ -123,7 +123,7 @@
 
 	</script>
 	
-    <form action="join" method="post" enctype="multipart/form-data">
+    <form action="${pageContext.request.contextPath}/workboard/join" method="post" enctype="multipart/form-data">
         <div class="container-fluid mt-4">
     
             <div class="row">

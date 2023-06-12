@@ -29,7 +29,7 @@
 	</form>
 
 	<div class="d-flex justify-content-end col-md-10 offset-md-1">
-		<a href="/admin/exitList" class="btn btn-light btn-sm ms-2"> <i
+		<a href="${pageContext.request.contextPath}/admin/exitList" class="btn btn-light btn-sm ms-2"> <i
 			style="color: #8f8f8f;"></i>&nbsp;퇴사 목록
 		</a>
 	</div>

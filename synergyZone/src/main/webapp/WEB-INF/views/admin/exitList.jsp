@@ -17,7 +17,7 @@
 <div class="container-800" style="margin-left: 5%;">
 		<!-- 검색창 -->
 
-		<form class="d-flex" action="exitList" method="get">
+		<form class="d-flex" action="${pageContext.request.contextPath}/workboard/exitList" method="get">
 		  <select name="column" class="form-input me-sm-2">
 		    <option value="emp_name" ${column eq 'emp_name' ? 'selected' : ''}>이름</option>
 		    <option value="emp_no" ${column eq 'emp_no' ? 'selected' : ''}>사원번호</option>
@@ -70,7 +70,7 @@
 		                    data-empdetailaddress="${employeeDto.empDetailAddress}" data-attachmentno="${employeeDto.attachmentNo}">
 	                  <img width="50" height="50" src="<c:choose>
 	                    <c:when test="${employeeDto.attachmentNo > 0}">
-	                      /attachment/download?attachmentNo=${employeeDto.attachmentNo}
+	                      ${pageContext.request.contextPath}/attachment/download?attachmentNo=${employeeDto.attachmentNo}
 	                    </c:when>
 	                    <c:otherwise>
 	                      https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg
@@ -130,7 +130,7 @@
 		        <h5 class="modal-title" id="employeeModalLabel"></h5>
 		        
 		     <div class="profile-image">
-			    <img id="profileImage" width="200" height="300" src="/attachment/download?attachmentNo=" alt="프로필 이미지">
+			    <img id="profileImage" width="200" height="300" src="${pageContext.request.contextPath}/attachment/download?attachmentNo=" alt="프로필 이미지">
 			</div>
 			
 			  <div class="modal-body">

@@ -264,7 +264,7 @@
 						<td>{{ item.purpose }}</td>
 						<td>{{ item.notes }}</td>
 						<td><span v-if="item.status === 0" class="badge bg-success">요청</span>
-							<span v-else-if="item.status === 2" class="badge">반려</span> <!-- 다른 상태값에 따른 처리 -->
+							<span v-else-if="item.status === 2" class="badge bg-primary">반려</span> <!-- 다른 상태값에 따른 처리 -->
 						</td>
 					</tr>
 				</tbody>

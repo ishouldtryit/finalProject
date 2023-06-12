@@ -56,16 +56,16 @@
 <div class="container-fluid mb-2">
     <div class="d-flex justify-content-end col-md-10 offset-md-1">
         <c:if test="${owner}">
-            <a href="/workboard/edit?workNo=${workBoardDto.workNo}" class="btn btn-light btn-sm ms-2">
+            <a href="${pageContext.request.contextPath}/workboard/edit?workNo=${workBoardDto.workNo}" class="btn btn-light btn-sm ms-2">
                 <i class="fa-regular fa-pen-to-square" style="color: #8f8f8f;"></i>&nbsp;수정
             </a>
         </c:if>
         <c:if test="${owner || admin}">
-            <a href="/workboard/delete?workNo=${workBoardDto.workNo}" class="btn btn-light delete-button btn-sm ms-2">
+            <a href="${pageContext.request.contextPath}/workboard/delete?workNo=${workBoardDto.workNo}" class="btn btn-light delete-button btn-sm ms-2">
                 <i class="fa-solid fa-trash-can" style="color: #8f8f8f;"></i>&nbsp;삭제
             </a>
         </c:if>
-        <a href="/workboard/list" class="btn btn-light btn-sm ms-2">
+        <a href="${pageContext.request.contextPath}/workboard/list" class="btn btn-light btn-sm ms-2">
             <i class="fa-solid fa-bars" style="color: #8f8f8f;"></i>&nbsp;목록
         </a>
     </div>
@@ -123,7 +123,7 @@
 	                        <div class="card-body">
 	                            <div class="text-info">
 	                                <c:forEach var="file" items="${files}">
-	                                    <a href="/attachment/download?attachmentNo=${file.attachmentNo}" data-file-size="${file.attachmentSize}">
+	                                    <a href="${pageContext.request.contextPath}/attachment/download?attachmentNo=${file.attachmentNo}" data-file-size="${file.attachmentSize}">
 	                                        ${file.attachmentName}
 	                                    </a>
 	                                    <br/>

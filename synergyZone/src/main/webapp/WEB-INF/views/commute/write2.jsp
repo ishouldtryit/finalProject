@@ -410,7 +410,7 @@
     methods: {
        
       async loadData() { //데이터 호출(로드)
-         const resp = await axios.get("${pageContext.request.contextPath}/rest/approval/",{ 
+         const resp = await axios.get(contextPath+"/rest/approval/",{ 
                params :{
                   searchName : this.searchName
                }
@@ -419,7 +419,7 @@
       },
       
       async loadQueue() { //데이터 호출(로드)
-          const resp = await axios.get("${pageContext.request.contextPath}/rest/vacation/queue");
+          const resp = await axios.get(contextPath+"/rest/vacation/queue");
       	  console.log(resp);
            this.queue.push(...resp.data);
        },
@@ -443,9 +443,9 @@
 
       getAttachmentUrl(attachmentNo) { //프로필 사진 주소
             if (attachmentNo === null) {
-              return "/static/img/dummydog.jpg";
+              return contextPath+"/static/img/dummydog.jpg";
             } else {
-              return "/attachment/download?attachmentNo=" + attachmentNo;
+              return contextPath+"/attachment/download?attachmentNo=" + attachmentNo;
             }
           },
 
@@ -516,7 +516,7 @@
           };
 
           // 서버로 POST 요청 전송
-          axios.post('${pageContext.request.contextPath}/commute/trip', formData)
+          axios.post(contextPath+'/commute/trip', formData)
             .then(response => {
               // 요청 성공 처리
               console.log(response.data);

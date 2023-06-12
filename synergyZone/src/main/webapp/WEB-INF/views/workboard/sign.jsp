@@ -24,6 +24,35 @@
 }
 </style>
 
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+     <div class="container-fluid">
+
+         <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+             <i class="fa fa-bars"></i>
+         </button>
+         
+         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+             <ul class="nav navbar-nav ml-auto">
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/">홈</a>
+                 </li>
+                 <li class="nav-item active">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/workboard/write">일지 작성</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/workboard/list">부서 업무일지</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/workboard/myWorkList">내 업무일지</a>
+                 </li>
+                 <li class="nav-item active">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/workboard/supList">공유받은 업무일지</a>
+                 </li>
+             </ul>
+         </div>
+     </div>
+ </nav>
+
     <script>
     	const empNo = "${sessionScope.empNo}";
     </script>
@@ -32,8 +61,8 @@
 		
 		
 		<div class="container-fluid mt-4">
+	
 		
-		    
 		<div class="row mt-4">
 				<div class="col-md-10 offset-md-1">
 					<div class="d-flex align-items-center">
@@ -125,16 +154,16 @@
 			</div>
 			<br>
 		</div>
-	<div class="row mt-4">
-		<div class="col">
-			<input type="hidden" name="workNo" id="workNo"
-				value="${workBoardDto.workNo}">
-			<button type="submit" class="btn btn-primary" name="action" value="approve">결재</button>
-			<a href="/workboard/workReturn?workNo=${workBoardDto.workNo}" class="btn btn-light btn-sm ms-2">반려</a>
-			<!-- 나머지 입력 필드들 -->
+<!-- 	<div class="row mt-4"> -->
+<!-- 		<div class="col"> -->
+<!-- 			<input type="hidden" name="workNo" id="workNo" -->
+<%-- 				value="${workBoardDto.workNo}"> --%>
+<!-- 			<button type="submit" class="btn btn-primary" name="action" value="approve">결재</button> -->
+<%-- 			<a href="/workboard/workReturn?workNo=${workBoardDto.workNo}" class="btn btn-light btn-sm ms-2">반려</a> --%>
+<!-- 			<!-- 나머지 입력 필드들 --> -->
 
-		</div>
-	</div>
+<!-- 		</div> -->
+<!-- 	</div> -->
 	</form>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>

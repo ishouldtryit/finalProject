@@ -170,6 +170,15 @@ public class EmployeeRepoImpl implements EmployeeRepo {
 		employeeDto.setEmpAdmin("Y");
 		return sqlSession.update("employee.authorityAdmin", employeeDto) > 0;
 	}
+	
+	//관리자 권한 내리기
+	@Override
+	public boolean deleteAdmin(String empNo) {
+		EmployeeDto employeeDto = new EmployeeDto();
+		employeeDto.setEmpNo(empNo);
+		employeeDto.setEmpAdmin("N");
+		return sqlSession.update("employee.authorityAdmin", employeeDto) > 0;
+	}
 
 	// 관리자 목록
 	@Override
@@ -244,5 +253,6 @@ public class EmployeeRepoImpl implements EmployeeRepo {
 		params.put("keyword", keyword);
 		return sqlSession.selectList("searchExitEmployees", params);
 	}
+
 
 }

@@ -12,6 +12,35 @@
   
   
 </style>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+     <div class="container-fluid">
+
+         <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+             <i class="fa fa-bars"></i>
+         </button>
+         
+         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+             <ul class="nav navbar-nav ml-auto">
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/">홈</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/workboard/write">일지 작성</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/workboard/list">부서 업무일지</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/workboard/myWorkList">내 업무일지</a>
+                 </li>
+                 <li class="nav-item active">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/workboard/supList">공유받은 업무일지</a>
+                 </li>
+             </ul>
+         </div>
+     </div>
+ </nav>
 <!-- 스크립트 -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -84,6 +113,9 @@ $(document).ready(function(){
 
 
 <div class="container-800" style="margin-left: 5%;">
+
+	<h3>공유받은 업무일지</h3>
+	<br>
     <!-- 검색창 -->
     <form class="d-flex" action="supList" id="workForm" method="get">
         <select name="column" class="form-input me-sm-2" onchange="submitForm()">

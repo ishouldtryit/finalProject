@@ -318,12 +318,12 @@ public class AdminController {
 		return "admin/detail";
 	}
 
-	// 사원 삭제
-	@GetMapping("/delete")
-	public String deleteEmployee(@RequestParam String empNo) {
-		employeeRepo.delete(empNo);
-		return "redirect:/admin/waitingList";
-	}
+//	// 사원 삭제
+//	@GetMapping("/delete")
+//	public String deleteEmployee(@RequestParam String empNo) {
+//		employeeRepo.delete(empNo);
+//		return "redirect:/admin/waitingList";
+//	}
 
 	// 사원 퇴사
 	@GetMapping("/exit")
@@ -503,6 +503,13 @@ public class AdminController {
 		    employeeRepo.authorityAdmin(empNo);
 		}
 
+		return "redirect:/admin/add";
+	}
+	
+	// 직위 삭제
+	@GetMapping("/delete")
+	public String deleteAdmin(@RequestParam String empNo) {
+		employeeRepo.deleteAdmin(empNo);
 		return "redirect:/admin/add";
 	}
 

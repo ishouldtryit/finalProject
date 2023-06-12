@@ -47,36 +47,36 @@ $(document).ready(function(){
         $(this).text(badgeText);
     });
 
- // workStatus 변경 시 뱃지 내용 업데이트
-    $("#workStatus").change(function(){
-        var selectedValue = parseInt($(this).val());  // 선택한 값을 정수로 변환
-        var badgeText = "";
+//  // workStatus 변경 시 뱃지 내용 업데이트
+//     $("#workStatus").change(function(){
+//         var selectedValue = parseInt($(this).val());  // 선택한 값을 정수로 변환
+//         var badgeText = "";
 
-        // 선택한 값에 따라 뱃지 내용 설정
-        switch (selectedValue) {
-            case 0:
-                badgeText = '요청';
-                badgeClass = "bg-primary";
-                break;
-            case 1:
-                badgeText = '진행';
-                badgeClass = "bg-warning";
-                break;
-            case 2:
-                badgeText = '완료';
-                badgeClass = "bg-success";
-                break;
-            case 3:
-                badgeText = '보류';
-                badgeClass = "bg-secondary";
-                break;
-            default:
-                break;
-        }
+//         // 선택한 값에 따라 뱃지 내용 설정
+//         switch (selectedValue) {
+//             case 0:
+//                 badgeText = '요청';
+//                 badgeClass = "bg-primary";
+//                 break;
+//             case 1:
+//                 badgeText = '진행';
+//                 badgeClass = "bg-warning";
+//                 break;
+//             case 2:
+//                 badgeText = '완료';
+//                 badgeClass = "bg-success";
+//                 break;
+//             case 3:
+//                 badgeText = '보류';
+//                 badgeClass = "bg-secondary";
+//                 break;
+//             default:
+//                 break;
+//         }
 
-     	// 모든 statusBadge 요소에 뱃지 내용 업데이트 및 클래스 추가/제거
-        $(".statusBadge").text(badgeText).removeClass("bg-primary bg-warning bg-success bg-secondary").addClass(badgeClass);
-    });
+//      	// 모든 statusBadge 요소에 뱃지 내용 업데이트 및 클래스 추가/제거
+//         $(".statusBadge").text(badgeText).removeClass("bg-primary bg-warning bg-success bg-secondary").addClass(badgeClass);
+//     });
  
     $(".work-title").click(function(){
         var workNo = $(this).data("work-no"); // Retrieve the workNo from the data attribute
@@ -93,10 +93,14 @@ $(document).ready(function(){
 
         // workStatus 값에 따라 뱃지 내용 설정
         switch (resultCode) {
-            case 0:
-                badgeText = '진행중' + ' ' + statusCode + '/' + supCount;
-                $(this).addClass("bg-secondary");
-                break;
+	        case 0:
+	            if (supCount === 0) {
+	                badgeText = '보고 전';
+	            } else {
+	                badgeText = '진행중' + ' ' + statusCode + '/' + supCount;
+	            }
+	            $(this).addClass("bg-secondary");
+	            break;
             case 1:
                 badgeText = '반려';
                 $(this).addClass("bg-warning");
@@ -113,32 +117,32 @@ $(document).ready(function(){
         $(this).text(badgeText);
     });
 
- // workStatus 변경 시 뱃지 내용 업데이트
-    $("#resultCode").change(function(){
-        var selectedValue = parseInt($(this).val());  // 선택한 값을 정수로 변환
-        var badgeText = "";
+//  // workStatus 변경 시 뱃지 내용 업데이트
+//     $("#resultCode").change(function(){
+//         var selectedValue = parseInt($(this).val());  // 선택한 값을 정수로 변환
+//         var badgeText = "";
 
-        // 선택한 값에 따라 뱃지 내용 설정
-        switch (selectedValue) {
-	        case 0:
-	            badgeText = '진행중';
-	            $(this).addClass("bg-secondary");
-	            break;
-	        case 1:
-	            badgeText = '반려';
-	            $(this).addClass("bg-warning");
-	            break;
-	        case 2:
-	            badgeText = '결재';
-	            $(this).addClass("bg-success");
-	            break;
-	        default:
-	            break;
-	    }
+//         // 선택한 값에 따라 뱃지 내용 설정
+//         switch (selectedValue) {
+// 	        case 0:
+// 	            badgeText = '진행중';
+// 	            $(this).addClass("bg-secondary");
+// 	            break;
+// 	        case 1:
+// 	            badgeText = '반려';
+// 	            $(this).addClass("bg-warning");
+// 	            break;
+// 	        case 2:
+// 	            badgeText = '결재';
+// 	            $(this).addClass("bg-success");
+// 	            break;
+// 	        default:
+// 	            break;
+// 	    }
 
-     	// 모든 statusBadge 요소에 뱃지 내용 업데이트 및 클래스 추가/제거
-        $(".signBadge").text(badgeText).removeClass("bg-secondary bg-warning bg-success").addClass(badgeClass);
-    });
+//      	// 모든 statusBadge 요소에 뱃지 내용 업데이트 및 클래스 추가/제거
+//         $(".signBadge").text(badgeText).removeClass("bg-secondary bg-warning bg-success").addClass(badgeClass);
+//     });
 
 });
 

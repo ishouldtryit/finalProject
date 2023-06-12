@@ -260,8 +260,7 @@
 </script>
 
 
-<form action="write" method="post" enctype="multipart/form-data"
-   onsubmit="return validateForm()">
+<form action="write" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
    <div class="container-fluid mt-4">
 
       <div class="row">
@@ -358,9 +357,12 @@
 
             <div class="row mt-4">
                <div class="col">
-                  <label class="form-label">공개여부</label> <input type="checkbox"
-                     id="workSecretCheck"> <input type="hidden"
-                     id="workSecret" name="workSecret">
+                  <div class="form-check form-switch">
+<!-- 						<label class="form-label">공개여부</label> -->
+						<input class="form-check-input" type="checkbox" id="workSecretCheck" ${workBoardDto.workSecret == 'Y' ? 'checked' : ''}>
+						<label class="form-check-label" for="flexSwitchCheckDefault">비공개</label>
+						<input type="hidden" id="workSecret" name="workSecret">
+					</div>
                   <button type="submit" class="btn btn-primary">등록</button>
                </div>
 

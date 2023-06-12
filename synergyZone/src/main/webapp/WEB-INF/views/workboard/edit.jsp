@@ -206,17 +206,17 @@
 	
 
 	function validateForm() {
+		var workSecretCheck = $("#workSecretCheck").val("");
+		
 		if ($('#workSecretCheck').is(':checked')) {
-			$("#workSecret").val("Y");
-		} else {
-			$("#workSecret").val("N");
-		}
-
-		return true;
+		      $("#workSecret").val("Y");
+		    } else {
+		      $("#workSecret").val("N");
+		    }
 	}
 </script>
 
-<form action="edit" method="post" enctype="multipart/form-data">
+<form action="edit" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
 
 	<input type="hidden" name="workNo" value="${workBoardDto.workNo}">
 	<div class="container-fluid mt-4">
@@ -316,14 +316,15 @@
 
 				<div class="row mt-4">
 					<div class="col">
-						<label class="form-label">공개여부</label> <input type="checkbox"
-							id="workSecretCheck" value="${workBoardDto.workSecret}">
-						<input type="hidden" id="workSecret" name="workSecret" value="Y">
+					<div class="form-check form-switch">
+<!-- 						<label class="form-label">공개여부</label> -->
+						<input class="form-check-input" type="checkbox" id="workSecretCheck" ${workBoardDto.workSecret == 'Y' ? 'checked' : ''}>
+						<label class="form-check-label" for="flexSwitchCheckDefault">비공개</label>
+						<input type="hidden" id="workSecret" name="workSecret">
+					</div>
 						<input type="hidden" id="attachmentList" name="attachmentList">
-						<button type="submit" class="btn btn-primary">등록</button>
 					</div>
 				</div>
-
 
 
 				<div class="row mt-4">

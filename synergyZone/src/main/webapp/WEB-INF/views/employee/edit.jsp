@@ -77,6 +77,18 @@
                         </div>
                     </div>
                     
+<!--                     <div class="row mt-4"> -->
+<!-- 					    <div class="col"> -->
+<!-- 					        <label class="form-label">직위</label> -->
+<!-- 					        <select class="form-select rounded" name="jobNo"> -->
+<%-- 					            <c:forEach var="job" items="${jobs}"> --%>
+<%-- 					                <option value="${job.jobNo}" <c:if test="${job.jobNo == employeeDto.jobNo}">selected</c:if>>${job.jobName}</option> --%>
+<%-- 					            </c:forEach> --%>
+<!-- 					        </select> -->
+<!-- 					    </div> -->
+<!-- 					</div> -->
+
+                    
                     <div class="row mt-4">
                         <div class="col">
                             <label class="form-label">부서</label>
@@ -87,19 +99,7 @@
 				                </c:forEach>
                         </div>
                     </div>
-                    
-                    <div class="row mt-4">
-                        <div class="col">
-                            <label class="form-label">직위</label>
-                             <c:forEach var="job" items="${jobs}">
-				                  <c:if test="${job.jobNo == employeeDto.jobNo}">
-				                    <input class="form-control rounded" type="text" placeholder="직위" value="${job.jobName}" readonly>
-				                  </c:if>
-				                </c:forEach>
-                        </div>
-                    </div>
-                    
- 
+
                     
                    	 <div class="row mt-4">
                         <div class="col">

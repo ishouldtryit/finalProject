@@ -184,6 +184,7 @@ public class EmployeeController {
 			model.addAttribute("employeeDto", employeeRepo.selectOne(empNo));
 			model.addAttribute("departments", departmentRepo.list());
 			model.addAttribute("jobs", jobRepo.list());
+			System.out.println(jobRepo.list());
 
 			model.addAttribute("profile", employeeProfileRepo.find(empNo));
 

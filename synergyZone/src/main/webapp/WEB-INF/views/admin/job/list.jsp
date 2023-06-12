@@ -3,19 +3,26 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <style>
-    .btn-light a {
-        color: gray;
-    }
+a{
+ color:black;
+}
+a:hover{
+	color:red;
+}
 </style>
 
-<div class="container-800" style="margin-left: 5%;">
-		<button class="btn btn-light"><a href="/admin/job/register">추가</a></button>
+<div class="container">
+	<div class="d-flex justify-content-end">
+		<button class="btn btn-outline-info mt-2 align-content-center">
+			<a href="/admin/job/register"></a>
+			추가
+		</button>
+	</div>
 		
     	<!-- 사원 목록 테이블 -->
-		<div class="row">
-		  <div class="col" style="margin: 0 auto;">
+
 		    <form id="jobForm">
-		      <table class="table table-hover mt-2" style="width: 90%;">
+		      <table class="table table-hover mt-2 text-center">
 		        <thead>
 		          <tr>
 		            <th>명칭</th>
@@ -34,8 +41,6 @@
 		        </tbody>
 		      </table>
 		    </form>
-		  </div>
-		</div>
 		
 		<!-- 페이징 영역 -->
 		<div style="display: flex; justify-content: center;">

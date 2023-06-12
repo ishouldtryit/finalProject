@@ -45,14 +45,14 @@
 <div class="container">
   <div class="row">
     <div class="col">
-      <div class="d-flex justify-content-between mb-3">
+      <div class="d-flex justify-content-between mb-2">
         <form class="d-flex" method="get" action="list">
           <div class="row">
-            <div class="col-4">
+            <div class="col col-6">
               <label class="form-label">사원명</label>
-              <input type="text" name="empName" value="${vo.empName}" class="form-control w-75">
+              <input type="text" name="empName" value="${vo.empName}" class="form-control">
             </div>
-            <div class="col-6">
+            <div class="col col-6">
               <label class="form-label">기간</label>
               <select name="searchLoginDays" class="form-select">
                 <option value="0" ${vo.searchLoginDays == 0 ? 'selected' : ''}>선택하세요</option>
@@ -62,11 +62,13 @@
               </select>
             </div>
           </div>
-          <button type="submit" class="btn btn-primary mt-3">검색</button>
+          <div class="col d-flex align-items-end justift-content-end mr-3">
+          	<button type="submit" class="btn btn-outline-info mt-3">검색</button>
+          </div>
         </form>
       </div>
 
-      <table class="table table-hover table-responsive">
+      <table class="table table-sm table-responsive">
         <thead>
           <tr>
             <th class="col-1">시간</th>

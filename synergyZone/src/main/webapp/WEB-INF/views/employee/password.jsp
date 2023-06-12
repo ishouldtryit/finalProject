@@ -52,8 +52,8 @@
                         </div>
 
                         <div class="row mt-4">
-                            <div class="col">
-                                <button type="button" class="btn btn-primary" @click="submitForm">변경</button>
+                            <div class="d-grid gap-2 col-6 mx-auto">
+                                <button type="button" class="btn btn-outline-info" @click="submitForm">변경</button>
                             </div>
                         </div>
                         

@@ -27,7 +27,7 @@
 <form action="edit" method="post" enctype="multipart/form-data">
 
     <input type="hidden" name="empNo" value="${employeeDto.empNo}">
-        <div class="container-fluid mt-4">
+        <div class="container mt-4">
     
             <div class="row">
                 <div class="offset-md-2 col-md-8">
@@ -102,8 +102,8 @@
 
                     
                    	 <div class="row mt-4">
-                        <div class="col">
-                          <button class="btn btn-primary w-100">
+                        <div class="d-grid gap-2 col-6 mx-auto">
+                          <button class="btn btn-outline-info">
                           저장
                           </button>
                         </div>

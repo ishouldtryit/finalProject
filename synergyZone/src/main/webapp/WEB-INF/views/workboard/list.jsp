@@ -82,23 +82,23 @@ $(document).ready(function(){
 </script>
 
 
-<div class="container-800" style="margin-left: 5%;">
+<div class="container">
     <!-- 검색창 -->
     <form class="d-flex" action="list" id="workForm" method="get">
-        <select name="column" class="form-input me-sm-2" onchange="submitForm()">
+        <select name="column" class="form-input me-sm-2 w-30" onchange="submitForm()">
             <option value="work_title" ${column eq 'work_title' ? 'selected' : ''}>제목</option>
             <option value="emp_name" ${column eq 'emp_name' ? 'selected' : ''}>보고자</option>
         </select>
-        <input class="form-control me-sm-2" type="search" placeholder="검색어" name="keyword" value="${param.keyword}" style="width: 13%;">
-        <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
-    </form>
+        <input class="form-control w-50 me-2" type="search" placeholder="검색어" name="keyword" value="${param.keyword}">
+        <button class="btn btn-outline-info me-2" type="submit">Search</button>
     
     <!-- 작성 링크 -->
-     <div class="d-flex justify-content-end col-md-10 offset-md-1">
-            <a href="/workboard/write" class="btn btn-light btn-sm ms-2">
-                <i style="color: #8f8f8f;"></i>&nbsp;작성
+	<div style="margin-left:275px;">
+            <a href="/workboard/write" class="btn btn-light btn-outline-secondary">
+                &nbsp;작성
             </a>
-    </div>
+	</div>
+    </form>
     
     <!-- 업무일지 목록 테이블 -->
     <div class="row">

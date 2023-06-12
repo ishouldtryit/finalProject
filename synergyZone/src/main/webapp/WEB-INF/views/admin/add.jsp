@@ -21,14 +21,7 @@
 </style>
 
 <div id="app">
-	<div class="container-fluid">
-
-		<div>
-			<button type="button" class="btn btn-primary" v-on:click="showAdminModal">관리자 추가</button>
-		</div>
-
-		<div class="container"></div>
-	</div>
+	<div class="container">
 
 	<!-- 결재자 선택 modal -->
 	<div class="modal" tabindex="-1" role="dialog" data-bs-backdrop="static" ref="AdminModal">
@@ -50,7 +43,7 @@
 							<span>이미 추가된 관리자입니다.</span>
 						</div>
 					</div>
-						<div class="container-fluid">
+
 							<div class="row">
 								<div class="col-4" style="overflow-y: scroll; height: 400px;">
 									<div class="row mb-3 d-flex justify-content-center align-items-center">
@@ -119,7 +112,7 @@
 									</div>
 								</div>
 							</div>
-						</div>
+
 				</div>
 				<div class="modal-footer">
 				
@@ -135,30 +128,28 @@
 	</div>
 	
 	<!-- 검색 -->
-	<form class="d-flex" action="add" method="get">
+	<form class="d-flex justify-content-between mt-2" action="add" method="get">
+		<div class="d-flex">
 		  <select name="column" class="form-input me-sm-2">
 		    <option value="emp_name" ${column eq 'emp_name' ? 'selected' : ''}>이름</option>
 		    <option value="emp_no" ${column eq 'emp_no' ? 'selected' : ''}>사원번호</option>
 		    <option value="dept_name" ${column eq 'dept_name' ? 'selected' : ''}>부서</option>
 		    <option value="job_name" ${column eq 'job_name' ? 'selected' : ''}>직위</option>
 		  </select>
-		  
-		  <input class="form-control me-sm-2" type="search" placeholder="검색어" name="keyword" value="${param.keyword}" style="width: 13%;">
-		  <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
+		  <input class="form-control me-sm-2 w-75" type="search" placeholder="검색어" name="keyword" value="${param.keyword}" style="width: 13%;">
+		  <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
+		</div>
+		  <button type="button" class="btn btn-outline-primary" v-on:click="showAdminModal">관리자 추가</button>
 		  
 		</form>
 		
 	<form action="add" method="post" enctype="multipart/form-data">
-		<div class="container-fluid mt-4">
-			<div class="row">
-				<div class="offset-md-2 col-md-8">
+				<div>
 				<!-- 사원 목록 테이블 -->
-				<div class="row">
-				  <div class="col" style="margin: 0 auto;">
 				    <form id="adminListForm">
 		            <c:choose>
 		            <c:when test="${adminList != null}">
-				      <table class="table table-hover mt-2" style="width: 90%;">
+				      <table class="table table-hover table-sm mt-2 text-center">
 				        <thead>
 				          <tr>
 				          	<th>프로필</th>
@@ -204,11 +195,10 @@
 		            </c:choose>
 				    </form>
 				  </div>
-				</div>
-				</div>
-			</div>
-		</div>
-	</form>
+
+		</form>
+	</div>
+</div>
 	
 			<!-- 페이징 영역 -->
 		<div style="display: flex; justify-content: center;">
@@ -230,7 +220,6 @@
 		    </li>
 		  </ul>
 		</div>
-</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 

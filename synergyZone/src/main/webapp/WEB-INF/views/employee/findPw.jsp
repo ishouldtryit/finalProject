@@ -34,30 +34,33 @@
                 <form action="findPw" method="post" autocomplete="off">
                     <div class="row mt-4">
                         <div class="col text-center">
-                            <h2 class="text-dark">비밀번호 찾기</h2>
-                            <h5 class="text-muted">사원번호와 본인확인 이메일을 입력해주세요</h5>
+                            <h3 class="text-dark">비밀번호 찾기</h3>
+                            <br>
+                            <h6 class="text-muted mt-2">사원번호와 본인확인 이메일을 입력해주세요</h6>
                         </div>
                     </div>
-                    <div class="row mt-4">
+                    <div class="row mt-5">
                         <div class="col">
                             <label class="form-label">사원번호</label>
                             <input class="form-control rounded" type="text" v-model="empNo" name="empNo">
                         </div>
                     </div>
-                    <div class="row mt-4">
+                    <div class="row mt-3">
                         <div class="col">
                             <label class="form-label">이메일</label>
                             <input class="form-control rounded" type="text" v-model="empEmail" name="empEmail">
                         </div>
                     </div>
-                    <div class="row mt-4">
+                    <div class="row mt-2">
                         <div class="col">
                             <span v-if="checkMessage" class="text-danger">{{ checkMessage }}</span>
                         </div>
                     </div>
-                    <div class="row mt-4">
-                        <div class="col">
-                            <button class="btn btn-primary" type="submit" @click.prevent="submitForm">찾기</button>
+                    <div class="row mt-3">
+                        <div class="d-flex justify-content-center">
+                        	<div class="d-grid gap-2 col-6 mx-auto">
+                            <button class="btn btn-outline-info" type="submit" @click.prevent="submitForm">찾기</button>
+                            </div>
                         </div>
                     </div>
                     <c:if test="${param.mode == 'error'}">

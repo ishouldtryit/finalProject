@@ -4,6 +4,14 @@
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<style>
+	a{color:#34649C;}
+	a:hover{
+		color:blue;
+	}
+</style>
+
 <script>
     $(document).ready(function() {
         //글 삭제 시 경고창
@@ -53,29 +61,31 @@
     }
 </script>
 
-<div class="container-fluid mb-2">
-    <div class="d-flex justify-content-end col-md-10 offset-md-1">
+<div class="container">
+
+    <div class="d-flex justify-content-end">
         <c:if test="${owner}">
-            <a href="/workboard/edit?workNo=${workBoardDto.workNo}" class="btn btn-light btn-sm ms-2">
+            <a href="/workboard/edit?workNo=${workBoardDto.workNo}" class="btn btn-outline-secondary ms-2">
                 <i class="fa-regular fa-pen-to-square" style="color: #8f8f8f;"></i>&nbsp;수정
             </a>
         </c:if>
         <c:if test="${owner || admin}">
-            <a href="/workboard/delete?workNo=${workBoardDto.workNo}" class="btn btn-light delete-button btn-sm ms-2">
+            <a href="/workboard/delete?workNo=${workBoardDto.workNo}" class="btn btn-outline-secondary delete-button ms-2">
                 <i class="fa-solid fa-trash-can" style="color: #8f8f8f;"></i>&nbsp;삭제
             </a>
         </c:if>
-        <a href="/workboard/list" class="btn btn-light btn-sm ms-2">
+        <a href="/workboard/list" class="btn btn-outline-secondary ms-2">
             <i class="fa-solid fa-bars" style="color: #8f8f8f;"></i>&nbsp;목록
         </a>
     </div>
 
+
     <!-- 제목 -->
     <div class="row">
         <div class="row mt-4">
-            <div class="col-md-10 offset-md-1">
-                <div class="d-flex align-items-center">
-                    <h3 class="me-2">${workBoardDto.workTitle}</h3>
+            <div class="">
+                <div class="mb-4 ms-1">
+                    <h3 class="">${workBoardDto.workTitle}</h3>
                     <span class="badge badge-pill secretBadge" data-work-secret="${workBoardDto.workSecret}"></span>
                 </div>
 
@@ -102,12 +112,14 @@
                     </h6>
                 </div>
             </div>
-        </div>
-    </div>
 
+        </div>
+
+    </div>
+<hr>
     <!-- 게시글 내용 -->
     <div class="row mt-4" style="min-height:350px;">
-        <div class="col-md-10 offset-md-1" value="${workBoardDto.workContent}">
+        <div class="" value="${workBoardDto.workContent}">
             ${workBoardDto.workContent}
         </div>
 	

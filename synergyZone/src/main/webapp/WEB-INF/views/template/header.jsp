@@ -99,7 +99,7 @@ a {
 	color: #ffffff;
 }
 
-a:hover {
+bi:hover {
 	color: #FFEDCB;
 }
 

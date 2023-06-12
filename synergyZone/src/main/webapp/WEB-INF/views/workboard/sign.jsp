@@ -22,6 +22,8 @@
     display: inline-block; /* 또는 display: inline-flex; */
     margin-right: 5px; /* 원하는 간격으로 수정 */
 }
+a{color:#34649C;}
+a:hover{color:blue;}
 </style>
 
     <script>
@@ -31,11 +33,11 @@
 	<form action="sign" method="post" enctype="multipart/form-data">
 		
 		
-		<div class="container-fluid mt-4">
+		<div class="container mt-4">
 		
 		    
 		<div class="row mt-4">
-				<div class="col-md-10 offset-md-1">
+				<div class="">
 					<div class="d-flex align-items-center">
 						<div class="col">
 							<c:if test="${workSups != null}">
@@ -53,13 +55,12 @@
 			<!-- 제목 -->
 			<div class="row">
 				<div class="row mt-4">
-					<div class="col-md-10 offset-md-1">
-						<div class="d-flex align-items-center">
+					<div class="">
+						<div class="d-flex align-items-center mb-2">
 							<h3 class="me-2">${workBoardDto.workTitle}</h3>
 							<span class="badge badge-pill secretBadge"
 								data-work-secret="${workBoardDto.workSecret}"></span>
 						</div>
-
 						<div class="d-flex align-items-center">
 							<div class="profile-image employee-name">
 								<img width="24" height="24"
@@ -90,9 +91,10 @@
 					</div>
 				</div>
 			</div>
+			<hr>
 			<!-- 게시글 내용 -->
 			<div class="row mt-4" style="min-height: 350px;">
-				<div class="col-md-10 offset-md-1"
+				<div class=""
 					value="${workBoardDto.workContent}">
 					${workBoardDto.workContent}</div>
 
@@ -126,15 +128,16 @@
 			<br>
 		</div>
 	<div class="row mt-4">
-		<div class="col">
 			<input type="hidden" name="workNo" id="workNo"
 				value="${workBoardDto.workNo}">
-			<button type="submit" class="btn btn-primary" name="action" value="approve">결재</button>
-			<a href="/workboard/workReturn?workNo=${workBoardDto.workNo}" class="btn btn-light btn-sm ms-2">반려</a>
+			<div class="d-flex justify-content-center">
+			<button type="submit" class="btn btn-outline-info" name="action" value="approve">결재</button>
+			<a href="/workboard/workReturn?workNo=${workBoardDto.workNo}" class="btn btn-outline-secondary ms-2">반려</a>
+				</div>
 			<!-- 나머지 입력 필드들 -->
 
 		</div>
-	</div>
+
 	</form>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>

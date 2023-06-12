@@ -163,7 +163,7 @@
                         <div class="col">
                             <label class="form-label">우편번호</label>
                             <input class="form-control rounded" type="text" name="empPostcode" placeholder="우편번호">
-                            <button class="mt-2 btn btn-info address-btn" type="button">우편번호 찾기</button>
+                            <button class="mt-2 btn btn-outline-info address-btn" type="button">우편번호 찾기</button>
                         </div>
                     </div>
 
@@ -220,9 +220,9 @@
                         </div>
                     </div>
                     
-                   	 <div class="row mt-4">
+                   	 <div class="row mt-4 mb-4">
                         <div class="col">
-                          <button class="btn btn-info w-100">
+                          <button class="btn btn-outline-info w-100">
                           가입
                           </button>
                         </div>

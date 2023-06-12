@@ -27,8 +27,12 @@
 }
 
 a {
+	color:#ffffff;
    text-decoration: none;
-   color: white;
+}
+.bi{
+	text-decoration: none;
+	color:#ffffff;
 }
 
 a.pop{
@@ -216,7 +220,7 @@ function logout() {
             <div class="col col-2 mt-4">
 
                <div class="bg-light border p-2"
-                  style="height: 230px; width: 290px; margin-left: 15px;">
+                  style="height: 230px; width: 290px; margin-left: 15px; z-index: 1;">
                   <div class="d-flex justify-content-center">
                      <div class="profile-image employee-name">
                         <img width="100" height="100"
@@ -241,7 +245,7 @@ function logout() {
 
 
                <div class="bg-light border p-2"
-                  style="width: 755px; height: 280px; margin-left: 15px; margin-top: 20px;">
+                  style="width: 752px; height: 280px; margin-left: 15px; margin-top: 20px; position: relative; z-index: 2;">
                   <p>쪽지함</p>
                   <hr>
                   <table class="table table-hover">
@@ -280,7 +284,7 @@ function logout() {
                </div>
 
                <div class="bg-info text-light border"
-                  style="width: 380px; height: 315px; margin-left: 15px; margin-top: 20px;">
+                  style="width: 383px; height: 315px; margin-left: 15px; margin-top: 20px;">
                   <p class="p-2">Memo</p>
                   <div>
                      <textarea v-if="isTextareaEnabled" v-model="memoText"
@@ -312,8 +316,9 @@ function logout() {
                   </a>
                </div>
 
-               <div class="bg-light border"
-                  style="height: 315px; width: 348px; margin-top: 320px; margin-left: 102px;">
+                <div class="bg-light border"
+                  style="width: 349px; height: 315px; margin-left: 102px; margin-top: 320px;">
+     
                </div>
             </div>
 

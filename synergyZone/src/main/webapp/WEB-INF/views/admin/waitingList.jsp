@@ -11,38 +11,41 @@
 .emp-no {
 	cursor: pointer;
 }
+a{
+	color:black;
+}
+a:hover{
+	color:red;
+}
 </style>
 
-<div class="container-800" style="margin-left: 5%;">
+<div class="container">
 	<!-- 검색창 -->
-
+	<div class="d-flex justify-content-between mt-2">
 	<form class="d-flex" action="waitingList" method="get">
 		<select name="column" class="form-input me-sm-2">
 			<option value="emp_name" ${column eq 'emp_name' ? 'selected' : ''}>이름</option>
 			<option value="emp_no" ${column eq 'emp_no' ? 'selected' : ''}>사원번호</option>
 			<option value="dept_name" ${column eq 'dept_name' ? 'selected' : ''}>부서</option>
 			<option value="job_name" ${column eq 'job_name' ? 'selected' : ''}>직위</option>
-		</select> <input class="form-control me-sm-2" type="search" placeholder="검색어"
+		</select>
+		<input class="form-control me-sm-2 w-75" type="search" placeholder="검색어"
 			name="keyword" value="${param.keyword}" style="width: 13%;">
-		<button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
+		<button class="btn btn-outline-info" type="submit">Search</button>
 
 	</form>
 
-	<div class="d-flex justify-content-end col-md-10 offset-md-1">
-		<a href="/admin/exitList" class="btn btn-light btn-sm ms-2"> <i
-			style="color: #8f8f8f;"></i>&nbsp;퇴사 목록
-		</a>
+		<a href="/admin/exitList" class="btn btn-outline-secondary">&nbsp;퇴사 목록</a>
+
 	</div>
 
 	<!-- 사원 목록 테이블 -->
-	<div class="row">
-		<div class="col" style="margin: 0 auto;">
 			<form id="employeeForm">
-				<table class="table table-hover mt-2" style="width: 90%;">
-					<thead>
+				<table class="table table-hover table-sm mt-2">
+					<thead class="text-center">
 						<tr>
 							<th>
-								<div class="p-2">
+								<div>
 									<input type="checkbox" id="selectAllBtn"
 										class="btn btn-primary my-2 my-sm-0">
 								</div>
@@ -60,11 +63,11 @@
 							<th>관리</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody class="text-center">
 						<c:forEach var="employeeDto" items="${employees}">
 							<tr>
 								<td class="align-middle">
-									<div class="p-2">
+									<div>
 										<input type="checkbox" name="selectedEmployees"
 											value="${employeeDto.empNo}">
 									</div>
@@ -91,7 +94,7 @@
 									</div>
 
 								</td>
-								<td class="align-middle emp-no">${employeeDto.empNo}</td>
+								<td class="align-middle emp-no text-left">${employeeDto.empNo}</td>
 								<td class="align-middle employee-name"
 									data-empno="${employeeDto.empNo}"
 									data-empname="${employeeDto.empName}"
@@ -103,8 +106,8 @@
 									${employeeDto.empName}</td>
 								<td class="align-middle">${employeeDto.empPhone}</td>
 								<td class="align-middle">${employeeDto.empEmail}</td>
-								<td class="align-middle">${employeeDto.empAddress}</td>
-								<td class="align-middle">${employeeDto.empDetailAddress}</td>
+								<td class="align-middle text-left">${employeeDto.empAddress}</td>
+								<td class="align-middle text-left">${employeeDto.empDetailAddress}</td>
 								<td class="align-middle"><c:forEach var="departmentDto"
 										items="${departments}">
 										<c:if test="${departmentDto.deptNo == employeeDto.deptNo}">
@@ -118,11 +121,13 @@
 	                  </c:if>
 									</c:forEach></td>
 								<td class="align-middle">${employeeDto.isLeave}</td>
-								<td class="align-middle"><a
-									href="exitCancel?empNo=${employeeDto.empNo}"
-									class="exit-cancel-button">퇴사취소</a> <a
-									href="finalExit?empNo=${employeeDto.empNo}"
-									class="final-exit-button">퇴사처리</a></td>
+								<td class="align-middle">
+									<a href="exitCancel?empNo=${employeeDto.empNo}"
+										class="exit-cancel-button">퇴사취소</a> 
+									<a href="finalExit?empNo=${employeeDto.empNo}"
+										class="final-exit-button">퇴사처리</a>
+								</td>
+								
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -132,9 +137,6 @@
 					</c:if>
 				</table>
 			</form>
-		</div>
-	</div>
-
 
 
 	<!-- 첫 번째 모달 창 -->

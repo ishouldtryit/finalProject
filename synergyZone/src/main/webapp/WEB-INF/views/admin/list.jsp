@@ -11,11 +11,16 @@
   .emp-no {
     cursor: pointer;
   }
-  
+  a{
+   color:black;
+  }
+  a:hover{
+  	color:red;
+  }
   
 </style>
 
-<div class="container-800" style="margin-left: 5%;">
+<div class="container">
 		<!-- 검색창 -->
 
 		<form class="d-flex" action="list" method="get">
@@ -27,19 +32,18 @@
 		  </select>
 		  
 		  <input class="form-control me-sm-2" type="search" placeholder="검색어" name="keyword" value="${param.keyword}" style="width: 13%;">
-		  <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
+		  <button class="btn btn-outline-info" type="submit">Search</button>
 		  
 		</form>
 		
     	<!-- 사원 목록 테이블 -->
-	<div class="row">
-	  <div class="col" style="margin: 0 auto;">
+
 	    <form id="employeeForm">
-	      <table class="table table-hover mt-2" style="width: 90%;">
+	      <table class="table table-hover table-sm mt-2 text-center">
 	        <thead>
 	          <tr>
 	            <th>
-	            <div class="p-2">
+	            <div class="">
                 <input type="checkbox" id="selectAllBtn" class="btn btn-primary my-2 my-sm-0">
               </div>
               </th>
@@ -60,7 +64,7 @@
 	          <c:forEach var="employeeDto" items="${employees}">
 	            <tr>
 	              <td class="align-middle">
-	                <div class="p-2">
+	                <div class="">
 	                  <input type="checkbox" name="selectedEmployees" value="${employeeDto.empNo}">
 	                </div>
 	              </td>
@@ -89,8 +93,8 @@
 	              </td>
 	              <td class="align-middle">${employeeDto.empPhone}</td>
 	              <td class="align-middle">${employeeDto.empEmail}</td>
-	              <td class="align-middle">${employeeDto.empAddress}</td>
-	              <td class="align-middle">${employeeDto.empDetailAddress}</td>
+	              <td class="align-middle text-left">${employeeDto.empAddress}</td>
+	              <td class="align-middle text-left">${employeeDto.empDetailAddress}</td>
 	              <td class="align-middle">
 	                <c:forEach var="departmentDto" items="${departments}">
 	                  <c:if test="${departmentDto.deptNo == employeeDto.deptNo}">
@@ -118,8 +122,7 @@
 				</c:if>
 	      </table>
 	    </form>
-	  </div>
-	</div>
+
 
 
 

@@ -363,7 +363,7 @@
 						<label class="form-check-label" for="flexSwitchCheckDefault">비공개</label>
 						<input type="hidden" id="workSecret" name="workSecret">
 					</div>
-                  <button type="submit" class="btn btn-primary">등록</button>
+                  <button type="submit" class="btn btn-outline-info w-100 mb-4 mt-2">등록</button>
                </div>
 
             </div>

@@ -116,7 +116,7 @@ public class HomeController {
 		session.removeAttribute("deptNo");
 		session.removeAttribute("empName");
 		session.removeAttribute("empAdmin");
-		return "redirect:/";
+		return "redirect:/"; 
 	}
 
 }

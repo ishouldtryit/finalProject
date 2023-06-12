@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,8 +24,9 @@ public class HomeRestController {
 	private MainRepoImpl mainRepo;
 	
 	@GetMapping("/msg")
-	public List<MessageDto> msg() {
-        return mainRepo.msg();
+	public List<MessageDto> msg(HttpSession session) {
+		String empNo=(String) session.getAttribute("empNo");
+        return mainRepo.msg(empNo);
     }
 	
 	@GetMapping("/free")

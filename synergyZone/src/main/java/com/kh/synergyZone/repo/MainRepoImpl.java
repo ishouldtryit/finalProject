@@ -16,8 +16,8 @@ public class MainRepoImpl implements MainRepo{
 	private SqlSession session;
 
 	@Override
-	public List<MessageDto> msg() {
-		return session.selectList("main.msg");
+	public List<MessageDto> msg(String empNo) {
+		return session.selectList("main.msg",empNo);
 	}
 
 	@Override

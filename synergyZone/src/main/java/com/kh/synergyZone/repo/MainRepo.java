@@ -7,7 +7,7 @@ import com.kh.synergyZone.dto.MessageDto;
 import com.kh.synergyZone.dto.NoticeDto;
 
 public interface MainRepo {
-	List<MessageDto> msg();
+	List<MessageDto> msg(String empNo);
 	List<BoardDto> free();
 	List<NoticeDto> notice();
 }

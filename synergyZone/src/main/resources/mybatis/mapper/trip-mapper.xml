@@ -50,8 +50,13 @@
 
 	<select id="no" resultType="String">
 		select trip_no from (select trip_no
-		from trip where emp_no= #{empNo} order by trip_no DESC) where ROWNUM =
-		1
+		from trip where emp_no= #{empNo} order by trip_no DESC) where ROWNUM = 1
 	</select>
+	
+	<!-- 관리자페이지 사원 연차 사용조회 -->
+     <select id="oneList" resultType="tripDto">
+          	select * from trip where trip_no= #{tripNo}
+     </select>
 
+	
 </mapper>

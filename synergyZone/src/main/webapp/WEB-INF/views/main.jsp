@@ -160,18 +160,13 @@ function logout() {
 					<strong>{{ employeeInfo.empName }}</strong> 님 환영합니다.
 				</h5>
 
-				<a href="${pageContext.request.contextPath}/address/list"><i
-					class="bi bi-diagram-3 fs-2"></i></a> <a href=#><i
-					class="bi bi-bell fs-2 ms-3"></i></a> <a href=#><i
-					class="bi bi-power fs-2 ms-3 me-2" data-bs-toggle="modal"
-					data-bs-target="#logoutModal"></i></a>
-
-				<div class="profile-image employee-name1">
+				<div class="profile-image employee-name1 d-flex align-items-center">
 					<img width="34" height="34"
-						src="getProfileImageUrl(employeeInfo.attachmentNo)" alt=""
+						:src="getProfileImageUrl(employeeInfo.attachmentNo)" alt=""
 						style="border-radius: 50%; margin-top: 0px; margin-right: 7px; margin-left: 7px;"
 						onclick="togglePopup()">
 				</div>
+				
 				<div id="popup" class="popup">
 					<ul class="text-sm list-unstyled list-inline">
 						<li><a href="/employee/mypage" class="pop">기본정보</a></li>
@@ -245,11 +240,35 @@ function logout() {
 						<p>쪽지함</p>
 						<hr>
 						<table class="table table-hover">
-							<tbody>
-								<tr v-for="item in msg" :key="item.messageNo">
-									<td>{{ item.messageTitle }}</td>
-									<td>{{ item.messageSender }}</td>
-									<td>{{ item.messageSendTime }}</td>
+							<thead>
+								<tr>
+									<th>제목</th>
+									<th>보낸사람</th>
+									<th>보낸시간</th>
+								</tr>
+							</thead>
+							<tbody v-if="msg.length > 0">
+									<tr v-for="item in msg" :key="item.messageNo">
+											<td>
+												<a :href="'/message/receive/detail?messageNo='+item.messageNo" style="color:inherit">
+												{{ item.messageTitle }}
+												</a>
+											</td>
+										<td>
+											<a :href="'/message/receive/detail?messageNo='+item.messageNo" style="color:inherit">
+												{{ item.messageSenderNick }}
+											</a>
+										</td>
+										<td>
+											<a :href="'/message/receive/detail?messageNo='+item.messageNo" style="color:inherit">
+												{{ item.messageSendTime }}
+											</a>	
+										</td>
+									</tr>
+							</tbody>
+							<tbody v-else>
+								<tr>
+									<td colspan="7">메세지가 없습니다.</td>
 								</tr>
 							</tbody>
 						</table>
@@ -325,7 +344,11 @@ function logout() {
 						<table class="table table-hover">
 							<tbody>
 								<tr v-for="item in notice" :key="item.noticeNo">
-									<td>{{ item.noticeTitle }}</td>
+									<td>
+										<a :href="'/notice/detail?noticeNo='+item.noticeNo" style="color:inherit">
+											{{ item.noticeTitle }}
+										</a>	
+									</td>
 								</tr>
 							</tbody>
 						</table>
@@ -339,7 +362,11 @@ function logout() {
 						<table class="table table-hover">
 							<tbody>
 								<tr v-for="item in free" :key="item.freeNo">
-									<td>{{ item.boardTitle }}</td>
+									<td>
+										<a :href="'/board/detail?boardNo='+item.board	No" style="color:inherit">
+											{{ item.boardTitle }}
+										</a>
+									</td>
 								</tr>
 							</tbody>
 						</table>
@@ -357,8 +384,6 @@ function logout() {
 						</div>
 						<hr>
 						<div>
-							<vue-datepicker style="margin-left: 35px;"
-								:current-date="currentDate"></vue-datepicker>
 							<div v-model="selectedDate" ref="datepicker"
 								style="margin-left: 38px;"></div>
 
@@ -465,7 +490,9 @@ function logout() {
                 swiper: null,
                 isTextareaEnabled: false,
                 memoText: localStorage.getItem('memo') || '',
-                employeeInfo: null,
+	      	      employeeInfo: {
+	    	    	  empName : "",
+	    	      },
                 msg: [],
                 free: [],
                 notice: [],
@@ -582,10 +609,9 @@ function logout() {
                     if (attachmentNo > 0) {
                         return '/attachment/download?attachmentNo=' + attachmentNo;
                     } else {
-                      return 'https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg';
+                      return contextPath+"/attachment/download?attachmentNo=" + attachmentNo;
                     }
                   },
-                  
                  
         },
        
@@ -597,8 +623,8 @@ function logout() {
             this.loadFree();
             this.loadNotice();
         },
-    }).mount("#app");
-    app.component('datepicker', {
+    }).mount("#app")
+   .component('datepicker', {
         mounted() {
         	this.fetchData();
             const datepicker = this.$refs.datepicker;

@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.synergyZone.dto.BoardDto;
-import com.kh.synergyZone.dto.MessageDto;
+import com.kh.synergyZone.dto.MessageWithNickDto;
 import com.kh.synergyZone.dto.NoticeDto;
 
 @Repository
@@ -16,8 +16,8 @@ public class MainRepoImpl implements MainRepo{
 	private SqlSession session;
 
 	@Override
-	public List<MessageDto> msg() {
-		return session.selectList("main.msg");
+	public List<MessageWithNickDto> msg(String empNo) {
+		return session.selectList("main.msg", empNo);
 	}
 
 	@Override

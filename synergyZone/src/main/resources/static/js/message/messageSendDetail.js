@@ -9,7 +9,7 @@ $(function () {
       method: "put",
       data: { messageNo: messageNo },
       success: function () {
-        window.location.href = "/message/send";
+        window.location.href =contextPath+"/message/send";
       },
       error: function () {
         console.log("받은 메세지 삭제 통신 에러!!!!");

@@ -363,7 +363,7 @@ public class AdminController {
 	@PostMapping("/department/register")
 	public String departmentRegister(@ModelAttribute DepartmentDto departmentDto) {
 		departmentRepo.insert(departmentDto);
-		return "redirect:/";
+		return "redirect:/admin/department/list";
 	}
 
 	// 부서 목록
@@ -393,7 +393,7 @@ public class AdminController {
 	@GetMapping("/department/delete")
 	public String deleteDepartment(@RequestParam int deptNo) {
 		departmentRepo.delete(deptNo);
-		return "redirect:/";
+		return "redirect:/admin/department/list";
 	}
 
 	// 직위 등록
@@ -405,7 +405,7 @@ public class AdminController {
 	@PostMapping("/job/register")
 	public String jobRegister(@ModelAttribute JobDto jobDto) {
 		jobRepo.insert(jobDto);
-		return "redirect:/";
+		return "redirect:/admin/job/list";
 	}
 
 	// 직위 목록
@@ -435,7 +435,7 @@ public class AdminController {
 	@GetMapping("/job/delete")
 	public String deleteJob(@RequestParam int jobNo) {
 		jobRepo.delete(jobNo);
-		return "redirect:/";
+		return "redirect:/admin/job/list";
 	}
 
 	// 접속로그

@@ -124,12 +124,12 @@ public class EmployeeController {
 							 RedirectAttributes attr) throws MessagingException {
 			EmployeeDto employeeDto = employeeRepo.selectOne(empNo);
 			
-			if(empNo != null && empEmail != null) {
+//			if(empNo != null && empEmail != null) {
 				if(employeeDto == null || !employeeDto.getEmpEmail().equals(empEmail)) {
 					attr.addAttribute("mode", "error");
 					return "redirect:findPw";
 				}				
-			}
+//		}
 			
 			//이메일 일치 시 임시 비밀번호 생성
 			emailService.sendTemporaryPw(empNo, empEmail);

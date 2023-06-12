@@ -57,6 +57,11 @@
                             </button>
                         </div>
                     </div>
+                    <div class="row mt-4">
+                        <div class="col">
+                            <span v-if="checkMessage" class="text-danger">{{ checkMessage }}</span>
+                        </div>
+                    </div>
                     <div class="row mt-2">
                         <div class="col text-center">
                             <a href="employee/findPw">비밀번호 찾기</a>
@@ -93,6 +98,7 @@
                 return {
                     empNo: "",
                     empPassword: "",
+                    checkMessage: "",
                 };
             },
             computed: {
@@ -104,12 +110,12 @@
                 },
             },
             methods: {
-                submitForm() {
+            	submitForm() {
                     if (!this.empNoValid) {
-                        alert("사원번호를 입력해주세요.");
+                        this.checkMessage = "사원번호를 입력해 주세요.";
                         return;
                     } else if (!this.empPasswordValid) {
-                        alert("비밀번호를 입력해주세요.");
+                        this.checkMessage = "비밀번호를 입력해 주세요.";
                         return;
                     }
                     // Submit the form

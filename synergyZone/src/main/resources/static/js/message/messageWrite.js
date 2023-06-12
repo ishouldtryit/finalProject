@@ -1,9 +1,28 @@
 $(function () {
+	
+//	######################## 받는대상 추가 ########################
+	function addMessageList(){
+		var selectedEmployees = localStorage.getItem('selectedEmployees');
+		var selectedEmployeesArr = JSON.parse(selectedEmployees);
+		for( let i = 0; i<selectedEmployeesArr.length; i++){
+			makeNewRecipientEle(selectedEmployeesArr[i]);
+		}
+		$("#message-recipient-input").val("");	
+	};
+	addMessageList();
+//	const recipientEleCnt = $("[name=messageRecipient]").length;
+//    $(".recipient-cnt").text("10");
+//    if (recipientEleCnt === 10) {
+//      $(".recipient-cnt").addClass("red");
+//    } else {
+//      $(".recipient-cnt").removeClass("red");
+//    }
+//	######################## 받는대상 추가 끝 ########################	
+
   // 쿼리스트링으로 전달받은 대상 처리
   const queryString = new URLSearchParams(location.search);
   const promiseRecipient = queryString.get("recipient");
   
-	console.log("empNO : " +empNo);
 
   // 메세지 입력창
   const recipientInput = $("#message-recipient-input");
@@ -65,6 +84,8 @@ $(function () {
     countRecipient();
   }
 
+
+  
   // 메세지 수신자 템플릿 생성
   function makeNewRecipientEle(recipientVal) {
     // 메세지 수신자 템플릿 생성
@@ -205,8 +226,9 @@ messageToMeBtn.change(function () {
 });
   // 받는 사람 숫자 class적용
   function countRecipient() {
-    const recipientEleCnt = $(".message-recipient-ele").length;
-    $(".recipient-cnt").text(recipientEleCnt);
+    let recipientEleCnt = $("[name=messageRecipient]").length;
+    
+    $(".recipient-cnt").text(recipientEleCnt-1);
     if (recipientEleCnt === 10) {
       $(".recipient-cnt").addClass("red");
     } else {
@@ -316,4 +338,5 @@ messageToMeBtn.change(function () {
       },
     });
   });
+  
 });

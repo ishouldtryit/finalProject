@@ -8,4 +8,7 @@ public interface JobRepo {
 	void insert(JobDto jobDto);
 	List<JobDto> list();
 	void delete(int jobNo);
+	
+	//세션에서 검색해줄거
+	JobDto name(int jobNo);
 }

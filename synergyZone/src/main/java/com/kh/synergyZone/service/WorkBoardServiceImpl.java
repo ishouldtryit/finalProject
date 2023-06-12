@@ -83,23 +83,21 @@ public class WorkBoardServiceImpl implements WorkBoardService{
 	 }
 
 	@Override
-	public void deleteFile(int workNo) {
+	public void deleteFile(int attachmentNo,int workNo) {
+		//workNo로 파일이 있는지 확인 그 후 attachmentNo를 제외한 기존코드 동일
 		WorkFileDto file = workFileRepo.selectOne(workNo);
 		if(file != null) {
-			int attachmentNo = file.getAttachmentNo();
 			File target = new File(dir, String.valueOf(attachmentNo));
 			if(target.exists()) {
 				target.delete();
 			}
 			attachmentRepo.delete(attachmentNo);
-			workFileRepo.delete(workNo);
+			workFileRepo.delete(attachmentNo);
 		}
 	}
 
 	@Override
 	public void updateFile(int workNo, List<MultipartFile> attachments) throws IllegalStateException, IOException {
-		
-		deleteFile(workNo);
 		
 		for (MultipartFile attach : attachments) {
 	        if (!attach.isEmpty()) {
@@ -126,5 +124,4 @@ public class WorkBoardServiceImpl implements WorkBoardService{
 	    }
 	}
 
-	
 }

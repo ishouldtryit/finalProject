@@ -36,188 +36,215 @@
 	<div class="container">
 
 
-		<h1>근태기록 페이지</h1>
+		<h4>근무시간집계현황</h4>
 
-		<div>
-			<button onclick="decrementMonth()">&lt;</button>
-			<!-- 이전 월로 이동하는 버튼 -->
-			<span id="year" required></span> <span>.</span> <span id="month"
-				required></span>
-			<button onclick="incrementMonth()">&gt;</button>
-			<!-- 다음 월로 이동하는 버튼 -->
+		<div class="row justify-content-center">
+			<div class="col-auto">
+				<button class="btn mb-3" onclick="decrementMonth()">
+					<i class="fa-solid fa-angle-left"></i>
+				</button>
+			</div>
+			<div class="col-auto d-flex">
+				<h3><span id="year" required></span> <span>.</span> <span id="month"
+					required></span></h3><button class="btn ml-2" type="button" id="today-btn">오늘</button>
+			</div>
+			<div class="col-auto">
+				<button class="btn mb-3" onclick="incrementMonth()">
+					<i class="fa-solid fa-angle-right"></i>
+				</button>
+			</div>
 		</div>
-		<div id="attendanceTable"></div>
+		<div class="row" id="attendanceTable">
+		</div>
 	</div>
 	<script>
-    $(function() {
-        setYearMonth();
-    });
+		$(function() {
+			setYearMonth();
+			$("#today-btn").click(function() {
+			    setYearMonth(); // 날짜를 오늘로 변경하는 함수 호출
+			});
+		});
 
-    function setYearMonth() {
-        var currentDate = new Date();
-        var year = currentDate.getFullYear();
-        var month = currentDate.getMonth() + 1;
+		function setYearMonth() {
+			var currentDate = new Date();
+			var year = currentDate.getFullYear();
+			var month = currentDate.getMonth() + 1;
 
-        $("#year").text(year);
-        $("#month").text(month);
-        showAttendance();
-    }
+			$("#year").text(year);
+			$("#month").text(month);
+			showAttendance();
+		}
 
-    function showAttendance() {
-        var year = $("#year").text();
-        var month = $("#month").text();
+		function showAttendance() {
+			var year = $("#year").text();
+			var month = $("#month").text();
 
-        var startDate = new Date(year, month - 1, 1);
-        var endDate = new Date(year, month, 0);
+			var startDate = new Date(year, month - 1, 1);
+			var endDate = new Date(year, month, 0);
 
-        var tableHTML = "<table class='table table-hover'>" +
-            "<tr>" +
-            "<th>일자</th>" +
-            "<th>출근시간</th>" +
-            "<th>퇴근시간</th>" +
-            "<th>근무시간</th>" +
-            "</tr>";
+			var tableHTML = "<table class='table table-hover '>" + "<tr class='table-secondary'>"
+					+ "<th>일자</th>" + "<th>출근시간</th>" + "<th>퇴근시간</th>"
+					+ "<th>근무시간</th>" + "</tr>";
 
-        var weekCount = 1;
-        var weekStartDate = new Date(startDate);
-        weekStartDate.setDate(startDate.getDate() - (startDate.getDay() + 1) % 7);
+			var weekCount = 1;
+			var weekStartDate = new Date(startDate);
+			weekStartDate.setDate(startDate.getDate()
+					- (startDate.getDay() + 1) % 7);
 
-        while (weekStartDate <= endDate) {
-            var weekEndDate = new Date(weekStartDate);
-            weekEndDate.setDate(weekStartDate.getDate() + 6);
+			while (weekStartDate <= endDate) {
+				var weekEndDate = new Date(weekStartDate);
+				weekEndDate.setDate(weekStartDate.getDate() + 6);
 
-            tableHTML += "<tr><th colspan='4'>" + weekCount + "주차 </th></tr>";
+				tableHTML += "<tr><th>" + weekCount
+						+ "주차 </th></tr>";
 
-            for (var date = weekStartDate; date <= weekEndDate; date.setDate(date.getDate() + 1)) {
-                if (date >= startDate && date <= endDate) {
-                    var formattedDate = formatDate(date);
+				for (var date = weekStartDate; date <= weekEndDate; date
+						.setDate(date.getDate() + 1)) {
+					if (date >= startDate && date <= endDate) {
+						var formattedDate = formatDate(date);
 
-                    var record = findRecord(formattedDate);
+						var record = findRecord(formattedDate);
 
-                    tableHTML += "<tr>" +
-                        "<td>" + formattedDate + "</td>" +
-                        "<td>" + (record && record.startTime !== '' ? record.startTime + "&nbsp;<span class='icon-text'><i class='fa-solid fa-user'><span class='tooltip'>" + "IP:" + record.startIp + "</span></span></i>" : "") + "</td>" +
-                        "<td>" + (record && record.endTime !== '' ? record.endTime + "&nbsp;<span class='icon-text'><i class='fa-solid fa-user'><span class='tooltip'>" + "IP:" + record.endIp + "</span></span></i>" : "") + "</td>";
+						tableHTML += "<tr>"
+								+ "<td>"
+								+ formattedDate
+								+ "</td>"
+								+ "<td>"
+								+ (record && record.startTime !== '' ? record.startTime
+										+ "&nbsp;<span class='icon-text'><i class='fa-solid fa-user'><span class='tooltip'>"
+										+ "IP:"
+										+ record.startIp
+										+ "</span></span></i>"
+										: "")
+								+ "</td>"
+								+ "<td>"
+								+ (record && record.endTime !== '' ? record.endTime
+										+ "&nbsp;<span class='icon-text'><i class='fa-solid fa-user'><span class='tooltip'>"
+										+ "IP:"
+										+ record.endIp
+										+ "</span></span></i>"
+										: "") + "</td>";
 
+						if (record && record.workTime !== 'null') {
+							var workTime = record.workTime;
+							if (workTime.startsWith('0 ')) {
+								workTime = workTime.slice(2);
+							}
+							var timeParts = workTime.split(':');
+							var hours = parseInt(timeParts[0]);
+							var minutes = parseInt(timeParts[1]);
+							var seconds = parseFloat(timeParts[2]);
 
-                    if (record && record.workTime !== 'null') {
-                        var workTime = record.workTime;
-                        if (workTime.startsWith('0 ')) {
-                            workTime = workTime.slice(2);
-                        }
-                        var timeParts = workTime.split(':');
-                        var hours = parseInt(timeParts[0]);
-                        var minutes = parseInt(timeParts[1]);
-                        var seconds = parseFloat(timeParts[2]);
+							var formattedWorkTime = '';
+							if (hours >= 0) {
+								formattedWorkTime += hours + 'h ';
+							}
+							if (minutes >= 0) {
+								formattedWorkTime += minutes + 'm ';
+							}
+							formattedWorkTime += seconds + 's';
 
-                        var formattedWorkTime = '';
-                        if (hours >= 0) {
-                            formattedWorkTime += hours + 'h ';
-                        }
-                        if (minutes >= 0) {
-                            formattedWorkTime += minutes + 'm ';
-                        }
-                        formattedWorkTime += seconds + 's';
+							tableHTML += "<td>" + formattedWorkTime + "</td>";
+						} else {
+							tableHTML += "<td></td>";
+						}
 
-                        tableHTML += "<td>" + formattedWorkTime + "</td>";
-                    } else {
-                        tableHTML += "<td></td>";
-                    }
+						tableHTML += "</tr>";
+					}
+				}
 
-                    tableHTML += "</tr>";
-                }
-            }
+				weekCount++;
+				weekStartDate.setDate(weekEndDate.getDate() + 1);
+			}
 
-            weekCount++;
-            weekStartDate.setDate(weekEndDate.getDate() + 1);
-        }
+			tableHTML += "</table>";
+			$("#attendanceTable").html(tableHTML);
+		}
 
-        tableHTML += "</table>";
-        $("#attendanceTable").html(tableHTML);
-    }
+		function formatDate(date) {
+			var year = date.getFullYear();
+			var month = (date.getMonth() + 1).toString().padStart(2, '0');
+			var day = date.getDate().toString().padStart(2, '0');
 
-    function formatDate(date) {
-        var year = date.getFullYear();
-        var month = (date.getMonth() + 1).toString().padStart(2, '0');
-        var day = date.getDate().toString().padStart(2, '0');
+			return year + "-" + month + "-" + day;
+		}
 
-        return year + "-" + month + "-" + day;
-    }
+		function findRecord(date) {
+			var list = "${list}";
 
-    function findRecord(date) {
-        var list = "${list}";
+			var parsedList = list.replace(/\[|\]/g, '')
+					.split(/\), (?![^(]*\))/);
 
-        var parsedList = list
-            .replace(/\[|\]/g, '')
-            .split(/\), (?![^(]*\))/);
+			var records = parsedList.map(function(item) {
+				var parts = item.split(", ");
 
-        var records = parsedList.map(function(item) {
-            var parts = item.split(", ");
+				var startTime = parts[1].split("=")[1];
+				var endTime = parts[2].split("=")[1];
+				var workTime = parts[3].split("=")[1];
+				var workDate = parts[4].split("=")[1];
+				var startIp = parts[5].split("=")[1];
+				var endIp = parts[6].split("=")[1].replace(/[()]/g, '');
 
-            var startTime = parts[1].split("=")[1];
-            var endTime = parts[2].split("=")[1];
-            var workTime = parts[3].split("=")[1];
-            var workDate = parts[4].split("=")[1];
-            var startIp = parts[5].split("=")[1];
-            var endIp = parts[6].split("=")[1].replace(/[()]/g, '');
+				if (endTime === 'null') {
+					endTime = '';
+				}
 
-            if (endTime === 'null') {
-                endTime = '';
-            }
+				return {
+					"startTime" : startTime,
+					"endTime" : endTime,
+					"workTime" : workTime,
+					"workDate" : workDate,
+					"startIp" : startIp,
+					"endIp" : endIp
+				};
+			});
 
-            return {
-                "startTime": startTime,
-                "endTime": endTime,
-                "workTime": workTime,
-                "workDate": workDate,
-                "startIp": startIp,
-                "endIp": endIp
-            };
-        });
+			for (var i = 0; i < records.length; i++) {
+				if (records[i].workDate === date) {
+					return records[i];
+				}
+			}
 
-        for (var i = 0; i < records.length; i++) {
-            if (records[i].workDate === date) {
-                return records[i];
-            }
-        }
+			return null;
+		}
 
-        return null;
-    }
+		function decrementMonth() {
+			var yearSpan = $("#year");
+			var monthSpan = $("#month");
 
-    function decrementMonth() {
-        var yearSpan = $("#year");
-        var monthSpan = $("#month");
+			var year = parseInt(yearSpan.text());
+			var month = parseInt(monthSpan.text());
 
-        var year = parseInt(yearSpan.text());
-        var month = parseInt(monthSpan.text());
+			if (month === 1) {
+				yearSpan.text(year - 1);
+				monthSpan.text(12);
+			} else {
+				monthSpan.text(month - 1);
+			}
 
-        if (month === 1) {
-            yearSpan.text(year - 1);
-            monthSpan.text(12);
-        } else {
-            monthSpan.text(month - 1);
-        }
+			showAttendance();
+		}
 
-        showAttendance();
-    }
+		function incrementMonth() {
+			var yearSpan = $("#year");
+			var monthSpan = $("#month");
 
-    function incrementMonth() {
-        var yearSpan = $("#year");
-        var monthSpan = $("#month");
+			var year = parseInt(yearSpan.text());
+			var month = parseInt(monthSpan.text());
 
-        var year = parseInt(yearSpan.text());
-        var month = parseInt(monthSpan.text());
+			if (month === 12) {
+				yearSpan.text(year + 1);
+				monthSpan.text(1);
+			} else {
+				monthSpan.text(month + 1);
+			}
 
-        if (month === 12) {
-            yearSpan.text(year + 1);
-            monthSpan.text(1);
-        } else {
-            monthSpan.text(month + 1);
-        }
-
-        showAttendance();
-    }
-</script>
+			showAttendance();
+		}
+		
+		
+		
+	</script>
 
 
 </body>

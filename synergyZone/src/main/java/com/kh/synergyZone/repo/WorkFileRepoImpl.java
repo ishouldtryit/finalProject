@@ -38,8 +38,8 @@ public class WorkFileRepoImpl implements WorkFileRepo {
 	}
 
 	@Override
-	public void delete(int workNo) {
-		sqlSession.delete("workFile.deleteFile", workNo);
+	public void delete(int attachmentNo) {
+		sqlSession.delete("workFile.deleteFile", attachmentNo);
 	}
 
 	@Override

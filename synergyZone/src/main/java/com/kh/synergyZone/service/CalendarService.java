@@ -23,15 +23,11 @@ public class CalendarService {
         calendarRepo.insert(vo);
     }
 
-
-   
-
-
     public List<Map<String,Object>> getDate(CalendarVO vo) {
         return calendarRepo.getDate(vo);
     }
 
-    public int deleteDate(CalendarVO vo) {
+    public boolean deleteDate(CalendarVO vo) {
         return calendarRepo.deleteDate(vo);
     }
 
@@ -39,10 +35,9 @@ public class CalendarService {
         return calendarRepo.detailView(vo);
     }
 
-    public void updateDate(CalendarVO vo) {
-        calendarRepo.updateDate(vo);
+    public boolean updateDate(CalendarVO vo) {
+        return calendarRepo.updateDate(vo);
     }
 }
-
 
 

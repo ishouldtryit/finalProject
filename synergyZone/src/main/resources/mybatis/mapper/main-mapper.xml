@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="main">
+
+	<select id="msg" resultType="MessageDto">
+		SELECT MESSAGE_SENDER, MESSAGE_TITLE,
+		MESSAGE_SEND_TIME
+		FROM (
+		SELECT
+		MESSAGE_SENDER, MESSAGE_TITLE, MESSAGE_SEND_TIME
+		FROM MESSAGE
+		WHERE
+		MESSAGE_RECIPIENT = 202399029
+		ORDER BY MESSAGE_SEND_TIME DESC
+		)
+		WHERE <![CDATA[ ROWNUM <=5 ]]>
+	</select>
+
+	<select id="free" resultType="BoardDto">
+		SELECT board_title
+		FROM (
+		SELECT *
+		FROM board
+		ORDER BY BOARD_TIME DESC
+		)
+		WHERE <![CDATA[ ROWNUM <=5 ]]>
+	</select>
+	
+	<select id="notices" resultType="NoticeDto">
+		SELECT NOTICE_TITLE
+		FROM (
+		SELECT *
+		FROM NOTICE
+		ORDER BY NOTICE_TIME DESC
+		)
+		WHERE <![CDATA[ ROWNUM <=5 ]]>
+	</select>
+
+</mapper>

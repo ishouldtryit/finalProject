@@ -28,8 +28,8 @@ public class WorkBoardRepoImpl implements WorkBoardRepo {
 	}
 
 	@Override
-	public List<WorkBoardDto> list() {
-		return sqlSession.selectList("workBoard.list");
+	public List<WorkEmpInfo> list(int jobNo) {
+		return sqlSession.selectList("workBoard.list", jobNo);
 	}
 
 	@Override

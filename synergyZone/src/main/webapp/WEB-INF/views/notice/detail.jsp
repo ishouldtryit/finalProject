@@ -63,8 +63,12 @@
 		<div class="col-md-10 mb-4 offset-md-1 text-start">
 			
 			<!-- 글쓰기와 다르게 답글쓰기는 계산을 위해 원본글의 번호를 전달해야함 -->
+			 <c:if test="${loginUser.empAdmin=='Y'}">
 			<a href="/notice/write" class="btn btn-light"><i class="fa-solid fa-pen" style="color: #8f8f8f;"></i>&nbsp;글쓰기</a>
+			</c:if>
+			<c:if test="${loginUser.empAdmin=='Y'}">
 			<a href="/notice/write?noticeParent=${noticeDto.noticeNo}" class="btn btn-light"><i class="fa-solid fa-noticeReply fa-rotate-180" style="color: #8f8f8f;"></i>&nbsp;답글쓰기</a>
+			</c:if>
 			
 			<!-- 
 				수정과 삭제가 password 페이지를 거쳐서 갈 수 있도록 링크 수정

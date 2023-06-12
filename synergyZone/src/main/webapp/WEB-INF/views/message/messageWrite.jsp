@@ -115,20 +115,20 @@
             <form id="message-send-form" action="write" method="post">
                 <input type="hidden" name="messageSender" value="${sessionScope.empNo}">
                 <div class="row">
-    <div class="col">
-        <label for="message-recipient-input">
-            받는사람 (<span class="recipient-cnt">0</span>/10)
-        </label>
-        <label style="font-size: 13px; display: flex; align-items: center; margin-top: 5px;">
-            <input class="message-to-me-btn" type="checkbox" style="margin-right: 5px;">
-            내게쓰기
-        </label>
-    </div>
-</div>
+		    <div class="col">
+		        <label for="message-recipient-input">
+		            받는사람 (<span class="recipient-cnt">0</span>/10)
+		        </label>
+		        <label style="font-size: 13px; display: flex; align-items: center; margin-top: 5px;">
+		            <input class="message-to-me-btn" type="checkbox" style="margin-right: 5px;">
+		            내게쓰기
+		        </label>
+		    </div>
+		</div>
 
                 <div class="row">
                     <div class="col">
-                        <input id="message-recipient-input" class="form-input" type="text" name="messageRecipient" placeholder="받는 사람의 아이디를 입력해주세요" required>
+                        <input id="message-recipient-input" class="form-input" type="text" name="messageRecipient" placeholder="받는 사람의 사번을 입력해주세요" required>
                     </div>
                 </div>
                 <hr class="hr-sc"/>
@@ -157,5 +157,56 @@
         </div>
     </div>
 </div>
+<script>
+$(document).ready(function() {
+	  var selectedEmployees = localStorage.getItem('selectedEmployees');
+	  console.log(selectedEmployees);
 
+	  if (selectedEmployees && selectedEmployees !== '[""]') {
+	    selectedEmployees = JSON.parse(selectedEmployees);
+
+	    // 숫자만 추출하여 새로운 배열 생성
+	    var employeeNumbers = selectedEmployees.filter(function(item) {
+	      return /^\d+$/.test(item);
+	    });
+
+	    var recipientInput = $('#message-recipient-input');
+	    var recipientCnt = $('.recipient-cnt');
+	    var currentIndex = 0; // 현재 입력 중인 직원 인덱스
+
+	    // 첫 번째 직원 입력 처리
+// 	    recipientInput.val("");
+// 	    recipientCnt.text(1);
+
+
+	function countRecipient() {
+    let recipientEleCnt = $("[name=messageRecipient]").length;
+    console.log("뭐함?")
+    $(".recipient-cnt").text(recipientEleCnt-1);
+    if (recipientEleCnt === 10) {
+      $(".recipient-cnt").addClass("red");
+    } else {
+      $(".recipient-cnt").removeClass("red");
+    }
+  }
+	    // 엔터키 입력 시 다음 직원 입력 처리
+	    recipientInput.on('keydown', function(e) {
+	      if (e.which === 13) { // 엔터키 입력 확인
+	        e.preventDefault(); // 기본 엔터키 동작 방지
+	        currentIndex++; // 다음 직원 인덱스로 이동
+
+	        if (currentIndex < employeeNumbers.length) {
+	          recipientInput.val(employeeNumbers[currentIndex]);
+	        } else {
+	          recipientInput.val(''); // 마지막 직원 입력 후 입력란 비우기
+	          localStorage.removeItem('selectedEmployees'); // 선택된 직원 목록 초기화
+	        }
+	          countRecipient();
+	      }
+	    });
+	  }
+	});
+
+
+</script>
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

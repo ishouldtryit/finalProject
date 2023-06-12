@@ -6,26 +6,52 @@
 <mapper namespace="trip">
 	<!-- 출장/외근 추가 -->
 	<insert id="insert">
-		insert into trip(TRIP_NO,EMP_NO,START_PLACE,MIDDLE_PLACE,END_PLACE,
-				PLACE,WORK,PURPOSE,NOTES,STARTDate,ENDDATE,STATUS,NAME) values (
-					trip_seq.nextval,#{empNo},#{startPlace},#{middlePlace},#{endPlace},#{place}
-					,#{work},#{purpose},#{notes},#{startDate},#{endDate},0,#{name}
-				)
+		insert into
+		trip(TRIP_NO,EMP_NO,START_PLACE,MIDDLE_PLACE,END_PLACE,
+		PLACE,WORK,PURPOSE,NOTES,STARTDate,ENDDATE,STATUS,NAME,CHECKD,period)
+		values (
+		trip_seq.nextval,#{empNo},#{startPlace},#{middlePlace},#{endPlace},#{place}
+		,#{work},#{purpose},#{notes},#{startDate},#{endDate},0,#{name},#{check},#{period}
+		)
 	</insert>
+
 	<!-- 출장 대상자 추가 -->
 	<insert id="personInsert">
-		insert into trip_person values (#{empNo},#{tripNo}) 
+		insert into trip_person values (#{empNo},#{tripNo})
 	</insert>
-	
-	
-	<!-- 개인출장 리스트조회 -->
+
+
+	<!-- 개인출장 결재완료 리스트조회 -->
 	<select id="tripList" resultType="TripDto">
-		select * from trip where emp_no = #{emp_no} where status=0
+		SELECT * FROM trip WHERE emp_no
+		= #{empNo} AND status = 1 AND EXTRACT(YEAR FROM usedDate) =
+		#{selectedValue}
 	</select>
-	
+
+	<!-- 개인출장 결재완료 리스트조회 -->
+	<select id="queue" resultType="TripDto">
+		SELECT * FROM trip WHERE emp_no =
+		#{empNo} AND (status = 0 or status = 2)
+	</select>
+
 	<!-- 출장대상자 리스트 조회 -->
 	<select id="personList" resultType="TripPersonDto">
-		select * from trip_person where trip_no= #{tripNo}
+		select * from trip_person
+		where trip_no= #{tripNo}
+	</select>
+
+	<select id="adminList" resultType="TripDto">
+		SELECT t.*, e.emp_name
+		FROM trip t
+		JOIN employee e ON t.emp_no = e.emp_no
+		WHERE t.status = 0 ORDER BY usedDate ASC
+
+	</select>
+
+	<select id="no" resultType="String">
+		select trip_no from (select trip_no
+		from trip where emp_no= #{empNo} order by trip_no DESC) where ROWNUM =
+		1
 	</select>
 
 </mapper>

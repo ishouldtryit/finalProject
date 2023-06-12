@@ -60,11 +60,11 @@
 	</div>
 	 <div class="row p-3" >
 	      <label for="draftTitle" class="form-label">제목</label>
-	      <input type="text" id="draftTitle" name="noticeTitle" v-model="noticelVO.noticeDto.noticeTitle" class="form-control" v-on:input="noticeVO.noticeDto.noticeTitle = $event.target.value">
+	      <input type="text" id="draftTitle" name="noticeTitle" class="form-control" value="${noticeDto.noticeTitle}">
 	    </div>
 	    <div class="row p-3">
 	      <label for="draftContent" class="form-label">내용</label>
-	      <textarea id="draftContent" name="noticeContent" required style="min-height: 300px;" v-model="noticeVO.noticeDto.noticeContent" class="form-control" v-on:input="noticeVO.noticeDto.noticeContent = $event.target.value"></textarea>
+	      <textarea id="draftContent" name="noticeContent" required style="min-height: 300px;" class="form-control">${noticeDto.noticeContent}</textarea>
 	    </div>
 	<div class="row">
 		<button type="submit" class="btn btn-info w-80 mt-3 noticeReply-insert-btn">변경</button>

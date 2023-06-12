@@ -3,48 +3,96 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-    
+
 <mapper namespace="loginRecord">
 
-	<insert id="save">
-		insert into log(
-			emp_no, log_login, log_ip, log_browser
-		)
-		values(
-			#{empNo}, #{logLogin}, #{logIp}, #{logBrowser}
-		)
-	</insert>
-	
-	<select id="list" resultType="loginRecordDto">
-		select * from log order by log_login desc
-	</select>
-	
-	<select id="complexSearch" resultType="LoginRecordInfoDto">
-		<bind name="empNameExist" value="empName != null and !empName.equals('')"/>
-		<bind name="searchLoginDaysExist" value="searchLoginDays != null and !searchLoginDays.equals('')"/> 
-		
-		select * from search_log_info
-		
-		<where>
-		
-			<!-- 사원명 -->
-			<if test="empNameExist">
-				and emp_name = #{empName}
-			</if>
-			
-			<!-- 최근 기록 -->
-			<if test="searchLoginDaysExist">
-				and log_login between
-					to_date(
-						to_char(sysdate - #{searchLoginDays}, 'YYYY-MM-DD'),
-						'YYYY-MM-DD'
-					) 
-					and 
-					sysdate
-			</if>
-			
-		</where>
-	</select>
+   <insert id="save">
+      insert into log(
+      emp_no, log_login, log_ip, log_browser
+      )
+      values(
+      #{empNo}, #{logLogin}, #{logIp}, #{logBrowser}
+      )
+   </insert>
+
+<!--    <select id="list" resultType="LoginRecordInfoDto"> -->
+<!--       select * from search_log_info order -->
+<!--       by log_login desc -->
+<!--    </select> -->
+   
+   <select id="count" parameterType="PaginationVO" resultType="int">
+
+  <if test="logPageSearch">
+    select count(*)
+    from search_log_info
+    <where>
+      <!-- 사원명 -->
+      <if test="!empName.equals('')">
+        and emp_name = '${empName}'
+      </if>
+
+      <!-- 최근 기록 -->
+      <if test="searchLoginDays">
+        and log_login between
+        to_date(
+          to_char(sysdate - ${searchLoginDays}, 'YYYY-MM-DD'),
+          'YYYY-MM-DD'
+        ) 
+        and sysdate
+      </if>
+    </where>
+  </if>
+  <if test="logPageList">
+    select count(*)
+    from search_log_info
+  </if>
+</select>
+
+<select id="complexSearch"  resultType="LoginRecordInfoDto">
+
+  <if test="logPageSearch">
+    select *
+    from (
+    select rownum rn, TMP.*
+    from (
+    select * from search_log_info
+
+    <where>
+      <!-- 사원명 -->
+      <if test="!empName.equals('')">
+        and emp_name = #{empName}
+      </if>
+
+      <!-- 최근 기록 -->
+      <if test="searchLoginDays">
+        and log_login between
+        to_date(
+        to_char(sysdate - #{searchLoginDays}, 'YYYY-MM-DD'),
+        'YYYY-MM-DD'
+        )
+        and
+        sysdate
+      </if>
+    </where>
+    order by log_login desc
+    )TMP
+    )
+    WHERE rn between #{begin} and #{end}
+  </if>
+  
+  <if test="logPageList">
+    select *
+    from (
+      select rownum rn, TMP.*
+      from (
+        select * from search_log_info
+        order by log_login desc
+      )TMP
+    )
+    WHERE rn between #{begin} and #{end}
+  </if>
+</select>
+
 
 
 </mapper>

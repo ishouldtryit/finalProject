@@ -1,5 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+    <style>
+        a{
+            color: black;
+            text-decoration: none;
+        }
+        a:hover{
+            color: darkblue;
+        }
+        
+    .custom-alert {
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+        color: #721c24;
+        padding: .75rem 1.25rem;
+        margin-bottom: 1rem;
+        border-radius: .25rem;
+    }
+    </style>
 <body>
 
     <div id="app" class="container-500">
@@ -37,6 +56,16 @@
                                 <button type="button" class="btn btn-primary" @click="submitForm">변경</button>
                             </div>
                         </div>
+                        
+                        <c:if test="${param.mode == 'error'}">
+                        <div class="row mt-4">
+                            <div class="col">
+                                <div class="alert custom-alert" role="alert">
+                                    현재 비밀번호를 정확하게 입력해 주세요.
+                                </div>
+                            </div>
+                        </div>
+                    </c:if>
 
                     </div>
                 </div>
@@ -78,11 +107,11 @@
                     if (this.changePwCheck.length === 0) {
                         return "";
                     } else if (this.changePw.length === 0) {
-                        return "변경할 비밀번호를 입력해주세요";
+                        return "변경할 비밀번호를 입력해 주세요.";
                     } else if (this.changePwCheckValid) {
-                        return "비밀번호가 일치합니다";
+                        return "비밀번호가 일치합니다.";
                     } else {
-                        return "비밀번호가 일치하지 않습니다";
+                        return "비밀번호가 일치하지 않습니다.";
                     }
                 },
             },
@@ -90,11 +119,11 @@
             methods: {
                 submitForm() {
                     if (!this.currentPwValid) {
-                        alert("현재 비밀번호를 입력해주세요.");
+                        alert("현재 비밀번호를 입력해 주세요.");
                     } else if (!this.changePwValid) {
-                        alert("변경할 비밀번호를 입력해주세요.");
+                        alert("변경할 비밀번호를 입력해 주세요.");
                     } else if (!this.changePwCheckValid) {
-                        alert("비밀번호 확인을 입력해주세요.");
+                        alert("비밀번호 확인을 입력해 주세요.");
                     } else {
                         // Submit the form
                         document.querySelector("form").submit();

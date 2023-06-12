@@ -16,148 +16,153 @@ import com.kh.synergyZone.vo.PaginationVO;
 
 @Repository
 public class EmployeeRepoImpl implements EmployeeRepo {
-   
-   @Autowired
-   private SqlSession sqlSession;
-   
-   @Autowired
-   private PasswordEncoder encoder;
-   
-   //사원
-   @Override
-    public void insert(EmployeeDto employeeDto) {
-	    String empPassword = "synergyZone12345";
+
+	@Autowired
+	private SqlSession sqlSession;
+
+	@Autowired
+	private PasswordEncoder encoder;
+
+	// 사원
+	@Override
+	public void insert(EmployeeDto employeeDto) {
+		String empPassword = "synergyZone12345";
 		String encrypt = encoder.encode(empPassword);
 		employeeDto.setEmpPassword(encrypt);
-        sqlSession.insert("employee.save", employeeDto);
-    }
+		sqlSession.insert("employee.save", employeeDto);
+	}
 
-   @Override
-   public EmployeeDto selectOne(String empNo) {
-      return sqlSession.selectOne("employee.find", empNo);
-   }
+	@Override
+	public EmployeeDto selectOne(String empNo) {
+		return sqlSession.selectOne("employee.find", empNo);
+	}
 
-   @Override
-   public List<EmployeeInfoDto> list() {
-      return sqlSession.selectList("employee.list");
-   }
+	@Override
+	public List<EmployeeInfoDto> list() {
+		return sqlSession.selectList("employee.list");
+	}
 
-   @Override
-   public void delete(String empNo) {
-      sqlSession.delete("employee.delete", empNo);
-   }
+	@Override
+	public void delete(String empNo) {
+		sqlSession.delete("employee.delete", empNo);
+	}
 
-   @Override
-   public void update(EmployeeDto employeeDto) {
-      sqlSession.update("employee.edit", employeeDto);
-   }
-   
-   //퇴사
-   @Override
-   public void exit(String empNo) {
-      EmployeeDto employeeDto = new EmployeeDto();
-      employeeDto.setEmpNo(empNo);
-      employeeDto.setIsLeave("Y");
-      sqlSession.update("employee.exit", employeeDto);
-   }
-   
+	@Override
+	public void update(EmployeeDto employeeDto) {
+		sqlSession.update("employee.edit", employeeDto);
+	}
+	
+	@Override
+	public void employeeUpdate(EmployeeDto employeeDto) {
+		sqlSession.update("employee.employeeEdit", employeeDto);
+	}
 
+
+	// 퇴사
+	@Override
+	public void exit(String empNo) {
+		EmployeeDto employeeDto = new EmployeeDto();
+		employeeDto.setEmpNo(empNo);
+		employeeDto.setIsLeave("D");
+		sqlSession.update("employee.exit", employeeDto);
+	}
+
+	// 최종 퇴사
 	@Override
 	public void finalExit(EmployeeDto employeeDto) {
 		sqlSession.update("employee.finalExit", employeeDto);
 	}
-   
-   
-   //퇴사 취소
-   @Override
+
+	// 퇴사 취소
+	@Override
 	public void cancelExit(String empNo) {
 		EmployeeDto employeeDto = new EmployeeDto();
 		employeeDto.setEmpNo(empNo);
 		employeeDto.setIsLeave("N");
 		sqlSession.update("employee.exit", employeeDto);
 	}
-   
-   //비밀번호 찾기
-   @Override
-   public EmployeeDto findPw(String empNo, String empEmail) {
-	   Map<String, String> params = new HashMap<>();
-	   params.put("empNo", empNo);
-	   params.put("empEmail", empEmail);
-	   return sqlSession.selectOne("employee.findPw", params);
-   }
-   
-   //비밀번호 변경
-   @Override
-   public void changePw(EmployeeDto employeeDto) {
-	   sqlSession.update("employee.changePw", employeeDto);
-   }
-   
-   //사원번호
-   @Override
-   public String lastEmpNoOfYear(String year) {
-      return sqlSession.selectOne("employee.lastEmpNoOfYear",year);
-   }
-   
-   //퇴사 대기목록
-   @Override
-   public List<EmployeeInfoDto> waitingList() {
-      return sqlSession.selectList("employee.waitingList");
-   }
-   
-   //사원 검색
-   @Override
-   public int getCount() {
-      return sqlSession.selectOne("employee.count");
-   }
 
-   @Override
-   public List<EmployeeDto> getEmployeeList(PaginationVO vo) {
+	// 비밀번호 찾기
+	@Override
+	public EmployeeDto findPw(String empNo, String empEmail) {
+		Map<String, String> params = new HashMap<>();
+		params.put("empNo", empNo);
+		params.put("empEmail", empEmail);
+		return sqlSession.selectOne("employee.findPw", params);
+	}
 
-      int begin = vo.getBegin();
-      int end = vo.getEnd();
+	// 비밀번호 변경
+	@Override
+	public void changePw(EmployeeDto employeeDto) {
+		sqlSession.update("employee.changePw", employeeDto);
+	}
 
-      Map<String, Object> params = new HashMap<>();
-      params.put("begin", begin);
-      params.put("end", end);
+	// 사원번호
+	@Override
+	public String lastEmpNoOfYear(String year) {
+		return sqlSession.selectOne("employee.lastEmpNoOfYear", year);
+	}
 
-      return sqlSession.selectList("employee.getEmployeeList", params);
-   }
+	// 퇴사 대기목록
+	@Override
+	public List<EmployeeInfoDto> waitingList() {
+		return sqlSession.selectList("employee.waitingList");
+	}
 
-   @Override
-   public List<EmployeeInfoDto> searchEmployees(String column, String keyword) {
-	   Map<String, Object> params = new HashMap<>();
-	   params.put("column", column);
-	   params.put("keyword", keyword);
-	   return sqlSession.selectList("employee.searchEmployees", params);
-   }
-   
-   //퇴사대기자 목록
-   @Override
-   public int waitingEmployeesCount() {
-	   return sqlSession.selectOne("employee.waitingEmployeesCount");
-   }
-   
-   @Override
-   public List<EmployeeInfoDto> WaitingEmployeeList(PaginationVO vo) {
-	   	  int begin = vo.getBegin();
-	      int end = vo.getEnd();
+	// 사원 검색
+	@Override
+	public int getCount() {
+		return sqlSession.selectOne("employee.count");
+	}
 
-	      Map<String, Object> params = new HashMap<>();
-	      params.put("begin", begin);
-	      params.put("end", end);
+	@Override
+	public List<EmployeeDto> getEmployeeList(PaginationVO vo) {
 
-	      return sqlSession.selectList("employee.getWaitingList", params);
-   }
-   
-   @Override
-   public List<EmployeeInfoDto> searchWaitingEmployees(String column, String keyword) {
-	   Map<String, Object> params = new HashMap<>();
-	   params.put("column", column);
-	   params.put("keyword", keyword);
-	   return sqlSession.selectList("searchWaitingEmployees", params);
-   }
-   
-    //관리자 권한 부여
+		int begin = vo.getBegin();
+		int end = vo.getEnd();
+
+		Map<String, Object> params = new HashMap<>();
+		params.put("begin", begin);
+		params.put("end", end);
+
+		return sqlSession.selectList("employee.getEmployeeList", params);
+	}
+
+	@Override
+	public List<EmployeeInfoDto> searchEmployees(String column, String keyword) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("column", column);
+		params.put("keyword", keyword);
+		return sqlSession.selectList("employee.searchEmployees", params);
+	}
+
+	// 퇴사대기자 목록
+	@Override
+	public int waitingEmployeesCount() {
+		return sqlSession.selectOne("employee.waitingEmployeesCount");
+	}
+
+	@Override
+	public List<EmployeeInfoDto> WaitingEmployeeList(PaginationVO vo) {
+		int begin = vo.getBegin();
+		int end = vo.getEnd();
+
+		Map<String, Object> params = new HashMap<>();
+		params.put("begin", begin);
+		params.put("end", end);
+
+		return sqlSession.selectList("employee.getWaitingList", params);
+	}
+
+	@Override
+	public List<EmployeeInfoDto> searchWaitingEmployees(String column, String keyword) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("column", column);
+		params.put("keyword", keyword);
+		return sqlSession.selectList("searchWaitingEmployees", params);
+	}
+
+	// 관리자 권한 부여
 	@Override
 	public boolean authorityAdmin(String empNo) {
 		EmployeeDto employeeDto = new EmployeeDto();
@@ -165,12 +170,21 @@ public class EmployeeRepoImpl implements EmployeeRepo {
 		employeeDto.setEmpAdmin("Y");
 		return sqlSession.update("employee.authorityAdmin", employeeDto) > 0;
 	}
-	
-	//관리자 목록
+
+	// 관리자 목록
 	@Override
-	public List<EmployeeDto> adminList() {
+	public List<EmployeeInfoDto> adminList() {
 		return sqlSession.selectList("employee.adminList");
 	}
+
+	@Override
+	public List<EmployeeInfoDto> searchAdminList(String column, String keyword) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("column", column);
+		params.put("keyword", keyword);
+		return sqlSession.selectList("employee.searchAdminList", params);
+	}
+
 
 	//부서별 사원목록
 	@Override
@@ -200,5 +214,35 @@ public class EmployeeRepoImpl implements EmployeeRepo {
 	}
 
 
+	@Override
+	public List<EmployeeInfoDto> exitList() {
+		return sqlSession.selectList("employee.exitEmployeesList");
+
+	}
+
+	@Override
+	public int exitEmployeesCount() {
+		return sqlSession.selectOne("employee.exitEmployeesCount");
+	}
+
+	@Override
+	public List<EmployeeInfoDto> exitEmployeeList(PaginationVO vo) {
+		int begin = vo.getBegin();
+		int end = vo.getEnd();
+
+		Map<String, Object> params = new HashMap<>();
+		params.put("begin", begin);
+		params.put("end", end);
+
+		return sqlSession.selectList("employee.getExitList", params);
+	}
+
+	@Override
+	public List<EmployeeInfoDto> searchExitEmployees(String column, String keyword) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("column", column);
+		params.put("keyword", keyword);
+		return sqlSession.selectList("searchExitEmployees", params);
+	}
 
 }

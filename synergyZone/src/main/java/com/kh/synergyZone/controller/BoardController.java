@@ -39,7 +39,7 @@ public class BoardController {
            @RequestParam(required = false, defaultValue = "") String empNo,
          @ModelAttribute("vo") PaginationVO vo,  HttpSession session,
          Model model) {
-      //vo에 딱 한 가지 없는 데이터가 게시글 개수(목록/검색이 다름)
+      //vo에 딱 한 가지 없는 데이터가 게시글 개수(목록/검색이 다름) 
       int totalCount = boardRepo.selectCount(vo);
       vo.setCount(totalCount);
       //게시글

@@ -7,6 +7,7 @@
 
 <mapper namespace="employee">
 	
+	<!-- 사원 등록 -->
 	<insert id="save">
 		insert into employee(
 			emp_no, emp_name, emp_password, emp_email,
@@ -20,59 +21,60 @@
 		)
 	</insert>
 	
+	<!-- 사원 상세조회 -->
 	<select id="find" resultType="employeeDto">
 		select * from employee where emp_no = #{empNo}
 	</select>
 	
+	<!-- 사원 리스트(N) -->
 	<select id="list" resultType="employeeDto">
 		select EMP.*, IMG.attachment_no from employee EMP left outer join emp_profile IMG on EMP.emp_no = IMG.emp_no
+		where is_leave = 'N'
 	</select>
 	
+	<!-- 사원순 -->
 	<select id="count" resultType="int">
-	 	 SELECT COUNT(*) FROM employee
+	 	 SELECT COUNT(*) FROM employee 
+	 	 where is_leave = 'N'
 	</select>
 	
+	<!-- 사원 목록 페이지네이션(N) -->
 	<select id="getEmployeeList" resultType="employeeDto" parameterType="com.kh.synergyZone.vo.PaginationVO">
-		  <![CDATA[
-		  SELECT *
-		  FROM (
-		    SELECT e.*, ROWNUM AS rn
-		    FROM employee e
-		    WHERE ROWNUM <= #{end}
-		  )
-		  WHERE rn >= #{begin}
-		  ]]>
+	  <![CDATA[
+	  SELECT *
+	  FROM (
+	    SELECT e.*, ROWNUM AS rn
+	    FROM employee e
+	    WHERE is_leave = 'N' AND ROWNUM <= #{end}
+	  )
+	  WHERE rn >= #{begin}
+	  ]]>
 	</select>
 	
+	<!-- 사원 목록 검색(N) -->
 	<select id="searchEmployees" resultType="EmployeeInfoDto">
-    	select * from search_info where instr(${column}, #{keyword}) >0 order by ${column} asc
+    	select *
+	    from search_info
+	    where instr(${column}, #{keyword}) > 0
+	      and is_leave = 'N'
+	    order by ${column} asc
     </select>
     
+    <!-- 사원 정보 수정 -->
 	<update id="edit">
 		update employee set
-		emp_name = #{empName}, emp_password = #{empPassword}, emp_email = #{empEmail},
+		emp_name = #{empName}, emp_email = #{empEmail},
 		emp_phone = #{empPhone}, emp_hire_date = #{empHireDate}, 
 		cp_number = #{cpNumber}, job_no = #{jobNo}, dept_no = #{deptNo}
 		where emp_no = #{empNo}
 	</update>
 	
-	<!-- 퇴사 -->
-	<update id="exit">
+	<!-- 사원 정보 수정 -->
+	<update id="employeeEdit">
 		update employee set
-		is_leave = #{isLeave}
+		emp_email = #{empEmail}, emp_phone = #{empPhone}
 		where emp_no = #{empNo}
 	</update>
-	
-	<update id="finalExit">
-		update employee set
-		emp_email = #{empEmail}, emp_phone = #{empPhone}, emp_address = #{empAddress},
-		emp_detail_address = #{empDetailAddress}, emp_postcode = #{empPostcode}
-		where emp_no = #{empNo}
-	</update>
-	
-	<delete id="delete">
-		delete from employee where emp_no = #{empNo}
-	</delete>
 	
 	<!-- 계층형 조회 resultMap -->
 	<resultMap type="DeptEmpListVO" id="DeptEmpListVO">
@@ -148,40 +150,100 @@
 	</update>
 	
 	<!-- 관리자 목록 -->
-	<select id="adminList" resultType="employeeDto">
-		select * from employee where emp_admin = 'Y'
+	<select id="adminList" resultType="employeeInfoDto">
+		select * from search_info where emp_admin = 'Y' order by emp_no asc
 	</select>
 	
+	<!-- 관리자 목록 -->
+	<select id="searchAdminList" resultType="employeeInfoDto">
+		select * from search_info where instr(${column}, #{keyword}) > 0 and emp_admin = 'Y' order by ${column} asc
+	</select>
+	
+	<!-- 퇴사 -->
+	<!-- 퇴사 대기 -->
+	<update id="exit">
+		update employee set
+		is_leave = #{isLeave}
+		where emp_no = #{empNo}
+	</update>
+	
+	<!-- 사원 삭제 -->
+	<!-- 	<delete id="delete"> -->
+	<!-- 		delete from employee where emp_no = #{empNo} -->
+	<!-- 	</delete> -->
+
 	<!--퇴사 대기 목록 -->
 	<select id="waitingList" resultType="employeeInfoDto">
-		select * from employee where is_leave = 'Y'
+		select * from search_info where is_leave = 'D'
 	</select>
 	
+	<!-- 퇴사 대기 사원 카운트 -->
 	<select id="waitingEmployeesCount" resultType="int">
-	 	 SELECT COUNT(*) FROM employee where is_leave = 'Y'
+	 	 SELECT COUNT(*) FROM search_info where is_leave = 'D'
 	</select>
 	
+	<!-- 퇴사 대기 검색 -->
 	<select id="searchWaitingEmployees" resultType="EmployeeInfoDto">
 	    SELECT *
 	    FROM search_info
-	    WHERE is_leave = 'Y'
+	    WHERE is_leave = 'D'
 	      AND instr(${column}, #{keyword}) > 0
 	    ORDER BY ${column} ASC
 	</select>
 
-	
+	<!-- 퇴사 대기 페이지네이션 -->
 	<select id="getWaitingList" resultType="employeeInfoDto" parameterType="com.kh.synergyZone.vo.PaginationVO">
 	  <![CDATA[
 	  SELECT *
 	  FROM (
 	    SELECT e.*, ROWNUM AS rn
-	    FROM employee e
-	    WHERE is_leave = 'Y' AND ROWNUM <= #{end}
+	    FROM search_info e
+	    WHERE is_leave = 'D' AND ROWNUM <= #{end}
 	  )
 	  WHERE rn >= #{begin}
 	  ]]>
 	</select>
 	
+	<!-- 퇴사 -->
+	<update id="finalExit">
+		update employee set
+		emp_email = #{empEmail}, emp_phone = #{empPhone}, emp_address = #{empAddress},
+		emp_detail_address = #{empDetailAddress}, emp_postcode = #{empPostcode}, 
+		is_leave = #{isLeave}
+		where emp_no = #{empNo}
+	</update>
+	
+	<!-- 최종 퇴사 대기 사원 카운트 -->
+	<select id="exitEmployeesCount" resultType="int">
+	 	 SELECT COUNT(*) FROM employee where is_leave = 'Y'
+	</select>
+	
+	<!--퇴사 대기 목록 -->
+	<select id="exitEmployeesList" resultType="employeeInfoDto">
+		select * from search_info where is_leave = 'Y'
+	</select>
+	
+	<!-- 최종 퇴사 대기 검색 -->
+	<select id="searchExitEmployees" resultType="EmployeeInfoDto">
+	  select distinct *
+	  from search_info
+	  where instr(${column}, #{keyword}) > 0
+	    and is_leave = 'Y'
+	  order by ${column} asc
+	</select>
+
+	<!--최종 퇴사 페이지네이션 -->
+	<select id="getExitList" resultType="employeeInfoDto" parameterType="com.kh.synergyZone.vo.PaginationVO">
+	  <![CDATA[
+	  SELECT *
+	  FROM (
+	    SELECT e.*, ROWNUM AS rn
+	    FROM search_info e
+	    WHERE is_leave = 'Y' AND ROWNUM <= #{end}
+	  )
+	  WHERE rn >= #{begin}
+	  ]]>
+	</select>
 	
 	<select id="empId" resultType="employeeDto">
 		select emp_name from employee where emp_no=#{empNo}

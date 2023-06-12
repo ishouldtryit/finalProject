@@ -1,6 +1,4 @@
 $(function () {
-	
-//	######################## 받는대상 추가 ########################
 	function addMessageList() {
   var selectedEmployees = localStorage.getItem('selectedEmployees');
   var selectedEmployeesArr = JSON.parse(selectedEmployees);
@@ -9,30 +7,13 @@ $(function () {
   }
   $("#message-recipient-input").val("");
 }
-
-function clearLocalStorage() {
-  localStorage.removeItem('selectedEmployees');
-}
-
-$(window).on('beforeunload', function() {
-  clearLocalStorage();
-});
-
 addMessageList();
 
-//	const recipientEleCnt = $("[name=messageRecipient]").length;
-//    $(".recipient-cnt").text("10");
-//    if (recipientEleCnt === 10) {
-//      $(".recipient-cnt").addClass("red");
-//    } else {
-//      $(".recipient-cnt").removeClass("red");
-//    }
-//	######################## 받는대상 추가 끝 ########################	
 
+	
   // 쿼리스트링으로 전달받은 대상 처리
   const queryString = new URLSearchParams(location.search);
   const promiseRecipient = queryString.get("recipient");
-  
 
   // 메세지 입력창
   const recipientInput = $("#message-recipient-input");
@@ -40,7 +21,7 @@ addMessageList();
   const messageToMeBtn = $(".message-to-me-btn");
 
   // 메세지 발송 대상 있는 경우 처리
-  if (promiseRecipient !== null) {
+ if (promiseRecipient !== null) {
     if (promiseRecipient === empNo) {
       toMeFn();
     } else {
@@ -48,7 +29,7 @@ addMessageList();
     }
   }
 
-  // 메세지 내게 쓰기
+ // 메세지 내게 쓰기
   function toMeFn() {
     // 내게쓰기btn check
     messageToMeBtn.prop("checked", true);
@@ -95,7 +76,6 @@ addMessageList();
   }
 
 
-  
   // 메세지 수신자 템플릿 생성
   function makeNewRecipientEle(recipientVal) {
     // 메세지 수신자 템플릿 생성
@@ -106,27 +86,27 @@ addMessageList();
       "[name=messageRecipient]"
     );
 
-    // 메세지 수신 empNo 설정
-	let isExist;
-	$.ajax({
-	  url: "/rest/message/" + recipientVal,
-	  method: "get",
-	  async: false,
-	  success: function (response) {
-	    isExist = !(response === "Y");
-	  },
-	  error: function () {
-	  },
-	});
-	if (!isExist) {
-	  $(newMessageRecipientEle).removeClass("back-sc-brighter");
-	  $(newMessageRecipientEle).addClass("back-red-brighter");
-	  // return;
-	}
+    // 메세지 수신 memberId 설정
+    let isExist;
+    $.ajax({
+      url:contextPath+ "/rest/member/memberId/" + recipientVal,
+      method: "get",
+      async: false,
+      success: function (response) {
+        isExist = !(response === "Y");
+      },
+      error: function () {
+        console.log("받는 사람 체크 통신오류!!!!");
+      },
+    });
+    if (!isExist) {
+      $(newMessageRecipientEle).removeClass("back-sc-brighter");
+      $(newMessageRecipientEle).addClass("back-red-brighter");
+      // return;
+    }
 
     // 메세지 받는사람 입력 비우기
     $("#message-recipient-input").val("");
-    
     // 받는사람 기입
     messageRecipientOne.val(recipientVal);
 
@@ -164,25 +144,25 @@ addMessageList();
         confirmBtn.click(function () {
           const newRecipient = $(newMessageRecipientEle).children().eq(3).val();
 
-         let isExist;
-		$.ajax({
-	  		url: "/rest/message/" + recipientVal,
-		  method: "get",
-		  async: false,
-		  success: function (response) {
-		    isExist = !(response === "Y");
-		  },
-		  error: function () {
-		    console.log("받는 사람 체크 통신오류!!!!");
-		  },
-		});
-		if (!isExist) {
-		  $(newMessageRecipientEle).removeClass("back-sc-brighter");
-		  $(newMessageRecipientEle).addClass("back-red-brighter");
-		} else {
-		  $(newMessageRecipientEle).removeClass("back-red-brighter");
-		  $(newMessageRecipientEle).addClass("back-sc-brighter");
-		}
+          let isExist;
+          $.ajax({
+            url:contextPath+ "/rest/member/memberId/" + newRecipient,
+            method: "get",
+            async: false,
+            success: function (response) {
+              isExist = !(response === "Y");
+            },
+            error: function () {
+              console.log("받는 사람 체크 통신오류!!!!");
+            },
+          });
+          if (!isExist) {
+            $(newMessageRecipientEle).removeClass("back-sc-brighter");
+            $(newMessageRecipientEle).addClass("back-red-brighter");
+          } else {
+            $(newMessageRecipientEle).removeClass("back-red-brighter");
+            $(newMessageRecipientEle).addClass("back-sc-brighter");
+          }
 
           $(this).parent().children().eq(0).val(newRecipient);
           eleChildren.show();
@@ -222,22 +202,19 @@ addMessageList();
     $(".message-recipient-ele").remove();
     countRecipient();
   }
-
   // 내게 쓰기 (체인지 이벤트)
-messageToMeBtn.change(function () {
-  if ($(this).prop("checked")) {
-    toMeFn();
-    $("#message-recipient-input").val(empNo);
-  } else {
-    removeRecipientEle();
-    $("[name=messageRecipient]").val("").removeAttr("disabled");
-  }
-});
+  messageToMeBtn.change(function () {
+    if ($(this).prop("checked")) {
+      toMeFn();
+    } else {
+      removeRecipientEle();
+      $("[name=messageRecipient]").val("").removeAttr("disabled");
+    }
+  });
   // 받는 사람 숫자 class적용
   function countRecipient() {
-    let recipientEleCnt = $("[name=messageRecipient]").length;
-    
-    $(".recipient-cnt").text(recipientEleCnt-1);
+    const recipientEleCnt = $(".message-recipient-ele").length;
+    $(".recipient-cnt").text(recipientEleCnt);
     if (recipientEleCnt === 10) {
       $(".recipient-cnt").addClass("red");
     } else {
@@ -261,9 +238,9 @@ messageToMeBtn.change(function () {
       if (code === 13) e.preventDefault();
       // 미입력 시 진행 X
       if (messageRecipientVal === "") return;
-      // 최대 15명 제한
-      if (messageRecipientEle.length >= 15) {
-        alert("쪽지 보내기는 한 번에 최대 15명까지 보낼 수 있습니다");
+      // 최대 10명 제한
+      if (messageRecipientEle.length >= 10) {
+        alert("쪽지 보내기는 한 번에 최대 10명까지 보낼 수 있습니다");
         return;
       }
       makeNewRecipientEle(messageRecipientVal);
@@ -290,7 +267,7 @@ messageToMeBtn.change(function () {
       alert("쪽지 제목을 입력해주세요");
       return;
     } else {
-		const titleRegex = /^[-!@#$%^&*()_a-zA-Z0-9가-힣\sㄱ-ㅎ]{1,100}$/;
+			const titleRegex = /^[a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ\s]{1,100}$/;
       if(!titleRegex.test(messageTitle)){
         alert("쪽지는 일부의 특수문자, 숫자, 영어 대소문자, 한글로 이루어진 1~100자 이어야 합니다");
         return;
@@ -305,14 +282,17 @@ messageToMeBtn.change(function () {
     // 메세지 보내는 대상자 확인
     let result = true;
     $(".message-recipient-ele").each(function () {
-      $.ajax({	 
-        url: "/rest/message/" + $(this).find("[name=messageRecipient]").val(),
+      $.ajax({
+        url:contextPath+
+          "/rest/member/memberId/" +
+          $(this).find("[name=messageRecipient]").val(),
         method: "get",
         async: false,
         success: function (response) {
           result &&= response === "N";
         },
         error: function () {
+          console.log("멤버 확인 통신오류!!!!");
         },
       });
     });
@@ -327,28 +307,22 @@ messageToMeBtn.change(function () {
       test.push($(this).find("[name=messageRecipient]").val());
     });
     $.ajax({
-      url: "/rest/message/write",
+      url:contextPath+ "/rest/message/write",
       method: "post",
       data:
         messageSendForm.serialize() +
         "&recipients=" +
         test.join("&recipients="),
       success: function () {
-        alert("쪽지를 성공적으로 보냈습니다");
-        console.log(messageSendForm.serialize());
-        messageSendForm[0].reset();
-        removeRecipientEle();
-        
-         // 쪽지 보낸 사람들 초기화
- 		 $(".message-recipient-ele").remove();
-  
-	    // 페이지 이동
-	    window.location.href = "/message/send";
-      },
+    alert("쪽지를 성공적으로 보냈습니다");
+    console.log(messageSendForm.serialize());
+    messageSendForm[0].reset();
+    removeRecipientEle();
+    window.location.href = contextPath + "/message/send";
+  },
       error: function () {
-        alert("메세지 전송 중 오류가 발생했습니다.\n받는 사람의 사번이 정확한지 확인해주세요.");
+        console.log("메세지 전송 통신오류");
       },
     });
   });
-  
 });

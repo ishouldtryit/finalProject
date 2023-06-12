@@ -166,9 +166,9 @@ function logout() {
 					class="bi bi-power fs-2 ms-3 me-2" data-bs-toggle="modal"
 					data-bs-target="#logoutModal"></i></a>
 
-				<div class="profile-image employee-name1">
+				<div class="profile-image employee-name1 d-flex align-items-center">
 					<img width="34" height="34"
-						src="getProfileImageUrl(employeeInfo.attachmentNo)" alt=""
+						:src="getProfileImageUrl(employeeInfo.attachmentNo)" alt=""
 						style="border-radius: 50%; margin-top: 0px; margin-right: 7px; margin-left: 7px;"
 						onclick="togglePopup()">
 				</div>

@@ -146,24 +146,19 @@ article {
 						</a>
 					</div>
 
-					<div class="col col-2 bg-info text-light"></div>
+					<div class="col col-1 bg-info text-light"></div>
 
 					<div id="app1"
-						class="col col-3 bg-info text-light p-1 d-flex justify-content-end align-items-center">
+						class="col col-4 bg-info text-light p-1 d-flex justify-content-end align-items-center">
 						<h5 class="text-light mt-3 me-4"
 							style="margin-bottom: 10px; color: black; font-weight: normal;">
 							<strong>{{ employeeInfo.empName }}</strong> 님 환영합니다.
 						</h5>
 
-						<a href="${pageContext.request.contextPath}/address/list"><i
-							class="bi bi-diagram-3 fs-2"></i></a> <a href=#><i
-							class="bi bi-bell fs-2 ms-3"></i></a> <a href=#><i
-							class="bi bi-power fs-2 ms-3 me-2" data-bs-toggle="modal"
-							data-bs-target="#logoutModal"></i></a>
 
-						<div class="profile-image employee-name1">
+						<div class="profile-image employee-name1 d-flex align-items-center">
 							<img width="34" height="34"
-								src="getProfileImageUrl(employeeInfo.attachmentNo)" alt=""
+								:src="getProfileImageUrl(employeeInfo.attachmentNo)" alt=""
 								style="border-radius: 50%; margin-top: 0px; margin-right: 7px; margin-left: 7px;"
 								onclick="togglePopup()">
 						</div>
@@ -333,7 +328,9 @@ article {
  Vue.createApp({
 	  data() {
 	    return {
-	      employeeInfo: null,
+		      employeeInfo: {
+		    	  empName : "",
+		      },
 	    };
 	  },
 	  methods: {
@@ -345,7 +342,7 @@ article {
 	      if (attachmentNo > 0) {
 	        return '/attachment/download?attachmentNo=' + attachmentNo;
 	      } else {
-	        return 'https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg';
+	        return contextPath+"/attachment/download?attachmentNo=" + attachmentNo;
 	      }
 	    },
 	  },

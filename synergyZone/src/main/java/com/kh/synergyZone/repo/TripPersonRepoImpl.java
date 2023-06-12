@@ -20,8 +20,8 @@ public class TripPersonRepoImpl implements TripPersonRepo{
 	}
 
 	@Override
-	public List<TripPersonDto> list() {
-		return session.selectList("trip.personList");
+	public List<TripPersonDto> list(int tripNo) {
+		return session.selectList("trip.personList",tripNo);
 	}
 
 	@Override

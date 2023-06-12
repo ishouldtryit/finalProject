@@ -1,19 +1,18 @@
 package com.kh.synergyZone.rest;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.synergyZone.dto.BoardDto;
-import com.kh.synergyZone.dto.MessageDto;
+import com.kh.synergyZone.dto.MessageWithNickDto;
 import com.kh.synergyZone.dto.NoticeDto;
 import com.kh.synergyZone.repo.MainRepoImpl;
 
@@ -24,8 +23,9 @@ public class HomeRestController {
 	private MainRepoImpl mainRepo;
 	
 	@GetMapping("/msg")
-	public List<MessageDto> msg(HttpSession session) {
-		String empNo=(String) session.getAttribute("empNo");
+	public List<MessageWithNickDto> msg(HttpSession session) {
+		String empNo = session.getAttribute("empNo") == null ? null : (String) session.getAttribute("empNo");
+
         return mainRepo.msg(empNo);
     }
 	

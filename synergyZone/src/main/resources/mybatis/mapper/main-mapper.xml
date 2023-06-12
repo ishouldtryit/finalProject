@@ -5,22 +5,21 @@
 
 <mapper namespace="main">
 
-	<select id="msg" resultType="MessageDto">
-		SELECT MESSAGE_SENDER, MESSAGE_TITLE,
-		MESSAGE_SEND_TIME
+	<select id="msg" resultType="MessageWithNickDto">
+		SELECT *
 		FROM (
 		SELECT
-		MESSAGE_SENDER, MESSAGE_TITLE, MESSAGE_SEND_TIME
-		FROM MESSAGE
+		*
+		FROM MESSAGE_WITH_NICK
 		WHERE
 		MESSAGE_RECIPIENT = #{empNo}
 		ORDER BY MESSAGE_SEND_TIME DESC
 		)
-		WHERE <![CDATA[ ROWNUM <=5 ]]>
+		WHERE <![CDATA[ ROWNUM <=4 ]]>
 	</select>
 
 	<select id="free" resultType="BoardDto">
-		SELECT board_title
+		SELECT *
 		FROM (
 		SELECT *
 		FROM board
@@ -30,7 +29,7 @@
 	</select>
 	
 	<select id="notices" resultType="NoticeDto">
-		SELECT NOTICE_TITLE
+		SELECT *
 		FROM (
 		SELECT *
 		FROM NOTICE

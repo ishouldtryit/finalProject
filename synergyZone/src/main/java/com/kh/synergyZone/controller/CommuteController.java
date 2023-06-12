@@ -42,6 +42,8 @@ public class CommuteController {
 	private EmployeeService employeeService;
 	@Autowired
 	private TripRepoImpl tripRepoImpl;
+	@Autowired
+	private TripPersonRepoImpl personImpl;
 	
 	@Autowired
 	private EmployeeRepoImpl employeeRepoImpl;
@@ -209,9 +211,20 @@ public class CommuteController {
 	
 	//관리자 출장결재 완료
 	@PostMapping("/approval2")
-	public String tripApproval() {
-		//status 받아서 0 일때 반려 1일때 결재 처리
-		return "redirect:/commute/adminList";
+	public String tripApproval(HttpServletRequest request,@ModelAttribute TripDto dto) {
+		int btn =Integer.parseInt(request.getParameter("btn"));
+		if(btn==1) {
+			//반려일시 디비 status값 2 로 변경 empNo까지넣어야함
+			dto.setStatus(2);
+			tripRepoImpl.update(dto);
+			
+		}
+		if(btn==2) {
+			//결재일시 디비 status값 1 로 변경 empNo까지 넣어야함
+			dto.setStatus(2);
+			tripRepoImpl.update(dto);
+		}
+		return "redirect:/commute/adminList2";
 	}
 	
 	
@@ -239,10 +252,11 @@ public class CommuteController {
 		model.addAttribute("one",vacationInfoRepo.one(empNo));
 		
 		
-		//여기까지
-		
 		//출장조회 필요한것들
-		
+		model.addAttribute("list",tripRepoImpl.oneList(tripNo));
+		model.addAttribute("person",personImpl.list(tripNo));
+		//여기까지
+
 		return "/commute/tripDetail";
 	}
 	

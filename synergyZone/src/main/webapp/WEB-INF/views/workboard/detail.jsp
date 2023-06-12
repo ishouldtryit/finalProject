@@ -154,7 +154,7 @@
 	                        <div class="card-body">
 	                            <div class="text-info">
 	                                <c:forEach var="file" items="${files}">
-	                                    <a href="/attachment/download?attachmentNo=${file.attachmentNo}" data-file-size="${file.attachmentSize}">
+	                                    <a href="${pageContext.request.contextPath}/attachment/download?attachmentNo=${file.attachmentNo}" data-file-size="${file.attachmentSize}">
 	                                        ${file.attachmentName}
 	                                    </a>
 	                                    <br/>

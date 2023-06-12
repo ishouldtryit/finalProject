@@ -110,7 +110,7 @@
 		$(function() {
 			//페이지 로딩시 가져옴
 			$.ajax({
-				url : "http://localhost:8080/rest/vacation/trip",
+				url : "${pageContext.request.contextPath}/rest/vacation/trip",
 				type : "GET",
 				data : {
 					selectedValue : getCurrentYear()
@@ -208,7 +208,7 @@
 				var selectedValue = selectElement.val();
 				// AJAX 요청
 				$.ajax({
-					url : "http://localhost:8080/rest/vacation/trip",
+					url : "${pageContext.request.contextPath}/rest/vacation/trip",
 					type : "GET",
 					data : {
 						selectedValue : selectedValue
@@ -226,7 +226,7 @@
 			$("#today-btn").click(function() {
 			      $("#year-select option:first").prop("selected", true);
 			      $.ajax({
-						url : "http://localhost:8080/rest/vacation/trip",
+						url : "${pageContext.request.contextPath}/rest/vacation/trip",
 						type : "GET",
 						data : {
 							selectedValue : getCurrentYear()

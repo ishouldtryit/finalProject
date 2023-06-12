@@ -175,7 +175,7 @@ function logout() {
             </div>
             <div id="popup" class="popup">
                <ul class="text-sm list-unstyled list-inline">
-                  <li><a href="${pageContext.request.contextPath}/employee/mypage" class="pop">기본정보</a></li>
+                  <li><a href="${pageContext.request.contextPath}/employee/edit" class="pop">기본정보</a></li>
                   <li><a href="${pageContext.request.contextPath}/employee/password" class="pop">비밀번호 변경</a></li>
                   <li><a href="#" onclick="logout()" class="pop">로그아웃</a></li>
                </ul>

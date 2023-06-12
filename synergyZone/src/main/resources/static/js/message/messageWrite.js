@@ -3,6 +3,7 @@ $(function () {
   // URL에서 selectedEmployees 파라미터 값 가져오기
   const urlParams = new URLSearchParams(window.location.search);
   const selectedEmployeesData = urlParams.get('selectedEmployees');
+	
 
   if (selectedEmployeesData) {
     // 데이터가 존재하는 경우 처리 로직 작성
@@ -291,8 +292,7 @@ $(function () {
     let result = true;
     $(".message-recipient-ele").each(function () {
       $.ajax({
-        url:contextPath+
-          "/rest/member/memberId/" +
+        url:contextPath+"/rest/member/memberId/" +
           $(this).find("[name=messageRecipient]").val(),
         method: "get",
         async: false,

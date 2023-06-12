@@ -9,7 +9,7 @@ import com.kh.synergyZone.dto.WorkBoardDto;
 
 public interface WorkBoardService {
 	void write(WorkBoardDto workBoardDto, List<MultipartFile> attachments) throws IllegalStateException, IOException;
-	void deleteFile(int workNo);
+	void deleteFile(int attachmentNo,int workNo);
 	void updateFile(int workNo, List<MultipartFile> attachments) throws IllegalStateException, IOException;
 	void updateResult(int workNo);
 }

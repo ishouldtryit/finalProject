@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kh.synergyZone.dto.TripDto;
+import com.kh.synergyZone.repo.TripRepoImpl;
 import com.kh.synergyZone.repo.VacationRepoImpl;
 import com.kh.synergyZone.vo.VacationVO;
-
-import lombok.extern.slf4j.Slf4j;
 
 @CrossOrigin
 @RestController
@@ -22,6 +22,8 @@ import lombok.extern.slf4j.Slf4j;
 public class VacationRestController {
 	@Autowired
 	private VacationRepoImpl repo;
+	@Autowired
+	private TripRepoImpl tripRepo;
 	
 	//사원 연차기록조회
 	@GetMapping("/")
@@ -32,5 +34,21 @@ public class VacationRestController {
 		vo.setSelectedValue(selectedValue);
 		return repo.selectList(vo);
 		
+	}
+	
+	@GetMapping("/trip")
+	public List<TripDto> list2(HttpSession session,@RequestParam("selectedValue") String selectedValue){
+		TripDto dto=new TripDto();
+		String empNo=(String)session.getAttribute("empNo");
+		dto.setEmpNo(empNo);
+		dto.setSelectedValue(selectedValue);
+		return tripRepo.list(dto);
+	}
+	
+	@GetMapping("/queue")
+	public List<TripDto> list3(HttpSession session){
+		TripDto dto=new TripDto();
+		String empNo=(String)session.getAttribute("empNo");
+		return tripRepo.queue(empNo);
 	}
 }

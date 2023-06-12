@@ -13,7 +13,7 @@
      
      <!-- 관리자 연차조회 -->
      <select id="adminList" resultType="VacationVO">
-		SELECT * FROM EMP_VACATION_VIEW WHERE status = 0     
+		SELECT * FROM EMP_VACATION_VIEW WHERE status = 0 ORDER BY used_Date ASC
      </select>
      
      <!-- 연차 대기열 대기 / 반려만 보여줌-->
@@ -21,8 +21,21 @@
      	SELECT * FROM EMP_VACATION_VIEW WHERE emp_no = #{empNo} AND (status = 0 or status = 2)
      </select>
      
-     <!-- 연차사용  결재완료시 만들어야함-->
+     <!-- 연차사용 -->
      <insert id="add">
-     	insert into vacation values(vacation_seq.nextval,#{empNo},#{vacationName},#{startDate},#{endDate},#{useCount},#{reason},0,sysdate)
+     	insert into vacation(VACATION_NO,EMP_NO,VACATION_NAME,START_DATE,END_DATE,USE_COUNT,REASON,STATUS,USED_DATE,LEAVE) values(vacation_seq.nextval,#{empNo},#{vacationName},#{startDate},#{endDate},#{useCount},#{reason},0,sysdate,#{leave})
      </insert>
+     
+     <!-- 관리자페이지 사원 연차 사용조회 -->
+     <select id="oneList" resultType="VacationVO">
+          	select * from emp_vacation_view where vacation_no= #{vacationNo}
+     </select>
+     
+     <!--  결재 반려 처리 -->
+     <update id="appoval">
+     	UPDATE vacation
+		SET status = #{status} , RETURN_REASON = #{returnReason}
+		WHERE emp_no = #{empNo} and vacation_no= #{vacationNo}
+     </update>
+     
     </mapper>

@@ -22,5 +22,6 @@ public class ApprovalDataVO {
 	private List<RecipientVO> recipientList ;		//참조자 데이터 리스트
 	private List<ReaderVO> readerList ;		//열람자 데이터 리스트
 	private String loginUser; //로그인 유저아이디
+	private String isAdmin; // 로그인 유저 (관리자)
 
 }

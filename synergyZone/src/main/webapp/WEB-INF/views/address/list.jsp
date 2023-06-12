@@ -39,6 +39,9 @@
 		  
 		  <!-- My list에 추가 버튼 -->		  
 		  <button class="btn btn-success my-2 my-sm-0" type="button" onclick="addToMyList()">My list에 추가</button>
+		  	
+		      <button type="button" id="sendMessageBtn" class="btn btn-primary">쪽지보내기</button>
+		  
 		</form>
 		
 		<!-- 데이터 없음 알림 -->
@@ -293,6 +296,26 @@ function addToMyList() {
     console.log("직원이 선택되지 않았습니다.");
   }
 }
+</script>
+
+<script>
+$(document).ready(function() {
+	  $('#sendMessageBtn').on('click', function() {
+	    var selectedEmployees = [];
+	    $('input[name="selectedEmployees"]:checked').each(function() {
+	      selectedEmployees.push($(this).val());
+	    });
+
+	    if (selectedEmployees.length > 0) {
+	      console.log(selectedEmployees); // selectedEmployees 배열을 콘솔에 출력
+	      localStorage.setItem('selectedEmployees', JSON.stringify(selectedEmployees));
+	      window.location.href = '/message/write';
+	    } else {
+	      alert('선택된 직원이 없습니다.');
+	    }
+	  });
+	});
+
 </script>
 
 

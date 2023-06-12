@@ -333,19 +333,39 @@ public class WorkBoardController {
 		return "workboard/edit";
 	}
 
-	@PostMapping("/edit")
-	public String edit(@ModelAttribute WorkBoardDto workBoardDto, @RequestParam int workNo,
-			@RequestParam("attachments") List<MultipartFile> attachments,
+	   @PostMapping("/edit")
+	   public String edit(@ModelAttribute WorkBoardDto workBoardDto,
+	                  @RequestParam int workNo,
+	                  @RequestParam("attachments") List<MultipartFile> attachments,
+	                  @RequestParam("attachmentList") List<Integer> deleteList, //해당 부분추가 deleteList값 받아옴                  
+	                  RedirectAttributes attr) throws IllegalStateException, IOException {
 
-			RedirectAttributes attr) throws IllegalStateException, IOException {
-//      workBoardService.deleteFile(workNo);
-		workBoardService.updateFile(workNo, attachments);
+	      // 기존 DB내에서 해당값과 맞으면 삭제시키고 아니면 버림
+	      List<WorkFileDto> files = workFileRepo.selectAll(workNo); //DB에서 파일리스트 불러옴
+	      //기존업데이트 그대로진행
+	      workBoardService.updateFile(workNo, attachments);
+	      workBoardRepo.update(workBoardDto);
+	      
+	      //service에서 기존코드는 업무번호를 받는것으로 되어있어서 파일번호를 받게 변경
+	      //기존처럼 업무번호를 받으면 해당 업무번호의 파일전체를 삭제하게 되버림 --> DB구문 workNo가 아닌 attachmentNo를 받아서 단일로 찾도록 변경
+	      //아래는 단일로 찾은 attachmentNo를 이중for문을 돌려서 정확하게 일치시 삭제하는 문장
+	      
+	      //2중 for문
+	      for (Integer no : deleteList) {
+	    	  //no값 들어올때마다 
+	    	  for (WorkFileDto file : files) {
+	    		  //삭제리스트 no값과 DB리스트 files의 attachmentNo의 값이 동일한지 확인
+	    		  //만약 동일하다면
+	            if(no.equals(file.getAttachmentNo())) {
+	            	//파일번호와 업무번호를 보내서 삭제
+	               workBoardService.deleteFile(no,workNo);//파일삭제
+	            }
+	         }
+	      }
 
-		workBoardRepo.update(workBoardDto);
-
-		attr.addAttribute("workNo", workBoardDto.getWorkNo());
-		return "redirect:detail";
-	}
+	      attr.addAttribute("workNo", workBoardDto.getWorkNo());
+	      return "redirect:detail";
+	   }
 
 	// 업무일지 상세
 	@GetMapping("/detail")

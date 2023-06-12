@@ -22,6 +22,9 @@ public class BoardDto {
 	//1. 날짜가 같으면 시간과 분을 반환	(HH:mm)
 	//2. 날짜가 다르면 연/월/일을 반환	(yyyy-MM-dd)
 	public String getBoardTimeAuto() {
+		 if (boardTime == null) {
+		        return ""; // 또는 다른 기본값을 반환할 수도 있습니다.
+		    }
 		//현재 시각을 java.sql.Date 형태로 구한다
 		java.util.Date now = new java.util.Date();
 		java.util.Date write = new java.util.Date(boardTime.getTime());

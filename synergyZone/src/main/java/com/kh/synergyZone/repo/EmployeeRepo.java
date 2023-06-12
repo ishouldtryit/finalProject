@@ -66,5 +66,8 @@ public interface EmployeeRepo {
 	   //퇴사 취소
 	   void cancelExit(String empNo);
 	  
+	   //아이디조회
+	   EmployeeDto getId(String empNo);
+	   
 	
 }

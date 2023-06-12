@@ -13,6 +13,8 @@ public class VacationDto {
 	private Date endDate;
 	private int useCount;
 	private String reason;
-	private int stauts;
+	private int status;
 	private Date usedDate;
+	private int leave;
+	private int returnReason;
 }

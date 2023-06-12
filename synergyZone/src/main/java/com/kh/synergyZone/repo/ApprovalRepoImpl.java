@@ -8,11 +8,16 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.synergyZone.dto.AgreeorDto;
 import com.kh.synergyZone.dto.ApprovalDto;
+import com.kh.synergyZone.dto.ApprovalWithDrafterDto;
 import com.kh.synergyZone.dto.ApproverDto;
 import com.kh.synergyZone.dto.ReaderDto;
 import com.kh.synergyZone.dto.RecipientDto;
+import com.kh.synergyZone.vo.AgreeorVO;
 import com.kh.synergyZone.vo.ApprovalDataVO;
 import com.kh.synergyZone.vo.ApprovalPaginationVO;
+import com.kh.synergyZone.vo.ApproverVO;
+import com.kh.synergyZone.vo.ReaderVO;
+import com.kh.synergyZone.vo.RecipientVO;
 
 @Repository
 public class ApprovalRepoImpl implements ApprovalRepo {
@@ -36,9 +41,34 @@ public class ApprovalRepoImpl implements ApprovalRepo {
 	}
 
 	@Override
-	public void edit(ApprovalDto approvalDto) {
-		sqlSession.update("approval.editAllInOne", approvalDto);
+	public void edit(ApprovalWithDrafterDto approvalWithDrafterDto) {
+		sqlSession.insert("approval.edit", approvalWithDrafterDto);
 	}
+	
+	@Override
+	public void approverEdit(ApproverVO approverVO) {
+		sqlSession.insert("approval.approverInsert", approverVO);
+		
+	}
+
+	@Override
+	public void agreeorEdit(AgreeorVO agreeorVO) {
+		sqlSession.insert("approval.agreeorInsert", agreeorVO);
+		
+	}
+
+	@Override
+	public void recipientEdit(RecipientVO recipientVO) {
+		sqlSession.insert("approval.recipientInsert", recipientVO);
+		
+	}
+
+	@Override
+	public void readerEdit(ReaderVO readerVO) {
+		sqlSession.insert("approval.readerInsert", readerVO);
+		
+	}
+
 
 	@Override
 	public int approvalSequence() {
@@ -175,6 +205,13 @@ public class ApprovalRepoImpl implements ApprovalRepo {
 		return sqlSession.selectOne("approval.approverCount", draftNo);
 	}
 
+	@Override
+	public void draftCompletedDate(int draftNo) {
+		sqlSession.update("approval.draftCompletedDate", draftNo);
+	}
+
+
+	
 
 
 

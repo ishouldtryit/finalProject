@@ -35,6 +35,10 @@ public class CommuteRecordRepoImpl implements CommuteRecordRepo{
 	public List<CommuteRecordDto> allList(String empNo) {
 		return sqlSession.selectList("commuteRecord.empRecordList",empNo);
 	}
+	@Override
+	public boolean delete(CommuteRecordDto dto) {
+		return sqlSession.delete("commuteRecord.delete",dto)>0;
+	}
 
 	
 	

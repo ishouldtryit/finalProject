@@ -27,5 +27,10 @@ public class JobRepoImpl implements JobRepo{
 	@Override
 	public void delete(int jobNo) {
 		sqlSession.delete("job.delete", jobNo);
+	}
+
+	@Override
+	public JobDto name(int jobNo) {
+		return sqlSession.selectOne("job.jobName",jobNo);
 	} 
 }

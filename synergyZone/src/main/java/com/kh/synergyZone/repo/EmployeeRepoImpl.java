@@ -194,6 +194,11 @@ public class EmployeeRepoImpl implements EmployeeRepo {
 		  return resultList;
 	}
 
+	@Override
+	public EmployeeDto getId(String empNo) {
+		return sqlSession.selectOne("employee.empId",empNo);
+	}
+
 
 
 }

@@ -50,5 +50,8 @@ public interface EmployeeRepo {
 	   List<EmployeeInfoDto> searchWaitingEmployees(String column, String keyword);
 	   
 	   
+	   //아이디조회
+	   EmployeeDto getId(String empNo);
+	   
 	
 }

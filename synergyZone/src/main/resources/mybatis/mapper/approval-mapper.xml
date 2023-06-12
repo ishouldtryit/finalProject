@@ -35,6 +35,18 @@
     		)
     	</insert>
     	
+    	<!-- 기안서 수정 작성 -->
+    	<insert id="edit" >
+    		insert into approval( 
+    		draft_no,draft_title,draft_content, result_code,
+    		drafter_no, isemergency
+    		) 
+    		values(
+    		#{draftNo},#{draftTitle},#{draftContent}, 1 ,
+    		#{drafterNo}, #{isemergency}
+    		)
+    	</insert>
+    	
     	<!-- 문서 회수 -->
     	<update id="recallApproval">
     		update approval
@@ -49,7 +61,8 @@
     		update approval
     		<set>
     			result_code = 0,
-    			status_code = 0
+    			status_code = 0,
+    			completion_date = null
     		</set>
     		where draft_no = #{draftNo}
     	</update>
@@ -103,19 +116,14 @@
     		where draft_no = #{draftNo} and approver_no = #{approverNo}
     	</update>
     	
-    	<!-- 수정 -->
-		<update id="editAllInOne">
-			update approval
-			<set>
-				<if test="draftTitle!=null">
-					draft_title=#{draftTitle},
-				</if>
-				<if test="draftContent!=null">
-					draft_content=#{draftContent},
-				</if>
-			</set>
-			where draft_no=#{draftNo}
-		</update>    	
+    	<!-- 결재 완료일 갱신 -->
+    	<update id="draftCompletedDate">
+ 			update approval
+ 			<set>
+ 				completion_date = sysdate
+ 			</set>
+ 			where draft_no = #{draftNo}
+    	</update>
 		
 		<!-- 기안서 삭제 -->
 		<delete id="remove">
@@ -135,32 +143,47 @@
     	<!-- 합의자 추가 -->
     	<insert id="agreeorInsert">
     		insert into agreeor(
-    		agreeor_no, draft_no
+    		agreeor_no, draft_no, agreeor_order
     		)
     		values(
-    		#{agreeorNo}, #{draftNo}
+    		#{agreeorNo}, #{draftNo}, #{agreeorOrder}
     		)
     	</insert>
     	
     	<!-- 참조자 추가 -->
     	<insert id="recipientInsert">
     		insert into recipient(
-    		recipient_no, draft_no
+    		recipient_no, draft_no, recipient_order
     		)
     		values(
-    		#{recipientNo}, #{draftNo}
+    		#{recipientNo}, #{draftNo}, #{recipientOrder}
     		)
     	</insert>
     	
     	<!-- 열람자 추가 -->
     	<insert id="readerInsert">
     		insert into reader(
-    		reader_no, draft_no
+    		reader_no, draft_no, reader_order
     		)
     		values(
-    		#{readerNo}, #{draftNo}
+    		#{readerNo}, #{draftNo}, #{readerOrder}
     		)
     	</insert>
+    	
+    	<!-- 나의 결재선 추가 -->
+    	<insert id="myApproverInsert">
+    		insert into my_approver(
+    		my_approver_no ,drafter_no , my_approver_order, approver_no
+    		)
+    		values(
+    		my_approver_seq.nextval , #{drafterNo}, #{myApproverOrder}, #{ApproverNo}
+    		)
+    	</insert>
+    	
+    	<delete id="myApproverDelete">
+    		delete my_approver where draft_no = #{draftNo} and my_approver_order = #{myApproverOrder}
+    	</delete>
+    	
     	
     	<!-- 계층형 조회 resultMap -->
 		<resultMap type="ApprovalDataVO" id="ApprovalDataVO">
@@ -169,6 +192,7 @@
 				<result column="draft_title" property="draftTitle"/>
 				<result column="draft_content" property="draftContent"/>
 				<result column="draft_date" property="draftDate"/>
+				<result column="completion_date" property="completionDate"/>
 				<result column="drafter_no" property="drafterNo"/>
 				<result column="status_code" property="statusCode"/>
 				<result column="result_code" property="resultCode"/>
@@ -206,6 +230,7 @@
 				select="agreeorDataSelect"
 				column="draft_no">
 				<result column="agreeor_no" property="agreeorNo"/>
+				<result column="agreeor_order" property="agreeorOrder"/>
 				<result column="draft_no" property="draftNo"/>
 			</collection>
 			<collection property="recipientList"
@@ -213,6 +238,7 @@
 				select="recipientDataSelect"
 				column="draft_no">
 				<result column="recipient_no" property="recipientNo"/>
+				<result column="recipient_order" property="recipientOrder"/>
 				<result column="draft_no" property="draftNo"/>
 			</collection>
 			<collection property="readerList"
@@ -220,6 +246,7 @@
 				select="readerDataSelect"
 				column="draft_no">
 				<result column="reader_no" property="readerNo"/>
+				<result column="reader_order" property="readerOrder"/>
 				<result column="draft_no" property="draftNo"/>
 			</collection>
 		</resultMap>
@@ -622,6 +649,7 @@
 			select * from 
 			agreeor AG inner join search_info EMP on AG.agreeor_no = EMP.emp_no
 			where draft_no = #{draftNo}
+			order by agreeor_order asc
 		</select>
 		
 		<!-- 계층형 조회 서브 구문 (참조자) -->
@@ -629,6 +657,7 @@
 			select * from 
 			recipient RECP inner join search_info EMP on RECP.recipient_no = EMP.emp_no
 			where draft_no = #{draftNo}
+			order by recipient_order asc
 		</select>
 		
 		<!-- 계층형 조회 서브 구문 (열람자)-->
@@ -636,6 +665,7 @@
 			select * from 
 			reader RD inner join search_info EMP on RD.reader_no = EMP.emp_no
 			where draft_no = #{draftNo}
+			order by reader_order asc
 		</select>
     	
     </mapper>

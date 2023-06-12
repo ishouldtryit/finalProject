@@ -2,9 +2,31 @@ package com.kh.synergyZone.repo;
 
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import com.kh.synergyZone.dto.TripPersonDto;
 
-public interface TripPersonRepoImpl {
-	void insert(TripPersonDto personDto);
-	List<TripPersonDto> list();
+@Repository
+public class TripPersonRepoImpl implements TripPersonRepo{
+	@Autowired
+	private SqlSession session;
+	
+	@Override
+	public void insert(TripPersonDto personDto) {
+		session.insert("trip.personInsert",personDto);
+		
+	}
+
+	@Override
+	public List<TripPersonDto> list() {
+		return session.selectList("trip.personList");
+	}
+
+	@Override
+	public String one(String empNo) {
+		return session.selectOne("trip.no",empNo);
+	}
+	
 }

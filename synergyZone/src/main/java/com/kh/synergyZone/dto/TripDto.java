@@ -19,6 +19,11 @@ public class TripDto {
     private Date endDate;
     private int status;
     private String name;
+	private String selectedValue;
+	private int period;
+	private String empName;
+	private int check;
+	private Date usedDate;
 }
 
 

@@ -15,8 +15,49 @@
   
 </style>
 
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+     <div class="container-fluid">
+
+         <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+             <i class="fa fa-bars"></i>
+         </button>
+         
+         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+             <ul class="nav navbar-nav ml-auto">
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/">홈</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/admin/join">사원 등록</a>
+                 </li>
+                 <li class="nav-item active">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/admin/list">사원 통합관리</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/admin/waitingList">사원 퇴사관리</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/admin/add">관리자 통합관리</a>
+                 </li> 
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/admin/log/list">사원 접근로그</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/admin/department/list">부서 관리</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/admin/job/list">직위 관리</a>
+                 </li>
+             </ul>
+         </div>
+     </div>
+ </nav>
+
 <div class="container-800" style="margin-left: 5%;">
-		<!-- 검색창 -->
+
+	<h3>사원 통합관리</h3>
+	<br>
+	<!-- 검색창 -->
 
 		<form class="d-flex" action="list" method="get">
 		  <select name="column" class="form-input me-sm-2">
@@ -38,11 +79,11 @@
 	      <table class="table table-hover mt-2" style="width: 90%;">
 	        <thead>
 	          <tr>
-	            <th>
-	            <div class="p-2">
-                <input type="checkbox" id="selectAllBtn" class="btn btn-primary my-2 my-sm-0">
-              </div>
-              </th>
+<!-- 	            <th> -->
+<!-- 	            <div class="p-2"> -->
+<!--                 <input type="checkbox" id="selectAllBtn" class="btn btn-primary my-2 my-sm-0"> -->
+<!--               </div> -->
+<!--               </th> -->
 				<th>프로필</th>
 				<th>사원번호</th>
 				<th>이름</th>
@@ -59,11 +100,11 @@
 	        <tbody>
 	          <c:forEach var="employeeDto" items="${employees}">
 	            <tr>
-	              <td class="align-middle">
-	                <div class="p-2">
-	                  <input type="checkbox" name="selectedEmployees" value="${employeeDto.empNo}">
-	                </div>
-	              </td>
+<!-- 	              <td class="align-middle"> -->
+<!-- 	                <div class="p-2"> -->
+<%-- 	                  <input type="checkbox" name="selectedEmployees" value="${employeeDto.empNo}"> --%>
+<!-- 	                </div> -->
+<!-- 	              </td> -->
 	              <td class="align-middle">
 	                <div class="profile-image employee-name" data-empno="${employeeDto.empNo}" 
 		                    data-empname="${employeeDto.empName}" data-empphone="${employeeDto.empPhone}" 
@@ -289,5 +330,4 @@
   });
 </script>
     
-  <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
-    
+    <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

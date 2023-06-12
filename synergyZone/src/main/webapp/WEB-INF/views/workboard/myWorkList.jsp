@@ -12,6 +12,35 @@
   
   
 </style>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+     <div class="container-fluid">
+
+         <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+             <i class="fa fa-bars"></i>
+         </button>
+         
+         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+             <ul class="nav navbar-nav ml-auto">
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/">홈</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/workboard/write">일지 작성</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/workboard/list">부서 업무일지</a>
+                 </li>
+                 <li class="nav-item active">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/workboard/myWorkList">내 업무일지</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/workboard/supList">공유받은 업무일지</a>
+                 </li>
+             </ul>
+         </div>
+     </div>
+ </nav>
 <!-- 스크립트 -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -47,36 +76,36 @@ $(document).ready(function(){
         $(this).text(badgeText);
     });
 
-//  // workStatus 변경 시 뱃지 내용 업데이트
-//     $("#workStatus").change(function(){
-//         var selectedValue = parseInt($(this).val());  // 선택한 값을 정수로 변환
-//         var badgeText = "";
+ // workStatus 변경 시 뱃지 내용 업데이트
+    $("#workStatus").change(function(){
+        var selectedValue = parseInt($(this).val());  // 선택한 값을 정수로 변환
+        var badgeText = "";
 
-//         // 선택한 값에 따라 뱃지 내용 설정
-//         switch (selectedValue) {
-//             case 0:
-//                 badgeText = '요청';
-//                 badgeClass = "bg-primary";
-//                 break;
-//             case 1:
-//                 badgeText = '진행';
-//                 badgeClass = "bg-warning";
-//                 break;
-//             case 2:
-//                 badgeText = '완료';
-//                 badgeClass = "bg-success";
-//                 break;
-//             case 3:
-//                 badgeText = '보류';
-//                 badgeClass = "bg-secondary";
-//                 break;
-//             default:
-//                 break;
-//         }
+        // 선택한 값에 따라 뱃지 내용 설정
+        switch (selectedValue) {
+            case 0:
+                badgeText = '요청';
+                badgeClass = "bg-primary";
+                break;
+            case 1:
+                badgeText = '진행';
+                badgeClass = "bg-warning";
+                break;
+            case 2:
+                badgeText = '완료';
+                badgeClass = "bg-success";
+                break;
+            case 3:
+                badgeText = '보류';
+                badgeClass = "bg-secondary";
+                break;
+            default:
+                break;
+        }
 
-//      	// 모든 statusBadge 요소에 뱃지 내용 업데이트 및 클래스 추가/제거
-//         $(".statusBadge").text(badgeText).removeClass("bg-primary bg-warning bg-success bg-secondary").addClass(badgeClass);
-//     });
+     	// 모든 statusBadge 요소에 뱃지 내용 업데이트 및 클래스 추가/제거
+        $(".statusBadge").text(badgeText).removeClass("bg-primary bg-warning bg-success bg-secondary").addClass(badgeClass);
+    });
  
     $(".work-title").click(function(){
         var workNo = $(this).data("work-no"); // Retrieve the workNo from the data attribute
@@ -93,14 +122,10 @@ $(document).ready(function(){
 
         // workStatus 값에 따라 뱃지 내용 설정
         switch (resultCode) {
-	        case 0:
-	            if (supCount === 0) {
-	                badgeText = '보고 전';
-	            } else {
-	                badgeText = '진행중' + ' ' + statusCode + '/' + supCount;
-	            }
-	            $(this).addClass("bg-secondary");
-	            break;
+            case 0:
+                badgeText = '진행중';
+                $(this).addClass("bg-secondary");
+                break;
             case 1:
                 badgeText = '반려';
                 $(this).addClass("bg-warning");
@@ -117,32 +142,32 @@ $(document).ready(function(){
         $(this).text(badgeText);
     });
 
-//  // workStatus 변경 시 뱃지 내용 업데이트
-//     $("#resultCode").change(function(){
-//         var selectedValue = parseInt($(this).val());  // 선택한 값을 정수로 변환
-//         var badgeText = "";
+ // workStatus 변경 시 뱃지 내용 업데이트
+    $("#resultCode").change(function(){
+        var selectedValue = parseInt($(this).val());  // 선택한 값을 정수로 변환
+        var badgeText = "";
 
-//         // 선택한 값에 따라 뱃지 내용 설정
-//         switch (selectedValue) {
-// 	        case 0:
-// 	            badgeText = '진행중';
-// 	            $(this).addClass("bg-secondary");
-// 	            break;
-// 	        case 1:
-// 	            badgeText = '반려';
-// 	            $(this).addClass("bg-warning");
-// 	            break;
-// 	        case 2:
-// 	            badgeText = '결재';
-// 	            $(this).addClass("bg-success");
-// 	            break;
-// 	        default:
-// 	            break;
-// 	    }
+        // 선택한 값에 따라 뱃지 내용 설정
+        switch (selectedValue) {
+	        case 0:
+	            badgeText = '진행중';
+	            $(this).addClass("bg-secondary");
+	            break;
+	        case 1:
+	            badgeText = '반려';
+	            $(this).addClass("bg-warning");
+	            break;
+	        case 2:
+	            badgeText = '결재';
+	            $(this).addClass("bg-success");
+	            break;
+	        default:
+	            break;
+	    }
 
-//      	// 모든 statusBadge 요소에 뱃지 내용 업데이트 및 클래스 추가/제거
-//         $(".signBadge").text(badgeText).removeClass("bg-secondary bg-warning bg-success").addClass(badgeClass);
-//     });
+     	// 모든 statusBadge 요소에 뱃지 내용 업데이트 및 클래스 추가/제거
+        $(".signBadge").text(badgeText).removeClass("bg-secondary bg-warning bg-success").addClass(badgeClass);
+    });
 
 });
 
@@ -150,6 +175,10 @@ $(document).ready(function(){
 
 
 <div class="container-800" style="margin-left: 5%;">
+
+	<h3>내 업무일지</h3>
+	<br>
+	
     <!-- 검색창 -->
     <form class="d-flex" action="myWorkList" id="workForm" method="get">
         <select name="column" class="form-input me-sm-2" onchange="submitForm()">
@@ -170,7 +199,7 @@ $(document).ready(function(){
                         <th>업무상태</th>
                         <th>업무종류</th>
                         <th>보고자</th>
-                        <th>결재상태</th>
+<!--                         <th>결재상태</th> -->
                         <th>보고</th>
                     </tr>
                 </thead>
@@ -184,11 +213,11 @@ $(document).ready(function(){
                             </td>
                             <td class="align-middle">${work.workType}</td>
                             <td class="align-middle">${work.empName}</td>
-                            <td class="align-middle">
-                                <span class="badge signBadge" data-result-code="${work.resultCode}"></span>
-                                <input type="hidden" id="statusCode" value="${work.statusCode}">
-                                <input type="hidden" id="supCount" value="${work.supCount}">
-                            </td>
+<!--                             <td class="align-middle"> -->
+<%--                                 <span class="badge signBadge" data-result-code="${work.resultCode}"></span> --%>
+<%--                                 <input type="hidden" id="statusCode" value="${work.statusCode}"> --%>
+<%--                                 <input type="hidden" id="supCount" value="${work.supCount}"> --%>
+<!--                             </td> -->
                             <td><a href="report?workNo=${work.workNo}">보고</a></td>
                         </tr>
                     </c:forEach>

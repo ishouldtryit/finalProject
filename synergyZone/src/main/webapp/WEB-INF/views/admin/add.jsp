@@ -33,7 +33,7 @@
 	<!-- 결재자 선택 modal -->
 	<div class="modal" tabindex="-1" role="dialog" data-bs-backdrop="static" ref="AdminModal">
 		<div class="modal-dialog modal-dialog-centered  modal-lg" role="document">
-					<form action="add" method="post" enctype="multipart/form-data">
+					<form action="add" method="post" enctype="multipart/form-data" onsubmit="return isFormValid()">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">관리자 정보 - 관리자</h5>
@@ -43,11 +43,6 @@
 					<div v-if="showDuplicateAlert" class="duplicate-alert-container w-20">
 						<div class="alert alert-dismissible alert-primary">
 							<span>중복된 대상입니다.</span>
-						</div>
-					</div>
-					<div v-if="showIsAdminAlert" class="duplicate-alert-container w-20">
-						<div class="alert alert-dismissible alert-primary">
-							<span>이미 추가된 관리자입니다.</span>
 						</div>
 					</div>
 						<div class="container-fluid">
@@ -124,7 +119,7 @@
 				<div class="modal-footer">
 				
 					<div class="row">
-						<button type="submit" class="btn btn-primary">추가</button>
+						<button type="submit" class="btn btn-primary" @click="report()">추가</button>
 						<button type="button" class="btn btn-secondary ml-auto" data-bs-dismiss="modal" @click="hideEmployeeList">닫기</button>
 					</div>
 					
@@ -148,7 +143,7 @@
 		  
 		</form>
 		
-	<form action="add" method="post" enctype="multipart/form-data">
+	<form enctype="multipart/form-data">
 		<div class="container-fluid mt-4">
 			<div class="row">
 				<div class="offset-md-2 col-md-8">
@@ -243,7 +238,6 @@
         adminModal: null,
         adminList: [],
         showDuplicateAlert: false,
-        showIsAdminAlert: false,
       }
     },
     
@@ -316,13 +310,6 @@
       },
       
       addToAdmin(employee, department) {
-    	  if (this.adminList) {
-  			this.showIsAdminAlert = true;
-      	    setTimeout(() => {
-        	      this.showIsAdminAlert = false;
-        	    }, 1000);
-      	    return;
-      	  }
     	  
         var adminData = {
           adminList: employee,
@@ -347,6 +334,18 @@
           }, 1000);
         }
       },
+      
+      report() {
+		  if (this.adminList === null || this.adminList.length === 0) {
+		    alert("추가할 관리자를 선택해 주세요."); // 선택하지 않은 경우 알림 창을 띄웁니다.
+		    return; // form이 넘어가지 않도록 return 문을 추가합니다.
+		  } else{
+			  
+		  }
+
+		  // Submit the form
+		  document.querySelector("form").submit();
+		},
     },
     
     mounted() {

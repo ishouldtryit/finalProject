@@ -6,9 +6,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.kh.synergyZone.dto.BoardDto;
 import com.kh.synergyZone.dto.MessageWithNickDto;
-import com.kh.synergyZone.dto.NoticeDto;
+import com.kh.synergyZone.vo.BoardVO;
+import com.kh.synergyZone.vo.NoticeVO;
 
 @Repository
 public class MainRepoImpl implements MainRepo{
@@ -21,12 +21,12 @@ public class MainRepoImpl implements MainRepo{
 	}
 
 	@Override
-	public List<BoardDto> free() {
+	public List<BoardVO> free() {
 		return session.selectList("main.free");
 	}
 
 	@Override
-	public List<NoticeDto> notice() {
+	public List<NoticeVO> notice() {
 		return session.selectList("main.notices");
 	}
 	

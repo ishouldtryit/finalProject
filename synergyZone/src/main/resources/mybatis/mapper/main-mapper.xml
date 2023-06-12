@@ -18,24 +18,26 @@
 		WHERE <![CDATA[ ROWNUM <=4 ]]>
 	</select>
 
-	<select id="free" resultType="BoardDto">
+	<select id="free" resultType="BoardVO">
 		SELECT *
 		FROM (
-		SELECT *
-		FROM board
-		ORDER BY BOARD_TIME DESC
-		)
-		WHERE <![CDATA[ ROWNUM <=5 ]]>
+		  SELECT *
+		  FROM board
+		  ORDER BY BOARD_TIME DESC
+		) B
+		JOIN search_info S ON B.board_writer = S.emp_no
+		WHERE <![CDATA[ ROWNUM <=4 ]]>
 	</select>
 	
-	<select id="notices" resultType="NoticeDto">
+	<select id="notices" resultType="NoticeVO">
 		SELECT *
 		FROM (
 		SELECT *
 		FROM NOTICE
 		ORDER BY NOTICE_TIME DESC
-		)
-		WHERE <![CDATA[ ROWNUM <=5 ]]>
+		) N
+		JOIN search_info S ON N.notice_writer = S.emp_no
+		WHERE <![CDATA[ ROWNUM <=4 ]]>
 	</select>
 
 </mapper>

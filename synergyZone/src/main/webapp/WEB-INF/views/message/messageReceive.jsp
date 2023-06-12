@@ -73,7 +73,7 @@
   
 </head>
 <body>
-<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/header.jsp"></jsp:include>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
      <div class="container-fluid">
 
@@ -130,7 +130,7 @@
           </c:if>    
      </h5>
      
-  <jsp:include page="/WEB-INF/views/message/messageAside.jsp"></jsp:include>
+  <jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/message/messageAside.jsp"></jsp:include>
   
     <div class="message-header d-flex justify-content-between">
      <div class   ="d-flex mb-2">
@@ -174,7 +174,7 @@
 
 <!-- 검색창 -->
 <div class="row center mt-3"> 
-  <form class="message-receive-search-form" action="/message/receive" method="get" autocomplete="off">
+  <form class="message-receive-search-form" action="${pageContext.request.contextPath}/message/receive" method="get" autocomplete="off">
     <div class="input-group" style="width: 33%; margin: auto;">
       <select name="column" class="form-select form-select-sm" style="width: 20%; height: 100%;">
         <option class="column-option" value="message_title">제목</option>
@@ -201,4 +201,4 @@
 </body>
 
 </html>
-<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/footer.jsp"></jsp:include>

@@ -20,17 +20,14 @@ public class EmployeeInterceptor implements HandlerInterceptor {
 		HttpSession session = request.getSession();
 		String empNo = (String)session.getAttribute("empNo");
 		
-		if(empNo != null) {//회원이라면
+		if(empNo != null) {
 			return true;
 		}
-		else {//비회원이라면 - 로그인 페이지로 이동시키면서 차단
-			//리다이렉트 코드
-			//response.sendRedirect("/member/login");//return "redirect:/member/login"
+		else {
+
 			response.sendRedirect("/login");
 			return false;
-			//response.sendError(401);
-			//return false;
-//			throw new RequireLoginException("로그인 후 이용 가능합니다");
+
 		}
 	}
 }

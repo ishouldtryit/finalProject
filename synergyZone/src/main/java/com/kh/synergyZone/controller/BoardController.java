@@ -72,8 +72,8 @@ public class BoardController {
       model.addAttribute("owner", owner);
       
    // 사용자가 관리자인지 판정 후 JSP로 전달
-      String jobName = (String) session.getAttribute("jobName");
-      boolean admin = jobName != null && jobName.equals("관리자");
+      String jobName = (String) session.getAttribute("empAdmin");
+      boolean admin = jobName != null && jobName.equals("Y");
       model.addAttribute("admin", admin);
       
       //조회수 증가
@@ -186,6 +186,7 @@ public class BoardController {
    @GetMapping("/edit")
    public String edit(@RequestParam int boardNo, Model model) {
       model.addAttribute("boardDto", boardRepo.selectOne(boardNo));
+      System.out.println(boardRepo.selectOne(boardNo));
       return "board/edit";
    }
    

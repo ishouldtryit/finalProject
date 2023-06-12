@@ -88,7 +88,7 @@ public class NoticeController {
       
    // 사용자가 관리자인지 판정 후 JSP로 전달
       String empAdmin = (String) session.getAttribute("empAdmin");
-      boolean admin = empAdmin != null && empAdmin.equals("y");
+      boolean admin = empAdmin != null && empAdmin.equals("Y");
       model.addAttribute("admin", admin);
       
       //조회수 증가

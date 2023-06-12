@@ -7,6 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SynergyZone</title>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!-- 폰트어썸 cdn -->
+<link rel="stylesheet" type="text/css"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
 <!-- <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"> -->
 <link rel="stylesheet" type="text/css"
    href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.2.3/journal/bootstrap.min.css">
@@ -27,8 +30,12 @@
 }
 
 a {
+   color:#ffffff;
    text-decoration: none;
-   color: white;
+}
+.bi{
+   text-decoration: none;
+   color:#ffffff;
 }
 
 a.pop{
@@ -160,12 +167,6 @@ function logout() {
                <strong>{{ employeeInfo.empName }}</strong> 님 환영합니다.
             </h5>
 
-            <a href="${pageContext.request.contextPath}/address/list"><i
-               class="bi bi-diagram-3 fs-2"></i></a> <a href=#><i
-               class="bi bi-bell fs-2 ms-3"></i></a> <a href=#><i
-               class="bi bi-power fs-2 ms-3 me-2" data-bs-toggle="modal"
-               data-bs-target="#logoutModal"></i></a>
-
             <div class="profile-image employee-name1 d-flex align-items-center">
                <img width="34" height="34"
                   :src="getProfileImageUrl(employeeInfo.attachmentNo)" alt=""
@@ -216,7 +217,7 @@ function logout() {
             <div class="col col-2 mt-4">
 
                <div class="bg-light border p-2"
-                  style="height: 230px; width: 290px; margin-left: 15px;">
+                  style="height: 230px; width: 290px; margin-left: 15px; z-index: 1;">
                   <div class="d-flex justify-content-center">
                      <div class="profile-image employee-name">
                         <img width="100" height="100"
@@ -238,41 +239,43 @@ function logout() {
                      employeeInfo.jobName }}</p>
                </div>
 
-
-
                <div class="bg-light border p-2"
-                  style="width: 755px; height: 280px; margin-left: 15px; margin-top: 20px;">
-                  <p>쪽지함</p>
-                  <hr>
+                  style="width: 755px; height: 280px; margin-left: 15px; margin-top: 20px; position: relative; z-index: 2;"  >
+				<p style="font-size: 18px; font-family: Arial, sans-serif; margin-top: 5px;"><i class="fa-regular fa-envelope" style="font-size: 18px;"></i> 메세지</p>
+				  			<hr style="margin: 0;">
                   <table class="table table-hover">
-                  	<thead>
-                  		<tr>
-                  			<th>제목</th>
-                  			<th>보낸사람</th>
-                  			<th>보낸시간</th>
-                  		</tr>
-                  	</thead>
+                     <thead>
+                        <tr>
+                           <th>제목</th>
+                           <th>보낸사람</th>
+                           <th>보낸시간</th>
+                        </tr>
+                     </thead>
                      <tbody v-if="msg.length > 0">
                            <tr v-for="item in msg" :key="item.messageNo">
                                  <td>
-	                              <a :href="'/message/receive/detail?messageNo='+item.messageNo" style="color:inherit">
+                                 <a :href="'/message/receive/detail?messageNo='+item.messageNo" style="color:inherit">
                                     {{ item.messageTitle }}
-	                          	    </a>	   
+                                    </a>      
                                  </td>
-	                              <td>
-	                                    {{ item.messageSenderNick }}
-	                              </td>
-	                              <td>
-	                                    {{ item.messageSendTime }}
-	                              </td>
+                                 <td>
+	                                 <a :href="'/message/receive/detail?messageNo='+item.messageNo" style="color:inherit">
+                                       {{ item.messageSenderNick }}
+                                     </a>  
+                                 </td>
+                                 <td>
+	                                 <a :href="'/message/receive/detail?messageNo='+item.messageNo" style="color:inherit">
+                                       {{ item.messageSendTime }}
+                                     </a>  
+                                 </td>
                            </tr>
                      </tbody>
                      <tbody v-else>
-                     	<tr>
-                     		<td colspan="3">
-                     		메세지가 없습니다.
-                     		</td>
-                     	</tr>
+                        <tr>
+                           <td colspan="3">
+                           메세지가 없습니다.
+                           </td>
+                        </tr>
                      </tbody>
 
                   </table>
@@ -280,7 +283,7 @@ function logout() {
                </div>
 
                <div class="bg-info text-light border"
-                  style="width: 380px; height: 315px; margin-left: 15px; margin-top: 20px;">
+                  style="width: 383px; height: 315px; margin-left: 15px; margin-top: 20px;">
                   <p class="p-2">Memo</p>
                   <div>
                      <textarea v-if="isTextareaEnabled" v-model="memoText"
@@ -313,7 +316,7 @@ function logout() {
                </div>
 
                <div class="bg-light border"
-                  style="height: 315px; width: 348px; margin-top: 320px; margin-left: 102px;">
+                  style="height: 315px; width: 349px; margin-top: 320px; margin-left: 102px;">
                </div>
             </div>
 
@@ -343,15 +346,24 @@ function logout() {
 
                <div class="bg-light border p-2"
                   style="height: 280px; margin-top: 20px; margin-left: -5px;">
-                  <p>공지사항</p>
-                  <hr>
+<p style="font-size: 18px; font-family: Arial, sans-serif; margin-top: 5px;"><i class="fa-regular fa-clipboard"></i> 공지사항</p>
+                  <hr style="margin: 0;">
                   <table class="table table-hover">
+                  	<thead>
+                  		<tr>
+                  			<th>제목</th>                				
+                  			<th>글쓴이</th>
+                  		</tr>
+                  	</thead>
                      <tbody>
                         <tr v-for="item in notice" :key="item.noticeNo">
                            <td>
                               <a :href="'/notice/detail?noticeNo='+item.noticeNo" style="color:inherit">
                                  {{ item.noticeTitle }}
                               </a>   
+                           </td>
+                           <td>
+                           	{{item.empName}}
                            </td>
                         </tr>
 
@@ -362,15 +374,24 @@ function logout() {
 
                <div class="bg-light border p-2"
                   style="height: 315px; margin-left: -5px; margin-top: 20px;">
-                  <p>게시판</p>
-                  <hr>
+<p style="font-size: 18px; font-family: Arial, sans-serif; margin-top: 10px;"><i class="fa-solid fa-chalkboard-user"></i> 게시판</p>
+                  <hr  style="margin: 0;">
                   <table class="table table-hover">
                      <tbody>
+                    	<thead>
+	                  		<tr>
+	                  			<th>제목</th>                				
+	                  			<th>글쓴이</th>
+	                  		</tr>
+	                  	</thead>
                          <tr v-for="item in free" :key="item.freeNo">
                            <td>
                               <a :href="'/board/detail?boardNo='+item.boardNo" style="color:inherit">
                                  {{ item.boardTitle }}
                               </a>
+                           </td>
+                                   <td>
+                           	{{item.empName}}
                            </td>
                         </tr>
 

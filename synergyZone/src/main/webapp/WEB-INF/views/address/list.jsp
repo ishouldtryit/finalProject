@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/header.jsp"></jsp:include>
 <style>
   .employee-name {
     color: dodgerblue;
@@ -111,7 +111,7 @@
 		                    data-empdetailaddress="${employeeDto.empDetailAddress}" data-attachmentno="${employeeDto.attachmentNo}">
 	                  <img width="50" height="50" src="<c:choose>
 	                    <c:when test="${employeeDto.attachmentNo > 0}">
-	                      /attachment/download?attachmentNo=${employeeDto.attachmentNo}
+	                      ${pageContext.request.contextPath}/attachment/download?attachmentNo=${employeeDto.attachmentNo}
 	                    </c:when>
 	                    <c:otherwise>
 	                      https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg
@@ -163,7 +163,7 @@
 		        <h5 class="modal-title" id="employeeModalLabel"></h5>
 		        
 		     <div class="profile-image">
-			    <img id="profileImage" width="200" height="300" src="/attachment/download?attachmentNo=" alt="프로필 이미지">
+			    <img id="profileImage" width="200" height="300" src="${pageContext.request.contextPath}/attachment/download?attachmentNo=" alt="프로필 이미지">
 			</div>
 			
 			  <div class="modal-body">
@@ -257,7 +257,7 @@
 
       // 더미이미지 삽입
       if (attachmentNo > 0) {
-        $("#profileImage").attr("src", "/attachment/download?attachmentNo=" + attachmentNo);
+        $("#profileImage").attr("src",  contextPath+"/attachment/download?attachmentNo=" + attachmentNo);
       } else {
         $("#profileImage").attr("src", "https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg");
       }
@@ -304,7 +304,7 @@ function addToMyList() {
     if (confirmation) {
       $.ajax({
         type: "POST",
-        url: "/bookmark/addBookmark",
+        url: contextPath+"/bookmark/addBookmark",
         data: JSON.stringify({bookmarkNo: selectedEmployees}),
         contentType: "application/json",
         success: function(response) {
@@ -330,8 +330,10 @@ $(document).ready(function() {
 
 	    if (selectedEmployees.length > 0) {
 	      console.log(selectedEmployees); // selectedEmployees 배열을 콘솔에 출력
-	      localStorage.setItem('selectedEmployees', JSON.stringify(selectedEmployees));
-	      window.location.href = '/message/write';
+
+	      // 배열 데이터를 URL 파라미터로 전달
+	      const selectedEmployeesData = JSON.stringify(selectedEmployees);
+	      window.location.href = contextPath + '/message/write?selectedEmployees=' + encodeURIComponent(selectedEmployeesData);
 	    } else {
 	      alert('선택된 직원이 없습니다.');
 	    }
@@ -357,6 +359,6 @@ $(document).ready(function() {
     });
   });
 </script>
-    <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
+    <jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/footer.jsp"></jsp:include>
     
     

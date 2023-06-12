@@ -16,39 +16,67 @@
    .btn{
    width: 120px;
    }
-   html,body{
-   	height: 100%;
-
+   ul li span, .form-check-input, .form-check-label {
+    cursor: pointer;
   }
-   
 </style>
 
 
+ <nav class="navbar navbar-expand-lg navbar-light bg-light">
+     <div class="container-fluid">
+
+         <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+             <i class="fa fa-bars"></i>
+         </button>
+         
+         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+             <ul class="nav navbar-nav ml-auto">
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/">홈</a>
+                 </li>
+                 <li class="nav-item active" >
+                     <a class="nav-link" href="${pageContext.request.contextPath}/approval/write">신규 결재</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/approval/myList">나의 기안 문서함</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/approval/waitApproverList">결재 수신 문서함</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/approval/recipientList">참조 문서함</a>
+                 </li> 
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/approval/readerList">열람 문서함</a>
+                 </li>
+             </ul>
+         </div>
+     </div>
+ </nav>
+
 <div id="app">
-   <div class="container-fluid">
+   <div>
            <div class="row">
-       <div class="col-10 offset-sm-1">  
+       <div class="col-10 offset-1">  
       <div class="row mb-3"> 
          <div class="col">
            <h3>신규 결재</h3>
          </div>
       </div>
      <div class="row mb-2">
-        <div class="col-4">
-            <button type="button" class="btn mb-2" :class="approvalVO.approverList.length ? 'btn-info' : 'btn-secondary'" @click="showApproverModal">
+        <div class="d-flex align-items-center mb-2">
+            <button type="button" class="btn" :class="approvalVO.approverList.length ? 'btn-info' : 'btn-secondary'" @click="showApproverModal">
               {{ approvalVO.approverList.length ? '결재자 정보' : '결재자 추가' }}
          </button>
-            <button type="button" class="btn ms-3 mb-2" :class="approvalVO.recipientList.length ? 'btn-info' : 'btn-secondary'" @click="showRecipientModal">
+            <button type="button" class="btn ms-3" :class="approvalVO.recipientList.length ? 'btn-info' : 'btn-secondary'" @click="showRecipientModal">
               {{ approvalVO.recipientList.length ? '참조자 정보' : '참조자 추가' }}
          </button>
-            <button type="button" class="btn ms-3 mb-2" :class="approvalVO.readerList.length ? 'btn-info' : 'btn-secondary'" @click="showReaderModal">
+            <button type="button" class="btn ms-3" :class="approvalVO.readerList.length ? 'btn-info' : 'btn-secondary'" @click="showReaderModal">
               {{ approvalVO.readerList.length ? '열람자 정보' : '열람자 추가' }}
          </button>
-        </div>
-        <div class="col-2 d-flex align-items-center justify-content-center">
-           <div class="form-check form-switch d-flex">
-           <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" :checked="approvalVO.approvalDto.isemergency === 1" @change="emergencyCheck">
-           <label class="form-check-label" for="flexSwitchCheckDefault">긴급 문서</label>
+           <div class="form-check form-switch d-flex ms-3">
+	           <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" :checked="approvalVO.approvalDto.isemergency === 1" @change="emergencyCheck">
+	           <label class="form-check-label" for="flexSwitchCheckDefault">긴급 문서</label>
          </div>
         </div>
      </div>
@@ -135,15 +163,6 @@
                                  </li>
                                </ul>
                              </li>
-                           </ul>
-                           <hr>
-                           <ul style="margin:0; padding:0;">
-                              <li class="custom-list-item">
-                                 <span>
-                                 <i class="fa-regular fa-square-plus"></i>            
-                                     자주쓰는 결재선
-                                 </span>
-                              </li>
                            </ul>
                           </div>
                             <div class="col-8" style="overflow-y: scroll; height:400px;">
@@ -247,15 +266,6 @@
                                </ul>
                              </li>
                            </ul>
-                              <hr>
-                           <ul style="margin:0; padding:0;">
-                              <li class="custom-list-item">
-                                 <span>
-                                 <i class="fa-regular fa-square-plus"></i>            
-                                     자주쓰는 결재선
-                                 </span>
-                              </li>
-                           </ul>
                            
                           </div>
                             <div class="col-8" style="overflow-y: scroll; height:400px;">
@@ -354,15 +364,6 @@
                                  </li>
                                </ul>
                              </li>
-                           </ul>
-                           <hr>
-                           <ul style="margin:0; padding:0;">
-                              <li class="custom-list-item">
-                                 <span>
-                                 <i class="fa-regular fa-square-plus"></i>            
-                                     자주쓰는 결재선
-                                 </span>
-                              </li>
                            </ul>
                           </div>
                             <div class="col-8" style="overflow-y: scroll; height:400px;">
@@ -468,7 +469,7 @@
     methods: {
        
       async loadData() { //데이터 호출(로드)
-         const resp = await axios.get("/rest/approval/",{ 
+         const resp = await axios.get(contextPath+"/rest/approval/",{ 
                params :{
                   searchName : this.searchName
                }
@@ -493,9 +494,9 @@
        },
       getAttachmentUrl(attachmentNo) { //프로필 사진 주소
             if (attachmentNo === null) {
-              return "/static/img/dummydog.jpg";
+              return contextPath+"/static/img/dummydog.jpg";
             } else {
-              return "/attachment/download?attachmentNo=" + attachmentNo;
+              return contextPath+"/attachment/download?attachmentNo=" + attachmentNo;
             }
           },
       async sendData(){   //데이터 전송
@@ -507,17 +508,16 @@
                }, 1000);
                return;
          }
-         const url = "/rest/approval/write";
+         const url = contextPath+"/rest/approval/write";
          const resp = await axios.post(url, this.approvalVO);
-         window.location.href = "/approval/detail?draftNo="+resp.data;
+         window.location.href = contextPath+"/approval/detail?draftNo="+resp.data;
       },
       
       emergencyCheck(event) {   //긴급 문서 여부
          this.approvalVO.approvalDto.isemergency = event.target.checked ? 1 : 0;
       },
       
-      showApproverModal(){   //결재자 모달 보이기
-          this.tempApproverList = [...this.approverList]; //데이터 백업
+      showApproverModal(){	//결재자 모달 보이기
           this.approverModal.show();
       },
       
@@ -782,3 +782,4 @@
   }).mount("#app");
 </script>
 
+<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

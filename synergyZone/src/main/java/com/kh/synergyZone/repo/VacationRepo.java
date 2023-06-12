@@ -2,6 +2,7 @@ package com.kh.synergyZone.repo;
 
 import java.util.List;
 
+import com.kh.synergyZone.dto.VacationDto;
 import com.kh.synergyZone.vo.VacationVO;
 
 public interface VacationRepo {
@@ -14,6 +15,8 @@ public interface VacationRepo {
 	
 	
 	void insert(VacationVO vo);
+	VacationVO oneList(int vacationNo);
 	
+	 boolean appoval(VacationDto dto);
 
 }

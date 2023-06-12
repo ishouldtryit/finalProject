@@ -29,6 +29,7 @@ public class ApprovalPaginationVO {
   // 로그인 유저
   private String loginUser;
   
+  
   // 검색 여부 판단
   public boolean isSearch() {
     return !keyword.equals("");

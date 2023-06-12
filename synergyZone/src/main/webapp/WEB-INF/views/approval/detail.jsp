@@ -12,6 +12,39 @@
 	}
 </style>
 
+
+ <nav class="navbar navbar-expand-lg navbar-light bg-light">
+     <div class="container-fluid">
+
+         <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+             <i class="fa fa-bars"></i>
+         </button>
+         
+         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+             <ul class="nav navbar-nav ml-auto">
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/">홈</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/approval/write">신규 결재</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/approval/myList">나의 기안 문서함</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/approval/waitApproverList">결재 수신 문서함</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/approval/recipientList">참조 문서함</a>
+                 </li> 
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/approval/readerList">열람 문서함</a>
+                 </li>
+             </ul>
+         </div>
+     </div>
+ </nav>
+
 <div id="app">
 	<div class="container-fluid" v-if="ApprovalDataVO.approverList.length > 0">
 	    <div class="row">
@@ -47,6 +80,10 @@
 				<button type="button" class="btn btn-outline-info ms-2" @click="showApprovalInfoModal">
 					<i class="fa-solid fa-circle-exclamation"></i>
 					결재 정보
+				</button>
+				<button type="button" class="btn btn-outline-primary ms-2" @click="showDraftDeleteModal" v-if=" ApprovalDataVO.isAdmin=='Y'">
+					<i class="fa-solid fa-circle-exclamation"></i>
+					삭제
 				</button>
 			</div>
 		</div>
@@ -241,6 +278,34 @@
             </div>
            </div>
        </div>
+   
+	<!-- 삭제 modal -->
+	<div class="modal" tabindex="-1" role="dialog" ref="draftDeleteModal"  >
+        <div class="modal-dialog modal-dialog-centered modal-md" role="document" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">삭제</h5>
+                </div>
+                <div class="modal-body">
+                	<div class="container-fluid" >
+                		<div class="row">
+                			<h5 class="text-primary">정말 삭제 하시겠습니까??</h5>
+                			<span class="text-primary">삭제된 데이터는 복구되지 않습니다.</span>
+                		</div>
+      				</div>  	
+                </div>
+                	
+                <div class="modal-footer">
+                	<div class="row">
+	                	<div class="col">
+	                  	  <button type="button" class="btn btn-danger ms-2" data-bs-dismiss="modal" @click="draftDelete">확인</button>
+	                  	  <button type="button" class="btn btn-secondary ms-2" data-bs-dismiss="modal" @click="hideDraftDeleteModal">닫기</button>
+	                	</div>
+                    </div>
+                </div>
+            </div>
+           </div>
+       </div>
        
 	<!-- 문서 수정 modal -->
 	<div class="modal" tabindex="-1" role="dialog" ref="draftEditModal"  >
@@ -353,6 +418,7 @@
     	  reApprovalModal : null,
     	  draftEditModal : null,
     	  draftApprovalModal : null,
+    	  draftDeleteModal : null,
     	  
     	  approvalReason : "",
     	  returnReason : "",
@@ -390,7 +456,7 @@
             const urlParams = new URLSearchParams(window.location.search);
             const draftNo = urlParams.get("draftNo");
             
-            const resp = await axios.get("/rest/approval/detail/"+draftNo);
+            const resp = await axios.get(contextPath+"/rest/approval/detail/"+draftNo);
             this.ApprovalDataVO = Vue.readonly(resp.data); //개발툴에서 조작 금지
         },
         
@@ -430,6 +496,14 @@
         	this.reApprovalModal.hide();
         },
         
+        showDraftDeleteModal(){	//삭제 모달 보이기
+        	this.draftDeleteModal.show();
+        },
+        
+        hideDraftDeleteModal(){	//삭제 모달 숨기기
+        	this.draftDeleteModal.hide();
+        },
+        
         showDraftApprovalModal(){	//결재 모달 보이기
         	this.draftApprovalModal.show();
         },
@@ -457,39 +531,46 @@
         async approvalRecall(){	//문서 회수
             const urlParams = new URLSearchParams(window.location.search);
             const draftNo = urlParams.get("draftNo");
-            const resp = await axios.patch("/rest/approval/recall/"+draftNo);
+            const resp = await axios.patch(contextPath+"/rest/approval/recall/"+draftNo);
             location.reload();
         },
         
         async reApproval(){	//재기안
             const urlParams = new URLSearchParams(window.location.search);
             const draftNo = urlParams.get("draftNo");
-            const resp = await axios.patch("/rest/approval/reApproval/"+draftNo);
+            const resp = await axios.patch(contextPath+"/rest/approval/reApproval/"+draftNo);
             location.reload();        	
+        },
+        
+        async draftDelete(){	//삭제
+            const urlParams = new URLSearchParams(window.location.search);
+            const draftNo = urlParams.get("draftNo");
+            const resp = await axios.delete(contextPath+"/rest/approval/draftDelete/"+draftNo);
+            window.location.href = contextPath+"/approval/adminList";	
         },
         
         async draftApproval(){	//결재하기
             const urlParams = new URLSearchParams(window.location.search);
             const draftNo = urlParams.get("draftNo");
-            const resp = await axios.patch("/rest/approval/draftApproval/"+draftNo,{
+            const resp = await axios.patch(contextPath+"/rest/approval/draftApproval/"+draftNo,{
             	approvalReason : this.approvalReason //결재의견 포함
             });
-            window.location.href = "/approval/waitApproverList";	
+            window.location.href = contextPath+"/approval/waitApproverList";	
         },
         
         async draftReturn(){	//반려하기
             const urlParams = new URLSearchParams(window.location.search);
             const draftNo = urlParams.get("draftNo");
-            const resp = await axios.patch("/rest/approval/draftReturn/"+draftNo,{
+            const resp = await axios.patch(contextPath+"/rest/approval/draftReturn/"+draftNo,{
             	returnReason : this.returnReason //결재의견 포함
             });
-            window.location.href = "/approval/waitApproverList";  	
+            window.location.href = contextPath+"/approval/waitApproverList";  	
         },
         
         async draftEdit(){	//수정하기
             const urlParams = new URLSearchParams(window.location.search);
             const draftNo = urlParams.get("draftNo");
-            window.location.href = "edit?draftNo=" + draftNo;	
+            window.location.href = contextPath+"/approval/edit?draftNo=" + draftNo;	
         },
 
     },
@@ -501,7 +582,9 @@
     	this.draftApprovalModal = new bootstrap.Modal(this.$refs.draftApprovalModal);
     	this.draftReturnModal = new bootstrap.Modal(this.$refs.draftReturnModal);
     	this.draftEditModal = new bootstrap.Modal(this.$refs.draftEditModal);
+    	this.draftDeleteModal = new bootstrap.Modal(this.$refs.draftDeleteModal);
     },
+    
     created() {
       this.loadData();
     },

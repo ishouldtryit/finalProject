@@ -34,13 +34,41 @@
 	</div>
 </script>
 
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+     <div class="container-fluid">
+
+         <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+             <i class="fa fa-bars"></i>
+         </button>
+         
+         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+             <ul class="nav navbar-nav ml-auto">
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/">홈</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/notice/write">글쓰기</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link active" href="${pageContext.request.contextPath}/notice/list">공지게시판</a>
+                 </li>
+             </ul>
+         </div>
+     </div>
+ </nav>
+
+
 	<!-- 버튼 영역 -->
 	<div class="row" style="box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);">
 		<div class="col-md-10 mb-4 offset-md-1 text-start">
 			
 			<!-- 글쓰기와 다르게 답글쓰기는 계산을 위해 원본글의 번호를 전달해야함 -->
+			 <c:if test="${loginUser.empAdmin=='Y'}">
 			<a href="/notice/write" class="btn btn-light"><i class="fa-solid fa-pen" style="color: #8f8f8f;"></i>&nbsp;글쓰기</a>
+			</c:if>
+			<c:if test="${loginUser.empAdmin=='Y'}">
 			<a href="/notice/write?noticeParent=${noticeDto.noticeNo}" class="btn btn-light"><i class="fa-solid fa-noticeReply fa-rotate-180" style="color: #8f8f8f;"></i>&nbsp;답글쓰기</a>
+			</c:if>
 			
 			<!-- 
 				수정과 삭제가 password 페이지를 거쳐서 갈 수 있도록 링크 수정

@@ -7,6 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SynergyZone</title>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!-- 폰트어썸 cdn -->
+<link rel="stylesheet" type="text/css"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
 <!-- <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"> -->
 <link rel="stylesheet" type="text/css"
    href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.2.3/journal/bootstrap.min.css">
@@ -160,11 +163,7 @@ function logout() {
                <strong>{{ employeeInfo.empName }}</strong> 님 환영합니다.
             </h5>
 
-            <a href="${pageContext.request.contextPath}/address/list"><i
-               class="bi bi-diagram-3 fs-2"></i></a> <a href=#><i
-               class="bi bi-bell fs-2 ms-3"></i></a> <a href=#><i
-               class="bi bi-power fs-2 ms-3 me-2" data-bs-toggle="modal"
-               data-bs-target="#logoutModal"></i></a>
+           
 
             <div class="profile-image employee-name1 d-flex align-items-center">
                <img width="34" height="34"
@@ -238,12 +237,10 @@ function logout() {
                      employeeInfo.jobName }}</p>
                </div>
 
-
-
                <div class="bg-light border p-2"
                   style="width: 755px; height: 280px; margin-left: 15px; margin-top: 20px;">
-                  <p>쪽지함</p>
-                  <hr>
+<p style="font-size: 18px; font-family: Arial, sans-serif; margin-top: 5px;"><i class="fa-regular fa-envelope" style="font-size: 18px;"></i> 메세지</p>
+  			<hr style="margin: 0;">
                   <table class="table table-hover">
                   	<thead>
                   		<tr>
@@ -343,7 +340,7 @@ function logout() {
 
                <div class="bg-light border p-2"
                   style="height: 280px; margin-top: 20px; margin-left: -5px;">
-                  <p>공지사항</p>
+<p style="font-size: 18px; font-family: Arial, sans-serif; margin-top: 5px;"><i class="fa-regular fa-clipboard"></i> 공지사항</p>
                   <hr>
                   <table class="table table-hover">
                      <tbody>
@@ -362,7 +359,7 @@ function logout() {
 
                <div class="bg-light border p-2"
                   style="height: 315px; margin-left: -5px; margin-top: 20px;">
-                  <p>게시판</p>
+<p style="font-size: 18px; font-family: Arial, sans-serif; margin-top: 10px;"><i class="fa-solid fa-chalkboard-user"></i> 게시판</p>
                   <hr>
                   <table class="table table-hover">
                      <tbody>

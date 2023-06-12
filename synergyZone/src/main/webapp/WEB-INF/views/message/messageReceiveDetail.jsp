@@ -93,7 +93,7 @@
 	
 	</head>
 	<body>
-	<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+	<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/header.jsp"></jsp:include>
 	<script>
 	  var messageNo = parseInt("${messageWithNickDto.getMessageNo()}");
 	  var messageSender = "${messageWithNickDto.getMessageSender()}";
@@ -123,7 +123,7 @@
  </nav>
 	<div class="container">
 	   <div class="message-detail">
-	     <jsp:include page="/WEB-INF/views/message/messageAside.jsp"></jsp:include>
+	     <jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/message/messageAside.jsp"></jsp:include>
 	   
 	    <div class="message-actions">
 	     <div class="d-flex justify-content-between">
@@ -151,7 +151,7 @@
 	    <div class="profile-image">
 	      <img width="40" height="40" src="<c:choose>
 	          <c:when test="${senderProfile.attachmentNo > 0}">
-	              /attachment/download?attachmentNo=${senderProfile.attachmentNo}
+	             ${pageContext.request.contextPath}/attachment/download?attachmentNo=${senderProfile.attachmentNo}
 	          </c:when>
 	          <c:otherwise>
 	              https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg
@@ -169,7 +169,7 @@
 	    <div class="profile-image">
 	      <img width="40" height="40" src="<c:choose>
 	          <c:when test="${recipientProfile.attachmentNo > 0}">
-	              /attachment/download?attachmentNo=${recipientProfile.attachmentNo}
+	              ${pageContext.request.contextPath}/attachment/download?attachmentNo=${recipientProfile.attachmentNo}
 	          </c:when>
 	          <c:otherwise>
 	              https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg
@@ -196,4 +196,4 @@
 
 </body>
 </html>
-<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/footer.jsp"></jsp:include>

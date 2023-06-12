@@ -1,13 +1,22 @@
 $(function () {
-	function addMessageList() {
-  var selectedEmployees = localStorage.getItem('selectedEmployees');
-  var selectedEmployeesArr = JSON.parse(selectedEmployees);
-  for (let i = 0; i < selectedEmployeesArr.length; i++) {
-    makeNewRecipientEle(selectedEmployeesArr[i]);
+	$(document).ready(function() {
+  // URL에서 selectedEmployees 파라미터 값 가져오기
+  const urlParams = new URLSearchParams(window.location.search);
+  const selectedEmployeesData = urlParams.get('selectedEmployees');
+
+  if (selectedEmployeesData) {
+    // 데이터가 존재하는 경우 처리 로직 작성
+    const selectedEmployees = JSON.parse(selectedEmployeesData);
+
+    // 선택된 직원들에 대한 처리 수행
+    for (let i = 0; i < selectedEmployees.length; i++) {
+      // selectedEmployees 배열에서 필요한 작업 수행
+//       예: makeNewRecipientEle(selectedEmployees[i]);
+       makeNewRecipientEle(selectedEmployees[i]);
+    }
+    // #message-recipient-input에 선택된 직원들의 값을 설정
   }
-  $("#message-recipient-input").val("");
-}
-addMessageList();
+});
 
 
 	
@@ -67,7 +76,6 @@ addMessageList();
         messageToMeBtn.prop("checked", false);
         countRecipient();
       });
-
     // 메세지 새로운 받는 사람 추가
     $(newMessageRecipientEle).insertBefore("#message-recipient-input");
 
@@ -239,8 +247,8 @@ addMessageList();
       // 미입력 시 진행 X
       if (messageRecipientVal === "") return;
       // 최대 10명 제한
-      if (messageRecipientEle.length >= 10) {
-        alert("쪽지 보내기는 한 번에 최대 10명까지 보낼 수 있습니다");
+      if (messageRecipientEle.length >= 15) {
+        alert("쪽지 보내기는 한 번에 최대 15명까지 보낼 수 있습니다");
         return;
       }
       makeNewRecipientEle(messageRecipientVal);

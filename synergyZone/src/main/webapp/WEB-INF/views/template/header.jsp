@@ -164,7 +164,7 @@ article {
 						</div>
 						<div id="popup" class="popup">
 							<ul class="text-sm list-unstyled list-inline">
-								<li><a href="${pageContext.request.contextPath}/employee/mypage">기본정보</a></li>
+								<li><a href="${pageContext.request.contextPath}/employee/edit">기본정보</a></li>
 								<li><a href="${pageContext.request.contextPath}/employee/password">비밀번호 변경</a></li>
 								<li><a href="#" onclick="logout()">로그아웃</a></li>
 							</ul>

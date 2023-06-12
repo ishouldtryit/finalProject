@@ -116,7 +116,7 @@
   	
  
 
-<form action="edit" method="post" enctype="multipart/form-data">
+<form action="${pageContext.request.contextPath}/employee/edit" method="post" enctype="multipart/form-data">
 
     <input type="hidden" name="empNo" value="${employeeDto.empNo}">
         <div class="container-fluid mt-4">

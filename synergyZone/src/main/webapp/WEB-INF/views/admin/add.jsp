@@ -33,7 +33,7 @@
 	<!-- 결재자 선택 modal -->
 	<div class="modal" tabindex="-1" role="dialog" data-bs-backdrop="static" ref="AdminModal">
 		<div class="modal-dialog modal-dialog-centered  modal-lg" role="document">
-					<form action="add" method="post" enctype="multipart/form-data" onsubmit="return isFormValid()">
+					<form action="${pageContext.request.contextPath}/admin/add" method="post" enctype="multipart/form-data">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">관리자 정보 - 관리자</h5>
@@ -116,21 +116,21 @@
 							</div>
 						</div>
 				</div>
+				</form>
 				<div class="modal-footer">
 				
 					<div class="row">
-						<button type="submit" class="btn btn-primary" @click="report()">추가</button>
+						<button type="button" class="btn btn-primary" @click="report()">추가</button>
 						<button type="button" class="btn btn-secondary ml-auto" data-bs-dismiss="modal" @click="hideEmployeeList">닫기</button>
 					</div>
 					
 				</div>
 			</div>
-				</form>
 		</div>
 	</div>
 	
 	<!-- 검색 -->
-	<form class="d-flex" action="add" method="get">
+	<form class="d-flex" action="${pageContext.request.contextPath}/admin/add" method="get">
 		  <select name="column" class="form-input me-sm-2">
 		    <option value="emp_name" ${column eq 'emp_name' ? 'selected' : ''}>이름</option>
 		    <option value="emp_no" ${column eq 'emp_no' ? 'selected' : ''}>사원번호</option>
@@ -143,7 +143,7 @@
 		  
 		</form>
 		
-	<form enctype="multipart/form-data">
+	<form action="${pageContext.request.contextPath}/admin/add" method="post" enctype="multipart/form-data">
 		<div class="container-fluid mt-4">
 			<div class="row">
 				<div class="offset-md-2 col-md-8">
@@ -160,6 +160,7 @@
 				            <th>이름</th>
 				            <th>이메일</th>
 		                    <th>부서</th>
+		                    <th>관리</th>
 				          </tr>
 				        </thead>
 				        <tbody>
@@ -169,7 +170,7 @@
 				                <div class="profile-image employee-name">
 				                  <img width="50" height="50" src="<c:choose>
 				                    <c:when test="${adminList.attachmentNo > 0}">
-				                      /attachment/download?attachmentNo=${adminList.attachmentNo}
+				                      ${pageContext.request.contextPath}/attachment/download?attachmentNo=${adminList.attachmentNo}
 				                    </c:when>
 				                    <c:otherwise>
 				                      https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg
@@ -186,6 +187,7 @@
 				                  </c:if>
 				                </c:forEach>
 			                  </td>
+			                  <td><a href="delete?empNo=${adminList.empNo}">삭제</a></td>
 				            </tr>
 				          </c:forEach>
 				        </tbody>
@@ -238,6 +240,7 @@
         adminModal: null,
         adminList: [],
         showDuplicateAlert: false,
+        showIsAdminAlert: false,
       }
     },
     
@@ -253,7 +256,7 @@
     
     methods: {
       async loadData() {
-        const resp = await axios.get("/rest/approval/", {
+        const resp = await axios.get(contextPath+"/rest/approval/", {
           params: {
             searchName: this.searchName,
           },
@@ -279,9 +282,9 @@
 
       getAttachmentUrl(attachmentNo) {
         if (attachmentNo === null) {
-          return "/static/img/dummydog.jpg";
+          return contextPath+"/static/img/dummydog.jpg";
         } else {
-          return "/attachment/download?attachmentNo=" + attachmentNo;
+          return contextPath+"/attachment/download?attachmentNo=" + attachmentNo;
         }
       },
 
@@ -333,19 +336,18 @@
             this.showDuplicateAlert = false;
           }, 1000);
         }
+        
       },
       
       report() {
-		  if (this.adminList === null || this.adminList.length === 0) {
-		    alert("추가할 관리자를 선택해 주세요."); // 선택하지 않은 경우 알림 창을 띄웁니다.
-		    return; // form이 넘어가지 않도록 return 문을 추가합니다.
-		  } else{
-			  
-		  }
+  		  if (this.adminList === null || this.adminList.length === 0) {
+  		    alert("참조자를 선택해 주세요."); // 선택하지 않은 경우 알림 창을 띄웁니다.
+  		    return; // form이 넘어가지 않도록 return 문을 추가합니다.
+  		  }
 
-		  // Submit the form
-		  document.querySelector("form").submit();
-		},
+  		  // Submit the form
+  		  document.querySelector("form").submit();
+  		},
     },
     
     mounted() {

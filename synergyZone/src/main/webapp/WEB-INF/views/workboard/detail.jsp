@@ -87,16 +87,16 @@
 	
     <div class="d-flex justify-content-end col-md-10 offset-md-1">
         <c:if test="${owner}">
-            <a href="/workboard/edit?workNo=${workBoardDto.workNo}" class="btn btn-light btn-sm ms-2">
+            <a href="${pageContext.request.contextPath}/workboard/edit?workNo=${workBoardDto.workNo}" class="btn btn-light btn-sm ms-2">
                 <i class="fa-regular fa-pen-to-square" style="color: #8f8f8f;"></i>&nbsp;수정
             </a>
         </c:if>
         <c:if test="${owner || admin}">
-            <a href="/workboard/delete?workNo=${workBoardDto.workNo}" class="btn btn-light delete-button btn-sm ms-2">
+            <a href="${pageContext.request.contextPath}/workboard/delete?workNo=${workBoardDto.workNo}" class="btn btn-light delete-button btn-sm ms-2">
                 <i class="fa-solid fa-trash-can" style="color: #8f8f8f;"></i>&nbsp;삭제
             </a>
         </c:if>
-        <a href="/workboard/list" class="btn btn-light btn-sm ms-2">
+        <a href="${pageContext.request.contextPath}/workboard/list" class="btn btn-light btn-sm ms-2">
             <i class="fa-solid fa-bars" style="color: #8f8f8f;"></i>&nbsp;목록
         </a>
     </div>
@@ -114,7 +114,7 @@
                     <div class="profile-image employee-name">
                         <img width="24" height="24" src="<c:choose>
                                 <c:when test="${workBoardDto.attachmentNo > 0}">
-                                    /attachment/download?attachmentNo=${workBoardDto.attachmentNo}
+                                    ${pageContext.request.contextPath}/attachment/download?attachmentNo=${workBoardDto.attachmentNo}
                                 </c:when>
                                 <c:otherwise>
                                     https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg

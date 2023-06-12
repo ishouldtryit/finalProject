@@ -45,7 +45,7 @@
 <body>
 
     <div id="app" class="container-500">
-        <form action="password" method="post">
+        <form action="${pageContext.request.contextPath}/employee/password" method="post">
 
             <div class="container-fluid mt-4">
 

@@ -59,7 +59,7 @@
 	<br>
 	<!-- 검색창 -->
 
-		<form class="d-flex" action="list" method="get">
+		<form class="d-flex" action="${pageContext.request.contextPath}/admin/list" method="get">
 		  <select name="column" class="form-input me-sm-2">
 		    <option value="emp_name" ${column eq 'emp_name' ? 'selected' : ''}>이름</option>
 		    <option value="emp_no" ${column eq 'emp_no' ? 'selected' : ''}>사원번호</option>
@@ -112,7 +112,7 @@
 		                    data-empdetailaddress="${employeeDto.empDetailAddress}" data-attachmentno="${employeeDto.attachmentNo}">
 	                  <img width="50" height="50" src="<c:choose>
 	                    <c:when test="${employeeDto.attachmentNo > 0}">
-	                      /attachment/download?attachmentNo=${employeeDto.attachmentNo}
+	                     ${pageContext.request.contextPath}/attachment/download?attachmentNo=${employeeDto.attachmentNo}
 	                    </c:when>
 	                    <c:otherwise>
 	                      https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg
@@ -148,7 +148,7 @@
 	              </td>
 				  <td class="align-middle">${employeeDto.isLeave}</td>
 				  <td class="align-middle">
-					<a href="exit?empNo=${employeeDto.empNo}" class="exit-button">퇴사처리</a>
+					<a href="${pageContext.request.contextPath}/admin/exit?empNo=${employeeDto.empNo}" class="exit-button">퇴사처리</a>
 				  </td>
 	            </tr>
 	          </c:forEach>
@@ -172,7 +172,7 @@
 		        <h5 class="modal-title" id="employeeModalLabel"></h5>
 		        
 		     <div class="profile-image">
-			    <img id="profileImage" width="200" height="300" src="/attachment/download?attachmentNo=" alt="프로필 이미지">
+			    <img id="profileImage" width="200" height="300" src="${pageContext.request.contextPath}/attachment/download?attachmentNo=" alt="프로필 이미지">
 			</div>
 			
 			  <div class="modal-body">
@@ -266,7 +266,7 @@
 
       // 더미이미지 삽입
       if (attachmentNo > 0) {
-        $("#profileImage").attr("src", "/attachment/download?attachmentNo=" + attachmentNo);
+        $("#profileImage").attr("src", contextPath+"/attachment/download?attachmentNo=" + attachmentNo);
       } else {
         $("#profileImage").attr("src", "https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg");
       }
@@ -287,7 +287,7 @@
 
 	$(".emp-no").click(function(){
     	var empNo = $(this).text(); // 클릭한 요소의 텍스트 값을 가져옴
-    	  var editUrl = "edit?empNo=" + empNo; // 수정하기 링크 URL 생성
+    	  var editUrl = contextPath+"/admin/edit?empNo=" + empNo; // 수정하기 링크 URL 생성
     	  window.location.href = editUrl; // 링크로 이동
     });
     

@@ -31,7 +31,7 @@
     <div id="app" style="background: linear-gradient(#7ba9ff6c 27%,#8a8eff65,#ddc7ff93,#f8c7ff6b)">
         <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
             <div class="p-5 bg-light border border-2 rounded-3">
-                <form action="findPw" method="post" autocomplete="off">
+                <form action="${pageContext.request.contextPath}/employee/findPw" method="post" autocomplete="off">
                     <div class="row mt-4">
                         <div class="col text-center">
                             <h2 class="text-dark">비밀번호 찾기</h2>

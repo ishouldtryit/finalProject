@@ -273,6 +273,12 @@ article {
                                       <li>
                                           <a href="${pageContext.request.contextPath}/admin/job/list">직위 관리</a>
                                       </li>
+                                      <li><a
+											href="${pageContext.request.contextPath}/commute/adminList">연차결재
+												</a></li>
+												<li><a
+											href="${pageContext.request.contextPath}/commute/adminList2">출장결재
+												</a></li>
                                   </ul>
                               </li>
    
@@ -310,12 +316,6 @@ article {
 										<li><a
 											href="${pageContext.request.contextPath}/commute/tripList">출장
 												신청내역</a></li>
-												<li><a
-											href="${pageContext.request.contextPath}/commute/adminList">연차결재(관리자)
-												</a></li>
-												<li><a
-											href="${pageContext.request.contextPath}/commute/adminList2">출장결재(관리자)
-												</a></li>
 												
 									</ul></li>
 							</ul>

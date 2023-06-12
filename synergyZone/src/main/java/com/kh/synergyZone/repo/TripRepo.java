@@ -9,5 +9,8 @@ public interface TripRepo {
 	List<TripDto> list(TripDto dto);
 	List<TripDto> queue(String empNo);
 	List<TripDto> adminList();
+	TripDto oneList(int tripNo);
+	
+	boolean update(TripDto dto);
 	
 }

@@ -50,8 +50,8 @@ $(document).ready(function() {
          <label for="content" class="form-label" v-model="CalendarVO.content">내용</label>
          <textarea id="content" name="content" required style="min-height: 300px;" class="form-control"> ${result.content} </textarea>
        </div>
-          시작일    <input type="date"  value= "${result.start_dtm}" id ="start_dtm" name="start_dtm" size="10"/ >
-          종료일    <input type="date"  value= "${result.end_dtm}" id= "end_dtm" name="end_dtm" size="10"/>
+          시작일 <input type="date"  value= "${result.startDtm.substring(0, 10)}" id ="start_dtm" name="start_dtm" size="10"/>
+		  종료일 <input type="date"  value= "${result.endDtm.substring(0, 10)}" id= "end_dtm" name="end_dtm" size="10"/>
        <div class="row mt-4">
 
 

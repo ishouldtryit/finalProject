@@ -8,8 +8,49 @@
     }
 </style>
 
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+     <div class="container-fluid">
+
+         <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+             <i class="fa fa-bars"></i>
+         </button>
+         
+         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+             <ul class="nav navbar-nav ml-auto">
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/">홈</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/admin/join">사원 등록</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/admin/list">사원 통합관리</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/admin/waitingList">사원 퇴사관리</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/admin/add">관리자 통합관리</a>
+                 </li> 
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/admin/log/list">사원 접근로그</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/admin/department/list">부서 관리</a>
+                 </li>
+                 <li class="nav-item active">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/admin/job/list">직위 관리</a>
+                 </li>
+             </ul>
+         </div>
+     </div>
+ </nav>
+
 <div class="container-800" style="margin-left: 5%;">
-		<button class="btn btn-light"><a href="/admin/job/register">추가</a></button>
+
+	<h3>직위 통합관리</h3>
+	<br>
+		<button class="btn btn-light"><a href="${pageContext.request.contextPath}/admin/job/register">추가</a></button>
 		
     	<!-- 사원 목록 테이블 -->
 		<div class="row">
@@ -65,5 +106,4 @@
 <!-- 스크립트 -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-  <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
-    
+<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

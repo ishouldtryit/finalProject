@@ -15,10 +15,51 @@
   
 </style>
 
-<div class="container-800" style="margin-left: 5%;">
-		<!-- 검색창 -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+     <div class="container-fluid">
 
-		<form class="d-flex" action="list" method="get">
+         <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+             <i class="fa fa-bars"></i>
+         </button>
+         
+         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+             <ul class="nav navbar-nav ml-auto">
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/">홈</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/admin/join">사원 등록</a>
+                 </li>
+                 <li class="nav-item active">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/admin/list">사원 통합관리</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/admin/waitingList">사원 퇴사관리</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/admin/add">관리자 통합관리</a>
+                 </li> 
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/admin/log/list">사원 접근로그</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/admin/department/list">부서 관리</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/admin/job/list">직위 관리</a>
+                 </li>
+             </ul>
+         </div>
+     </div>
+ </nav>
+
+<div class="container-800" style="margin-left: 5%;">
+
+	<h3>사원 통합관리</h3>
+	<br>
+	<!-- 검색창 -->
+
+		<form class="d-flex" action="${pageContext.request.contextPath}/admin/list" method="get">
 		  <select name="column" class="form-input me-sm-2">
 		    <option value="emp_name" ${column eq 'emp_name' ? 'selected' : ''}>이름</option>
 		    <option value="emp_no" ${column eq 'emp_no' ? 'selected' : ''}>사원번호</option>
@@ -38,11 +79,11 @@
 	      <table class="table table-hover mt-2" style="width: 90%;">
 	        <thead>
 	          <tr>
-	            <th>
-	            <div class="p-2">
-                <input type="checkbox" id="selectAllBtn" class="btn btn-primary my-2 my-sm-0">
-              </div>
-              </th>
+<!-- 	            <th> -->
+<!-- 	            <div class="p-2"> -->
+<!--                 <input type="checkbox" id="selectAllBtn" class="btn btn-primary my-2 my-sm-0"> -->
+<!--               </div> -->
+<!--               </th> -->
 				<th>프로필</th>
 				<th>사원번호</th>
 				<th>이름</th>
@@ -59,11 +100,11 @@
 	        <tbody>
 	          <c:forEach var="employeeDto" items="${employees}">
 	            <tr>
-	              <td class="align-middle">
-	                <div class="p-2">
-	                  <input type="checkbox" name="selectedEmployees" value="${employeeDto.empNo}">
-	                </div>
-	              </td>
+<!-- 	              <td class="align-middle"> -->
+<!-- 	                <div class="p-2"> -->
+<%-- 	                  <input type="checkbox" name="selectedEmployees" value="${employeeDto.empNo}"> --%>
+<!-- 	                </div> -->
+<!-- 	              </td> -->
 	              <td class="align-middle">
 	                <div class="profile-image employee-name" data-empno="${employeeDto.empNo}" 
 		                    data-empname="${employeeDto.empName}" data-empphone="${employeeDto.empPhone}" 
@@ -71,7 +112,7 @@
 		                    data-empdetailaddress="${employeeDto.empDetailAddress}" data-attachmentno="${employeeDto.attachmentNo}">
 	                  <img width="50" height="50" src="<c:choose>
 	                    <c:when test="${employeeDto.attachmentNo > 0}">
-	                      ${pageContext.request.contextPath}/attachment/download?attachmentNo=${employeeDto.attachmentNo}
+	                     ${pageContext.request.contextPath}/attachment/download?attachmentNo=${employeeDto.attachmentNo}
 	                    </c:when>
 	                    <c:otherwise>
 	                      https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg
@@ -107,7 +148,7 @@
 	              </td>
 				  <td class="align-middle">${employeeDto.isLeave}</td>
 				  <td class="align-middle">
-					<a href="exit?empNo=${employeeDto.empNo}" class="exit-button">퇴사처리</a>
+					<a href="${pageContext.request.contextPath}/admin/exit?empNo=${employeeDto.empNo}" class="exit-button">퇴사처리</a>
 				  </td>
 	            </tr>
 	          </c:forEach>
@@ -225,7 +266,7 @@
 
       // 더미이미지 삽입
       if (attachmentNo > 0) {
-        $("#profileImage").attr("src", "/attachment/download?attachmentNo=" + attachmentNo);
+        $("#profileImage").attr("src", contextPath+"/attachment/download?attachmentNo=" + attachmentNo);
       } else {
         $("#profileImage").attr("src", "https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg");
       }
@@ -246,7 +287,7 @@
 
 	$(".emp-no").click(function(){
     	var empNo = $(this).text(); // 클릭한 요소의 텍스트 값을 가져옴
-    	  var editUrl = "edit?empNo=" + empNo; // 수정하기 링크 URL 생성
+    	  var editUrl = contextPath+"/admin/edit?empNo=" + empNo; // 수정하기 링크 URL 생성
     	  window.location.href = editUrl; // 링크로 이동
     });
     
@@ -289,5 +330,4 @@
   });
 </script>
     
-  <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
-    
+    <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

@@ -30,7 +30,7 @@
 </head>
 <body>
     <div id="app" style="background: linear-gradient(#7ba9ff6c 27%,#8a8eff65,#ddc7ff93,#f8c7ff6b)">
-        <form action="login" method="post">
+        <form action="${pageContext.request.contextPath}/login" method="post">
             <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
                 <div class="p-5 bg-light border border-2 rounded-3">
                     <div class="row">
@@ -64,7 +64,7 @@
                     </div>
                     <div class="row mt-2">
                         <div class="col text-center">
-                            <a href="employee/findPw">비밀번호 찾기</a>
+                            <a href="${pageContext.request.contextPath}/employee/findPw">비밀번호 찾기</a>
                         </div>
                     </div>
 <!--                     <div class="row mt-2"> -->

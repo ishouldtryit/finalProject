@@ -4,6 +4,36 @@
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+     <div class="container-fluid">
+
+         <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+             <i class="fa fa-bars"></i>
+         </button>
+         
+         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+             <ul class="nav navbar-nav ml-auto">
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/">홈</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/workboard/write">일지 작성</a>
+                 </li>
+                 <li class="nav-item active">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/workboard/list">부서 업무일지</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/workboard/myWorkList">내 업무일지</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/workboard/supList">공유받은 업무일지</a>
+                 </li>
+             </ul>
+         </div>
+     </div>
+ </nav>
+ 
 <script>
     $(document).ready(function() {
         //글 삭제 시 경고창
@@ -54,6 +84,7 @@
 </script>
 
 <div class="container-fluid mb-2">
+	
     <div class="d-flex justify-content-end col-md-10 offset-md-1">
         <c:if test="${owner}">
             <a href="${pageContext.request.contextPath}/workboard/edit?workNo=${workBoardDto.workNo}" class="btn btn-light btn-sm ms-2">
@@ -83,7 +114,7 @@
                     <div class="profile-image employee-name">
                         <img width="24" height="24" src="<c:choose>
                                 <c:when test="${workBoardDto.attachmentNo > 0}">
-                                    /attachment/download?attachmentNo=${workBoardDto.attachmentNo}
+                                    ${pageContext.request.contextPath}/attachment/download?attachmentNo=${workBoardDto.attachmentNo}
                                 </c:when>
                                 <c:otherwise>
                                     https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg
@@ -140,4 +171,3 @@
     <br>
 </div>
 
-<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

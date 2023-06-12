@@ -26,6 +26,35 @@
    
    .uploadResult ul li span {color: dimgray;}
 </style>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+     <div class="container-fluid">
+
+         <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+             <i class="fa fa-bars"></i>
+         </button>
+         
+         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+             <ul class="nav navbar-nav ml-auto">
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/">홈</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/workboard/write">일지 작성</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/workboard/list">부서 업무일지</a>
+                 </li>
+                 <li class="nav-item active">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/workboard/myWorkList">내 업무일지</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/workboard/supList">공유받은 업무일지</a>
+                 </li>
+             </ul>
+         </div>
+     </div>
+ </nav>
 <!-- summernote cdn -->
 <link
 	href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css"
@@ -213,6 +242,43 @@
 		    } else {
 		      $("#workSecret").val("N");
 		    }
+		
+		// 제목 입력 확인
+	    var workTitle = $('[name=workTitle]').val();
+	    if (workTitle.trim() === '') {
+	       alert('제목을 입력해 주세요.');
+	       return false;
+	    }
+
+	    // 종류 선택 확인
+	    var workType = $('#workType').val();
+	    if (workType.trim() === '') {
+	       alert('종류를 선택해 주세요.');
+	       return false;
+	    }
+
+	    // 업무 선택 확인
+	    var workStatus = $('#workStatus').val();
+	    if (workStatus.trim() === '') {
+	       alert('상태를 선택해 주세요.');
+	       return false;
+	    }
+
+	    // 업무일 입력 확인
+	    var workStart = $('[name=workStart]').val();
+	    var workDeadline = $('[name=workDeadline]').val();
+	    if (workStart.trim() === '' || workDeadline.trim() === '') {
+	       alert('업무일을 입력해 주세요.');
+	       return false;
+	    }
+
+	    // 내용 입력 확인
+	    var workContent = $('[name=workContent]').val();
+	    if (workContent.trim() === '') {
+	       alert('내용을 입력해 주세요.');
+	       return false;
+	    }
+	    return true;
 	}
 </script>
 
@@ -223,6 +289,8 @@
 
 		<div class="row">
 			<div class="offset-md-2 col-md-8">
+			
+			<h3>일지 수정</h3>
 
 				<div class="row mt-4">
 					<div class="col">
@@ -345,5 +413,3 @@
 
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-
-<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include> 

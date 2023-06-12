@@ -19,15 +19,45 @@
         border-radius: .25rem;
     }
     </style>
+    
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+     <div class="container-fluid">
+
+         <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+             <i class="fa fa-bars"></i>
+         </button>
+         
+         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+             <ul class="nav navbar-nav ml-auto">
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/">홈</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/employee/edit">기본 정보</a>
+                 </li>
+                 <li class="nav-item active">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/employee/password">비밀번호 변경</a>
+                 </li>
+             </ul>
+         </div>
+     </div>
+ </nav>
 <body>
 
     <div id="app" class="container-500">
-        <form action="password" method="post">
+        <form action="${pageContext.request.contextPath}/employee/password" method="post">
 
             <div class="container-fluid mt-4">
 
                 <div class="row">
                     <div class="offset-md-2 col-md-8">
+                    
+                    <div class="row mt-4">
+                        <div class="col text-center">
+                            <h2 class="text-dark">비밀번호 변경</h2>
+                            <h5 class="text-muted">현재 비밀번호와 변경할 비밀번호를 입력해 주세요.</h5>
+                        </div>
+                    </div>
 
                         <div class="row mt-4">
                             <div class="col">

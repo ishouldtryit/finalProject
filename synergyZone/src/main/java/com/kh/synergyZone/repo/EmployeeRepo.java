@@ -36,6 +36,7 @@ public interface EmployeeRepo {
 	 
 	   //관리자 권한 부여
 	   boolean authorityAdmin(String empNo);
+	   boolean deleteAdmin(String empNo);
 	   
 	   //관리자 목록
 	   List<EmployeeInfoDto> adminList();

@@ -14,10 +14,13 @@ public interface EmployeeRepo {
 	   void insert(EmployeeDto employeeDto);
 	   EmployeeDto selectOne(String empNo);
 	   List<EmployeeInfoDto> list();
+	   
+	   //사원의 정보 수정
+	   void employeeUpdate(EmployeeDto employeeDto);
+	   
+	   //관리자의 정보 수정
 	   void update(EmployeeDto employeeDto);
-	   void exit(String empNo);
-	   void cancelExit(String empNo);
-	   void delete(String empNo);
+	   
 	   
 	   //부서별 사원목록
 	   List<DeptEmpListVO> treeSelect(String empName);
@@ -35,21 +38,34 @@ public interface EmployeeRepo {
 	   boolean authorityAdmin(String empNo);
 	   
 	   //관리자 목록
-	   List<EmployeeDto> adminList();
+	   List<EmployeeInfoDto> adminList();
+	   List<EmployeeInfoDto> searchAdminList(String column, String keyword);
 	   
 	   //사원 검색
 	   int getCount();
 	   List<EmployeeDto> getEmployeeList(PaginationVO vo);
 	   List<EmployeeInfoDto> searchEmployees(String column, String keyword);
 	   
-	   //퇴사자 목록 검색
-	   void finalExit(EmployeeDto employeeDto);
+	   //퇴사 대기
+	   void exit(String empNo);
+	   void delete(String empNo);
+	   
 	   List<EmployeeInfoDto> waitingList();
 	   int waitingEmployeesCount();
 	   List<EmployeeInfoDto> WaitingEmployeeList(PaginationVO vo);
 	   List<EmployeeInfoDto> searchWaitingEmployees(String column, String keyword);
 	   
+	   //최종 퇴사
+	   void finalExit(EmployeeDto employeeDto);
 	   
+	   List<EmployeeInfoDto> exitList();
+	   int exitEmployeesCount();
+	   List<EmployeeInfoDto> exitEmployeeList(PaginationVO vo);
+	   List<EmployeeInfoDto> searchExitEmployees(String column, String keyword);
+	   
+	   //퇴사 취소
+	   void cancelExit(String empNo);
+	  
 	   //아이디조회
 	   EmployeeDto getId(String empNo);
 	   

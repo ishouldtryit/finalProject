@@ -54,5 +54,11 @@ public class EmailServiceImpl implements EmailService {
 		sender.send(message);
 	}
 
+	@Override
+	public void sendJoin() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
 

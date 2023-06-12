@@ -23,12 +23,12 @@
 		)
 	</insert>
 	
-	<select id="find" resultType="workBoardDto">
+	<select id="findOnly" resultType="WorkBoardDto">
 		select * from work_board where work_no = #{workNo}
 	</select>
 	
-	<select id="list" resultType="WorkEmpInfo">
-		select * from work_emp_info where job_no = #{jobNo} order by work_no desc
+	<select id="find" resultType="WorkEmpInfo">
+		select * from work_emp_info where work_no = #{workNo}
 	</select>
 	
 	<update id="edit">
@@ -40,14 +40,37 @@
 		where work_no = #{workNo}
 	</update>
 	
-	<!-- 검색 -->
-	<select id="SearchMyWorkList" resultType="WorkEmpInfo">
-		select * from work_emp_info where instr(${column}, #{keyword}) >0 order by ${column} asc
+	<delete id="delete">
+		delete work_board
+		where work_no = #{workNo}
+	</delete>
+	
+	<select id="list" resultType="WorkEmpInfo">
+		select * from work_emp_info where dept_no = #{deptNo} order by work_report_date desc
+	</select>
+	
+	<select id="listByJobNoWithSecret" resultType="WorkEmpInfo">
+	  SELECT * FROM work_emp_info
+	  WHERE dept_no = #{deptNo}
+	    AND (work_secret = 'N' OR (work_secret = 'Y' AND emp_no = #{empNo}))
+	    ORDER BY work_report_date desc
+	</select>
+	
+	<select id="searchListByJobNoWithSecret" resultType="WorkEmpInfo">
+	 	SELECT * FROM work_emp_info
+		WHERE instr(${column}, #{keyword}) > 0
+	  	AND dept_no = #{deptNo}
+	    AND (work_secret = 'N' OR (work_secret = 'Y' AND emp_no = #{empNo}))
+	    order by ${column} asc
 	</select>
 	
 	<!-- 내 업무일지 -->
+	<select id="searchMyWorkList" resultType="WorkEmpInfo">
+	  select * from work_emp_info where instr(${column}, #{keyword}) > 0 and emp_no = #{empNo} order by ${column} asc
+	</select>
+
 	<select id="myWorkList" resultType="WorkEmpInfo">
-		select * from work_emp_info where emp_no = #{empNo}
+		select * from work_emp_info where emp_no = #{empNo} order by work_report_date desc
 	</select>
 	
 	<select id="getMyWorkList" resultType="WorkEmpInfo">
@@ -55,11 +78,50 @@
 		  SELECT *
 		  FROM (
 		    SELECT e.*, ROWNUM AS rn
-		    FROM employee e
+		    FROM work_emp_info e
 		    WHERE ROWNUM <= #{end}
 		  )
 		  WHERE rn >= #{begin}
 		  ]]>
 	</select>
+	
+		<!-- 결재 승인 -->
+	<update id="signedCount">
+		update work_board
+		<set>
+			status_code = status_code + 1,
+		</set>
+		where work_no = #{workNo}
+	</update>
+	
+	<!-- 결재 완료-->
+	<update id="signed">
+		update work_board
+		<set>
+			result_code = 2
+		</set>
+		where work_no = #{workNo}
+	</update>
+	
+	<!-- 결재 반려 -->
+	<update id="workReturn">
+		update work_board
+		<set>
+			result_code = 1
+		</set>
+		where work_no = #{workNo}
+	</update>
+	
+	<!-- 참조자 수 -->
+	<select id="countSupList" resultType="int">
+		select COUNT(work_sup) from work_report
+		where work_no = #{workNo}
+	</select>
+	
+
+<!-- 	<select id="statusCode" resultType="int"> -->
+<!-- 		select status_code from work_board -->
+<!-- 		where work_no = #{workNo} -->
+<!-- 	</select> -->
 	
 </mapper>

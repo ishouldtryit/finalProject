@@ -79,7 +79,7 @@
      </div>
  </nav>
 	<div class="container" id="app">
-		<form action="/commute/trip" method="post" v-on:submit="submitForm">
+		<form action="${pageContext.request.contextPath}/commute/trip" method="post" v-on:submit="submitForm">
 			<table class="table">
 				<tr>
 					<th class="table-secondary">유형/구분</th>
@@ -264,7 +264,7 @@
 						<td>{{ item.purpose }}</td>
 						<td>{{ item.notes }}</td>
 						<td><span v-if="item.status === 0" class="badge bg-success">요청</span>
-							<span v-else-if="item.status === 2" class="badge">반려</span> <!-- 다른 상태값에 따른 처리 -->
+							<span v-else-if="item.status === 2" class="badge bg-primary">반려</span> <!-- 다른 상태값에 따른 처리 -->
 						</td>
 					</tr>
 				</tbody>
@@ -410,7 +410,7 @@
     methods: {
        
       async loadData() { //데이터 호출(로드)
-         const resp = await axios.get("/rest/approval/",{ 
+         const resp = await axios.get("${pageContext.request.contextPath}/rest/approval/",{ 
                params :{
                   searchName : this.searchName
                }
@@ -419,7 +419,7 @@
       },
       
       async loadQueue() { //데이터 호출(로드)
-          const resp = await axios.get("/rest/vacation/queue");
+          const resp = await axios.get("${pageContext.request.contextPath}/rest/vacation/queue");
       	  console.log(resp);
            this.queue.push(...resp.data);
        },
@@ -516,7 +516,7 @@
           };
 
           // 서버로 POST 요청 전송
-          axios.post('/commute/trip', formData)
+          axios.post('${pageContext.request.contextPath}/commute/trip', formData)
             .then(response => {
               // 요청 성공 처리
               console.log(response.data);

@@ -202,7 +202,7 @@
      </div>
  </nav>
 	<div class="container">
-		<form action="/commute/write" method="post">
+		<form action="${pageContext.request.contextPath}/commute/write" method="post">
 			<div class="row mb-3">
 				<div class="col">
 					<h4>*신청정보</h4>

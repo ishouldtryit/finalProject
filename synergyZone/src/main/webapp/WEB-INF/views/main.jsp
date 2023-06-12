@@ -27,8 +27,12 @@
 }
 
 a {
+   color:#ffffff;
    text-decoration: none;
-   color: white;
+}
+.bi{
+   text-decoration: none;
+   color:#ffffff;
 }
 
 a.pop{
@@ -160,12 +164,6 @@ function logout() {
                <strong>{{ employeeInfo.empName }}</strong> 님 환영합니다.
             </h5>
 
-            <a href="${pageContext.request.contextPath}/address/list"><i
-               class="bi bi-diagram-3 fs-2"></i></a> <a href=#><i
-               class="bi bi-bell fs-2 ms-3"></i></a> <a href=#><i
-               class="bi bi-power fs-2 ms-3 me-2" data-bs-toggle="modal"
-               data-bs-target="#logoutModal"></i></a>
-
             <div class="profile-image employee-name1 d-flex align-items-center">
                <img width="34" height="34"
                   :src="getProfileImageUrl(employeeInfo.attachmentNo)" alt=""
@@ -216,7 +214,7 @@ function logout() {
             <div class="col col-2 mt-4">
 
                <div class="bg-light border p-2"
-                  style="height: 230px; width: 290px; margin-left: 15px;">
+                  style="height: 230px; width: 290px; margin-left: 15px; z-index: 1;">
                   <div class="d-flex justify-content-center">
                      <div class="profile-image employee-name">
                         <img width="100" height="100"
@@ -241,38 +239,42 @@ function logout() {
 
 
                <div class="bg-light border p-2"
-                  style="width: 755px; height: 280px; margin-left: 15px; margin-top: 20px;">
+                  style="width: 752px; height: 280px; margin-left: 15px; margin-top: 20px; position: relative; z-index: 2;">
                   <p>쪽지함</p>
                   <hr>
                   <table class="table table-hover">
-                  	<thead>
-                  		<tr>
-                  			<th>제목</th>
-                  			<th>보낸사람</th>
-                  			<th>보낸시간</th>
-                  		</tr>
-                  	</thead>
+                     <thead>
+                        <tr>
+                           <th>제목</th>
+                           <th>보낸사람</th>
+                           <th>보낸시간</th>
+                        </tr>
+                     </thead>
                      <tbody v-if="msg.length > 0">
                            <tr v-for="item in msg" :key="item.messageNo">
                                  <td>
-	                              <a :href="'/message/receive/detail?messageNo='+item.messageNo" style="color:inherit">
+                                 <a :href="'/message/receive/detail?messageNo='+item.messageNo" style="color:inherit">
                                     {{ item.messageTitle }}
-	                          	    </a>	   
+                                    </a>      
                                  </td>
-	                              <td>
-	                                    {{ item.messageSenderNick }}
-	                              </td>
-	                              <td>
-	                                    {{ item.messageSendTime }}
-	                              </td>
+                                 <td>
+	                                 <a :href="'/message/receive/detail?messageNo='+item.messageNo" style="color:inherit">
+                                       {{ item.messageSenderNick }}
+                                     </a>  
+                                 </td>
+                                 <td>
+	                                 <a :href="'/message/receive/detail?messageNo='+item.messageNo" style="color:inherit">
+                                       {{ item.messageSendTime }}
+                                     </a>  
+                                 </td>
                            </tr>
                      </tbody>
                      <tbody v-else>
-                     	<tr>
-                     		<td colspan="3">
-                     		메세지가 없습니다.
-                     		</td>
-                     	</tr>
+                        <tr>
+                           <td colspan="3">
+                           메세지가 없습니다.
+                           </td>
+                        </tr>
                      </tbody>
 
                   </table>
@@ -280,7 +282,7 @@ function logout() {
                </div>
 
                <div class="bg-info text-light border"
-                  style="width: 380px; height: 315px; margin-left: 15px; margin-top: 20px;">
+                  style="width: 383px; height: 315px; margin-left: 15px; margin-top: 20px;">
                   <p class="p-2">Memo</p>
                   <div>
                      <textarea v-if="isTextareaEnabled" v-model="memoText"
@@ -313,7 +315,7 @@ function logout() {
                </div>
 
                <div class="bg-light border"
-                  style="height: 315px; width: 348px; margin-top: 320px; margin-left: 102px;">
+                  style="height: 315px; width: 349px; margin-top: 320px; margin-left: 102px;">
                </div>
             </div>
 

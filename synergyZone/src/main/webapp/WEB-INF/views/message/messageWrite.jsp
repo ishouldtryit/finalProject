@@ -103,13 +103,13 @@
 </style>
 
 
-<jsp:include page="/WEB-INF/views/message/messageAside.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/message/messageAside.jsp"></jsp:include>
 <div class="container">
     <div class="row">
         <div class="col">
             <div class="mb-30">
                 <h1>
-                    <img src="/static/img/messageIcon.png" alt="Message Icon" class="message-icon" width="200" height="200">
+                    <img src="${pageContext.request.contextPath}/static/img/messageIcon.png" alt="Message Icon" class="message-icon" width="200" height="200">
                 </h1>
             </div>
             <form id="message-send-form" action="write" method="post">
@@ -166,4 +166,4 @@
     });
 </script>
 
-<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/footer.jsp"></jsp:include>

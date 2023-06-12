@@ -1,15 +1,25 @@
 $(function () {
 	
 //	######################## 받는대상 추가 ########################
-	function addMessageList(){
-		var selectedEmployees = localStorage.getItem('selectedEmployees');
-		var selectedEmployeesArr = JSON.parse(selectedEmployees);
-		for( let i = 0; i<selectedEmployeesArr.length; i++){
-			makeNewRecipientEle(selectedEmployeesArr[i]);
-		}
-		$("#message-recipient-input").val("");	
-	};
-	addMessageList();
+	function addMessageList() {
+  var selectedEmployees = localStorage.getItem('selectedEmployees');
+  var selectedEmployeesArr = JSON.parse(selectedEmployees);
+  for (let i = 0; i < selectedEmployeesArr.length; i++) {
+    makeNewRecipientEle(selectedEmployeesArr[i]);
+  }
+  $("#message-recipient-input").val("");
+}
+
+function clearLocalStorage() {
+  localStorage.removeItem('selectedEmployees');
+}
+
+$(window).on('beforeunload', function() {
+  clearLocalStorage();
+});
+
+addMessageList();
+
 //	const recipientEleCnt = $("[name=messageRecipient]").length;
 //    $(".recipient-cnt").text("10");
 //    if (recipientEleCnt === 10) {
@@ -106,7 +116,6 @@ $(function () {
 	    isExist = !(response === "Y");
 	  },
 	  error: function () {
-	    console.log("받는 사람 체크 통신오류!!!!");
 	  },
 	});
 	if (!isExist) {
@@ -252,9 +261,9 @@ messageToMeBtn.change(function () {
       if (code === 13) e.preventDefault();
       // 미입력 시 진행 X
       if (messageRecipientVal === "") return;
-      // 최대 10명 제한
-      if (messageRecipientEle.length >= 10) {
-        alert("쪽지 보내기는 한 번에 최대 10명까지 보낼 수 있습니다");
+      // 최대 15명 제한
+      if (messageRecipientEle.length >= 15) {
+        alert("쪽지 보내기는 한 번에 최대 15명까지 보낼 수 있습니다");
         return;
       }
       makeNewRecipientEle(messageRecipientVal);
@@ -330,6 +339,9 @@ messageToMeBtn.change(function () {
         messageSendForm[0].reset();
         removeRecipientEle();
         
+         // 쪽지 보낸 사람들 초기화
+ 		 $(".message-recipient-ele").remove();
+  
 	    // 페이지 이동
 	    window.location.href = "/message/send";
       },

@@ -40,7 +40,8 @@
 		  <!-- My list에 추가 버튼 -->		  
 		  <button class="btn btn-success my-2 my-sm-0" type="button" onclick="addToMyList()">My list에 추가</button>
 		  	
-		      <button type="button" id="sendMessageBtn" class="btn btn-primary">쪽지보내기</button>
+		  <!-- 선택된 사원 쪽지 보내기 -->		  
+		  <button type="button" id="sendMessageBtn" class="btn btn-primary">쪽지보내기</button>
 		  
 		</form>
 		

@@ -273,6 +273,7 @@ article {
                                       <li>
                                           <a href="${pageContext.request.contextPath}/admin/job/list">직위 관리</a>
                                       </li>
+                                      <li><a href="${pageContext.request.contextPath}/approval/adminList">기안서 전체 문서함</a></li>
                                       <li><a
 											href="${pageContext.request.contextPath}/commute/adminList">연차결재
 												</a></li>

@@ -87,7 +87,7 @@
 							<img width="50" height="50"
 								src="<c:choose>
                        <c:when test="${one.attachmentNo > 0}">
-                         /attachment/download?attachmentNo=${one.attachmentNo}
+                         ${pageContext.request.contextPath}/attachment/download?attachmentNo=${one.attachmentNo}
                        </c:when>
                        <c:otherwise>
                          https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg
@@ -157,7 +157,7 @@
 		$(function() {
 			//페이지 로딩시 가져옴
 			$.ajax({
-				url : "http://localhost:8080/rest/vacation/",
+				url : contextPath+"/rest/vacation/",
 				type : "GET",
 				data : {
 					selectedValue : getCurrentYear()
@@ -252,7 +252,7 @@
 				var selectedValue = selectElement.val();
 				// AJAX 요청
 				$.ajax({
-					url : "http://localhost:8080/rest/vacation/",
+					url : contextPath+"/rest/vacation/",
 					type : "GET",
 					data : {
 						selectedValue : selectedValue
@@ -270,7 +270,7 @@
 			$("#today-btn").click(function() {
 			      $("#year-select option:first").prop("selected", true);
 			      $.ajax({
-						url : "http://localhost:8080/rest/vacation/",
+						url : contextPath+"/rest/vacation/",
 						type : "GET",
 						data : {
 							selectedValue : getCurrentYear()

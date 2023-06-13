@@ -1,5 +1,5 @@
 $(function () {
-	$(document).ready(function() {
+   $(document).ready(function() {
   // URL에서 selectedEmployees 파라미터 값 가져오기
   const urlParams = new URLSearchParams(window.location.search);
   const selectedEmployeesData = urlParams.get('selectedEmployees');
@@ -20,7 +20,7 @@ $(function () {
 });
 
 
-	
+   
   // 쿼리스트링으로 전달받은 대상 처리
   const queryString = new URLSearchParams(location.search);
   const promiseRecipient = queryString.get("recipient");
@@ -276,7 +276,7 @@ $(function () {
       alert("쪽지 제목을 입력해주세요");
       return;
     } else {
-			const titleRegex = /^[a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ\s]{1,100}$/;
+         const titleRegex = /^[a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ\s]{1,100}$/;
       if(!titleRegex.test(messageTitle)){
         alert("쪽지는 일부의 특수문자, 숫자, 영어 대소문자, 한글로 이루어진 1~100자 이어야 합니다");
         return;

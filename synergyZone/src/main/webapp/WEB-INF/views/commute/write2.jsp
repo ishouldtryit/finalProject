@@ -231,7 +231,7 @@
 			</table>
 			<input type="hidden" name="">
 			<div class="d-flex justify-content-end">
-				<button class="btn btn-info">등록</button>
+				<button class="btn btn-info" type="submit">등록</button>
 			</div>
 			<br>
 			<hr>

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.synergyZone.dto.CommuteRecordDto;
 import com.kh.synergyZone.repo.CommuteRecordRepoImpl;
-@CrossOrigin
+
 @RestController
 @RequestMapping("/rest/commute")
 public class CommuteRestController {

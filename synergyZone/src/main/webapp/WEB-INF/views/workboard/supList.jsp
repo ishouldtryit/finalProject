@@ -117,7 +117,7 @@ $(document).ready(function(){
 	<h3>공유받은 업무일지</h3>
 	<br>
     <!-- 검색창 -->
-    <form class="d-flex" action="supList" id="workForm" method="get">
+    <form class="d-flex" action="${pageContext.request.contextPath}/workboard/supList" id="workForm" method="get">
         <select name="column" class="form-input me-sm-2" onchange="submitForm()">
             <option value="work_title" ${column eq 'work_title' ? 'selected' : ''}>제목</option>
             <option value="emp_name" ${column eq 'emp_name' ? 'selected' : ''}>보고자</option>
@@ -187,7 +187,7 @@ $(document).ready(function(){
 $(document).ready(function() {
     $(".work-title").click(function(){
         var workNo = $(this).data("work-no"); // Retrieve the workNo from the data attribute
-        var detailUrl = "sign?workNo=" + workNo; // Construct the detail page URL
+        var detailUrl = contextPath+"/workboard/sign?workNo=" + workNo; // Construct the detail page URL
         window.location.href = detailUrl; // Redirect to the detail page
     });
 });

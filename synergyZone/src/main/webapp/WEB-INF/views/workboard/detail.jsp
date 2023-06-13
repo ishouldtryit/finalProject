@@ -5,7 +5,14 @@
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<style>
+   a{color:#34649C;}
+   a:hover{
+      color:blue;
+   }
+</style>
+
+   <nav class="navbar navbar-expand-lg navbar-light bg-light">
      <div class="container-fluid">
 
          <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,7 +40,6 @@
          </div>
      </div>
  </nav>
- 
 <script>
     $(document).ready(function() {
         //글 삭제 시 경고창
@@ -83,30 +89,39 @@
     }
 </script>
 
-<div class="container-fluid mb-2">
-	
+<div class="container">
+
+    <div class="d-flex justify-content-end">
+		<div class="container-fluid mb-2">
+   
     <div class="d-flex justify-content-end col-md-10 offset-md-1">
+
         <c:if test="${owner}">
-            <a href="${pageContext.request.contextPath}/workboard/edit?workNo=${workBoardDto.workNo}" class="btn btn-light btn-sm ms-2">
+            <a href="${pageContext.request.contextPath}/workboard/edit?workNo=${workBoardDto.workNo}" class="btn btn-outline-secondary ms-2">
                 <i class="fa-regular fa-pen-to-square" style="color: #8f8f8f;"></i>&nbsp;수정
             </a>
         </c:if>
         <c:if test="${owner || admin}">
-            <a href="${pageContext.request.contextPath}/workboard/delete?workNo=${workBoardDto.workNo}" class="btn btn-light delete-button btn-sm ms-2">
+
+            <a href="${pageContext.request.contextPath}/workboard/delete?workNo=${workBoardDto.workNo}" class="btn btn-outline-secondary delete-button ms-2">
                 <i class="fa-solid fa-trash-can" style="color: #8f8f8f;"></i>&nbsp;삭제
             </a>
         </c:if>
-        <a href="${pageContext.request.contextPath}/workboard/list" class="btn btn-light btn-sm ms-2">
+
+        <a href="${pageContext.request.contextPath}/workboard/list" class="btn btn-outline-secondary ms-2">
+
             <i class="fa-solid fa-bars" style="color: #8f8f8f;"></i>&nbsp;목록
         </a>
     </div>
+<!-- </div> -->
+<!-- </div> -->
 
     <!-- 제목 -->
     <div class="row">
         <div class="row mt-4">
-            <div class="col-md-10 offset-md-1">
-                <div class="d-flex align-items-center">
-                    <h3 class="me-2">${workBoardDto.workTitle}</h3>
+            <div class="">
+                <div class="mb-4 ms-1">
+                    <h3 class="">${workBoardDto.workTitle}</h3>
                     <span class="badge badge-pill secretBadge" data-work-secret="${workBoardDto.workSecret}"></span>
                 </div>
 
@@ -133,41 +148,54 @@
                     </h6>
                 </div>
             </div>
-        </div>
-    </div>
 
+        </div>
+
+    </div>
+<hr>
     <!-- 게시글 내용 -->
     <div class="row mt-4" style="min-height:350px;">
-        <div class="col-md-10 offset-md-1" value="${workBoardDto.workContent}">
+        <div class="" value="${workBoardDto.workContent}">
             ${workBoardDto.workContent}
         </div>
+   
+      <c:if test="${files != null}">
+      
+               <div class="row mt-4">
+                   <div class="col-lg-12">
+                       <div class="card shadow mb-4">
+                           <div class="card-header py-3">
+                               <h4 class="m-0 font-weight-bold text-info">File Attach</h4>
+                           </div>
+                           <div class="card-body">
+                               <div class="text-info">
+                                   <c:forEach var="file" items="${files}">
+                                       <a href="${pageContext.request.contextPath}/attachment/download?attachmentNo=${file.attachmentNo}" data-file-size="${file.attachmentSize}">
+                                           ${file.attachmentName}
+                                       </a>
+                                       <br/>
+                                   </c:forEach>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           
+      </c:if>
+      <c:if test="${files == null}">
+      	<div class="row mt-4">
+                   <div class="col-lg-12">
+                       <div class="card shadow mb-4">
+                           <div class="card-header py-3">
+                               <h4 class="m-0 font-weight-bold text-info">File Attach[0]</h4>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+      </c:if>
 	
-		<c:if test="${files != null}">
-		
-	        <div class="col-md-10 offset-md-1">
-	            <div class="row mt-4">
-	                <div class="col-lg-12">
-	                    <div class="card shadow mb-4">
-	                        <div class="card-header py-3">
-	                            <h4 class="m-0 font-weight-bold text-info">File Attach</h4>
-	                        </div>
-	                        <div class="card-body">
-	                            <div class="text-info">
-	                                <c:forEach var="file" items="${files}">
-	                                    <a href="${pageContext.request.contextPath}/attachment/download?attachmentNo=${file.attachmentNo}" data-file-size="${file.attachmentSize}">
-	                                        ${file.attachmentName}
-	                                    </a>
-	                                    <br/>
-	                                </c:forEach>
-	                            </div>
-	                        </div>
-	                    </div>
-	                </div>
-	            </div>
-	        </div>
-	        
-		</c:if>
     </div>
     <br>
 </div>
-
+</div>
+</div>

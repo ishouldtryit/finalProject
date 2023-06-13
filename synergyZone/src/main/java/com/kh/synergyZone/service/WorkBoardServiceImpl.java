@@ -81,19 +81,20 @@ public class WorkBoardServiceImpl implements WorkBoardService{
 	 }
 
 	@Override
-	public void deleteFile(int attachmentNo,int workNo) {
-		//workNo로 파일이 있는지 확인 그 후 attachmentNo를 제외한 기존코드 동일
-		WorkFileDto file = workFileRepo.selectOne(workNo);
-		if(file != null) {
-			File target = new File(dir, String.valueOf(attachmentNo));
-			if(target.exists()) {
-				target.delete();
-			}
-			attachmentRepo.delete(attachmentNo);
-			workFileRepo.delete(attachmentNo);
-		}
-	}
-
+	   public void deleteFile(int attachmentNo,int workNo) {
+	      //workNo로 파일이 있는지 확인 그 후 attachmentNo를 제외한 기존코드 동일
+	      WorkFileDto file = workFileRepo.selectOne(workNo);
+	      if(file != null) {
+	         File target = new File(dir, String.valueOf(attachmentNo));
+	         if(target.exists()) {
+	            target.delete();
+	         }
+	         attachmentRepo.delete(attachmentNo);
+	         workFileRepo.editDelete(attachmentNo);
+	      }
+	   }
+	
+	
 	@Override
 	public void updateFile(int workNo, List<MultipartFile> attachments) throws IllegalStateException, IOException {
 		

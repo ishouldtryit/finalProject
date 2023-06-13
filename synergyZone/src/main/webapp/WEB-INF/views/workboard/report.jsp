@@ -163,7 +163,7 @@ a:hover{
 
    </div>
 
-   <form action="report" method="post" enctype="multipart/form-data">
+   <form action="${pageContext.request.contextPath}/workboard/report" method="post" enctype="multipart/form-data">
       
       
       <div class="container mt-4">
@@ -179,16 +179,16 @@ a:hover{
       
           <div class="d-flex justify-content-end">
               <c:if test="${owner}">
-                  <a href="/workboard/edit?workNo=${workBoardDto.workNo}" class="btn btn-outline-secondary ms-2">
+                  <a href="${pageContext.request.contextPath}/workboard/edit?workNo=${workBoardDto.workNo}" class="btn btn-outline-secondary ms-2">
                       <i class="fa-regular fa-pen-to-square" style="color: #8f8f8f;"></i>&nbsp;수정
                   </a>
               </c:if>
               <c:if test="${owner || admin}">
-                  <a href="/workboard/delete?workNo=${workBoardDto.workNo}" class="btn btn-outline-secondary delete-button ms-2">
+                  <a href="${pageContext.request.contextPath}/workboard/delete?workNo=${workBoardDto.workNo}" class="btn btn-outline-secondary delete-button ms-2">
                       <i class="fa-solid fa-trash-can" style="color: #8f8f8f;"></i>&nbsp;삭제
                   </a>
               </c:if>
-              <a href="/workboard/list" class="btn btn-outline-secondary ms-2">
+              <a href="${pageContext.request.contextPath}/workboard/list" class="btn btn-outline-secondary ms-2">
                   <i class="fa-solid fa-bars" style="color: #8f8f8f;"></i>&nbsp;목록
               </a>
           </div>
@@ -239,7 +239,7 @@ a:hover{
                         <img width="24" height="24"
                            src="<c:choose>
                                 <c:when test="${profile.empNo == workBoardDto.empNo}">
-                                    /attachment/download?attachmentNo=${profile.attachmentNo}
+                                    ${pageContext.request.contextPath}/attachment/download?attachmentNo=${profile.attachmentNo}
                                 </c:when>
                                 <c:otherwise>
                                     https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg
@@ -297,6 +297,17 @@ a:hover{
                </div>
 
             </c:if>
+            <c:if test="${files == null}">
+		      	<div class="row mt-4">
+		                   <div class="col-lg-12">
+		                       <div class="card shadow mb-4">
+		                           <div class="card-header py-3">
+		                               <h4 class="m-0 font-weight-bold text-info">File Attach[0]</h4>
+		                           </div>
+		                       </div>
+		                   </div>
+		               </div>
+		      </c:if>
          </div>
          <br>
       </div>
@@ -346,7 +357,7 @@ a:hover{
     methods: {
        
       async loadData() { //데이터 호출(로드)
-         const resp = await axios.get("/rest/approval/",{ 
+         const resp = await axios.get(contextPath+"/rest/approval/",{ 
                params :{
                   searchName : this.searchName
                }
@@ -373,9 +384,9 @@ a:hover{
 
       getAttachmentUrl(attachmentNo) { //프로필 사진 주소
             if (attachmentNo === null) {
-              return contextPath+"/static/img/dummydog.jpg";
+              return "/static/img/dummydog.jpg";
             } else {
-              return contextPath+"/attachment/download?attachmentNo=" + attachmentNo;
+              return "/attachment/download?attachmentNo=" + attachmentNo;
             }
           },
 

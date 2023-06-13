@@ -125,7 +125,7 @@
                 <div class="offset-md-2 col-md-8">
                 
                 <div class="row mt-4">
-                        <div class="col">
+                        <div class="col text-center">
                            <h3>기본 정보</h3>
                         </div>
                     </div>
@@ -176,16 +176,16 @@
                         </div>
                     </div>
                     
-<!--                     <div class="row mt-4"> -->
-<!-- 					    <div class="col"> -->
-<!-- 					        <label class="form-label">직위</label> -->
-<!-- 					        <select class="form-select rounded" name="jobNo"> -->
-<%-- 					            <c:forEach var="job" items="${jobs}"> --%>
-<%-- 					                <option value="${job.jobNo}" <c:if test="${job.jobNo == employeeDto.jobNo}">selected</c:if>>${job.jobName}</option> --%>
-<%-- 					            </c:forEach> --%>
-<!-- 					        </select> -->
-<!-- 					    </div> -->
-<!-- 					</div> -->
+					 <div class="row mt-4">
+                        <div class="col">
+                            <label class="form-label">직위</label>
+	                           <c:forEach var="jobs" items="${jobs}">
+				                  <c:if test="${jobs.jobNo == employeeDto.jobNo}">
+				                    <input class="form-control rounded" type="text" placeholder="직위" value="${jobs.jobName}" readonly>
+				                  </c:if>
+				                </c:forEach>
+                        </div>
+                    </div>
 
                     
                     <div class="row mt-4">
@@ -202,7 +202,7 @@
                     
                    	 <div class="row mt-4">
                         <div class="col">
-                          <button class="btn btn-primary w-100">
+                          <button class="btn btn-info w-100">
                           저장
                           </button>
                         </div>

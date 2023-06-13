@@ -59,11 +59,19 @@ a:hover{color:blue;}
        const empNo = "${sessionScope.empNo}";
     </script>
 
-   <form action="sign" method="post" enctype="multipart/form-data">
+   <form action="${pageContext.request.contextPath}/workboard/sign" method="post" enctype="multipart/form-data">
       
       
       <div class="container mt-4">
       <div class="container-fluid mt-4">
+      
+          <div class="d-flex justify-content-end col-md-10 offset-md-1">
+
+        <a href="${pageContext.request.contextPath}/workboard/supList" class="btn btn-outline-secondary ms-2">
+
+            <i class="fa-solid fa-bars" style="color: #8f8f8f;"></i>&nbsp;목록
+        </a>
+    </div>
    
       
       <div class="row mt-4">
@@ -130,7 +138,6 @@ a:hover{color:blue;}
 
             <c:if test="${files != null}">
 
-               <div class="col-md-10 offset-md-1">
                   <div class="row mt-4">
                      <div class="col-lg-12">
                         <div class="card shadow mb-4">
@@ -141,7 +148,7 @@ a:hover{color:blue;}
                               <div class="text-info">
                                  <c:forEach var="file" items="${files}">
                                     <a
-                                       href="${pageContext.request.contextPath}/attachment/download?attachmentNo=${file.attachmentNo}"
+                                       href="/attachment/download?attachmentNo=${file.attachmentNo}"
                                        data-file-size="${file.attachmentSize}">
                                        ${file.attachmentName} </a>
                                     <br />
@@ -151,18 +158,29 @@ a:hover{color:blue;}
                         </div>
                      </div>
                   </div>
-               </div>
+              
 
             </c:if>
+            <c:if test="${files == null}">
+		      	<div class="row mt-4">
+		                   <div class="col-lg-12">
+		                       <div class="card shadow mb-4">
+		                           <div class="card-header py-3">
+		                               <h4 class="m-0 font-weight-bold text-info">File Attach[0]</h4>
+		                           </div>
+		                       </div>
+		                   </div>
+		               </div>
+		      </c:if>
          </div>
          <br>
       </div>
    <div class="row mt-4">
          <input type="hidden" name="workNo" id="workNo"
             value="${workBoardDto.workNo}">
-         <div class="d-flex justify-content-center">
-         <button type="submit" class="btn btn-outline-info" name="action" value="approve">결재</button>
-         <a href="/workboard/workReturn?workNo=${workBoardDto.workNo}" class="btn btn-outline-secondary ms-2">반려</a>
+<!--          <div class="d-flex justify-content-center"> -->
+<!--          <button type="submit" class="btn btn-outline-info" name="action" value="approve">결재</button> -->
+<%--          <a href="/workboard/workReturn?workNo=${workBoardDto.workNo}" class="btn btn-outline-secondary ms-2">반려</a> --%>
             </div>
          <!-- 나머지 입력 필드들 -->
 <!--    <div class="row mt-4"> -->

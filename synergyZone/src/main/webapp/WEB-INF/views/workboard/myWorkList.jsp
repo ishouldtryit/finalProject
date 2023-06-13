@@ -10,6 +10,14 @@
     cursor: pointer;
   }
   
+  a {
+	color: black;
+}
+
+a:hover {
+	color: red;
+}
+  
   
 </style>
 
@@ -109,7 +117,7 @@ $(document).ready(function(){
  
     $(".work-title").click(function(){
         var workNo = $(this).data("work-no"); // Retrieve the workNo from the data attribute
-        var detailUrl = "detail?workNo=" + workNo; // Construct the detail page URL
+        var detailUrl = contextPath+"/workboard/detail?workNo=" + workNo; // Construct the detail page URL
         window.location.href = detailUrl; // Redirect to the detail page
     });
     
@@ -180,7 +188,7 @@ $(document).ready(function(){
 	<br>
 	
     <!-- 검색창 -->
-    <form class="d-flex" action="myWorkList" id="workForm" method="get">
+    <form class="d-flex" action="${pageContext.request.contextPath}/workboard/myWorkList" id="workForm" method="get">
         <select name="column" class="form-input me-sm-2" onchange="submitForm()">
             <option value="work_title" ${column eq 'work_title' ? 'selected' : ''}>제목</option>
         </select>

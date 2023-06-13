@@ -39,12 +39,17 @@ public class WorkFileRepoImpl implements WorkFileRepo {
 
 	@Override
 	public void delete(int attachmentNo) {
-		sqlSession.delete("workFile.deleteFile", attachmentNo);
+		sqlSession.delete("workFile.deleteALLFile", attachmentNo);
 	}
 
 	@Override
 	public void update(int workNo) {
 		sqlSession.update("workFile.update", workNo);
+	}
+
+	@Override
+	public void editDelete(int attachmentNo) {
+		sqlSession.delete("workFile.deleteSelectFile", attachmentNo);
 	}
 	
 }

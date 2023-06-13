@@ -392,11 +392,17 @@
 						<input class="form-check-input" type="checkbox" id="workSecretCheck" ${workBoardDto.workSecret == 'Y' ? 'checked' : ''}>
 						<label class="form-check-label" for="flexSwitchCheckDefault">비공개</label>
 						<input type="hidden" id="workSecret" name="workSecret">
-					</div>
-                  <button type="submit" class="btn btn-primary">등록</button>
-               </div>
+<!-- 					</div> -->
+<!--                   <button type="submit" class="btn btn-primary">등록</button> -->
+<!--                		</div> -->
 
             </div>
+            
+            <div class="row mt-4">
+					<div class="col">
+						<button class="btn btn-info w-100">등록</button>
+					</div>
+				</div>
 
 
          </div>

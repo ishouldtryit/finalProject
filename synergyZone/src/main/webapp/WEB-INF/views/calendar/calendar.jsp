@@ -14,7 +14,26 @@
   <script src="/static/js/index.global.js"></script>
 <script
 	src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/index.global.min.js"></script>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+     <div class="container-fluid">
 
+         <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+             <i class="fa fa-bars"></i>
+         </button>
+         
+         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+             <ul class="nav navbar-nav ml-auto">
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/">홈</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="${pageContext.request.contextPath}/calendar/calendar">일정</a>
+                 </li>
+                 
+             </ul>
+         </div>
+     </div>
+ </nav>
 <script>
     let events = [];
     let owners = [];
@@ -136,10 +155,11 @@ body {
 </style>
 </head>
 <body>
-	<div class="container-fluid">
-		<a href="/calendar/insertPage" class="btn btn-info">일정 등록</a>
-		<div id='calendar'></div>
-	</div>
+	<div class="container-fluid" style="display: flex; flex-direction: column; align-items: center;">
+	<div id='calendar' style="width: 80%; height: 400px; margin-top: 20px;"></div>
+<a href="/calendar/insertPage" class="btn btn-info" style="width: 10%; margin-top: 20px; margin-bottom: 20px;">일정 등록</a>
+</div>
+
 	<div class="modal fade" id="eventModal" tabindex="-1"
 		aria-labelledby="eventModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
@@ -174,4 +194,5 @@ body {
 		</div>
 	</div>
 </body>
+
 </html>

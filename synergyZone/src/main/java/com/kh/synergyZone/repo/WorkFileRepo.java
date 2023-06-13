@@ -9,5 +9,6 @@ public interface WorkFileRepo {
 	WorkFileDto selectOne(int workNo); 
 	List<WorkFileDto> selectAll(int workNo);
 	void delete(int attachmentNo);
+	void editDelete(int attachmentNo);
 	void update(int workNo);
 }

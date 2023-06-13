@@ -29,7 +29,7 @@
                  <li class="nav-item">
                      <a class="nav-link" href="${pageContext.request.contextPath}/admin/log/list">사원 접근로그</a>
                  </li>
-                 <li class="nav-item">
+                 <li class="nav-item active">
                      <a class="nav-link" href="${pageContext.request.contextPath}/admin/department/list">부서 관리</a>
                  </li>
                  <li class="nav-item">
@@ -99,7 +99,7 @@
 
                     <div class="row mt-4">
                         <div class="col">
-                          <button class="btn btn-primary w-100">
+                          <button class="btn btn-info w-100">
                           등록하기
                           </button>
                         </div>

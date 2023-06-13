@@ -93,7 +93,7 @@
 	
 	</head>
 	<body>
-	<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/header.jsp"></jsp:include>
+	<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 	<script>
 	  var messageNo = parseInt("${messageWithNickDto.getMessageNo()}");
 	  var messageSender = "${messageWithNickDto.getMessageSender()}";
@@ -196,4 +196,4 @@
 
 </body>
 </html>
-<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/footer.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

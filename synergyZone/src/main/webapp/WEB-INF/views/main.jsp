@@ -316,7 +316,7 @@ function logout() {
                </div>
 
                <div class="bg-light border"
-                  style="height: 315px; width: 349px; margin-top: 320px; margin-left: 102px;">
+                  style="height: 315px; width: 349px; margin-top: 320px; margin-left: 102px;">            
                </div>
             </div>
 

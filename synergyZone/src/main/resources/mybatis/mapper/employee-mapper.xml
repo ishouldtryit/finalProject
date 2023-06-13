@@ -21,6 +21,11 @@
 		)
 	</insert>
 	
+	<!-- 회원 맞는지 검색 -->
+	<select id="isMember" resultType="boolean">
+		select emp_no from employee where emp_no = #{empNo}
+	</select>
+	
 	<!-- 사원 상세조회 -->
 	<select id="find" resultType="employeeDto">
 		select * from employee where emp_no = #{empNo}

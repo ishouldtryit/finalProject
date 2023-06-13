@@ -3,16 +3,22 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <style>
-  .employee-name {
-    color: dodgerblue;
-    cursor: pointer;
-  }
-  
-  .emp-no {
-    cursor: pointer;
-  }
-  
-  
+.employee-name {
+	color: dodgerblue;
+	cursor: pointer;
+}
+
+.emp-no {
+	cursor: pointer;
+}
+
+a {
+	color: black;
+}
+
+a:hover {
+	color: red;
+}
 </style>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">

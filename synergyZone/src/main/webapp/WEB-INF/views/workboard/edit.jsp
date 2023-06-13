@@ -417,7 +417,7 @@
 
 				<div class="row mt-4">
 					<div class="col">
-						<button class="btn btn-primary w-100">수정</button>
+						<button class="btn btn-info w-100">수정</button>
 					</div>
 				</div>
 

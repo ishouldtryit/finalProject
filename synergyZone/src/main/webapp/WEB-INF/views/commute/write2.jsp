@@ -38,7 +38,7 @@
 		    // 값이 변경되었을 때 계산 함수 호출
 		    calculateDateDifference();
 		  });
-		
+
 
 });
     
@@ -79,13 +79,13 @@
      </div>
  </nav>
 	<div class="container" id="app">
-		<form action="${pageContext.request.contextPath}/commute/trip" method="post" v-on:submit="submitForm">
+		<form class="form" action="${pageContext.request.contextPath}/commute/trip" method="post" v-on:submit="submitForm">
 			<table class="table">
 				<tr>
 					<th class="table-secondary">유형/구분</th>
 					<td><div class="row ml-1">
 							<div class="col-2">
-								<select class="form-select form-select-sm" id="name" name="name">
+								<select class="form-select form-select-sm" id="name" name="name" required="required">
 									<option value="">선택</option>
 									<option value="출장">출장</option>
 									<option value="외근">외근</option>
@@ -127,14 +127,14 @@
 							<div class="flex-grow-1 col-2">
 								<input type="date" v-model="startDate" class="form-control"
 									name="startDate" min="YYYY-01-01" max="YYYY-12-31"
-									@change="updateUseCount">
+									@change="updateUseCount" required="required">
 							</div>
 							<div class="mx-2">~</div>
 							<div class="d-flex align-items-center">
 								<div>
 									<input type="date" v-model="endDate" class="form-control"
 										name="endDate" min="YYYY-01-01" max="YYYY-12-31"
-										@change="updateUseCount">
+										@change="updateUseCount" required="required">
 								</div>
 								<div class="ml-5">
 									<input type="checkbox" class="form-check-input" name="check"
@@ -159,7 +159,7 @@
 						<div class="d-flex align-items-center">
 							<div class="col-6">
 								<input type="text" name="startPlace" class="form-control"
-									placeholder="출발지를 입력해주세요">
+									placeholder="출발지를 입력해주세요" required="required">
 							</div>
 							<button class="add-btn btn btn-sm btn-info ml-1" type="button">경유지
 								추가</button>
@@ -185,14 +185,14 @@
 					<th class="table-secondary">목적지</th>
 					<td><div class="col-6">
 							<input type="text" name="endPlace" class="form-control"
-								placeholder="목적지를 입력해주세요">
+								placeholder="목적지를 입력해주세요" required="required">
 						</div></td>
 				</tr>
 				<tr>
 					<th class="table-secondary">장소</th>
 					<td><div class="col-6">
 							<input type="text" name="place" class="form-control"
-								placeholder="출장장소를 입력해주세요">
+								placeholder="출장장소를 입력해주세요" required="required">
 						</div></td>
 				</tr>
 				<tr>
@@ -200,7 +200,7 @@
 					<td>
 						<div class="row ml-1">
 							<div class="col-2">
-								<select class="form-select" id="work" name="work">
+								<select class="form-select" id="work" name="work" required="required">
 									<option value="">선택</option>
 									<option value="관용차랑">관용차량</option>
 									<option value="버스">버스</option>
@@ -218,20 +218,20 @@
 					<th class="table-secondary">목적</th>
 					<td><div class="col-6">
 							<input type="text" class="form-control" name="purpose"
-								placeholder="목적을 입력해주세요">
+								placeholder="목적을 입력해주세요" required="required">
 						</div></td>
 				</tr>
 				<tr>
 					<th class="table-secondary">비고</th>
 					<td><div class="col-6">
 							<input type="text" class="form-control" name="notes"
-								placeholder="비고를 입력해주세요">
+								placeholder="비고를 입력해주세요" required="required">
 						</div></td>
 				</tr>
 			</table>
 			<input type="hidden" name="">
 			<div class="d-flex justify-content-end">
-				<button class="btn btn-info" type="submit">등록</button>
+				<button class="btn btn-info">등록</button>
 			</div>
 			<br>
 			<hr>
@@ -293,8 +293,7 @@
 										<div
 											class="row mb-3 d-flex justify-content-center align-items-center">
 											<div class="col-8 p-1">
-												<input type="text" class="form-control " placeholder="이름"
-													v-model="searchName">
+												<input type="search" class="form-control " placeholder="이름" v-model="searchName" @keyup.enter.prevent>
 											</div>
 											<div class="col-2 border rounded">
 												<span @click="search" style="cursor: pointer;" title="검색"

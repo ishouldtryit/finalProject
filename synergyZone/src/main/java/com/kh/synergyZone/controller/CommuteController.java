@@ -203,7 +203,7 @@ public class CommuteController {
 		}
 		if(btn==2) {
 			//결재일시 디비 status값 1 로 변경 empNo까지 넣어야함
-			dto2.setStatus(2);
+			dto2.setStatus(1);
 			vacationRepo.appoval(dto2);
 			vacationInfoRepo.used(dto);
 		}
@@ -222,7 +222,7 @@ public class CommuteController {
 		}
 		if(btn==2) {
 			//결재일시 디비 status값 1 로 변경 empNo까지 넣어야함
-			dto.setStatus(2);
+			dto.setStatus(1);
 			tripRepoImpl.update(dto);
 		}
 		return "redirect:/commute/adminList2";

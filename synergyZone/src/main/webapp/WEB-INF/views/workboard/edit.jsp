@@ -364,7 +364,7 @@
 				                  <c:forEach var="file" items="${files}">
 										<div class="attachment" id="attachment_${file.attachmentNo}">
 											<li><span
-												href="/attachment/download?attachmentNo=${file.attachmentNo}">
+												href="${pageContext.request.contextPath}/attachment/download?attachmentNo=${file.attachmentNo}">
 													${file.attachmentName} </span>
 												<button class="btn btn-sm delete-btn" type="button"
 													data-attachment="${file.attachmentNo}">

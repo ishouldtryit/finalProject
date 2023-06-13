@@ -69,8 +69,8 @@ a:hover{
             <table class="table table-hover mt-2 text-center">
               <thead>
                 <tr>
-                  <th>명칭</th>
                   <th>코드번호</th>
+                  <th>명칭</th>
                     <th>관리</th>
                 </tr>
               </thead>

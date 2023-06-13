@@ -11,7 +11,7 @@
 		PLACE,WORK,PURPOSE,NOTES,STARTDate,ENDDATE,STATUS,NAME,CHECKD,period,usedDate)
 		values (
 		trip_seq.nextval,#{empNo},#{startPlace},#{middlePlace},#{endPlace},#{place}
-		,#{work},#{purpose},#{notes},#{startDate},#{endDate},0,#{name},#{check},#{period},#{usedDate}
+		,#{work},#{purpose},#{notes},#{startDate},#{endDate},0,#{name},#{check},#{period},sysdate
 		)
 	</insert>
 

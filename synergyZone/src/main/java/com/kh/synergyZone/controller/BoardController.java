@@ -186,7 +186,6 @@ public class BoardController {
    @GetMapping("/edit")
    public String edit(@RequestParam int boardNo, Model model) {
       model.addAttribute("boardDto", boardRepo.selectOne(boardNo));
-      System.out.println(boardRepo.selectOne(boardNo));
       return "board/edit";
    }
    

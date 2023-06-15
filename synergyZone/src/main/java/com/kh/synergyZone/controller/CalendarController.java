@@ -49,7 +49,6 @@ public class CalendarController {
     	        owner.add(item);
     	    }
     	}
-       System.out.println(resultList);
        model.addAttribute("result", resultList);
        model.addAttribute("emp", empNo);
        
@@ -110,7 +109,6 @@ public class CalendarController {
             return "calendar/calendar"; 
         } else {
             CalendarVO rsMap = calendarRepo.detailView2(seq);
-            System.out.println(rsMap);
             model.addAttribute("result", rsMap);
             return "calendar/edit";
         }

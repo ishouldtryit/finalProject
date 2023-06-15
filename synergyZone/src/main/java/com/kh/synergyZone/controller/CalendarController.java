@@ -83,7 +83,7 @@ public class CalendarController {
         vo.setEmp_no(empNo);
         vo.setEmp_name(empName);
         calendarService.insertDate(vo);
-        return "redirect:/calendar/calendar";
+        return "redirect:calendar";
     }
     
     // 수정
@@ -95,7 +95,7 @@ public class CalendarController {
         vo.setEmp_no(empNo);
         vo.setEmp_name(empName);
          calendarService.updateDate(vo);
-        return "redirect:/calendar/calendar";
+        return "redirect:calendar";
     }
 
     @GetMapping("/edit")
@@ -121,6 +121,6 @@ public class CalendarController {
     @PostMapping("/deleteDate")
     public String deleteDate(Model model, @ModelAttribute("vo") CalendarVO vo,  HttpSession session) throws IOException {
         calendarService.deleteDate(vo);
-        return "redirect:/calendar/calendar";
+        return "redirect:calendar";
     }
 }

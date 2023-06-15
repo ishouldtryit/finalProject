@@ -17,7 +17,7 @@
 
 
 <!-- 사이드바 css -->
-<link rel="stylesheet" href="/static/css/style.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
 
 <!-- 부트스트랩 css(journal) -->
 <link rel="stylesheet" type="text/css"

@@ -169,14 +169,14 @@ public class BoardController {
    public String delete(@RequestParam int boardNo) {
       boardRepo.delete(boardNo);
 //      return "redirect:list";//상대경로
-      return "redirect:/board/list";//절대경로
+      return "redirect:list";//절대경로
    }
    
    @GetMapping("/delete/{boardNo}")
    public String delete2(@PathVariable int boardNo) {
       boardRepo.delete(boardNo);
 //      return "redirect:../list";//상대경로
-      return "redirect:/board/list";//절대경로
+      return "redirect:list";//절대경로
    }
    
 //   할일 : 

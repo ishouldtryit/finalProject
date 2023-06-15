@@ -539,7 +539,7 @@ function logout() {
         },
         methods: {
            loadMsg() {
-                axios.get("/rest/home/msg")
+                axios.get(contextPath+"/rest/home/msg")
                   .then(resp => {
                     console.log(resp);
                     this.msg.push(...resp.data);
@@ -549,7 +549,7 @@ function logout() {
                   });
               },
               loadFree() {
-                axios.get("/rest/home/free")
+                axios.get(contextPath+"/rest/home/free")
                   .then(resp => {
                     console.log(resp);
                     this.free.push(...resp.data);
@@ -559,7 +559,7 @@ function logout() {
                   });
               },
               loadNotice() {
-                axios.get("/rest/home/notice")
+                axios.get(contextPath+"/rest/home/notice")
                   .then(resp => {
                     console.log(resp);
                     this.notice.push(...resp.data);
@@ -629,14 +629,14 @@ function logout() {
  
                //프사 띄우기 
                 async fetchEmployeeInfo() {
-                    const resp = await axios.get('/rest/employeeInfo/all');
+                    const resp = await axios.get(contextPath+'/rest/employeeInfo/all');
                     this.employeeInfo = resp.data;
                 },
                 getProfileImageUrl(attachmentNo) {
                     if (attachmentNo > 0) {
-                        return '/attachment/download?attachmentNo=' + attachmentNo;
+                        return contextPath+'/attachment/download?attachmentNo=' + attachmentNo;
                     } else {
-                      return 'https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg';
+                      return contextPath+"/static/img/dummydog.jpg";
                     }
                   },
                   

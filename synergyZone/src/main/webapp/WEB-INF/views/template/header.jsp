@@ -45,13 +45,13 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 
 <!-- 사이드바관련 -->
-<script src="/static/js/jquery.min.js"></script>
-<script src="/static/js/popper.js"></script>
-<script src="/static/js/popper.js"></script>
-<script src="/static/js/main.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/popper.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/popper.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/main.js"></script>
 <!--     <script src="/static/js/jquery.min.js"></script> -->
-<script src="/static/js/bootstrap.min.js"></script>
-<script src="/static/js/main.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/main.js"></script>
 
 
 <script>
@@ -338,14 +338,14 @@ article {
 	  },
 	  methods: {
 	    async fetchEmployeeInfo() {
-	      const resp = await axios.get('/rest/employeeInfo/all');
+	      const resp = await axios.get(contextPath+'/rest/employeeInfo/all');
 	      this.employeeInfo = resp.data;
 	    },
 	    getProfileImageUrl(attachmentNo) {
 	      if (attachmentNo > 0) {
-	        return '/attachment/download?attachmentNo=' + attachmentNo;
+	        return contextPath+'/attachment/download?attachmentNo=' + attachmentNo;
 	      } else {
-	        return contextPath+"/attachment/download?attachmentNo=" + attachmentNo;
+	        return contextPath+"/static/img/dummydog.jpg";
 	      }
 	    },
 	  },

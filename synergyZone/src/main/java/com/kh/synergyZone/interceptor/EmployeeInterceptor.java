@@ -25,7 +25,7 @@ public class EmployeeInterceptor implements HandlerInterceptor {
 		}
 		else {
 
-			response.sendRedirect("${pageContext.request.contextPath}/login");
+			response.sendRedirect("login");
 			return false;
 
 		}

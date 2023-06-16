@@ -198,11 +198,11 @@ article {
 								<li><a href="#pageSubmenu" data-toggle="collapse"
 									aria-expanded="false" class="dropdown-toggle">전자결재</a>
 									<ul class="collapse list-unstyled" id="pageSubmenu">
-										<li><a href="/approval/write">신규 결재</a></li>
-										<li><a href="/approval/myList">나의 기안 문서함</a></li>
-										<li><a href="/approval/waitApproverList">결재 수신 문서함</a></li>
-										<li><a href="/approval/recipientList">참조 문서함</a></li>
-										<li><a href="/approval/readerList">열람 문서함</a></li>
+										<li><a href="${pageContext.request.contextPath}/approval/write">신규 결재</a></li>
+										<li><a href="${pageContext.request.contextPath}/approval/myList">나의 기안 문서함</a></li>
+										<li><a href="${pageContext.request.contextPath}/approval/waitApproverList">결재 수신 문서함</a></li>
+										<li><a href="${pageContext.request.contextPath}/approval/recipientList">참조 문서함</a></li>
+										<li><a href="${pageContext.request.contextPath}/approval/readerList">열람 문서함</a></li>
 									</ul></li>
 
 								<li><a href="#addressSubmenu" data-toggle="collapse"

@@ -22,6 +22,10 @@
 <link rel="icon"
    href="${pageContext.request.contextPath}/static/favicon.ico"
    type="image/x-icon">
+   <script>
+       const contextPath = "${pageContext.request.contextPath}";
+   </script>
+   
 <style>
 #img {
    width: 280px;
@@ -634,9 +638,9 @@ function logout() {
                 },
                 getProfileImageUrl(attachmentNo) {
                     if (attachmentNo > 0) {
-                        return '/attachment/download?attachmentNo=' + attachmentNo;
+                        return contextPath+'/attachment/download?attachmentNo=' + attachmentNo;
                     } else {
-                      return "/static/img/dummydog.jpg";
+                      return contextPath+"/static/img/dummydog.jpg";
                     }
                   },
                   

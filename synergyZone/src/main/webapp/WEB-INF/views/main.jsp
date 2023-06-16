@@ -154,7 +154,7 @@ function logout() {
 
       <div class="row">
          <div class="col col-7 bg-info text-light">
-            <img src="${pageContext.request.contextPath}static/img/logo.png" id="img" class="p-1">
+            <img src="${pageContext.request.contextPath}/static/img/logo.png" id="img" class="p-1">
          </div>
 
          <div class="col col-1 bg-info text-light p-2"></div>
@@ -634,9 +634,9 @@ function logout() {
                 },
                 getProfileImageUrl(attachmentNo) {
                     if (attachmentNo > 0) {
-                        return contextPath+'/attachment/download?attachmentNo=' + attachmentNo;
+                        return '/attachment/download?attachmentNo=' + attachmentNo;
                     } else {
-                      return contextPath+"/static/img/dummydog.jpg";
+                      return "/static/img/dummydog.jpg";
                     }
                   },
                   

@@ -117,7 +117,7 @@ function togglePopup() {
 function logout() {
       var form = document.createElement("form");
        form.setAttribute("id", "logoutForm");
-       form.setAttribute("action", "/logout");
+       form.setAttribute("action", contextPath+"/logout");
        form.setAttribute("method", "post");
 
        // form 내용을 추가하세요.
@@ -144,7 +144,7 @@ function logout() {
             <div class="modal-footer">
                <button type="button" class="btn btn-secondary"
                   data-bs-dismiss="modal">취소</button>
-               <form action="${pageContext.request.contextPath}/logout" method="post">
+               <form action="/logout" method="post">
                   <button type="submit" class="btn btn-primary" @click="logout">로그아웃</button>
                </form>
             </div>

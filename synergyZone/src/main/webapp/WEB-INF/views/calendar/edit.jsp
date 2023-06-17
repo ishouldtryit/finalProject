@@ -10,8 +10,6 @@
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
- <script src="./datepicker/js/datepicker.js"></script> <!-- Air datepicker js -->
-    <script src="./datepicker/js/datepicker.ko.js"></script> <!-- 달력 한글 추가를 위해 커스텀 -->
 <script type="text/javascript">
 $(document).ready(function() {
     $('#insertDate').submit(function() {
@@ -36,7 +34,7 @@ $(document).ready(function() {
 
 <%-- 답글일 때는 정보가 한 개 더 전송되어야 한다(boardParent) --%>
 <div class="container">
-<form method="post" action="/calendar/edit">
+<form method="post" action="calendar/edit">
    <!-- 제목 -->
    <div class="row center">
             <h2>일정 수정</h2>

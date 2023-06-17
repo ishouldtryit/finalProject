@@ -130,7 +130,7 @@
           </c:if>    
      </h5>
      
-  <jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/message/messageAside.jsp"></jsp:include>
+  <jsp:include page="/WEB-INF/views/message/messageAside.jsp"></jsp:include>
   
     <div class="message-header d-flex justify-content-between">
      <div class   ="d-flex mb-2">

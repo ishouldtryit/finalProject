@@ -6,13 +6,13 @@
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <c:if test="${sessionScope.empNo != null}"></c:if>
-<script src="/static/js/notice-like.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/notice-like.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
 	var empNo = "${sessionScope.empNo}";
 	var noticeWriter = "${noticeDto.noticeWriter}";
 </script>
-<script src="/static/js/notice-reply.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/notice-reply.js"></script>
 <script type="text/template" id="noticeReply-template">
 	<div class="noticeReply-item">
 		<div class="row mt-1">
@@ -64,10 +64,10 @@
 			
 			<!-- 글쓰기와 다르게 답글쓰기는 계산을 위해 원본글의 번호를 전달해야함 -->
 			 <c:if test="${loginUser.empAdmin=='Y'}">
-			<a href="/notice/write" class="btn btn-light"><i class="fa-solid fa-pen" style="color: #8f8f8f;"></i>&nbsp;글쓰기</a>
+			<a href="${pageContext.request.contextPath}/notice/write" class="btn btn-light"><i class="fa-solid fa-pen" style="color: #8f8f8f;"></i>&nbsp;글쓰기</a>
 			</c:if>
 			<c:if test="${loginUser.empAdmin=='Y'}">
-			<a href="/notice/write?noticeParent=${noticeDto.noticeNo}" class="btn btn-light"><i class="fa-solid fa-noticeReply fa-rotate-180" style="color: #8f8f8f;"></i>&nbsp;답글쓰기</a>
+			<a href="${pageContext.request.contextPath}/notice/write?noticeParent=${noticeDto.noticeNo}" class="btn btn-light"><i class="fa-solid fa-noticeReply fa-rotate-180" style="color: #8f8f8f;"></i>&nbsp;답글쓰기</a>
 			</c:if>
 			
 			<!-- 
@@ -75,14 +75,14 @@
 				- 주소는 /password/edit 또는 delete/번호 형태로 경로 변수 처리 
 			-->
 			<c:if test="${owner}">
-			<a href="/notice/edit?noticeNo=${noticeDto.noticeNo}" class="btn btn-light"><i class="fa-regular fa-pen-to-square" style="color: #8f8f8f;"></i>&nbsp;수정</a>
+			<a href="${pageContext.request.contextPath}/notice/edit?noticeNo=${noticeDto.noticeNo}" class="btn btn-light"><i class="fa-regular fa-pen-to-square" style="color: #8f8f8f;"></i>&nbsp;수정</a>
 			</c:if>
 			 <c:if test="${owner || admin}">
-			 <a href="/notice/delete?noticeNo=${noticeDto.noticeNo}" class="btn btn-light" onclick="return confirm('정말 삭제하시겠습니까?')">
+			 <a href="${pageContext.request.contextPath}/notice/delete?noticeNo=${noticeDto.noticeNo}" class="btn btn-light" onclick="return confirm('정말 삭제하시겠습니까?')">
 			    <i class="fa-solid fa-trash-can" style="color: #8f8f8f;"></i>&nbsp;삭제
 			 </a>
 			 </c:if>
-			<a href="/notice/list" class="btn btn-light"><i class="fa-solid fa-bars" style="color: #8f8f8f;"></i>&nbsp;목록</a>
+			<a href="${pageContext.request.contextPath}/notice/list" class="btn btn-light"><i class="fa-solid fa-bars" style="color: #8f8f8f;"></i>&nbsp;목록</a>
 		</div>
 	</div>
 

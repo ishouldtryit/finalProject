@@ -106,7 +106,7 @@
 <input class="form-control me-sm-2" type="search" placeholder="검색어" name="keyword" value="${vo.keyword}" style="width: 13%;">
 		  <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
 		  <c:if test="${loginUser.empAdmin=='Y'}">
-		    <a href="/notice/write" class="btn btn-info ms-2">글쓰기</a>
+		    <a href="${pageContext.request.contextPath}/notice/write" class="btn btn-info ms-2">글쓰기</a>
 		  </c:if>
     </form>
   	</div>

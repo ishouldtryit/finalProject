@@ -106,7 +106,7 @@
 <input class="form-control me-sm-2" type="search" placeholder="검색어" name="keyword" value="${vo.keyword}" style="width: 13%;">
 		  <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
        <div class="col-md-6 d-flex">
-    <a href="/board/write" class="btn btn-info">글쓰기</a>
+    <a href="${pageContext.request.contextPath}/board/write" class="btn btn-info">글쓰기</a>
     </form>
   	</div>
 </div>

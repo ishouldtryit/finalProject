@@ -144,7 +144,7 @@ function logout() {
             <div class="modal-footer">
                <button type="button" class="btn btn-secondary"
                   data-bs-dismiss="modal">취소</button>
-               <form action="/logout" method="post">
+               <form action="${pageContext.request.contextPath}/logout" method="post">
                   <button type="submit" class="btn btn-primary" @click="logout">로그아웃</button>
                </form>
             </div>
@@ -258,17 +258,17 @@ function logout() {
                      <tbody v-if="msg.length > 0">
                            <tr v-for="item in msg" :key="item.messageNo">
                                  <td>
-                                 <a :href="'/message/receive/detail?messageNo='+item.messageNo" style="color:inherit">
+                                 <a :href="'${pageContext.request.contextPath}/message/receive/detail?messageNo='+item.messageNo" style="color:inherit">
                                     {{ item.messageTitle }}
                                     </a>      
                                  </td>
                                  <td>
-	                                 <a :href="'/message/receive/detail?messageNo='+item.messageNo" style="color:inherit">
+	                                 <a :href="'${pageContext.request.contextPath}/message/receive/detail?messageNo='+item.messageNo" style="color:inherit">
                                        {{ item.messageSenderNick }}
                                      </a>  
                                  </td>
                                  <td>
-	                                 <a :href="'/message/receive/detail?messageNo='+item.messageNo" style="color:inherit">
+	                                 <a :href="'${pageContext.request.contextPath}/message/receive/detail?messageNo='+item.messageNo" style="color:inherit">
                                        {{ item.messageSendTime }}
                                      </a>  
                                  </td>
@@ -362,7 +362,7 @@ function logout() {
                      <tbody>
                         <tr v-for="item in notice" :key="item.noticeNo">
                            <td>
-                              <a :href="'/notice/detail?noticeNo='+item.noticeNo" style="color:inherit">
+                              <a :href="'${pageContext.request.contextPath}/notice/detail?noticeNo='+item.noticeNo" style="color:inherit">
                                  {{ item.noticeTitle }}
                               </a>   
                            </td>
@@ -390,7 +390,7 @@ function logout() {
 	                  	</thead>
                          <tr v-for="item in free" :key="item.freeNo">
                            <td>
-                              <a :href="'/board/detail?boardNo='+item.boardNo" style="color:inherit">
+                              <a :href="'${pageContext.request.contextPath}/board/detail?boardNo='+item.boardNo" style="color:inherit">
                                  {{ item.boardTitle }}
                               </a>
                            </td>
@@ -447,7 +447,7 @@ function logout() {
                            <br>
                         </div>
                      </div>
-                     <form action="/commute/change" method="post">
+                     <form action="${pageContext.request.contextPath}/commute/change" method="post">
                         <div class="d-flex justify-content-center">
                            <c:choose>
                               <c:when test="${empty w.startTime && empty w.endTime}">

@@ -34,7 +34,7 @@ $(document).ready(function() {
 
 <%-- 답글일 때는 정보가 한 개 더 전송되어야 한다(boardParent) --%>
 <div class="container">
-<form method="post" action="calendar/edit">
+<form method="post" action="edit">
    <!-- 제목 -->
    <div class="row center">
             <h2>일정 수정</h2>

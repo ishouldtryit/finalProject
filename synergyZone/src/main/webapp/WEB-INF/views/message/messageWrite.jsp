@@ -103,7 +103,7 @@
 </style>
 
 
-<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/message/messageAside.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/message/messageAside.jsp"></jsp:include>
 <div class="container">
     <div class="row">
         <div class="col">

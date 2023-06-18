@@ -125,7 +125,7 @@ public class WorkBoardController {
 		}
 
 		attr.addAttribute("workNo", workNo);
-		return "redirect:workboard/detail";
+		return "redirect:detail";
 	}
 
 	
@@ -153,7 +153,7 @@ public class WorkBoardController {
 
 	    attr.addAttribute("workNo", workNo);
 
-	    return "redirect:workboard/detail";
+	    return "redirect:detail";
 	}
 	
 	@GetMapping("/workReturn")
@@ -161,7 +161,7 @@ public class WorkBoardController {
 	    WorkBoardDto workBoardDto = workBoardRepo.selectOnly(workNo);
 	    workBoardRepo.workReturn(workBoardDto);
 	    attr.addAttribute("workNo", workNo);
-	    return "redirect:workboard/detail";
+	    return "redirect:detail";
 	}
 
 	

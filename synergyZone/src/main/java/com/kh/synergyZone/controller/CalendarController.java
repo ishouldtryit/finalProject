@@ -82,7 +82,7 @@ public class CalendarController {
         vo.setEmp_no(empNo);
         vo.setEmp_name(empName);
         calendarService.insertDate(vo);
-        return "redirect:calender/calendar";
+        return "redirect:calendar";
     }
     
     // 수정
@@ -94,7 +94,7 @@ public class CalendarController {
         vo.setEmp_no(empNo);
         vo.setEmp_name(empName);
          calendarService.updateDate(vo);
-        return "redirect:calender/calendar";
+        return "redirect:calendar";
     }
 
     @GetMapping("/edit")

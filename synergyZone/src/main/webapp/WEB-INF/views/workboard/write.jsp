@@ -290,7 +290,7 @@
 </script>
 
 
-<form action="workboard/write" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+<form action="write" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
    <div class="container-fluid mt-4">
 
       <div class="row">

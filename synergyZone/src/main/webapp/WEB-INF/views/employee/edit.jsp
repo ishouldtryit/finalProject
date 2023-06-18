@@ -116,7 +116,7 @@
   	
  
 
-<form action="employee/edit" method="post" enctype="multipart/form-data">
+<form action="edit" method="post" enctype="multipart/form-data">
 
     <input type="hidden" name="empNo" value="${employeeDto.empNo}">
         <div class="container-fluid mt-4">

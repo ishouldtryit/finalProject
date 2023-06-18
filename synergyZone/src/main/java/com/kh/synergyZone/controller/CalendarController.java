@@ -39,8 +39,8 @@ public class CalendarController {
            @RequestParam(required = false, defaultValue = "") String keyword) throws IOException {
        String empNo = (String) session.getAttribute("empNo");
        String empName = (String) session.getAttribute("empName");
-       vo.setEmp_no(empNo);
-       vo.setEmp_name(empName);
+       vo.setEmpNo(empNo);
+       vo.setEmpName(empName);
        List<Map<String,Object>> resultList = calendarService.getDate(vo);
        List<Map<String, Object>> owner = new ArrayList<>();
        for (Map<String, Object> item : resultList) {
@@ -79,8 +79,8 @@ public class CalendarController {
                              @RequestParam(required = false, defaultValue = "") String keyword) throws IOException {
         String empNo = (String) session.getAttribute("empNo");
         String empName = (String) session.getAttribute("empName");
-        vo.setEmp_no(empNo);
-        vo.setEmp_name(empName);
+        vo.setEmpNo(empNo);
+        vo.setEmpName(empName);
         calendarService.insertDate(vo);
         return "redirect:calendar";
     }
@@ -91,8 +91,8 @@ public class CalendarController {
                              @RequestParam(required = false, defaultValue =  "HttpServletRequest request, HttpServletResponse response, CalendarVO") String keyword) throws IOException {
         String empNo = (String) session.getAttribute("empNo");
         String empName = (String) session.getAttribute("empName");
-        vo.setEmp_no(empNo);
-        vo.setEmp_name(empName);
+        vo.setEmpNo(empNo);
+        vo.setEmpName(empName);
          calendarService.updateDate(vo);
         return "redirect:calendar";
     }

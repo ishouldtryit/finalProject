@@ -142,7 +142,7 @@
 			  <div class="profile-image employee-name">
 			    <img width="25" height="25" src="<c:choose>
 			      <c:when test="${notice.attachmentNo > 0}">
-			        /attachment/download?attachmentNo=${notice.attachmentNo}
+			        ${pageContext.request.contextPath}/attachment/download?attachmentNo=${notice.attachmentNo}
 			      </c:when>
 			      <c:otherwise>
 		        https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg

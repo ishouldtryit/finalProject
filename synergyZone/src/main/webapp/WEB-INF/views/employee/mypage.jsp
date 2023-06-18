@@ -13,7 +13,7 @@
 		<tbody>
 			<tr>
 				<td>${employeeDto.empNo}</td>
-				<td><img width="200" height="200" src="/attachment/download?attachmentNo=${profile.attachmentNo}"></td>
+				<td><img width="200" height="200" src="${pageContext.request.contextPath}/attachment/download?attachmentNo=${profile.attachmentNo}"></td>
 			</tr>
 		</tbody>
 	</table>

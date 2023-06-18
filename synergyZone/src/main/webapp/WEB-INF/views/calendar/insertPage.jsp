@@ -38,20 +38,6 @@ $(document).ready(function() {
         }
     }); // end submit()
     // 수정으로 들어왔으면 등록버튼 hide
-   if('${result}'!= undefined  && '${result}'!=null && '${result}'!=''){
-        $('#doinsert').hide();
-      $("#insertDate").attr({
-    		  "action": "updateDate",
-    		  "method":"post"
-      });
-
-    } else {
-     $("#insertDate").attr({
-    	 "action": "insertDate",
-    	 "method" : "post"
-     });
-           $('#doupdate').hide();
-    }
 }); // end ready()
 </script>
 
@@ -63,7 +49,7 @@ $(document).ready(function() {
 </c:if>
 
 <div class="container">
-<form autocomplete="off" id ="insertDate">
+<form autocomplete="off"  method="post" action="insertDate" id ="insertDate">
    <!-- 제목 -->
    <div class="row center">
             <h2>일정 등록 </h2>
@@ -85,7 +71,6 @@ $(document).ready(function() {
 
    <div class="row">
       <button type="submit" class="btn btn-info w-80 mt-3 reply-insert-btn" id ="doinsert">등록</button>
-       <button type="submit" class="btn btn-info w-80 mt-3 reply-insert-btn" id ="doupdate">수정</button>
    </div>
 </div>
 </form>

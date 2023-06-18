@@ -19,14 +19,6 @@ $(document).ready(function() {
         }
     }); // end submit()
     // 수정으로 들어왔으면 등록버튼 hide
-   if('${result}'!= undefined  && '${result}'!=null && '${result}'!=''){
-        $('#doinsert').hide();
-      $("#insertDate").attr("action", "updateDate");
-
-    } else {
-     $("#insertDate").attr("action", "insertDate");
-           $('#doupdate').hide();
-    }
 }); // end ready()
 </script>
 
@@ -55,7 +47,6 @@ $(document).ready(function() {
 
 
    <div class="row">
-      <button type="submit" class="btn btn-info w-80 mt-3 reply-insert-btn" id ="doinsert">등록</button>
        <button type="submit" class="btn btn-info w-80 mt-3 reply-insert-btn" id ="doupdate">수정</button>
    </div>
 </div>

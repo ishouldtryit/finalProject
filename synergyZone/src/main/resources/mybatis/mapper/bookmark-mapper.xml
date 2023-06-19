@@ -6,44 +6,44 @@
 
 <mapper namespace="bookmark">
 
-	<insert id="addToBookmark">
+   <insert id="addToBookmark">
     INSERT INTO bookmark (bookmark_no, owner_no)
     VALUES (#{bookmarkNo}, #{ownerNo})
-	</insert>
+   </insert>
 
-	<delete id="removeFromBookmark">
-		DELETE FROM bookmark
-		WHERE bookmark_no = #{bookmarkNo}
-	</delete>
+   <delete id="removeFromBookmark">
+      DELETE FROM bookmark
+      WHERE bookmark_no = #{bookmarkNo}
+   </delete>
 
-	<select id="checkNo" resultType="employeeDto">
-		SELECT * FROM employee
-		WHERE emp_no IN (
-			SELECT bookmark_no
-			FROM bookmark
-			WHERE owner_no = #{ownerNo}
-		)
-	</select>
+   <select id="checkNo" resultType="employeeDto">
+      SELECT * FROM employee
+      WHERE emp_no IN (
+         SELECT bookmark_no
+         FROM bookmark
+         WHERE owner_no = #{ownerNo}
+      )
+   </select>
 
-	<select id="checkBookmarkNo" parameterType="String" resultType="int">
-		SELECT COUNT(*) FROM bookmark WHERE bookmark_no = #{bookmarkNo}
-	</select>
-	
-	<select id="checkOwnerCount" resultType="int">
-		select count(*) from bookmark where owner_no =#{ownerNo}
-	</select>
+   <select id="checkBookmarkNo" parameterType="String" resultType="int">
+      SELECT COUNT(*) FROM bookmark WHERE bookmark_no = #{bookmarkNo}
+   </select>
+   
+   <select id="checkOwnerCount" resultType="int">
+      select count(*) from bookmark where owner_no =#{ownerNo}
+   </select>
 
-	<select id="getMyList" parameterType="String" resultType="BookmarkDto">
-		SELECT *
-		FROM bookmark
-		WHERE owner_no = #{ownerNo}
-	</select>
+   <select id="getMyList" parameterType="String" resultType="BookmarkDto">
+      SELECT *
+      FROM bookmark
+      WHERE owner_no = #{ownerNo}
+   </select>
 
-	<select id="existsBookmark" parameterType="String" resultType="int">
-		SELECT COUNT(*) FROM bookmark WHERE bookmark_no = #{bookmarkNo} and owner_no = #{ownerNo}
-	</select>
-	
-	<select id="searchEmployeesInMyList" parameterType="Map" resultType="BookmarkDto">
+   <select id="existsBookmark" parameterType="String" resultType="int">
+      SELECT COUNT(*) FROM bookmark WHERE bookmark_no = #{bookmarkNo} and owner_no = #{ownerNo}
+   </select>
+   
+   <select id="searchEmployeesInMyList" parameterType="Map" resultType="BookmarkDto">
     SELECT *
     FROM bookmark
     WHERE owner_no = #{ownerNo}
@@ -52,8 +52,8 @@
         FROM employee
         WHERE instr(${column}, #{keyword}) > 0
     )
-	</select>
-	
+   </select>
+   
 <select id="getOwnerBookmarkCount" parameterType="Map" resultType="int">
     SELECT COUNT(*) FROM bookmark
     WHERE owner_no = #{ownerNo}
@@ -70,7 +70,7 @@
 
 
 
-	
-	
+   
+   
 
 </mapper>

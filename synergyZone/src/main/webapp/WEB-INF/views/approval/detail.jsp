@@ -93,8 +93,7 @@
 					  <div class="card-header">
 						  제목 : {{ApprovalDataVO.approvalWithDrafterDto.draftTitle}}
 					  </div>
-					  <div class="card-body">
-					    	{{ApprovalDataVO.approvalWithDrafterDto.draftContent}}
+					  <div class="card-body" v-html="ApprovalDataVO.approvalWithDrafterDto.draftContent">
 					  </div>
 			  </div>
 		  </div>

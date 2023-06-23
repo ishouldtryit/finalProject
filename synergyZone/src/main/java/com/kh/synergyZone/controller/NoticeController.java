@@ -185,14 +185,14 @@ public class NoticeController {
    public String delete(@RequestParam int noticeNo) {
       noticeRepo.delete(noticeNo);
 //      return "redirect:list";//상대경로
-      return "redirect:/notice/list";//절대경로
+      return "redirect:list";//절대경로
    }
    
    @GetMapping("/delete/{noticeNo}")
    public String delete2(@PathVariable int noticeNo) {
       noticeRepo.delete(noticeNo);
 //      return "redirect:../list";//상대경로
-      return "redirect:/notice/list";//절대경로
+      return "redirect:list";//절대경로
    }
    
 //   할일 : 

@@ -75,7 +75,7 @@ public class BookmarkController {
                         @RequestParam(required = false, defaultValue = "") String column,
                         @RequestParam(required = false, defaultValue = "") String keyword) throws IOException {
 
-	   
+      
        // 즐겨찾기한 사원들 띄우기
        String ownerNo = (String) session.getAttribute("empNo");
        List<BookmarkDto> bookmarkList = bookmarkRepo.getMyList(ownerNo);

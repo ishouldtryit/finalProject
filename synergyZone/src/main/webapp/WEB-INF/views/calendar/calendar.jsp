@@ -89,14 +89,14 @@
           let empno = event.event.extendedProps.empno;
           document.getElementById('editBtn').addEventListener('click', function() {
                // 페이지 이동
-               window.location.href = "/calendar/edit?seq=" + seq;
+               window.location.href = contextPath+"/calendar/edit?seq=" + seq;
              });
           document.getElementById('deleteBtn').addEventListener('click', function() {
               if (confirm("정말로 해당 일정을 삭제하시겠습니까?")) {
                 // form 생성 및 데이터 전송
                 var form = document.createElement('form');
                 form.method = 'POST';
-                form.action = '/calendar/deleteDate';
+                form.action = contextPath+'/calendar/deleteDate';
 
                 var seqInput = document.createElement('input');
                 seqInput.type = 'hidden';
@@ -157,7 +157,7 @@ body {
 <body>
 	<div class="container-fluid" style="display: flex; flex-direction: column; align-items: center;">
 	<div id='calendar' style="width: 80%; height: 400px; margin-top: 20px;"></div>
-<a href="/calendar/insertPage" class="btn btn-info" style="width: 10%; margin-top: 20px; margin-bottom: 20px;">일정 등록</a>
+<a href="${pageContext.request.contextPath}/calendar/insertPage" class="btn btn-info" style="width: 10%; margin-top: 20px; margin-bottom: 20px;">일정 등록</a>
 </div>
 
 	<div class="modal fade" id="eventModal" tabindex="-1"

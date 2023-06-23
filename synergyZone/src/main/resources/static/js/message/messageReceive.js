@@ -124,14 +124,14 @@ $(function () {
                     : messageSender
                 })`
             )
-            .attr("href", "/message/write?recipient=" + message.messageSender);
+            .attr("href", contextPath+"/message/write?recipient=" + message.messageSender);
           // 메세지 제목
           $(newReceiveMsgRow)
             .find(".message-title-col")
             .text(message.messageTitle)
             .attr(
               "href",
-              "/message/receive/detail?messageNo=" + message.messageNo
+              contextPath+"/message/receive/detail?messageNo=" + message.messageNo
             );
 
           // 현재시간 연월일 추출
@@ -155,7 +155,7 @@ $(function () {
           $(newReceiveMsgRow)
   .find(".message-send-time-col")
   .text(sendTime)
-  .attr("href", "/message/receive/detail?messageNo=" + message.messageNo);
+  .attr("href", contextPath+"/message/receive/detail?messageNo=" + message.messageNo);
 
 
           // 메세지 색상 설정 (읽은 메세지는 연하게, 안읽은건 진하게)
@@ -220,7 +220,7 @@ $(function () {
       $("<a>")
         .attr(
           "href",
-          `/message/receive?${pageVo.parameter}&page=${pageVo.prevPage}&${pageVo.addParameter}`
+          contextPath+`/message/receive?${pageVo.parameter}&page=${pageVo.prevPage}&${pageVo.addParameter}`
         )
         .append($("<i>").addClass("fa-solid fa-angle-left"))
     );
@@ -243,7 +243,7 @@ $(function () {
         $("<a>")
           .attr(
             "href",
-            `/message/receive?${pageVo.parameter}&page=${i}&${pageVo.addParameter}`
+           contextPath+ `/message/receive?${pageVo.parameter}&page=${i}&${pageVo.addParameter}`
           )
           .text(`${i}`)
       );
@@ -256,7 +256,7 @@ $(function () {
       $("<a>")
         .attr(
           "href",
-          `/message/receive?${pageVo.parameter}&page=${pageVo.nextPage}&${pageVo.addParameter}`
+          contextPath+`/message/receive?${pageVo.parameter}&page=${pageVo.nextPage}&${pageVo.addParameter}`
         )
         .append($("<i>").addClass("fa-solid fa-angle-right"))
     );
@@ -280,7 +280,7 @@ $(function () {
       $("<a>")
         .attr(
           "href",
-          `/message/receive?${pageVo.parameter}&page=${pageVo.totalPage}&${pageVo.addParameter}`
+          contextPath+`/message/receive?${pageVo.parameter}&page=${pageVo.totalPage}&${pageVo.addParameter}`
         )
         .append($("<i>").addClass("fa-solid fa-angles-right"))
     );

@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
-
+<script src="https://cdn.ckeditor.com/ckeditor5/38.0.1/classic/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/38.0.1/classic/translations/ko.js"></script>
 <style>
    .custom-list-item {
      list-style-type: none; /* 리스트 스타일 제거 */
@@ -18,6 +19,13 @@
    }
    ul li span, .form-check-input, .form-check-label {
     cursor: pointer;
+  }
+  .ckeditor-container {
+  width:100%;
+  }
+  .ck {
+  width:100%;
+  height:400px;
   }
 </style>
 
@@ -86,10 +94,10 @@
          <input type="text" id="draftTitle" name="draftTitle" v-model="approvalVO.approvalDto.draftTitle" class="form-control" v-on:input="approvalVO.approvalDto.draftTitle = $event.target.value">
        </div>
        
-       <div class="row p-3">
-         <label for="draftContent" class="form-label">내용</label>
-         <textarea id="draftContent" name="draftContent" required style="min-height: 300px;" v-model="approvalVO.approvalDto.draftContent" class="form-control" v-on:input="approvalVO.approvalDto.draftContent = $event.target.value"></textarea>
-       </div>
+		<div class="p-2" style="width:100%; margin:0px;">
+		    <div ref="editor" @input="updateDraftContent" >
+		    </div>
+		</div>
 
        <div class="row">
           <div class="col-10"></div>
@@ -442,6 +450,7 @@
         showReaderAddDataAlert : false,
         showApprovalNoDataAlert : false,
         
+        
         approvalVO : {
            approvalDto : {
               draftTitle : "",
@@ -768,13 +777,33 @@
         removeReader(index) { //열람자 제거
            this.readerList.splice(index, 1);
         },
-        
+  	    updateDraftContent(data) {
+    	      // CKEditor의 변경된 내용을 Vue 데이터에 업데이트
+    	      this.approvalVO.approvalDto.draftContent = data;
+    	},
     },
     
     mounted(){
        this.approverModal = new bootstrap.Modal(this.$refs.approverModal);
        this.recipientModal = new bootstrap.Modal(this.$refs.recipientModal);
        this.readerModal = new bootstrap.Modal(this.$refs.readerModal);
+   	    ClassicEditor
+   	      .create(this.$refs.editor, {
+   	        // CKEditor 옵션 설정
+   	        language: "ko",
+	        plugins: [ 'Essentials', 'Paragraph', 'Heading', 'Bold', 'Italic', 'Link', 'BlockQuote', 'List', 'Indent' ],
+	        toolbar: [ 'heading', '|', 'bold', 'italic', 'link', '|', 'blockQuote', 'bulletedList', 'numberedList' ]
+   	      })
+   	      .then(editor => {
+   	        // 데이터 변경 감지
+   	        editor.model.document.on('change:data', () => {
+   	          this.updateDraftContent(editor.getData());
+   	        });
+   	        console.log(editor);
+   	      })
+   	      .catch(error => {
+   	        console.error(error);
+   	      });
     },
     created() {
       this.loadData();

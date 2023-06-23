@@ -127,7 +127,7 @@ $(document).ready(function(){
     
     <!-- 작성 링크 -->
    <div style="margin-left:275px;">
-            <a href="/workboard/write" class="btn btn-light btn-outline-secondary">
+            <a href="${pageContext.request.contextPath}/workboard/write" class="btn btn-light btn-outline-secondary">
                 &nbsp;작성
             </a>
    </div>

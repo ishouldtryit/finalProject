@@ -6,13 +6,13 @@
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <c:if test="${sessionScope.empNo != null}"></c:if>
-<script src="/static/js/board-like.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/board-like.js"></script>
 
 <script>
    var empNo = "${sessionScope.empNo}";
    var boardWriter = "${boardDto.boardWriter}";
 </script>
-<script src="/static/js/reply.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/reply.js"></script>
 <script type="text/template" id="reply-template">
    <div class="reply-item">
       <div class="row mt-1">
@@ -63,8 +63,8 @@
       <div class="col-md-10 mb-4 offset-md-1 text-start">
          
          <!-- 글쓰기와 다르게 답글쓰기는 계산을 위해 원본글의 번호를 전달해야함 -->
-         <a href="/board/write" class="btn btn-light"><i class="fa-solid fa-pen" style="color: #8f8f8f;"></i>&nbsp;글쓰기</a>
-         <a href="/board/write?boardParent=${boardDto.boardNo}" class="btn btn-light"><i class="fa-solid fa-reply fa-rotate-180" style="color: #8f8f8f;"></i>&nbsp;답글쓰기</a>
+         <a href="${pageContext.request.contextPath}/board/write" class="btn btn-light"><i class="fa-solid fa-pen" style="color: #8f8f8f;"></i>&nbsp;글쓰기</a>
+         <a href="${pageContext.request.contextPath}/board/write?boardParent=${boardDto.boardNo}" class="btn btn-light"><i class="fa-solid fa-reply fa-rotate-180" style="color: #8f8f8f;"></i>&nbsp;답글쓰기</a>
          
          <!-- 
             수정과 삭제가 password 페이지를 거쳐서 갈 수 있도록 링크 수정
@@ -72,15 +72,15 @@
          -->
          
          <c:if test="${owner}">
-         <a href="/board/edit?boardNo=${boardDto.boardNo}" class="btn btn-light"><i class="fa-regular fa-pen-to-square" style="color: #8f8f8f;"></i>&nbsp;수정</a>
+         <a href="${pageContext.request.contextPath}/board/edit?boardNo=${boardDto.boardNo}" class="btn btn-light"><i class="fa-regular fa-pen-to-square" style="color: #8f8f8f;"></i>&nbsp;수정</a>
          </c:if>
          <c:if test="${owner || admin}">
-		  <a href="/board/delete?boardNo=${boardDto.boardNo}" class="btn btn-light" onclick="return confirm('정말 삭제하시겠습니까?')">
+		  <a href="${pageContext.request.contextPath}/board/delete?boardNo=${boardDto.boardNo}" class="btn btn-light" onclick="return confirm('정말 삭제하시겠습니까?')">
 		    <i class="fa-solid fa-trash-can" style="color: #8f8f8f;"></i>&nbsp;삭제
 		  </a>
 		 </c:if>
          
-         <a href="/board/list" class="btn btn-light"><i class="fa-solid fa-bars" style="color: #8f8f8f;"></i>&nbsp;목록</a>
+         <a href="${pageContext.request.contextPath}/board/list" class="btn btn-light"><i class="fa-solid fa-bars" style="color: #8f8f8f;"></i>&nbsp;목록</a>
       </div>
    </div>
 
@@ -100,7 +100,7 @@
            <div class="profile-image employee-name">
              <img width="24" height="24" src="<c:choose>
                <c:when test="${boardDto.attachmentNo > 0}">
-                 /attachment/download?attachmentNo=${boardDto.attachmentNo}
+                 ${pageContext.request.contextPath}/attachment/download?attachmentNo=${boardDto.attachmentNo}
                </c:when>
                <c:otherwise>
                  https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg

@@ -82,7 +82,7 @@ public class WorkBoardController {
 		
 		attr.addAttribute("workNo", workNo);
 
-		return "redirect:/workboard/detail";
+		return "redirect:detail";
 	}
 
 	// 업무일지 보고
@@ -125,7 +125,7 @@ public class WorkBoardController {
 		}
 
 		attr.addAttribute("workNo", workNo);
-		return "redirect:/workboard/detail";
+		return "redirect:detail";
 	}
 
 	
@@ -153,7 +153,7 @@ public class WorkBoardController {
 
 	    attr.addAttribute("workNo", workNo);
 
-	    return "redirect:/workboard/detail";
+	    return "redirect:detail";
 	}
 	
 	@GetMapping("/workReturn")
@@ -364,7 +364,7 @@ public class WorkBoardController {
 	      }
 
 	      attr.addAttribute("workNo", workBoardDto.getWorkNo());
-	      return "redirect:/workboard/detail";
+	      return "redirect:detail";
 	   }
 
 	// 업무일지 상세
@@ -413,7 +413,7 @@ public class WorkBoardController {
 		// 게시물 삭제
 		workBoardRepo.delete(workNo);
 
-		return "redirect:/workboard/list";
+		return "redirect:list";
 	}
 
 

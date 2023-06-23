@@ -103,7 +103,7 @@ public class AdminController {
 
 		vacationRepo.add(info);
 
-		return "redirect:/admin/list";
+		return "redirect:list";
 	}
 
 	// 프로필 이미지 수정
@@ -113,14 +113,14 @@ public class AdminController {
 		if (!attach.isEmpty()) {
 			employeeService.updateProfile(empNo, attach);
 		}
-		return "redirect:/admin/detail?empNo=" + empNo;
+		return "redirect:detail?empNo=" + empNo;
 	}
 
 	// 프로필 이미지 삭제
 	@GetMapping("/profile/delete")
 	public String deleteProfile(@RequestParam String empNo) {
 		employeeService.deleteProfile(empNo);
-		return "redirect:/admin/detail?empNo=" + empNo;
+		return "redirect:detail?empNo=" + empNo;
 	}
 
 	// 사원 목록
@@ -307,7 +307,7 @@ public class AdminController {
 		employeeService.updateProfile(empNo, attach);
 
 		employeeRepo.update(employeeDto);
-		return "redirect:/admin/list";
+		return "redirect:list";
 	}
 
 	// 사원 상세
@@ -329,14 +329,14 @@ public class AdminController {
 	@GetMapping("/exit")
 	public String exitEmployee(@RequestParam String empNo) {
 		employeeRepo.exit(empNo);
-		return "redirect:/admin/list";
+		return "redirect:list";
 	}
 
 	// 사원 퇴사 취소
 	@GetMapping("/exitCancel")
 	public String exitCancel(@RequestParam String empNo) {
 		employeeRepo.cancelExit(empNo);
-		return "redirect:/admin/waitingList";
+		return "redirect:waitingList";
 	}
 
 	// 사원 최종 퇴사
@@ -351,7 +351,7 @@ public class AdminController {
 		employeeDto.setIsLeave("Y");
 
 		employeeRepo.finalExit(employeeDto);
-		return "redirect:/admin/exitList";
+		return "redirect:exitList";
 	}
 
 	// 부서 등록
@@ -363,7 +363,7 @@ public class AdminController {
 	@PostMapping("/department/register")
 	public String departmentRegister(@ModelAttribute DepartmentDto departmentDto) {
 		departmentRepo.insert(departmentDto);
-		return "redirect:/admin/department/list";
+		return "redirect:department/list";
 	}
 
 	// 부서 목록
@@ -393,7 +393,7 @@ public class AdminController {
 	@GetMapping("/department/delete")
 	public String deleteDepartment(@RequestParam int deptNo) {
 		departmentRepo.delete(deptNo);
-		return "redirect:/admin/department/list";
+		return "redirect:department/list";
 	}
 
 	// 직위 등록
@@ -405,7 +405,7 @@ public class AdminController {
 	@PostMapping("/job/register")
 	public String jobRegister(@ModelAttribute JobDto jobDto) {
 		jobRepo.insert(jobDto);
-		return "redirect:/admin/job/list";
+		return "redirect:job/list";
 	}
 
 	// 직위 목록
@@ -435,7 +435,7 @@ public class AdminController {
 	@GetMapping("/job/delete")
 	public String deleteJob(@RequestParam int jobNo) {
 		jobRepo.delete(jobNo);
-		return "redirect:/admin/job/list";
+		return "redirect:job/list";
 	}
 
 	// 접속로그
@@ -503,14 +503,14 @@ public class AdminController {
 		    employeeRepo.authorityAdmin(empNo);
 		}
 
-		return "redirect:/admin/add";
+		return "redirect:add";
 	}
 	
 	// 직위 삭제
 	@GetMapping("/delete")
 	public String deleteAdmin(@RequestParam String empNo) {
 		employeeRepo.deleteAdmin(empNo);
-		return "redirect:/admin/add";
+		return "redirect:add";
 	}
 
 }

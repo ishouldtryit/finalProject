@@ -119,7 +119,7 @@ $(function () {
             )
             .attr(
               "href",
-              "/message/write?recipient=" + message.messageRecipient
+             contextPath+ "/message/write?recipient=" + message.messageRecipient
             );
           // 메세지 제목
           $(newReceiveMsgRow)
@@ -127,7 +127,7 @@ $(function () {
             .text(message.messageTitle)
             .attr(
               "href",
-              "/message/send/detail?messageNo=" + message.messageNo
+             contextPath+ "/message/send/detail?messageNo=" + message.messageNo
             );
 
           // 현재시간 연월일 추출
@@ -171,14 +171,14 @@ $(function () {
               .text("읽지않음")
               .attr(
                 "href",
-                "/message/send/detail?messageNo=" + message.messageNo
+                contextPath+"/message/send/detail?messageNo=" + message.messageNo
               )
               .css("font-weight", "bold");
           } else {
 		            $(newReceiveMsgRow)
 		  .find(".message-read-time-col")
 		  .text(readTime)
-		  .attr("href", "/message/send/detail?messageNo=" + message.messageNo);
+		  .attr("href", contextPath+"/message/send/detail?messageNo=" + message.messageNo);
 
           }
 
@@ -257,7 +257,7 @@ $(function () {
       $("<a>")
         .attr(
           "href",
-          `/message/send?${pageVo.parameter}&page=1&${pageVo.addParameter}`
+         contextPath+ `/message/send?${pageVo.parameter}&page=1&${pageVo.addParameter}`
         )
         .append($("<i>").addClass("fas fa-angle-double-left"))
     );
@@ -269,7 +269,7 @@ $(function () {
       $("<a>")
         .attr(
           "href",
-          `/message/send?${pageVo.parameter}&page=${pageVo.prevPage}&${pageVo.addParameter}`
+         contextPath+ `/message/send?${pageVo.parameter}&page=${pageVo.prevPage}&${pageVo.addParameter}`
         )
         .append($("<i>").addClass("fas fa-angle-left"))
     );
@@ -292,7 +292,7 @@ $(function () {
         $("<a>")
           .attr(
             "href",
-            `/message/send?${pageVo.parameter}&page=${i}&${pageVo.addParameter}`
+           contextPath+ `/message/send?${pageVo.parameter}&page=${i}&${pageVo.addParameter}`
           )
           .text(`${i}`)
       );
@@ -305,7 +305,7 @@ $(function () {
       $("<a>")
         .attr(
           "href",
-          `/message/send?${pageVo.parameter}&page=${pageVo.nextPage}&${pageVo.addParameter}`
+         contextPath+ `/message/send?${pageVo.parameter}&page=${pageVo.nextPage}&${pageVo.addParameter}`
         )
         .append($("<i>").addClass("fas fa-angle-right"))
     );
@@ -329,7 +329,7 @@ $(function () {
       $("<a>")
         .attr(
           "href",
-          `/message/send?${pageVo.parameter}&page=${pageVo.totalPage}&${pageVo.addParameter}`
+         contextPath+`/message/send?${pageVo.parameter}&page=${pageVo.totalPage}&${pageVo.addParameter}`
         )
         .append($("<i>").addClass("fas fa-angle-double-right"))
     );

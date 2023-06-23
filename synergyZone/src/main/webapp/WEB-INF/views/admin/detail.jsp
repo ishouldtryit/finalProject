@@ -13,7 +13,7 @@
 		<tbody>
 			<tr>
 				<td>${employeeDto.empNo}</td>
-				<td><img width="200" height="200" src="/attachment/download?attachmentNo=${profile.attachmentNo}"></td>
+				<td><img width="200" height="200" src="${pageContext.request.contextPath}/attachment/download?attachmentNo=${profile.attachmentNo}"></td>
 				<td><a href="edit?empNo=${employeeDto.empNo}">수정하기</a></td>
 			</tr>
 		</tbody>

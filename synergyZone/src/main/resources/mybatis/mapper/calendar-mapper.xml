@@ -21,10 +21,10 @@
       (    CALENDAR_SEQ.NEXTVAL
          ,#{content}
          ,#{title}
-         ,#{emp_no}
-         ,#{emp_name}
-         ,#{start_dtm}
-         ,#{end_dtm}
+         ,#{empNo}
+         ,#{empName}
+         ,#{startDtm}
+         ,#{endDtm}
       )
    </insert>
 
@@ -45,8 +45,8 @@
       update CALENDAR
       set CONTENT  =#{content},
       TITLE  =#{title},
-      START_DTM =#{start_dtm},
-      END_DTM =#{end_dtm}
+      START_DTM =#{startDtm},
+      END_DTM =#{endDtm}
       where SEQ =#{seq}
    </update>
    <select id="detailView"  resultType="map" >

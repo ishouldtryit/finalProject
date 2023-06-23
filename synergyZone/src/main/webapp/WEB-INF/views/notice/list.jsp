@@ -106,7 +106,7 @@
 <input class="form-control me-sm-2" type="search" placeholder="검색어" name="keyword" value="${vo.keyword}" style="width: 13%;">
 		  <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
 		  <c:if test="${loginUser.empAdmin=='Y'}">
-		    <a href="/notice/write" class="btn btn-info ms-2">글쓰기</a>
+		    <a href="${pageContext.request.contextPath}/notice/write" class="btn btn-info ms-2">글쓰기</a>
 		  </c:if>
     </form>
   	</div>
@@ -142,7 +142,7 @@
 			  <div class="profile-image employee-name">
 			    <img width="25" height="25" src="<c:choose>
 			      <c:when test="${notice.attachmentNo > 0}">
-			        /attachment/download?attachmentNo=${notice.attachmentNo}
+			        ${pageContext.request.contextPath}/attachment/download?attachmentNo=${notice.attachmentNo}
 			      </c:when>
 			      <c:otherwise>
 		        https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg

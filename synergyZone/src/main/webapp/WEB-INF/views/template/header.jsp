@@ -17,7 +17,7 @@
 
 
 <!-- 사이드바 css -->
-<link rel="stylesheet" href="/static/css/style.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
 
 <!-- 부트스트랩 css(journal) -->
 <link rel="stylesheet" type="text/css"
@@ -45,13 +45,13 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 
 <!-- 사이드바관련 -->
-<script src="/static/js/jquery.min.js"></script>
-<script src="/static/js/popper.js"></script>
-<script src="/static/js/popper.js"></script>
-<script src="/static/js/main.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/popper.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/popper.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/main.js"></script>
 <!--     <script src="/static/js/jquery.min.js"></script> -->
-<script src="/static/js/bootstrap.min.js"></script>
-<script src="/static/js/main.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/main.js"></script>
 
 
 <script>
@@ -198,11 +198,11 @@ article {
 								<li><a href="#pageSubmenu" data-toggle="collapse"
 									aria-expanded="false" class="dropdown-toggle">전자결재</a>
 									<ul class="collapse list-unstyled" id="pageSubmenu">
-										<li><a href="/approval/write">신규 결재</a></li>
-										<li><a href="/approval/myList">나의 기안 문서함</a></li>
-										<li><a href="/approval/waitApproverList">결재 수신 문서함</a></li>
-										<li><a href="/approval/recipientList">참조 문서함</a></li>
-										<li><a href="/approval/readerList">열람 문서함</a></li>
+										<li><a href="${pageContext.request.contextPath}/approval/write">신규 결재</a></li>
+										<li><a href="${pageContext.request.contextPath}/approval/myList">나의 기안 문서함</a></li>
+										<li><a href="${pageContext.request.contextPath}/approval/waitApproverList">결재 수신 문서함</a></li>
+										<li><a href="${pageContext.request.contextPath}/approval/recipientList">참조 문서함</a></li>
+										<li><a href="${pageContext.request.contextPath}/approval/readerList">열람 문서함</a></li>
 									</ul></li>
 
 								<li><a href="#addressSubmenu" data-toggle="collapse"
@@ -338,14 +338,14 @@ article {
 	  },
 	  methods: {
 	    async fetchEmployeeInfo() {
-	      const resp = await axios.get('/rest/employeeInfo/all');
+	      const resp = await axios.get(contextPath+'/rest/employeeInfo/all');
 	      this.employeeInfo = resp.data;
 	    },
 	    getProfileImageUrl(attachmentNo) {
 	      if (attachmentNo > 0) {
-	        return '/attachment/download?attachmentNo=' + attachmentNo;
+	        return contextPath+'/attachment/download?attachmentNo=' + attachmentNo;
 	      } else {
-	        return contextPath+"/attachment/download?attachmentNo=" + attachmentNo;
+	        return contextPath+"/static/img/dummydog.jpg";
 	      }
 	    },
 	  },

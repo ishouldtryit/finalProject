@@ -18,9 +18,9 @@
    <script>
      $(function () {
        var href = window.location.href;
-       if (window.location.href.endsWith("/message/receive")) {
+       if (window.location.href.endsWith(contextPath+"/message/receive")) {
          $(".receive-store").addClass("back-dark-gray");
-       } else if (window.location.href.endsWith("/message/send")) {
+       } else if (window.location.href.endsWith(contextPath+"/message/send")) {
          $(".send-store").addClass("back-dark-gray");
        }
      });

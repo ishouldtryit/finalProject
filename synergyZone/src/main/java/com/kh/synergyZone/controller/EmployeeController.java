@@ -133,7 +133,7 @@ public class EmployeeController {
 			
 			//이메일 일치 시 임시 비밀번호 생성
 			emailService.sendTemporaryPw(empNo, empEmail);
-			return "redirect:/employee/findPwResult";
+			return "redirect:findPwResult";
 		}
 		
 		
@@ -168,12 +168,12 @@ public class EmployeeController {
 		    employeeDto.setEmpPassword(encrypt);
 		    
 		    employeeRepo.changePw(employeeDto);
-		    return "redirect:/employee/passwordFinish";
+		    return "redirect:passwordFinish";
 		}
 		
 		@GetMapping("/passwordFinish") 
 		public String passwordFinish() {
-			return "/employee/passwordFinish";
+			return "passwordFinish";
 		}
 		
 		// 사원 정보 수정
@@ -204,6 +204,6 @@ public class EmployeeController {
 			
 			attr.addAttribute("empNo", empNo);
 			
-			return "redirect:/employee/edit";
+			return "redirect:edit";
 		}
 }

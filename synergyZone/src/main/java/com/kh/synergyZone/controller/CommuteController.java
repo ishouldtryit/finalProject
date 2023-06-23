@@ -130,7 +130,7 @@ public class CommuteController {
 		vo.setEmpNo(empNo);
 		//등록
 		vacationRepo.insert(vo);
-		return "redirect:/commute/write";
+		return "redirect:write";
 	}
 	
 	@GetMapping("/trip")
@@ -156,7 +156,7 @@ public class CommuteController {
 	           personRepoImpl.insert(dto);
 	       }
 		}
-		return "redirect:/commute/trip";
+		return "redirect:trip";
 	}
 	
 	
@@ -207,7 +207,7 @@ public class CommuteController {
 			vacationRepo.appoval(dto2);
 			vacationInfoRepo.used(dto);
 		}
-		return "redirect:/commute/adminList";
+		return "redirect:adminList";
 	}
 	
 	//관리자 출장결재 완료
@@ -225,7 +225,7 @@ public class CommuteController {
 			dto.setStatus(1);
 			tripRepoImpl.update(dto);
 		}
-		return "redirect:/commute/adminList2";
+		return "redirect:adminList2";
 	}
 	
 	

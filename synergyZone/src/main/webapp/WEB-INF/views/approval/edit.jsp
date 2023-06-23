@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+<script src="https://cdn.ckeditor.com/ckeditor5/38.0.1/classic/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/38.0.1/classic/translations/ko.js"></script>
+
 
 <style>
 	.custom-list-item {
@@ -18,7 +21,15 @@
 	}
 	ul li span, .form-check-input, .form-check-label {
     cursor: pointer;
-  }
+ 	 }
+  
+	  .ckeditor-container {
+	  width:100%;
+	  }
+	  .ck {
+	  width:100%;
+	  height:400px;
+	  }
 </style>
 
 
@@ -55,7 +66,7 @@
  </nav>
 
 <div id="app">
-	<div class="container-fluid">
+	<div class="container-fluid" >
 	     	<div class="row">
     	<div class="col-10 offset-sm-1">  
 		<div class="row mb-3"> 
@@ -88,10 +99,12 @@
 	      <input type="text" id="draftTitle" name="draftTitle" v-model="ApprovalDataVO.approvalWithDrafterDto.draftTitle" class="form-control" v-on:input="ApprovalDataVO.approvalWithDrafterDto.draftTitle = $event.target.value">
 	    </div>
 	    
-	    <div class="row p-3">
-	      <label for="draftContent" class="form-label">내용</label>
-	      <textarea id="draftContent" name="draftContent" required style="min-height: 300px;" v-model="ApprovalDataVO.approvalWithDrafterDto.draftContent" class="form-control" v-on:input="ApprovalDataVO.approvalWithDrafterDto.draftContent = $event.target.value"></textarea>
-	    </div>
+
+		<div class="p-2" style="width:100%; margin:0px;">
+		    <div ref="editor" @input="updateDraftContent" >
+		      <pre v-html="ApprovalDataVO.approvalWithDrafterDto.draftContent" ></pre>
+		    </div>
+		</div>
 
 	    <div class="row">
 	    	<div class="col-10"></div>
@@ -435,6 +448,7 @@
 </div>
     </div>
     
+    
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
@@ -450,6 +464,8 @@
     		  loginUser : "",
     		  approvalWithDrafterDto : {},
     	  },
+    	  
+    	draftContent: "",
     	  
     	searchName : "",
     	  
@@ -511,6 +527,8 @@
           
           const resp = await axios.get(contextPath+"/rest/approval/detail/"+draftNo);
           this.ApprovalDataVO = resp.data; 	  
+          
+//           this.draftContent =  this.ApprovalDataVO.approvalWithDrafterDto.draftContent;
           
           this.ApprovalDataVO.approverList.forEach(approver => {	//결재자 정보 넣어주기
               const empNo = approver.empNo;
@@ -846,13 +864,36 @@
   	   removeReader(index) { //열람자 제거
   	      this.readerList.splice(index, 1);
   	   },
-  	   
+  	    updateDraftContent(data) {
+  	      // CKEditor의 변경된 내용을 Vue 데이터에 업데이트
+  	      this.ApprovalDataVO.approvalWithDrafterDto.draftContent = data;
+  	    },
     },
     
     mounted(){
     	this.approverModal = new bootstrap.Modal(this.$refs.approverModal);
     	this.recipientModal = new bootstrap.Modal(this.$refs.recipientModal);
     	this.readerModal = new bootstrap.Modal(this.$refs.readerModal);
+        this.loadDraftData().then(() => {
+    	    ClassicEditor
+    	      .create(this.$refs.editor, {
+    	        // CKEditor 옵션 설정
+    	        language: "ko",
+    	        plugins: [ 'Essentials', 'Paragraph', 'Heading', 'Bold', 'Italic', 'Link', 'BlockQuote', 'List', 'Indent' ],
+    	        toolbar: [ 'heading', '|', 'bold', 'italic', 'link', '|', 'blockQuote', 'bulletedList', 'numberedList' ]
+    	      })
+    	      .then(editor => {
+    	    	this.ApprovalDataVO.approvalWithDrafterDto.draftContent = editor.getData();
+    	        // 데이터 변경 감지
+    	        editor.model.document.on('change:data', () => {
+    	          this.updateDraftContent(editor.getData());
+    	        });
+    	        console.log(editor);
+    	      })
+    	      .catch(error => {
+    	        console.error(error);
+    	      });
+    	  });
     },
     created() {
       this.loadEmpData();

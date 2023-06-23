@@ -149,7 +149,7 @@
 					<div class="row mt-4">
                         <div class="col">
                            <div class="file-container d-flex justify-content-center">
-							  <img class="rounded-circle profilePreview" width="200" height="200" src="/attachment/download?attachmentNo=${profile.attachmentNo}">
+							  <img class="rounded-circle profilePreview" width="200" height="200" src="${pageContext.request.contextPath}/attachment/download?attachmentNo=${profile.attachmentNo}">
 							  <input class="file-input" type="file" name="attach" id="profileImage" accept="image/*">
 							</div>
                         </div>

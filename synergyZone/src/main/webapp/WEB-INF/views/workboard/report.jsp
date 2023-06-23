@@ -384,9 +384,9 @@ a:hover{
 
       getAttachmentUrl(attachmentNo) { //프로필 사진 주소
             if (attachmentNo === null) {
-              return "/static/img/dummydog.jpg";
+              return contextPath+"/static/img/dummydog.jpg";
             } else {
-              return "/attachment/download?attachmentNo=" + attachmentNo;
+              return contextPath+"/attachment/download?attachmentNo=" + attachmentNo;
             }
           },
 

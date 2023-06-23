@@ -312,9 +312,9 @@
 
       getAttachmentUrl(attachmentNo) {
         if (attachmentNo === null) {
-          return "/static/img/dummydog.jpg";
+          return contextPath+"/static/img/dummydog.jpg";
         } else {
-          return "/attachment/download?attachmentNo=" + attachmentNo;
+          return contextPath+"/attachment/download?attachmentNo=" + attachmentNo;
         }
       },
 

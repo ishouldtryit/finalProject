@@ -2,7 +2,7 @@
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="/static/js/message/messageWrite.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/message/messageWrite.js"></script>
 <script>
     const empNo = "${sessionScope.empNo}";
     var messageToMeBtn = $(".message-to-me-btn");
@@ -103,7 +103,7 @@
 </style>
 
 
-<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/message/messageAside.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/message/messageAside.jsp"></jsp:include>
 <div class="container">
     <div class="row">
         <div class="col">

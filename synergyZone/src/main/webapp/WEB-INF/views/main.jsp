@@ -22,6 +22,10 @@
 <link rel="icon"
    href="${pageContext.request.contextPath}/static/favicon.ico"
    type="image/x-icon">
+   <script>
+       const contextPath = "${pageContext.request.contextPath}";
+   </script>
+   
 <style>
 #img {
    width: 280px;
@@ -113,7 +117,7 @@ function togglePopup() {
 function logout() {
       var form = document.createElement("form");
        form.setAttribute("id", "logoutForm");
-       form.setAttribute("action", "/logout");
+       form.setAttribute("action", contextPath+"/logout");
        form.setAttribute("method", "post");
 
        // form 내용을 추가하세요.
@@ -154,7 +158,7 @@ function logout() {
 
       <div class="row">
          <div class="col col-7 bg-info text-light">
-            <img src="${pageContext.request.contextPath}static/img/logo.png" id="img" class="p-1">
+            <img src="${pageContext.request.contextPath}/static/img/logo.png" id="img" class="p-1">
          </div>
 
          <div class="col col-1 bg-info text-light p-2"></div>
@@ -254,17 +258,17 @@ function logout() {
                      <tbody v-if="msg.length > 0">
                            <tr v-for="item in msg" :key="item.messageNo">
                                  <td>
-                                 <a :href="'/message/receive/detail?messageNo='+item.messageNo" style="color:inherit">
+                                 <a :href="'${pageContext.request.contextPath}/message/receive/detail?messageNo='+item.messageNo" style="color:inherit">
                                     {{ item.messageTitle }}
                                     </a>      
                                  </td>
                                  <td>
-	                                 <a :href="'/message/receive/detail?messageNo='+item.messageNo" style="color:inherit">
+	                                 <a :href="'${pageContext.request.contextPath}/message/receive/detail?messageNo='+item.messageNo" style="color:inherit">
                                        {{ item.messageSenderNick }}
                                      </a>  
                                  </td>
                                  <td>
-	                                 <a :href="'/message/receive/detail?messageNo='+item.messageNo" style="color:inherit">
+	                                 <a :href="'${pageContext.request.contextPath}/message/receive/detail?messageNo='+item.messageNo" style="color:inherit">
                                        {{ item.messageSendTime }}
                                      </a>  
                                  </td>
@@ -358,7 +362,7 @@ function logout() {
                      <tbody>
                         <tr v-for="item in notice" :key="item.noticeNo">
                            <td>
-                              <a :href="'/notice/detail?noticeNo='+item.noticeNo" style="color:inherit">
+                              <a :href="'${pageContext.request.contextPath}/notice/detail?noticeNo='+item.noticeNo" style="color:inherit">
                                  {{ item.noticeTitle }}
                               </a>   
                            </td>
@@ -386,7 +390,7 @@ function logout() {
 	                  	</thead>
                          <tr v-for="item in free" :key="item.freeNo">
                            <td>
-                              <a :href="'/board/detail?boardNo='+item.boardNo" style="color:inherit">
+                              <a :href="'${pageContext.request.contextPath}/board/detail?boardNo='+item.boardNo" style="color:inherit">
                                  {{ item.boardTitle }}
                               </a>
                            </td>
@@ -443,7 +447,7 @@ function logout() {
                            <br>
                         </div>
                      </div>
-                     <form action="/commute/change" method="post">
+                     <form action="${pageContext.request.contextPath}/commute/change" method="post">
                         <div class="d-flex justify-content-center">
                            <c:choose>
                               <c:when test="${empty w.startTime && empty w.endTime}">
@@ -539,7 +543,7 @@ function logout() {
         },
         methods: {
            loadMsg() {
-                axios.get("/rest/home/msg")
+                axios.get(contextPath+"/rest/home/msg")
                   .then(resp => {
                     console.log(resp);
                     this.msg.push(...resp.data);
@@ -549,7 +553,7 @@ function logout() {
                   });
               },
               loadFree() {
-                axios.get("/rest/home/free")
+                axios.get(contextPath+"/rest/home/free")
                   .then(resp => {
                     console.log(resp);
                     this.free.push(...resp.data);
@@ -559,7 +563,7 @@ function logout() {
                   });
               },
               loadNotice() {
-                axios.get("/rest/home/notice")
+                axios.get(contextPath+"/rest/home/notice")
                   .then(resp => {
                     console.log(resp);
                     this.notice.push(...resp.data);
@@ -629,14 +633,14 @@ function logout() {
  
                //프사 띄우기 
                 async fetchEmployeeInfo() {
-                    const resp = await axios.get('/rest/employeeInfo/all');
+                    const resp = await axios.get(contextPath+'/rest/employeeInfo/all');
                     this.employeeInfo = resp.data;
                 },
                 getProfileImageUrl(attachmentNo) {
                     if (attachmentNo > 0) {
-                        return '/attachment/download?attachmentNo=' + attachmentNo;
+                        return contextPath+'/attachment/download?attachmentNo=' + attachmentNo;
                     } else {
-                      return 'https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg';
+                      return contextPath+"/static/img/dummydog.jpg";
                     }
                   },
                   

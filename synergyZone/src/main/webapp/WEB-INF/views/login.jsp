@@ -38,6 +38,10 @@
                             <img src="static/img/logo.png">
                         </div>
                     </div>
+                    <div class="row">
+                    	<span>테스트용 아이디 : 202399043</span>
+                    	<span>테스트용 비밀번호 : Test202399043</span>
+                    </div>
                     <div class="row mt-5">
                         <div class="col">
                             <label class="form-label">사원번호</label>
